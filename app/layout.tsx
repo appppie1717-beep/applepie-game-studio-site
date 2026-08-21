@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://applepie.im"),
   title: {
     default: "애플파이 게임 스튜디오",
     template: "%s | 애플파이 게임 스튜디오",
@@ -19,6 +20,9 @@ export const metadata: Metadata = {
   authors: [{ name: "ApplePie Game Studio" }],
   creator: "ApplePie Game Studio",
   publisher: "ApplePie Game Studio",
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/images/brand/applepie-logo-original.png",
     shortcut: "/images/brand/applepie-logo-original.png",

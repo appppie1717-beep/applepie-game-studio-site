@@ -55,9 +55,6 @@ export function BusinessDisclosure() {
               </dd>
             </div>
           </dl>
-          <p className="business-source-note">
-            사업자등록증에서 확인한 정보만 표시합니다.
-          </p>
         </div>
       </div>
     </div>

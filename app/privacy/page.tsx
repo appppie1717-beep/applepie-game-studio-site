@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "개인정보처리방침",
@@ -25,7 +25,7 @@ export default function PrivacyPolicy() {
 
       <header className="privacy-header">
         <div className="header-inner">
-          <Link className="brand-lockup" href="/" aria-label="애플파이 게임 스튜디오 홈">
+          <a className="brand-lockup" href="/" aria-label="애플파이 게임 스튜디오 홈">
             <span className="brand-mark" aria-hidden="true">
               AP
             </span>
@@ -33,10 +33,10 @@ export default function PrivacyPolicy() {
               <strong>APPLEPIE</strong>
               <small>GAME STUDIO</small>
             </span>
-          </Link>
-          <Link className="back-link" href="/">
+          </a>
+          <a className="back-link" href="/">
             ← 홈페이지로 돌아가기
-          </Link>
+          </a>
         </div>
       </header>
 
@@ -149,7 +149,7 @@ export default function PrivacyPolicy() {
         <div className="footer-inner">
           <p>© {new Date().getFullYear()} APPLEPIE GAME STUDIO</p>
           <div>
-            <Link href="/">홈페이지</Link>
+            <a href="/">홈페이지</a>
             <a href="mailto:asoul122@naver.com">문의</a>
           </div>
         </div>

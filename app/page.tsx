@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { BusinessDisclosure } from "./_components/BusinessDisclosure";
 import { GameShowcase } from "./_components/GameShowcase";
 import { StudioAccordion } from "./_components/StudioAccordion";
@@ -205,9 +204,9 @@ export default function Home() {
             <a className="contact-email" href="mailto:asoul122@naver.com">
               asoul122@naver.com
             </a>
-            <Link className="text-link" href="/privacy">
+            <a className="text-link" href="/privacy">
               개인정보처리방침 보기 <Arrow />
-            </Link>
+            </a>
           </div>
         </section>
       </main>
@@ -217,7 +216,7 @@ export default function Home() {
           <p>© {new Date().getFullYear()} APPLEPIE GAME STUDIO</p>
           <div>
             <a href="#top">맨 위로</a>
-            <Link href="/privacy">개인정보처리방침</Link>
+            <a href="/privacy">개인정보처리방침</a>
           </div>
         </div>
       </footer>

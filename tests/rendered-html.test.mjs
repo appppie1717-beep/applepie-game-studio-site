@@ -23,6 +23,27 @@ async function render(pathname = "/") {
   );
 }
 
+test("pre-renders every public page for first-request performance", async () => {
+  const [manifestSource, pathsSource, homepage, privacyPolicy] = await Promise.all([
+    readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/privacy.html", import.meta.url), "utf8"),
+  ]);
+
+  const manifest = JSON.parse(manifestSource);
+  const paths = JSON.parse(pathsSource);
+  const renderedRoutes = new Map(
+    manifest.routes.map(({ route, status }) => [route, status]),
+  );
+
+  assert.equal(renderedRoutes.get("/"), "rendered");
+  assert.equal(renderedRoutes.get("/privacy"), "rendered");
+  assert.deepEqual(paths.paths, ["/", "/privacy"]);
+  assert.match(homepage, /<title>애플파이 게임 스튜디오<\/title>/i);
+  assert.match(privacyPolicy, /<title>개인정보처리방침 \| 애플파이 게임 스튜디오<\/title>/i);
+});
+
 test("server-renders the official studio homepage", async () => {
   const response = await render();
   assert.equal(response.status, 200);

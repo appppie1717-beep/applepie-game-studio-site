@@ -48,7 +48,9 @@ export default defineConfig(async () => {
       ? { watch: { useFsEvents: false, usePolling: true } }
       : undefined,
     plugins: [
-      vinext(),
+      // This site has no request-specific content, so build every route once
+      // and serve the generated HTML instead of server-rendering each visit.
+      vinext({ prerender: { routes: "*" } }),
       sites(),
       cloudflare({
         viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },

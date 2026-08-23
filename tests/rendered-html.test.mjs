@@ -29,16 +29,20 @@ test("stages every public page for asset-first delivery", async () => {
     pathsSource,
     homepage,
     privacyPolicy,
+    archivedPrivacyPolicy,
     staticHomepage,
     staticPrivacyPolicy,
+    staticArchivedPrivacyPolicy,
     staticNotFound,
   ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-22.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/privacy/archive/2026-08-22.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/404.html", import.meta.url), "utf8"),
   ]);
 
@@ -50,11 +54,14 @@ test("stages every public page for asset-first delivery", async () => {
 
   assert.equal(renderedRoutes.get("/"), "rendered");
   assert.equal(renderedRoutes.get("/privacy"), "rendered");
-  assert.deepEqual(paths.paths, ["/", "/privacy"]);
+  assert.equal(renderedRoutes.get("/privacy/archive/2026-08-22"), "rendered");
+  assert.deepEqual(paths.paths, ["/", "/privacy", "/privacy/archive/2026-08-22"]);
   assert.match(homepage, /<title>애플파이 게임 스튜디오<\/title>/i);
   assert.match(privacyPolicy, /<title>개인정보처리방침 \| 애플파이 게임 스튜디오<\/title>/i);
+  assert.match(archivedPrivacyPolicy, /<title>개인정보처리방침 2026년 8월 22일 보관본 \| 애플파이 게임 스튜디오<\/title>/i);
   assert.equal(staticHomepage, homepage);
   assert.equal(staticPrivacyPolicy, privacyPolicy);
+  assert.equal(staticArchivedPrivacyPolicy, archivedPrivacyPolicy);
   assert.match(staticNotFound, /<title>애플파이 게임 스튜디오<\/title>/i);
   assert.doesNotMatch(staticHomepage, /\/_next\/image\?/);
   assert.doesNotMatch(staticPrivacyPolicy, /\/_next\/image\?/);
@@ -90,6 +97,21 @@ test("server-renders the privacy policy", async () => {
   assert.match(html, /회원가입과 문의 양식을 제공하지 않으며/);
   assert.match(html, /asoul122@naver\.com/);
   assert.match(html, /게임 앱 정책/);
+  assert.match(html, /Cloudflare Workers Static Assets/);
+  assert.match(html, /Cloudflare 공식 도메인 연결 시점부터/);
+  assert.match(html, /\/privacy\/archive\/2026-08-22/);
+  assert.doesNotMatch(html, /`applepie\.im`/);
+});
+
+test("server-renders the archived privacy policy", async () => {
+  const response = await render("/privacy/archive/2026-08-22");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  assert.match(html, /개인정보처리방침 2026년 8월 22일 보관본/);
+  assert.match(html, /사용하는 OpenAI Sites와 그 기반 서비스/);
+  assert.match(html, /이 방침의 최초 시행일은 2026년 8월 22일입니다/);
+  assert.doesNotMatch(html, /Cloudflare Workers Static Assets/);
 });
 
 test("required public images are present", async () => {
@@ -107,9 +129,11 @@ test("required public images are present", async () => {
 });
 
 test("source contains no starter preview dependency", async () => {
-  const [page, layout, gameShowcase, studioAccordion, businessDisclosure] = await Promise.all([
+  const [page, layout, privacy, archivedPrivacy, gameShowcase, studioAccordion, businessDisclosure] = await Promise.all([
     readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/privacy/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/privacy/archive/2026-08-22/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/_components/GameShowcase.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/_components/StudioAccordion.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/_components/BusinessDisclosure.tsx", import.meta.url), "utf8"),
@@ -117,6 +141,8 @@ test("source contains no starter preview dependency", async () => {
 
   assert.doesNotMatch(page, /SkeletonPreview|codex-preview/);
   assert.doesNotMatch(layout, /SkeletonPreview|codex-preview|Starter Project/);
+  assert.match(privacy, /Cloudflare\s+Workers Static Assets/);
+  assert.match(archivedPrivacy, /OpenAI Sites/);
   assert.match(gameShowcase, /role="tab"/);
   assert.match(gameShowcase, /ArrowRight/);
   assert.match(studioAccordion, /aria-expanded=\{isOpen\}/);

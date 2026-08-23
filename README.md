@@ -1,6 +1,6 @@
 # ApplePie Game Studio 공식 홈페이지
 
-애플파이 게임 스튜디오의 로컬 공식 홈페이지 프로젝트입니다. 현재 외부 배포나 도메인 연결은 하지 않은 상태입니다.
+애플파이 게임 스튜디오 공식 홈페이지 프로젝트입니다. 현재 `https://applepie.im`은 OpenAI Sites 버전 5로 공개되어 있으며, 그 버전은 Cloudflare 이전 시 롤백 대상으로 유지합니다.
 
 ## 포함된 내용
 
@@ -31,17 +31,29 @@ npm run dev
 ```powershell
 npm run lint
 npm test
+npm run build:cloudflare
 ```
 
-`npm test`는 프로덕션 빌드 뒤 홈페이지, 개인정보처리방침, 필수 이미지, 스타터 잔재 제거 여부를 확인합니다. 홈페이지에는 작품 탭, 스크린샷 선택 탭, 스튜디오 원칙 아코디언, 사업자 정보 펼침 기능이 포함되어 있습니다.
+`npm test`는 프로덕션 빌드 뒤 홈페이지, 개인정보처리방침, 404 페이지, 필수 이미지, Cloudflare 정적 전용 구성, 스타터 잔재 제거 여부를 확인합니다. 홈페이지에는 작품 탭, 스크린샷 선택 탭, 스튜디오 원칙 아코디언, 사업자 정보 펼침 기능이 포함되어 있습니다.
 
-## 공개 전 확인할 항목
+## Cloudflare 정적 배포
 
-- 통신판매업 신고 확정 후 신고번호와 정확한 공개 범위를 결정합니다.
-- 소재지, 연락처, 게임물제작업·통신판매업 신고정보의 추가 공개 범위를 확인합니다.
-- 개인정보처리방침의 호스팅 제공자와 최초 시행일을 확정합니다.
-- 실제 도메인을 정한 뒤 메타데이터의 기준 URL과 검색엔진 소유권 인증을 추가합니다.
-- VELSIEN SUMMIT의 공개 이미지와 플랫폼, 출시 일정은 상용 사용 범위가 확정된 뒤 추가합니다.
+Cloudflare 전용 설정은 `wrangler.cloudflare.jsonc`입니다. 이 설정에는 서버 Worker 엔트리와 바인딩이 없으며 `dist/client`의 정적 파일만 사용합니다.
+
+```powershell
+npm run dev:cloudflare
+npm run deploy:cloudflare
+npm run verify:cloudflare -- --target https://배포주소.workers.dev --reference https://applepie.im --skip-idle
+npm run verify:cloudflare -- --target https://배포주소.workers.dev --reference https://applepie.im
+```
+
+마지막 명령은 홈, 개인정보처리방침, 404, 이미지, CSS, JavaScript와 현재 공개판의 문구·링크·이미지 구성을 확인한 뒤 65초 간격의 홈페이지 요청을 세 번 측정합니다. 세 요청 중 하나라도 1초 이상이면 도메인 전환을 중단합니다.
+
+외부 배포, Cloudflare DNS 영역 추가, Namecheap 네임서버 변경은 각각 승인 뒤 실행합니다. 네임서버 변경 전에는 Google 사이트 인증 TXT 보존, 미사용 Namecheap MX와 이메일 SPF 제거, DNSSEC 상태 확인이 필요합니다. `www.applepie.im`은 Cloudflare 프록시 DNS와 Single Redirect를 사용해 경로와 쿼리를 유지한 301 이동으로 구성합니다.
+
+현재 개인정보처리방침에는 호스팅 제공자로 OpenAI Sites가 기재되어 있습니다. Cloudflare를 본주소에 연결하기 전에는 이 문구와 변경 고지 방식을 확정해야 합니다.
+
+문제가 발생하면 Cloudflare 커스텀 도메인 연결을 해제하고 기존 OpenAI Sites 도메인 기록으로 되돌립니다. Sites 버전 5는 전환 후 최소 72시간 삭제하지 않습니다.
 
 ## 주요 경로
 

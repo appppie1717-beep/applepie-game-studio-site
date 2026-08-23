@@ -1538,6 +1538,25 @@ a {
   font-weight: 780;
 }
 
+.policy-change-notice {
+  margin-bottom: 0;
+  padding: 30px;
+  border: 1px solid rgba(185, 61, 67, 0.24);
+  background: rgba(220, 84, 88, 0.055);
+}
+
+.policy-sections .policy-change-notice {
+  border-bottom-color: rgba(185, 61, 67, 0.24);
+}
+
+.policy-sections .policy-change-kicker {
+  margin-bottom: 8px;
+  color: var(--red-dark);
+  font-size: 12px;
+  font-weight: 820;
+  letter-spacing: 0.08em;
+}
+
 .policy-content {
   display: grid;
   padding-block: 70px 120px;

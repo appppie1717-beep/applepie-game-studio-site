@@ -23,12 +23,23 @@ async function render(pathname = "/") {
   );
 }
 
-test("pre-renders every public page for first-request performance", async () => {
-  const [manifestSource, pathsSource, homepage, privacyPolicy] = await Promise.all([
+test("stages every public page for asset-first delivery", async () => {
+  const [
+    manifestSource,
+    pathsSource,
+    homepage,
+    privacyPolicy,
+    staticHomepage,
+    staticPrivacyPolicy,
+    staticNotFound,
+  ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/privacy.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/404.html", import.meta.url), "utf8"),
   ]);
 
   const manifest = JSON.parse(manifestSource);
@@ -42,6 +53,11 @@ test("pre-renders every public page for first-request performance", async () => 
   assert.deepEqual(paths.paths, ["/", "/privacy"]);
   assert.match(homepage, /<title>애플파이 게임 스튜디오<\/title>/i);
   assert.match(privacyPolicy, /<title>개인정보처리방침 \| 애플파이 게임 스튜디오<\/title>/i);
+  assert.equal(staticHomepage, homepage);
+  assert.equal(staticPrivacyPolicy, privacyPolicy);
+  assert.match(staticNotFound, /<title>애플파이 게임 스튜디오<\/title>/i);
+  assert.doesNotMatch(staticHomepage, /\/_next\/image\?/);
+  assert.doesNotMatch(staticPrivacyPolicy, /\/_next\/image\?/);
 });
 
 test("server-renders the official studio homepage", async () => {

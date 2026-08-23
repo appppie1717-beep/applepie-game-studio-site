@@ -19,7 +19,12 @@ test("Cloudflare deployment is static-assets only", async () => {
   assert.equal(config.assets?.not_found_handling, "404-page");
   assert.equal(config.assets?.html_handling, "auto-trailing-slash");
   assert.equal("main" in config, false);
-  assert.equal("routes" in config, false);
+  assert.deepEqual(config.routes, [
+    {
+      pattern: "applepie.im",
+      custom_domain: true,
+    },
+  ]);
   assert.equal("route" in config, false);
   assert.equal("binding" in config.assets, false);
   assert.equal("run_worker_first" in config.assets, false);

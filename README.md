@@ -1,6 +1,6 @@
 # ApplePie Game Studio 공식 홈페이지
 
-애플파이 게임 스튜디오 공식 홈페이지 프로젝트입니다. 현재 `https://applepie.im`은 OpenAI Sites 버전 5로 공개되어 있으며, 그 버전은 Cloudflare 이전 시 롤백 대상으로 유지합니다.
+애플파이 게임 스튜디오 공식 홈페이지 프로젝트입니다. 현재 `https://applepie.im`은 무료 Cloudflare Workers Static Assets에서 제공됩니다. OpenAI Sites 버전 5와 6은 전환 뒤 최소 72시간 동안 롤백 대상으로 유지합니다.
 
 ## 포함된 내용
 
@@ -43,17 +43,17 @@ Cloudflare 전용 설정은 `wrangler.cloudflare.jsonc`입니다. 이 설정에�
 ```powershell
 npm run dev:cloudflare
 npm run deploy:cloudflare
-npm run verify:cloudflare -- --target https://배포주소.workers.dev --reference https://applepie.im --skip-idle
-npm run verify:cloudflare -- --target https://배포주소.workers.dev --reference https://applepie.im
+npm run verify:cloudflare -- --target https://applepie.im --reference https://applepie.appppie1717.chatgpt.site --www https://www.applepie.im --dns-server 8.8.8.8 --skip-idle
+npm run verify:cloudflare -- --target https://applepie.im --reference https://applepie.appppie1717.chatgpt.site --www https://www.applepie.im --dns-server 8.8.8.8
 ```
 
-마지막 명령은 홈, 개인정보처리방침, 404, 이미지, CSS, JavaScript와 현재 공개판의 문구·링크·이미지 구성을 확인한 뒤 65초 간격의 홈페이지 요청을 세 번 측정합니다. 세 요청 중 하나라도 1초 이상이면 도메인 전환을 중단합니다.
+마지막 명령은 홈, 개인정보처리방침, 404, 이미지, CSS, JavaScript, `www`의 경로·쿼리 보존 301과 롤백판의 문구·링크·이미지 구성을 확인한 뒤 65초 간격의 홈페이지 요청을 세 번 측정합니다. 세 요청 중 하나라도 1초 이상이면 검증에 실패합니다. `--dns-server`는 전환 중 로컬 공유기에 남은 DNS 캐시를 우회해 지정한 공용 DNS의 현재 경로를 검사할 때 사용합니다.
 
 외부 배포, Cloudflare DNS 영역 추가, Namecheap 네임서버 변경은 각각 승인 뒤 실행합니다. 네임서버 변경 전에는 Google 사이트 인증 TXT 보존, 미사용 Namecheap MX와 이메일 SPF 제거, DNSSEC 상태 확인이 필요합니다. `www.applepie.im`은 Cloudflare 프록시 DNS와 Single Redirect를 사용해 경로와 쿼리를 유지한 301 이동으로 구성합니다.
 
-현재 개인정보처리방침에는 호스팅 제공자로 OpenAI Sites가 기재되어 있습니다. Cloudflare를 본주소에 연결하기 전에는 이 문구와 변경 고지 방식을 확정해야 합니다.
+개인정보처리방침에는 2026년 8월 23일부터 Cloudflare를 호스팅 제공자로 사용한다는 변경 고지와 이전 방침 보관본이 포함되어 있습니다. Google 사이트 인증 TXT는 보존했고, 사용하지 않던 메일 수신용 MX와 SPF는 이전하지 않았습니다.
 
-문제가 발생하면 Cloudflare 커스텀 도메인 연결을 해제하고 기존 OpenAI Sites 도메인 기록으로 되돌립니다. Sites 버전 5는 전환 후 최소 72시간 삭제하지 않습니다.
+문제가 발생하면 Cloudflare Worker 사용자 도메인 연결을 해제하고 OpenAI Sites 사용자 도메인과 제공자 지정 DNS 기록을 복구합니다. 롤백 과정에서도 Google 사이트 인증 TXT는 유지합니다.
 
 ## 주요 경로
 

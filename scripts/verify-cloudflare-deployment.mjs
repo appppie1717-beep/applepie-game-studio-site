@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import https from "node:https";
+import { Resolver } from "node:dns/promises";
 import { readFile } from "node:fs/promises";
 import { performance } from "node:perf_hooks";
 
@@ -10,6 +12,8 @@ function parseArguments(argv) {
     idleRuns: 3,
     limitMs: 1000,
     skipIdle: false,
+    www: "",
+    dnsServer: "",
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -26,7 +30,8 @@ function parseArguments(argv) {
     }
     index += 1;
 
-    if (key === "target" || key === "reference") options[key] = value;
+    if (key === "target" || key === "reference" || key === "www") options[key] = value;
+    else if (key === "dns-server") options.dnsServer = value;
     else if (key === "idle-seconds") options.idleSeconds = Number(value);
     else if (key === "idle-runs") options.idleRuns = Number(value);
     else if (key === "limit-ms") options.limitMs = Number(value);
@@ -52,24 +57,81 @@ function baseUrl(value) {
   return url;
 }
 
-async function request(url, expectedStatus) {
-  const started = performance.now();
-  const response = await fetch(url, {
-    headers: {
-      accept: "text/html,application/xhtml+xml,*/*;q=0.8",
-      "user-agent": "ApplePie-Cloudflare-Migration-Verifier/1.0",
-    },
-    redirect: "follow",
-  });
-  const body = Buffer.from(await response.arrayBuffer());
-  const durationMs = performance.now() - started;
+const resolver = new Resolver();
+const dnsCache = new Map();
 
+async function resolveAddress(hostname) {
+  if (!options.dnsServer) return null;
+  if (dnsCache.has(hostname)) return dnsCache.get(hostname);
+  resolver.setServers([options.dnsServer]);
+  const [address] = await resolver.resolve4(hostname);
+  assert.ok(address, `No IPv4 address returned for ${hostname}`);
+  dnsCache.set(hostname, address);
+  return address;
+}
+
+function headerValue(headers, name) {
+  const value = headers[name.toLowerCase()];
+  return Array.isArray(value) ? value.join(", ") : (value ?? null);
+}
+
+async function requestOnce(url) {
+  const address = await resolveAddress(url.hostname);
+  return new Promise((resolve, reject) => {
+    const requestOptions = {
+      headers: {
+        accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+        "user-agent": "ApplePie-Cloudflare-Migration-Verifier/1.0",
+      },
+    };
+    if (address) {
+      requestOptions.lookup = (_hostname, lookupOptions, callback) => {
+        if (typeof lookupOptions === "object" && lookupOptions.all) {
+          callback(null, [{ address, family: 4 }]);
+        } else {
+          callback(null, address, 4);
+        }
+      };
+    }
+
+    const request = https.request(url, requestOptions, (response) => {
+      const chunks = [];
+      response.on("data", (chunk) => chunks.push(chunk));
+      response.on("end", () => {
+        resolve({
+          address: address ?? response.socket.remoteAddress ?? "n/a",
+          body: Buffer.concat(chunks),
+          headers: response.headers,
+          status: response.statusCode,
+        });
+      });
+    });
+    request.once("error", reject);
+    request.end();
+  });
+}
+
+async function request(url, expectedStatus, redirect = "follow") {
+  const started = performance.now();
+  let currentUrl = new URL(url);
+  let result;
+
+  for (let redirects = 0; redirects <= 5; redirects += 1) {
+    result = await requestOnce(currentUrl);
+    const location = headerValue(result.headers, "location");
+    const isRedirect = [301, 302, 303, 307, 308].includes(result.status);
+    if (redirect !== "follow" || !isRedirect || !location) break;
+    assert.ok(redirects < 5, `${url} exceeded the redirect limit`);
+    currentUrl = new URL(location, currentUrl);
+  }
+
+  const durationMs = performance.now() - started;
   assert.equal(
-    response.status,
+    result.status,
     expectedStatus,
-    `${url} returned ${response.status}, expected ${expectedStatus}`,
+    `${url} via ${result.address} returned ${result.status}, expected ${expectedStatus}; body=${result.body.toString("utf8").slice(0, 80)}`,
   );
-  return { body, durationMs, headers: response.headers, response };
+  return { ...result, durationMs, finalUrl: currentUrl };
 }
 
 function decodeEntities(value) {
@@ -175,12 +237,29 @@ for (const [pathname, localHtml] of localPages) {
 const missingResult = await request(new URL("/__applepie_missing_route__", target), 404);
 console.log(`PASS 404 ${missingResult.durationMs.toFixed(1)}ms`);
 
+if (options.www) {
+  const redirectPath = "/privacy/archive/2026-08-22?source=cutover&check=1";
+  const sourceUrl = new URL(redirectPath, baseUrl(options.www));
+  const expectedUrl = new URL(redirectPath, target);
+  const response = await request(sourceUrl, 301, "manual");
+  const durationMs = response.durationMs;
+  const location = headerValue(response.headers, "location");
+
+  assert.ok(location, `${sourceUrl} did not return a Location header`);
+  assert.equal(
+    new URL(location, sourceUrl).href,
+    expectedUrl.href,
+    `${sourceUrl} did not preserve the path and query string`,
+  );
+  console.log(`PASS www 301 ${durationMs.toFixed(1)}ms location=${location}`);
+}
+
 if (!options.skipIdle) {
   await request(target, 200);
   for (let run = 1; run <= options.idleRuns; run += 1) {
     await new Promise((resolve) => setTimeout(resolve, options.idleSeconds * 1000));
     const result = await request(target, 200);
-    const cacheStatus = result.headers.get("cf-cache-status") ?? "n/a";
+    const cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
     console.log(
       `IDLE ${run}/${options.idleRuns} ${result.durationMs.toFixed(1)}ms cf-cache-status=${cacheStatus}`,
     );

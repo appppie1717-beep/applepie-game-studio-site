@@ -336,7 +336,7 @@ if (!options.skipIdle) {
         `Idle request ${run} for ${idleTarget.pathname} took ${result.durationMs.toFixed(1)}ms (limit ${options.limitMs}ms)`,
       );
       assert.equal(cacheStatus, "HIT", `${idleTarget.pathname} was not served from Static Assets cache`);
-      assert.equal(openAiCacheStatus, undefined, `${idleTarget.pathname} exposed an OpenAI Sites cache header`);
+      assert.equal(openAiCacheStatus, null, `${idleTarget.pathname} exposed an OpenAI Sites cache header`);
     }
   }
 }

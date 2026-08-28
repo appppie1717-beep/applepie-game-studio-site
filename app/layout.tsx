@@ -48,7 +48,12 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "에르시안",
     description: "에르시안 공식 홈페이지입니다.",
-    images: [siteBrand.socialCardPath],
+    images: [
+      {
+        url: siteBrand.socialCardPath,
+        alt: "에르시안 로고",
+      },
+    ],
   },
 };
 

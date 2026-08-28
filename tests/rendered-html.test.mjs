@@ -218,6 +218,10 @@ test("server-renders the official studio homepage", async () => {
   assert.doesNotMatch(html, /사업자정보확인|<dt>업태<\/dt>|<dt>종목<\/dt>/);
   assert.match(html, /이 홈페이지에서는 주문이나 결제를 받지 않습니다/);
   assert.match(html, /ersiyan-social-card\.jpg/);
+  assert.match(
+    html,
+    /name="twitter:image:alt" content="에르시안 로고"/i,
+  );
   assert.match(html, /ersiyan-logo-hero\.webp/);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/?"/i);
   assert.match(html, /property="og:url" content="https:\/\/ersiyan\.com\/?"/i);
@@ -524,6 +528,11 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(mineLogicPrivacyContent, /href="#mine-logic-policy-ko"/);
   assert.match(mineLogicPrivacyContent, /#mine-logic-policy-ko\[hidden\][\s\S]*?display: block !important/);
   assert.match(globalStyles, /\.policy-language-switcher button[\s\S]*?min-height:\s*44px/);
+  assert.match(globalStyles, /\.logo-stage\s*\{[\s\S]*?color-scheme:\s*only light/);
+  assert.match(
+    globalStyles,
+    /@media \(prefers-color-scheme:\s*dark\)[\s\S]*?\.logo-stage img\s*\{[\s\S]*?mix-blend-mode:\s*normal;[\s\S]*?filter:\s*none;/,
+  );
   assert.match(globalStyles, /outline:\s*3px solid var\(--red-dark\)/);
   assert.match(globalStyles, /\.privacy-footer-links[\s\S]*?gap:\s*12px 22px/);
   assert.match(archivedPrivacy, /OpenAI Sites/);

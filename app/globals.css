@@ -351,6 +351,7 @@ a {
   aspect-ratio: 1.18;
   border-radius: 4px 48px 4px 4px;
   background: #f8f3eb;
+  color-scheme: only light;
   box-shadow: var(--shadow);
 }
 
@@ -370,6 +371,13 @@ a {
   object-fit: contain;
   object-position: center;
   mix-blend-mode: multiply;
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo-stage img {
+    mix-blend-mode: normal;
+    filter: none;
+  }
 }
 
 .hero-grid-card {

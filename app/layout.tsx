@@ -1,55 +1,54 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import { siteBrand } from "./_components/brand";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://applepie.im"),
+  metadataBase: new URL(siteBrand.origin),
   title: {
-    default: "애플파이 게임 스튜디오",
-    template: "%s | 애플파이 게임 스튜디오",
+    default: "에르시안",
+    template: "%s | 에르시안",
   },
-  description:
-    "MINE LOGIC을 시작으로 생각하는 재미가 오래 남는 게임을 만드는 독립 게임 스튜디오입니다.",
-  applicationName: "ApplePie Game Studio",
+  description: "에르시안 공식 홈페이지입니다.",
+  applicationName: siteBrand.name,
   keywords: [
-    "애플파이 게임 스튜디오",
-    "ApplePie Game Studio",
+    "ERSIYAN",
+    "에르시안",
     "MINE LOGIC",
     "마인로직",
+    "게임 개발",
     "인디 게임",
   ],
-  authors: [{ name: "ApplePie Game Studio" }],
-  creator: "ApplePie Game Studio",
-  publisher: "ApplePie Game Studio",
+  authors: [{ name: siteBrand.name }],
+  creator: siteBrand.name,
+  publisher: siteBrand.name,
   alternates: {
     canonical: "/",
   },
   icons: {
-    icon: "/images/brand/applepie-logo-original.png",
-    shortcut: "/images/brand/applepie-logo-original.png",
-    apple: "/images/mine-logic/icon.png",
+    icon: "/ersiyan-mark.svg",
+    shortcut: "/ersiyan-mark.svg",
   },
   openGraph: {
     type: "website",
     locale: "ko_KR",
-    siteName: "ApplePie Game Studio",
-    title: "애플파이 게임 스튜디오",
-    description:
-      "작은 규칙에서 오래 남는 플레이를 만드는 독립 게임 스튜디오입니다.",
+    siteName: siteBrand.name,
+    url: "/",
+    title: "에르시안",
+    description: "에르시안 공식 홈페이지입니다.",
     images: [
       {
-        url: "/applepie-social-card.png",
+        url: siteBrand.socialCardPath,
         width: 1200,
         height: 630,
-        alt: "ApplePie Game Studio 로고",
+        alt: "에르시안 로고",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "애플파이 게임 스튜디오",
-    description:
-      "작은 규칙에서 오래 남는 플레이를 만드는 독립 게임 스튜디오입니다.",
-    images: ["/applepie-social-card.png"],
+    title: "에르시안",
+    description: "에르시안 공식 홈페이지입니다.",
+    images: [siteBrand.socialCardPath],
   },
 };
 

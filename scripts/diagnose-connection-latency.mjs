@@ -58,7 +58,7 @@ async function measure(host, dnsServer) {
         agent: false,
         headers: {
           accept: "text/html,application/xhtml+xml,*/*;q=0.8",
-          "user-agent": "ApplePie-Cloudflare-Latency-Diagnostic/1.0",
+          "user-agent": "ERSIYAN-Cloudflare-Latency-Diagnostic/1.0",
         },
         ...(forcedAddress
           ? {

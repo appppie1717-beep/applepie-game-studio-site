@@ -1,9 +1,19 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
+import { BrandLockup } from "../_components/BrandLockup";
+import { GameProducerRegistration } from "../_components/GameProducerRegistration";
 
 export const metadata: Metadata = {
   title: "개인정보처리방침",
-  description: "애플파이 게임 스튜디오 공식 홈페이지의 개인정보처리방침입니다.",
+  description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+  alternates: {
+    canonical: "/privacy",
+  },
+  openGraph: {
+    url: "/privacy",
+    title: "개인정보처리방침 | 에르시안",
+    description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+  },
 };
 
 const policySections = [
@@ -27,15 +37,7 @@ export default function PrivacyPolicy() {
 
       <header className="privacy-header">
         <div className="header-inner">
-          <a className="brand-lockup" href="/" aria-label="애플파이 게임 스튜디오 홈">
-            <span className="brand-mark" aria-hidden="true">
-              AP
-            </span>
-            <span className="brand-name">
-              <strong>APPLEPIE</strong>
-              <small>GAME STUDIO</small>
-            </span>
-          </a>
+          <BrandLockup />
           <a className="back-link" href="/">
             ← 홈페이지로 돌아가기
           </a>
@@ -47,11 +49,11 @@ export default function PrivacyPolicy() {
           <p className="eyebrow">PRIVACY POLICY</p>
           <h1 id="policy-title">개인정보처리방침</h1>
           <p>
-            애플파이 게임 스튜디오는 필요한 정보만 최소한으로 처리하고, 이용자가
+            에르시안은 필요한 정보만 최소한으로 처리하고, 이용자가
             이해하기 쉬운 방식으로 안내하는 것을 원칙으로 합니다.
           </p>
           <span className="draft-note">
-            최초 시행일 2026년 8월 22일 · 최근 변경일 2026년 8월 23일
+            최초 시행일 2026년 8월 22일 · 최근 변경일 및 시행일 2026년 8월 28일
           </span>
         </section>
 
@@ -66,20 +68,20 @@ export default function PrivacyPolicy() {
 
           <div className="policy-sections">
             <section id="change-notice" className="policy-change-notice" aria-labelledby="change-notice-title">
-              <p className="policy-change-kicker">2026년 8월 23일 변경 안내</p>
-              <h2 id="change-notice-title">홈페이지 호스팅 서비스 변경</h2>
+              <p className="policy-change-kicker">2026년 8월 28일 변경 안내</p>
+              <h2 id="change-notice-title">브랜드 및 공식 도메인 변경</h2>
               <p>
-                applepie.im의 호스팅 전환 시 기존 OpenAI Sites에서 Cloudflare
-                Workers Static Assets로 변경됩니다. 아래 변경 조항은 공식 도메인이
-                Cloudflare에 연결되는 시점부터 적용됩니다.
+                개인사업자 애플파이가 운영하는 공식 브랜드가
+                에르시안(ERSIYAN)으로 변경되고, 공식 홈페이지가 applepie.im에서
+                ersiyan.com으로 이전되었습니다.
               </p>
               <p>
-                홈페이지의 화면과 기능, 자체 수집 범위, 이메일 문의 처리 목적과 보유
-                기간은 바뀌지 않습니다. 변경 전 방침은 계속 열람할 수 있습니다.
+                개인정보 처리 주체, 처리 목적과 범위, 문의 창구, 호스팅 제공자는
+                변경되지 않았습니다. 변경 전 방침은 계속 열람할 수 있습니다.
               </p>
               <p>
-                <a href="/privacy/archive/2026-08-22">
-                  2026년 8월 22일 개인정보처리방침 보기
+                <a href="/privacy/archive/2026-08-23">
+                  2026년 8월 23일 개인정보처리방침 보기
                 </a>
               </p>
             </section>
@@ -87,13 +89,13 @@ export default function PrivacyPolicy() {
             <section id="overview" aria-labelledby="overview-title">
               <h2 id="overview-title">1. 방침 개요</h2>
               <p>
-                이 방침은 애플파이 게임 스튜디오 공식 홈페이지에 적용됩니다.
+                이 방침은 에르시안 공식 홈페이지에 적용됩니다.
                 홈페이지와 각 게임 앱은 처리하는 정보와 기능이 다르므로 게임별
                 개인정보처리방침은 별도로 제공합니다.
               </p>
               <p>
                 이 홈페이지는 개인사업자 애플파이(대표자 탁진, 사업자등록번호
-                206-43-62580)가 애플파이 게임 스튜디오 브랜드로 운영합니다.
+                206-43-62580)가 에르시안(ERSIYAN) 브랜드로 운영합니다.
               </p>
             </section>
 
@@ -133,7 +135,7 @@ export default function PrivacyPolicy() {
                 을 따릅니다.
               </p>
               <p>
-                애플파이는 별도의 방문자 분석 도구를 추가하지 않으며, Cloudflare의
+                운영자는 별도의 방문자 분석 도구를 추가하지 않으며, Cloudflare의
                 개별 방문자 요청 로그를 홈페이지 데이터베이스에 수집하거나 내려받아
                 보관하지 않습니다. 접속 정보의 자동 처리를 원하지 않으면 홈페이지에
                 접속하지 않는 방법으로 거부할 수 있으나 이 경우 홈페이지를 이용할 수
@@ -189,6 +191,9 @@ export default function PrivacyPolicy() {
                 게임은 네트워크, 결제, 광고, 분석 도구 등 실제로 사용하는 기능과
                 서비스에 맞춰 별도의 개인정보처리방침을 제공합니다.
               </p>
+              <p>
+                <a href="/privacy/mine-logic">MINE LOGIC 개인정보처리방침 보기</a>
+              </p>
             </section>
 
             <section id="changes" aria-labelledby="changes-title">
@@ -199,8 +204,13 @@ export default function PrivacyPolicy() {
               </p>
               <ul>
                 <li>
-                  2026년 8월 23일 변경본은 Cloudflare 공식 도메인 연결 시점부터
-                  적용됩니다.
+                  2026년 8월 28일 변경본부터 에르시안 브랜드와 ersiyan.com 공식
+                  도메인을 사용합니다.
+                </li>
+                <li>
+                  <a href="/privacy/archive/2026-08-23">
+                    2026년 8월 23일 변경 방침
+                  </a>
                 </li>
                 <li>
                   <a href="/privacy/archive/2026-08-22">
@@ -215,7 +225,10 @@ export default function PrivacyPolicy() {
 
       <footer className="site-footer">
         <div className="footer-inner">
-          <p>© {new Date().getFullYear()} APPLEPIE GAME STUDIO</p>
+          <div>
+            <p>© {new Date().getFullYear()} ERSIYAN</p>
+            <GameProducerRegistration />
+          </div>
           <div>
             <a href="/">홈페이지</a>
             <a href="mailto:asoul122@naver.com">문의</a>

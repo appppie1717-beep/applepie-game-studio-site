@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import http from "node:http";
 import https from "node:https";
 import { Resolver } from "node:dns/promises";
 import { readFile } from "node:fs/promises";
@@ -7,12 +8,14 @@ import { performance } from "node:perf_hooks";
 function parseArguments(argv) {
   const options = {
     target: "",
-    reference: "https://applepie.im",
+    reference: "",
     idleSeconds: 65,
     idleRuns: 3,
     limitMs: 1000,
     skipIdle: false,
+    targetOnly: false,
     www: "",
+    redirectFrom: [],
     dnsServer: "",
   };
 
@@ -20,6 +23,10 @@ function parseArguments(argv) {
     const argument = argv[index];
     if (argument === "--skip-idle") {
       options.skipIdle = true;
+      continue;
+    }
+    if (argument === "--target-only") {
+      options.targetOnly = true;
       continue;
     }
 
@@ -31,6 +38,7 @@ function parseArguments(argv) {
     index += 1;
 
     if (key === "target" || key === "reference" || key === "www") options[key] = value;
+    else if (key === "redirect-from") options.redirectFrom.push(value);
     else if (key === "dns-server") options.dnsServer = value;
     else if (key === "idle-seconds") options.idleSeconds = Number(value);
     else if (key === "idle-runs") options.idleRuns = Number(value);
@@ -40,6 +48,9 @@ function parseArguments(argv) {
 
   if (!options.target) {
     throw new Error("--target is required");
+  }
+  if (!options.targetOnly && !options.reference) {
+    throw new Error("--reference is required unless --target-only is used");
   }
   for (const key of ["idleSeconds", "idleRuns", "limitMs"]) {
     if (!Number.isFinite(options[key]) || options[key] < 0) {
@@ -76,12 +87,13 @@ function headerValue(headers, name) {
 }
 
 async function requestOnce(url) {
+  assert.match(url.protocol, /^https?:$/, `Unsupported protocol for ${url}`);
   const address = await resolveAddress(url.hostname);
   return new Promise((resolve, reject) => {
     const requestOptions = {
       headers: {
         accept: "text/html,application/xhtml+xml,*/*;q=0.8",
-        "user-agent": "ApplePie-Cloudflare-Migration-Verifier/1.0",
+        "user-agent": "ERSIYAN-Cloudflare-Migration-Verifier/1.0",
       },
     };
     if (address) {
@@ -94,12 +106,14 @@ async function requestOnce(url) {
       };
     }
 
-    const request = https.request(url, requestOptions, (response) => {
+    const client = url.protocol === "http:" ? http : https;
+    const request = client.request(url, requestOptions, (response) => {
+      const remoteAddress = response.socket?.remoteAddress ?? "n/a";
       const chunks = [];
       response.on("data", (chunk) => chunks.push(chunk));
       response.on("end", () => {
         resolve({
-          address: address ?? response.socket.remoteAddress ?? "n/a",
+          address: address ?? remoteAddress,
           body: Buffer.concat(chunks),
           headers: response.headers,
           status: response.statusCode,
@@ -115,6 +129,7 @@ async function request(url, expectedStatus, redirect = "follow") {
   const started = performance.now();
   let currentUrl = new URL(url);
   let result;
+  let redirectCount = 0;
 
   for (let redirects = 0; redirects <= 5; redirects += 1) {
     result = await requestOnce(currentUrl);
@@ -122,6 +137,7 @@ async function request(url, expectedStatus, redirect = "follow") {
     const isRedirect = [301, 302, 303, 307, 308].includes(result.status);
     if (redirect !== "follow" || !isRedirect || !location) break;
     assert.ok(redirects < 5, `${url} exceeded the redirect limit`);
+    redirectCount += 1;
     currentUrl = new URL(location, currentUrl);
   }
 
@@ -131,7 +147,7 @@ async function request(url, expectedStatus, redirect = "follow") {
     expectedStatus,
     `${url} via ${result.address} returned ${result.status}, expected ${expectedStatus}; body=${result.body.toString("utf8").slice(0, 80)}`,
   );
-  return { ...result, durationMs, finalUrl: currentUrl };
+  return { ...result, durationMs, finalUrl: currentUrl, redirectCount };
 }
 
 function decodeEntities(value) {
@@ -158,6 +174,16 @@ function extractAttributes(html, tagName, attribute) {
     .filter((value) => value !== undefined);
 }
 
+function extractCanonicalHref(html) {
+  for (const [tag] of html.matchAll(/<link\b[^>]*>/gi)) {
+    const rel = tag.match(/\brel=["']([^"']*)["']/i)?.[1] ?? "";
+    if (!rel.split(/\s+/).some((value) => value.toLowerCase() === "canonical")) continue;
+    const href = tag.match(/\bhref=["']([^"']*)["']/i)?.[1] ?? "";
+    return decodeEntities(href);
+  }
+  return "";
+}
+
 function semanticSnapshot(html) {
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "";
   const visibleText = decodeEntities(
@@ -170,6 +196,8 @@ function semanticSnapshot(html) {
     .trim();
 
   return {
+    canonicalHref: extractCanonicalHref(html),
+    htmlLanguage: extractAttributes(html, "html", "lang")[0] ?? "",
     title: decodeEntities(title).replace(/\s+/g, " ").trim(),
     visibleText,
     links: extractAttributes(html, "a", "href"),
@@ -198,34 +226,51 @@ function sameOriginAssetUrls(html, origin) {
 
 const options = parseArguments(process.argv.slice(2));
 const target = baseUrl(options.target);
-const reference = baseUrl(options.reference);
+const reference = options.reference ? baseUrl(options.reference) : null;
 const localPages = new Map(
   await Promise.all(
     [
       ["/", new URL("../dist/client/index.html", import.meta.url)],
+      [
+        "/velsien-summit",
+        new URL("../dist/client/velsien-summit.html", import.meta.url),
+      ],
       ["/privacy", new URL("../dist/client/privacy.html", import.meta.url)],
+      [
+        "/privacy/mine-logic",
+        new URL("../dist/client/privacy/mine-logic.html", import.meta.url),
+      ],
       [
         "/privacy/archive/2026-08-22",
         new URL("../dist/client/privacy/archive/2026-08-22.html", import.meta.url),
       ],
+      [
+        "/privacy/archive/2026-08-23",
+        new URL("../dist/client/privacy/archive/2026-08-23.html", import.meta.url),
+      ],
     ].map(async ([pathname, file]) => [pathname, await readFile(file, "utf8")]),
   ),
 );
+const targetOnlyPaths = new Set(["/privacy/mine-logic", "/velsien-summit"]);
 
 console.log(`Target: ${target.origin}`);
-console.log(`Reference: ${reference.origin}`);
+console.log(`Reference: ${reference?.origin ?? "target-only"}`);
 
 for (const [pathname, localHtml] of localPages) {
   const expected = semanticSnapshot(localHtml);
-  const referenceResult = await request(new URL(pathname, reference), 200);
   const targetResult = await request(new URL(pathname, target), 200);
-  const referenceHtml = referenceResult.body.toString("utf8");
   const targetHtml = targetResult.body.toString("utf8");
 
-  compareSnapshot(semanticSnapshot(referenceHtml), expected, `Reference ${pathname}`);
+  let referenceSummary = "target-only";
+  if (!options.targetOnly && !targetOnlyPaths.has(pathname) && reference) {
+    const referenceResult = await request(new URL(pathname, reference), 200);
+    const referenceHtml = referenceResult.body.toString("utf8");
+    compareSnapshot(semanticSnapshot(referenceHtml), expected, `Reference ${pathname}`);
+    referenceSummary = `${referenceResult.durationMs.toFixed(1)}ms`;
+  }
   compareSnapshot(semanticSnapshot(targetHtml), expected, `Target ${pathname}`);
   console.log(
-    `PASS ${pathname} reference=${referenceResult.durationMs.toFixed(1)}ms target=${targetResult.durationMs.toFixed(1)}ms`,
+    `PASS ${pathname} reference=${referenceSummary} target=${targetResult.durationMs.toFixed(1)}ms`,
   );
 
   for (const assetUrl of sameOriginAssetUrls(targetHtml, target)) {
@@ -234,39 +279,65 @@ for (const [pathname, localHtml] of localPages) {
   }
 }
 
-const missingResult = await request(new URL("/__applepie_missing_route__", target), 404);
+const missingResult = await request(new URL("/__ersiyan_missing_route__", target), 404);
 console.log(`PASS 404 ${missingResult.durationMs.toFixed(1)}ms`);
 
-if (options.www) {
-  const redirectPath = "/privacy/archive/2026-08-22?source=cutover&check=1";
-  const sourceUrl = new URL(redirectPath, baseUrl(options.www));
-  const expectedUrl = new URL(redirectPath, target);
-  const response = await request(sourceUrl, 301, "manual");
-  const durationMs = response.durationMs;
-  const location = headerValue(response.headers, "location");
+const redirectSources = [...new Set([...options.redirectFrom, options.www].filter(Boolean))];
+const redirectChecks = [
+  { path: "/?utm_source=naver&utm_medium=display", status: 200 },
+  { path: "/velsien-summit?utm_source=kakao&utm_medium=link", status: 200 },
+  { path: "/privacy?source=old-domain", status: 200 },
+  { path: "/privacy/mine-logic?lang=ko&source=old-domain", status: 200 },
+  { path: "/privacy/archive/2026-08-22?check=1", status: 200 },
+  { path: "/privacy/archive/2026-08-23?check=2", status: 200 },
+  { path: "/__redirect-probe-not-found-20260828?source=migration", status: 404 },
+];
 
-  assert.ok(location, `${sourceUrl} did not return a Location header`);
-  assert.equal(
-    new URL(location, sourceUrl).href,
-    expectedUrl.href,
-    `${sourceUrl} did not preserve the path and query string`,
-  );
-  console.log(`PASS www 301 ${durationMs.toFixed(1)}ms location=${location}`);
+for (const redirectSource of redirectSources) {
+  for (const redirectCheck of redirectChecks) {
+    const sourceUrl = new URL(redirectCheck.path, baseUrl(redirectSource));
+    const expectedUrl = new URL(redirectCheck.path, target);
+    const response = await request(sourceUrl, 301, "manual");
+    const durationMs = response.durationMs;
+    const location = headerValue(response.headers, "location");
+
+    assert.ok(location, `${sourceUrl} did not return a Location header`);
+    assert.equal(
+      new URL(location, sourceUrl).href,
+      expectedUrl.href,
+      `${sourceUrl} did not preserve the path and query string`,
+    );
+    const followed = await request(sourceUrl, redirectCheck.status);
+    assert.equal(followed.redirectCount, 1, `${sourceUrl} used ${followed.redirectCount} redirects`);
+    assert.equal(followed.finalUrl.href, expectedUrl.href, `${sourceUrl} ended at the wrong URL`);
+    console.log(
+      `PASS redirect 301 ${sourceUrl.href} ${durationMs.toFixed(1)}ms location=${location}`,
+    );
+  }
 }
 
 if (!options.skipIdle) {
-  await request(target, 200);
+  const idleTargets = [
+    target,
+    new URL("/velsien-summit?utm_source=naver&utm_medium=link", target),
+  ];
+  for (const idleTarget of idleTargets) await request(idleTarget, 200);
   for (let run = 1; run <= options.idleRuns; run += 1) {
     await new Promise((resolve) => setTimeout(resolve, options.idleSeconds * 1000));
-    const result = await request(target, 200);
-    const cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
-    console.log(
-      `IDLE ${run}/${options.idleRuns} ${result.durationMs.toFixed(1)}ms cf-cache-status=${cacheStatus}`,
-    );
-    assert.ok(
-      result.durationMs < options.limitMs,
-      `Idle request ${run} took ${result.durationMs.toFixed(1)}ms (limit ${options.limitMs}ms)`,
-    );
+    for (const idleTarget of idleTargets) {
+      const result = await request(idleTarget, 200);
+      const cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
+      const openAiCacheStatus = headerValue(result.headers, "x-openai-cache-status");
+      console.log(
+        `IDLE ${run}/${options.idleRuns} ${idleTarget.pathname} ${result.durationMs.toFixed(1)}ms cf-cache-status=${cacheStatus}`,
+      );
+      assert.ok(
+        result.durationMs < options.limitMs,
+        `Idle request ${run} for ${idleTarget.pathname} took ${result.durationMs.toFixed(1)}ms (limit ${options.limitMs}ms)`,
+      );
+      assert.equal(cacheStatus, "HIT", `${idleTarget.pathname} was not served from Static Assets cache`);
+      assert.equal(openAiCacheStatus, undefined, `${idleTarget.pathname} exposed an OpenAI Sites cache header`);
+    }
   }
 }
 

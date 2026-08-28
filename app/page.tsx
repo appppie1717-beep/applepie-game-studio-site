@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { BusinessDisclosure } from "./_components/BusinessDisclosure";
+import type { ReactNode } from "react";
+import { BrandLockup } from "./_components/BrandLockup";
+import { businessProfile } from "./_components/business-profile";
 import { GameShowcase } from "./_components/GameShowcase";
 import { StudioAccordion } from "./_components/StudioAccordion";
 
 export const metadata: Metadata = {
-  description:
-    "MINE LOGIC을 시작으로 생각하는 재미가 오래 남는 게임을 만드는 독립 게임 스튜디오입니다.",
+  description: "에르시안 공식 홈페이지입니다.",
+  alternates: {
+    canonical: "/",
+  },
 };
 
 const logicCells = [
@@ -37,10 +41,6 @@ const logicCells = [
   "0",
 ];
 
-function Arrow() {
-  return <span aria-hidden="true">↗</span>;
-}
-
 function LogicGrid() {
   return (
     <div className="logic-grid" aria-hidden="true">
@@ -56,6 +56,23 @@ function LogicGrid() {
   );
 }
 
+function BusinessDetail({
+  label,
+  children,
+  className,
+}: {
+  label: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div>
+      <dt>{label}</dt>
+      <dd className={className}>{children}</dd>
+    </div>
+  );
+}
+
 export default function Home() {
   return (
     <div id="top" className="site-shell">
@@ -65,20 +82,12 @@ export default function Home() {
 
       <header className="site-header">
         <div className="header-inner">
-          <a className="brand-lockup" href="#top" aria-label="애플파이 게임 스튜디오 홈">
-            <span className="brand-mark" aria-hidden="true">
-              AP
-            </span>
-            <span className="brand-name">
-              <strong>APPLEPIE</strong>
-              <small>GAME STUDIO</small>
-            </span>
-          </a>
+          <BrandLockup href="#top" />
 
           <nav className="primary-nav" aria-label="주요 메뉴">
             <a href="#games">게임</a>
-            <a href="#studio">스튜디오</a>
-            <a href="#profile">사업자 정보</a>
+            <a href="#studio">소개</a>
+            <a href="#business-info">사업자 정보</a>
           </nav>
         </div>
       </header>
@@ -86,18 +95,16 @@ export default function Home() {
       <main id="main-content">
         <section className="hero section-pad" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow">INDEPENDENT GAME STUDIO</p>
+            <p className="eyebrow">INDEPENDENT GAMES</p>
             <h1 id="hero-title">
-              작은 규칙에서
+              제가 좋아하는 게임을
               <br />
-              <span>오래 남는 플레이</span>를
+              <span>직접 만들고</span>
               <br />
-              만듭니다.
+              끝까지 운영합니다.
             </h1>
             <p className="hero-description">
-              애플파이 게임 스튜디오는 생각하는 재미를 게임으로 다듬는 독립 게임
-              스튜디오입니다. 출시작 MINE LOGIC을 시작으로, 오래 즐길 수 있는 게임을
-              한 작품씩 선보입니다.
+              에르시안은 제가 직접 게임을 만들고 운영하는 곳입니다.
             </p>
 
             <div className="hero-actions">
@@ -105,11 +112,11 @@ export default function Home() {
                 게임 살펴보기 <span aria-hidden="true">↓</span>
               </a>
               <a className="button button--quiet" href="#studio">
-                스튜디오 이야기
+                에르시안 이야기
               </a>
             </div>
 
-            <dl className="hero-facts" aria-label="스튜디오 현황">
+            <dl className="hero-facts" aria-label="에르시안 현황">
               <div>
                 <dt>RELEASED</dt>
                 <dd>1 title</dd>
@@ -125,21 +132,21 @@ export default function Home() {
             </dl>
           </div>
 
-          <div className="hero-visual" aria-label="애플파이 게임 스튜디오 브랜드 로고">
+          <div className="hero-visual">
             <div className="logo-stage">
               <Image
-                src="/images/brand/applepie-logo-original.png"
-                alt="ApplePie 글자와 파이 모양 심볼로 구성된 애플파이 로고"
-                width={1536}
-                height={1152}
+                src="/images/brand/ersiyan-logo-hero.webp"
+                alt="에르시안(ERSIYAN) 로고"
+                width={960}
+                height={246}
                 sizes="(max-width: 1060px) 92vw, 46vw"
                 priority
               />
             </div>
             <div className="hero-grid-card">
               <div>
-                <span className="mini-label">OUR STARTING POINT</span>
-                <strong>Logic becomes play.</strong>
+                <span className="mini-label">FIRST RELEASE</span>
+                <strong>MINE LOGIC · 2026</strong>
               </div>
               <LogicGrid />
             </div>
@@ -149,74 +156,87 @@ export default function Home() {
         <section id="games" className="games section-pad" aria-labelledby="games-title">
           <div className="section-heading">
             <p className="eyebrow">OUR GAMES · 01</p>
-            <h2 id="games-title">출시작과 다음 게임</h2>
-            <p>
-              작품 탭과 화면 메뉴를 눌러 현재의 애플파이 게임을 살펴보세요.
-            </p>
+            <h2 id="games-title">작품 둘러보기</h2>
+            <p>게임을 선택해 화면과 소개를 둘러보세요.</p>
           </div>
           <GameShowcase />
         </section>
 
         <section id="studio" className="studio section-pad" aria-labelledby="studio-title">
           <div className="studio-intro">
-            <p className="eyebrow">ABOUT APPLEPIE · 02</p>
+            <p className="eyebrow">ABOUT ERSIYAN · 02</p>
             <h2 id="studio-title">
-              작은 시작을
+              게임을 만들 때
               <br />
-              하나의 브랜드로
+              신경 쓰는 것
             </h2>
           </div>
 
           <div className="studio-body">
-            <p className="studio-statement">
-              좋은 시작은 대개 작은 호기심에서 나옵니다. 애플파이 게임 스튜디오는
-              그 호기심을 게임의 규칙으로 다듬고, 직접 출시해 다음 작품으로
-              이어갑니다.
-            </p>
-            <p className="interaction-hint">
-              아래 항목을 누르면 애플파이가 게임을 만드는 방식을 더 볼 수 있습니다.
-            </p>
             <StudioAccordion />
-          </div>
-        </section>
-
-        <section id="profile" className="profile section-pad" aria-labelledby="profile-title">
-          <div className="profile-panel">
-            <div className="profile-copy">
-              <p className="eyebrow eyebrow--light">STUDIO PROFILE · 03</p>
-              <h2 id="profile-title">애플파이 게임 스튜디오</h2>
-              <p>
-                애플파이는 개인사업자 형태로 운영되는 독립 게임 스튜디오입니다.
-                게임물제작업 등록을 마쳤으며, 직접 만든 게임을 개발하고 운영합니다.
-              </p>
-            </div>
-            <BusinessDisclosure />
-          </div>
-        </section>
-
-        <section className="contact-strip section-pad" aria-labelledby="contact-title">
-          <div>
-            <p className="eyebrow">NEXT CHAPTER</p>
-            <h2 id="contact-title">다음 게임을 만들고 있습니다.</h2>
-          </div>
-          <div className="contact-copy">
-            <p>게임 및 스튜디오 관련 문의는 이메일로 보내주세요.</p>
-            <a className="contact-email" href="mailto:asoul122@naver.com">
-              asoul122@naver.com
-            </a>
-            <a className="text-link" href="/privacy">
-              개인정보처리방침 보기 <Arrow />
-            </a>
           </div>
         </section>
       </main>
 
-      <footer className="site-footer">
+      <footer id="business-info" className="site-footer">
         <div className="footer-inner">
-          <p>© {new Date().getFullYear()} APPLEPIE GAME STUDIO</p>
-          <div>
+          <div className="footer-brand">
+            <p>© {new Date().getFullYear()} ERSIYAN</p>
+            <p className="footer-operator">ERSIYAN은 애플파이가 운영하는 브랜드입니다.</p>
+            <p className="footer-scope">
+              이 홈페이지에서는 주문이나 결제를 받지 않습니다. 앱 설치와 거래는
+              Google Play에서 진행됩니다.
+            </p>
+          </div>
+
+          <div className="footer-business-wrap">
+            <div className="footer-business-title">
+              <span>BUSINESS INFORMATION</span>
+              <strong>사업자 정보</strong>
+            </div>
+            <dl className="footer-business" aria-label="애플파이 법정 사업자 정보">
+              <BusinessDetail label="상호">{businessProfile.businessName}</BusinessDetail>
+              <BusinessDetail label="대표자">{businessProfile.representative}</BusinessDetail>
+              <BusinessDetail label="사업자등록번호">
+                {businessProfile.registrationNumber}
+              </BusinessDetail>
+              <BusinessDetail label="게임제작업자 등록번호">
+                {businessProfile.gameProducerRegistrationNumber}
+              </BusinessDetail>
+              <BusinessDetail
+                label="통신판매업 신고"
+                className="footer-business-registration"
+              >
+                <span>{businessProfile.mailOrderRegistrationNumber}</span>
+                <span className="footer-business-authority">
+                  신고기관 {businessProfile.mailOrderRegistrationAuthority}
+                </span>
+                <a
+                  className="footer-business-verify"
+                  href={businessProfile.ftcBusinessInfoUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="공정거래위원회에서 통신판매업 신고 확인"
+                >
+                  공정위 신고 조회 <span aria-hidden="true">↗</span>
+                </a>
+              </BusinessDetail>
+              <BusinessDetail label="전화번호">
+                <a href={businessProfile.phoneHref}>{businessProfile.phone}</a>
+              </BusinessDetail>
+              <BusinessDetail label="이메일">
+                <a href={`mailto:${businessProfile.email}`}>{businessProfile.email}</a>
+              </BusinessDetail>
+              <BusinessDetail label="호스팅서비스 제공자">
+                {businessProfile.hostingProvider}
+              </BusinessDetail>
+            </dl>
+          </div>
+
+          <div className="footer-links">
             <a href="#top">맨 위로</a>
             <a href="/privacy">개인정보처리방침</a>
+            <a href="/privacy/mine-logic">MINE LOGIC 개인정보처리방침</a>
           </div>
         </div>
       </footer>

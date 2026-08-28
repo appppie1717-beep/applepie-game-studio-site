@@ -13,6 +13,39 @@ export const metadata: Metadata = {
   },
 };
 
+const homeStructuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://ersiyan.com/#website",
+      url: "https://ersiyan.com/",
+      name: "에르시안",
+      alternateName: "ERSIYAN",
+      publisher: {
+        "@id": "https://ersiyan.com/#organization",
+      },
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://ersiyan.com/#organization",
+      url: "https://ersiyan.com/",
+      name: "에르시안",
+      alternateName: "ERSIYAN",
+      description:
+        "좋아하는 게임을 직접 만들고 끝까지 운영하는 에르시안의 공식 홈페이지입니다.",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://ersiyan.com/images/brand/ersiyan-logo-hero.webp",
+        contentUrl:
+          "https://ersiyan.com/images/brand/ersiyan-logo-hero.webp",
+        width: 960,
+        height: 246,
+      },
+    },
+  ],
+};
+
 const logicCells = [
   "2",
   "flag",
@@ -76,6 +109,10 @@ function BusinessDetail({
 export default function Home() {
   return (
     <div id="top" className="site-shell">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
+      />
       <a className="skip-link" href="#main-content">
         본문으로 바로가기
       </a>

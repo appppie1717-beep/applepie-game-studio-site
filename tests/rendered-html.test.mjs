@@ -218,6 +218,15 @@ test("server-renders the official studio homepage", async () => {
   assert.doesNotMatch(html, /사업자정보확인|<dt>업태<\/dt>|<dt>종목<\/dt>/);
   assert.match(html, /이 홈페이지에서는 주문이나 결제를 받지 않습니다/);
   assert.match(html, /ersiyan-social-card\.jpg/);
+  assert.match(html, /type="application\/ld\+json"/);
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"Organization"/);
+  assert.match(html, /"name":"에르시안"/);
+  assert.match(html, /"alternateName":"ERSIYAN"/);
+  assert.match(
+    html,
+    /"contentUrl":"https:\/\/ersiyan\.com\/images\/brand\/ersiyan-logo-hero\.webp"/,
+  );
   assert.match(
     html,
     /name="twitter:image:alt" content="에르시안 로고"/i,

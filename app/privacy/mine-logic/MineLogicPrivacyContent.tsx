@@ -230,7 +230,7 @@ export function MineLogicPrivacyContent({
               <p>
                 앱 기능이나 정보 처리 방식이 바뀌면 이 페이지에 변경 내용과 시행일을
                 반영합니다. 이 방침의 최초 시행일은 2026년 7월 29일이며, 최근 변경일 및
-                변경본 시행일은 2026년 8월 25일입니다.
+                변경본 시행일은 2026년 8월 28일입니다.
               </p>
             </section>
           </div>
@@ -382,7 +382,7 @@ export function MineLogicPrivacyContent({
                 If app functions or information-processing practices change, this page will be
                 updated with the changes and their effective date. This policy was first effective
                 on July 29, 2026. It was last updated, and this version became effective, on August
-                25, 2026.
+                28, 2026.
               </p>
             </section>
           </div>

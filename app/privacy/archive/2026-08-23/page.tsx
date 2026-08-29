@@ -179,7 +179,7 @@ export default function ArchivedPrivacyPolicy20260823() {
               </p>
               <p>
                 개인정보 문의 이메일{" "}
-                <a href="mailto:asoul122@naver.com">asoul122@naver.com</a>
+                <a href="mailto:help@ersiyan.com\">help@ersiyan.com\</a>
               </p>
             </section>
 
@@ -225,7 +225,7 @@ export default function ArchivedPrivacyPolicy20260823() {
           </div>
           <div>
             <a href="/">홈페이지</a>
-            <a href="mailto:asoul122@naver.com">문의</a>
+            <a href="mailto:help@ersiyan.com\">문의</a>
           </div>
         </div>
       </footer>

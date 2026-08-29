@@ -7,7 +7,7 @@ export const businessProfile = {
   mailOrderRegistrationAuthority: "전남광주통합특별시 광산구청",
   phone: "010-2416-6267",
   phoneHref: "tel:01024166267",
-  email: "help@ersiyan.com\",
+  email: "help@ersiyan.com",
   hostingProvider: "Cloudflare, Inc.",
   ftcBusinessInfoUrl:
     "https://www.ftc.go.kr/bizCommPop.do?wrkr_no=2064362580",

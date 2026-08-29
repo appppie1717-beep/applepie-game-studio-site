@@ -120,7 +120,7 @@ export default function ArchivedPrivacyPolicy() {
               </p>
               <p>
                 개인정보 문의 이메일{" "}
-                <a href="mailto:help@ersiyan.com\">help@ersiyan.com\</a>
+                <a href="mailto:help@ersiyan.com">help@ersiyan.com</a>
               </p>
             </section>
 

@@ -153,7 +153,7 @@ test("server-renders the official studio homepage", async () => {
   assert.match(html, /MINE LOGIC/);
   assert.match(html, /VELSIEN SUMMIT/);
   assert.match(html, /com\.applepie\.minelogic/);
-  assert.match(html, /mailto:asoul122@naver\.com/);
+  assert.match(html, /mailto:help@ersiyan\.com/);
   assert.match(html, /role="tablist"/);
   assert.match(html, /aria-selected="true"/);
   assert.doesNotMatch(html, /사업자 정보 펼쳐보기/);
@@ -346,7 +346,7 @@ test("server-renders the privacy policy", async () => {
   assert.match(html, /<title>개인정보처리방침 \| 에르시안<\/title>/i);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy"/i);
   assert.match(html, /회원가입과 문의 양식을 제공하지 않으며/);
-  assert.match(html, /asoul122@naver\.com/);
+  assert.match(html, /help@ersiyan\.com/);
   assert.match(html, /게임 앱 정책/);
   assert.match(html, /Workers Static Assets/);
   assert.match(html, /브랜드 및 공식 도메인 변경/);

@@ -96,7 +96,7 @@ export function MineLogicPrivacyContent({
             직접 관리할 수 있는 방법을 안내합니다.
           </p>
           <span className="draft-note">
-            최초 시행일 2026년 7월 29일 · 최근 변경일 및 시행일 2026년 8월 28일
+            최초 시행일 2026년 7월 29일 · 최근 변경일 및 시행일 2026년 8월 31일
           </span>
         </section>
 
@@ -113,8 +113,8 @@ export function MineLogicPrivacyContent({
             <section id="scope-ko" aria-labelledby="scope-title-ko">
               <h2 id="scope-title-ko">1. 적용 범위</h2>
               <p>
-                이 방침은 개인사업자 {businessName}(대표자 {representative})가
-                에르시안(ERSIYAN) 브랜드로 제공하는 MINE LOGIC Android 앱에 적용됩니다.
+                이 방침은 개인사업자 {businessName}(대표자 {representative})가 제공하는
+                MINE LOGIC Android 앱에 적용됩니다.
               </p>
               <p>
                 앱은 회원가입, 계정 생성, 결제, 광고 또는 온라인 순위 기능을 제공하지
@@ -230,7 +230,12 @@ export function MineLogicPrivacyContent({
               <p>
                 앱 기능이나 정보 처리 방식이 바뀌면 이 페이지에 변경 내용과 시행일을
                 반영합니다. 이 방침의 최초 시행일은 2026년 7월 29일이며, 최근 변경일 및
-                변경본 시행일은 2026년 8월 28일입니다.
+                변경본 시행일은 2026년 8월 31일입니다.
+              </p>
+              <p>
+                2026년 8월 31일 변경본에는 개인정보 처리 주체인 개인사업자의 상호가
+                애플파이에서 에르시안으로 변경된 사실을 반영했습니다. 대표자, 앱 기능과
+                정보 처리 방식, 문의 창구는 변경되지 않았습니다.
               </p>
             </section>
           </div>
@@ -246,7 +251,7 @@ export function MineLogicPrivacyContent({
             and how users can manage information on their devices.
           </p>
           <span className="draft-note">
-            First effective July 29, 2026 · Last updated and effective August 28, 2026
+            First effective July 29, 2026 · Last updated and effective August 31, 2026
           </span>
         </section>
 
@@ -263,8 +268,8 @@ export function MineLogicPrivacyContent({
             <section id="scope-en" aria-labelledby="scope-title-en">
               <h2 id="scope-title-en">1. Scope</h2>
               <p>
-                This policy applies to the MINE LOGIC Android app provided under the ERSIYAN
-                brand by {businessName}, a Korean sole proprietorship represented by {representative}.
+                This policy applies to the MINE LOGIC Android app provided by {businessName}, a
+                Korean sole proprietorship represented by {representative}.
               </p>
               <p>
                 The app does not provide registration, user accounts, payments, advertising,
@@ -382,7 +387,12 @@ export function MineLogicPrivacyContent({
                 If app functions or information-processing practices change, this page will be
                 updated with the changes and their effective date. This policy was first effective
                 on July 29, 2026. It was last updated, and this version became effective, on August
-                28, 2026.
+                31, 2026.
+              </p>
+              <p>
+                The August 31, 2026 version reflects the sole proprietor&apos;s registered business
+                name change from 애플파이 (ApplePie) to 에르시안 (ERSIYAN). The representative,
+                app functions, information-processing practices, and contact channel did not change.
               </p>
             </section>
           </div>

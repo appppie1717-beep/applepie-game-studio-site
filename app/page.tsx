@@ -219,7 +219,9 @@ export default function Home() {
         <div className="footer-inner">
           <div className="footer-brand">
             <p>© {new Date().getFullYear()} ERSIYAN</p>
-            <p className="footer-operator">ERSIYAN은 애플파이가 운영하는 브랜드입니다.</p>
+            <p className="footer-operator">
+              개인사업자 에르시안이 운영하는 공식 홈페이지입니다.
+            </p>
             <p className="footer-scope">
               이 홈페이지에서는 주문이나 결제를 받지 않습니다. 앱 설치와 거래는
               Google Play에서 진행됩니다.
@@ -231,7 +233,7 @@ export default function Home() {
               <span>BUSINESS INFORMATION</span>
               <strong>사업자 정보</strong>
             </div>
-            <dl className="footer-business" aria-label="애플파이 법정 사업자 정보">
+            <dl className="footer-business" aria-label="에르시안 법정 사업자 정보">
               <BusinessDetail label="상호">{businessProfile.businessName}</BusinessDetail>
               <BusinessDetail label="대표자">{businessProfile.representative}</BusinessDetail>
               <BusinessDetail label="사업자등록번호">

@@ -1,23 +1,22 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
-import { BrandLockup } from "../_components/BrandLockup";
-import { GameProducerRegistration } from "../_components/GameProducerRegistration";
+import { BrandLockup } from "../../../_components/BrandLockup";
+import { GameProducerRegistration } from "../../../_components/GameProducerRegistration";
 
 export const metadata: Metadata = {
-  title: "개인정보처리방침",
-  description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+  title: "개인정보처리방침 2026년 8월 28일 보관본",
+  description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 8월 28일 보관본입니다.",
   alternates: {
-    canonical: "/privacy",
+    canonical: "/privacy/archive/2026-08-28",
   },
-  openGraph: {
-    url: "/privacy",
-    title: "개인정보처리방침 | 에르시안",
-    description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+  robots: {
+    index: false,
+    follow: true,
   },
 };
 
 const policySections = [
-  ["change-notice", "2026년 8월 31일 변경 안내"],
+  ["change-notice", "2026년 변경 안내"],
   ["overview", "방침 개요"],
   ["collection", "처리하는 정보"],
   ["hosting", "호스팅과 국외 처리"],
@@ -28,7 +27,7 @@ const policySections = [
   ["changes", "방침 변경"],
 ];
 
-export default function PrivacyPolicy() {
+export default function ArchivedPrivacyPolicy20260828() {
   return (
     <div className="privacy-page">
       <a className="skip-link" href="#policy-content">
@@ -46,14 +45,14 @@ export default function PrivacyPolicy() {
 
       <main id="policy-content">
         <section className="privacy-hero section-pad" aria-labelledby="policy-title">
-          <p className="eyebrow">PRIVACY POLICY</p>
-          <h1 id="policy-title">개인정보처리방침</h1>
+          <p className="eyebrow">PRIVACY POLICY ARCHIVE</p>
+          <h1 id="policy-title">개인정보처리방침 보관본</h1>
           <p>
-            에르시안은 필요한 정보만 최소한으로 처리하고, 이용자가
-            이해하기 쉬운 방식으로 안내하는 것을 원칙으로 합니다.
+            2026년 8월 28일부터 2026년 8월 31일 사업자명 변경본 적용 직전까지 공개된
+            에르시안 공식 홈페이지의 개인정보처리방침입니다.
           </p>
           <span className="draft-note">
-            최초 시행일 2026년 8월 22일 · 최근 변경일 및 시행일 2026년 8월 31일
+            적용 기간 2026년 8월 28일 ~ 2026년 8월 31일 변경본 적용 직전
           </span>
         </section>
 
@@ -68,20 +67,20 @@ export default function PrivacyPolicy() {
 
           <div className="policy-sections">
             <section id="change-notice" className="policy-change-notice" aria-labelledby="change-notice-title">
-              <p className="policy-change-kicker">2026년 8월 31일 변경 안내</p>
-              <h2 id="change-notice-title">사업자명 변경</h2>
+              <p className="policy-change-kicker">2026년 8월 28일 변경 안내</p>
+              <h2 id="change-notice-title">브랜드 및 공식 도메인 변경</h2>
               <p>
-                개인정보 처리 주체인 개인사업자의 상호가 애플파이에서
-                에르시안으로 변경되었습니다. 대표자와 사업자등록번호는 동일합니다.
+                개인사업자 애플파이가 운영하는 공식 브랜드가
+                에르시안(ERSIYAN)으로 변경되고, 공식 홈페이지가 applepie.im에서
+                ersiyan.com으로 이전되었습니다.
               </p>
               <p>
-                이번 변경은 사업자명 변경을 반영한 것으로, 개인정보 처리 목적과 범위,
-                문의 창구, 호스팅 제공자는 변경되지 않았습니다. 2026년 8월 28일
-                변경본과 이전 방침은 계속 열람할 수 있습니다.
+                개인정보 처리 주체, 처리 목적과 범위, 문의 창구, 호스팅 제공자는
+                변경되지 않았습니다. 변경 전 방침은 계속 열람할 수 있습니다.
               </p>
               <p>
-                <a href="/privacy/archive/2026-08-28">
-                  2026년 8월 28일 개인정보처리방침 보기
+                <a href="/privacy/archive/2026-08-23">
+                  2026년 8월 23일 개인정보처리방침 보기
                 </a>
               </p>
             </section>
@@ -94,8 +93,8 @@ export default function PrivacyPolicy() {
                 개인정보처리방침은 별도로 제공합니다.
               </p>
               <p>
-                이 홈페이지의 개인정보 처리자는 개인사업자 에르시안(대표자 탁진,
-                사업자등록번호 206-43-62580)입니다.
+                이 홈페이지는 개인사업자 애플파이(대표자 탁진, 사업자등록번호
+                206-43-62580)가 에르시안(ERSIYAN) 브랜드로 운영합니다.
               </p>
             </section>
 
@@ -204,13 +203,8 @@ export default function PrivacyPolicy() {
               </p>
               <ul>
                 <li>
-                  2026년 8월 31일 변경본부터 개인정보 처리 주체의 상호를 에르시안으로
-                  표시합니다.
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-08-28">
-                    2026년 8월 28일 브랜드·도메인 변경 방침
-                  </a>
+                  2026년 8월 28일 변경본부터 에르시안 브랜드와 ersiyan.com 공식
+                  도메인을 사용합니다.
                 </li>
                 <li>
                   <a href="/privacy/archive/2026-08-23">

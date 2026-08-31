@@ -1,5 +1,5 @@
 export const businessProfile = {
-  businessName: "애플파이",
+  businessName: "에르시안",
   representative: "탁진",
   registrationNumber: "206-43-62580",
   gameProducerRegistrationNumber: "제2026-000002호",

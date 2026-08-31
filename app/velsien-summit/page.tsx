@@ -146,6 +146,9 @@ export default function VelsienSummitPage() {
               <a className={styles.secondaryLink} href="#world">
                 세계관 읽기
               </a>
+              <a className={styles.secondaryLink} href="/velsien-summit/late-update">
+                8월말 추가정보
+              </a>
             </div>
           </div>
 

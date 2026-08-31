@@ -235,6 +235,14 @@ const localPages = new Map(
         "/velsien-summit",
         new URL("../dist/client/velsien-summit.html", import.meta.url),
       ],
+      [
+        "/velsien-summit/late-update",
+        new URL("../dist/client/velsien-summit/late-update.html", import.meta.url),
+      ],
+      [
+        "/velsien-summit/secret",
+        new URL("../dist/client/velsien-summit/secret.html", import.meta.url),
+      ],
       ["/privacy", new URL("../dist/client/privacy.html", import.meta.url)],
       [
         "/privacy/mine-logic",
@@ -248,10 +256,20 @@ const localPages = new Map(
         "/privacy/archive/2026-08-23",
         new URL("../dist/client/privacy/archive/2026-08-23.html", import.meta.url),
       ],
+      [
+        "/privacy/archive/2026-08-28",
+        new URL("../dist/client/privacy/archive/2026-08-28.html", import.meta.url),
+      ],
     ].map(async ([pathname, file]) => [pathname, await readFile(file, "utf8")]),
   ),
 );
-const targetOnlyPaths = new Set(["/privacy/mine-logic", "/velsien-summit"]);
+const targetOnlyPaths = new Set([
+  "/privacy/mine-logic",
+  "/privacy/archive/2026-08-28",
+  "/velsien-summit",
+  "/velsien-summit/late-update",
+  "/velsien-summit/secret",
+]);
 
 console.log(`Target: ${target.origin}`);
 console.log(`Reference: ${reference?.origin ?? "target-only"}`);
@@ -290,6 +308,7 @@ const redirectChecks = [
   { path: "/privacy/mine-logic?lang=ko&source=old-domain", status: 200 },
   { path: "/privacy/archive/2026-08-22?check=1", status: 200 },
   { path: "/privacy/archive/2026-08-23?check=2", status: 200 },
+  { path: "/privacy/archive/2026-08-28?check=3", status: 200 },
   { path: "/__redirect-probe-not-found-20260828?source=migration", status: 404 },
 ];
 

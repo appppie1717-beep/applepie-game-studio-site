@@ -57,7 +57,7 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 
 운영 배포는 새 `ersiyan-com-static` Worker에 `ersiyan.com`만 연결합니다. 기존 `applepie-im-static` Worker와 Google 사이트 인증 TXT는 롤백을 위해 보존합니다. 새 주소를 검증한 뒤 `www.ersiyan.com`, `applepie.im`, `www.applepie.im`은 Cloudflare 프록시 DNS와 Single Redirect를 사용해 경로와 쿼리를 보존한 단일 301로 새 HTTPS 주소에 연결합니다.
 
-개인정보처리방침에는 2026년 8월 28일 브랜드·도메인 변경 고지와 2026년 8월 22일·23일 방침 보관본이 포함되어 있습니다. 법정 운영 사업자 상호는 행정상 변경 전까지 `애플파이`로 유지합니다.
+개인정보처리방침에는 2026년 8월 31일 사업자명 변경 고지, 2026년 8월 28일 브랜드·도메인 변경 고지와 2026년 8월 22일·23일·28일 방침 보관본이 포함되어 있습니다. 현재 법정 운영 사업자 상호는 `에르시안`입니다.
 
 문제가 발생하면 기존 도메인의 이전용 Redirect Rule을 비활성화해 보존된 `applepie-im-static` Worker로 즉시 되돌립니다. 필요하면 OpenAI Sites 버전도 별도 롤백 대상으로 사용할 수 있으며, 어떤 경우에도 Google 사이트 인증 TXT는 유지합니다.
 

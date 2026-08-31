@@ -6,10 +6,45 @@ import { businessProfile } from "./_components/business-profile";
 import { GameShowcase } from "./_components/GameShowcase";
 import { StudioAccordion } from "./_components/StudioAccordion";
 
+const homeTitle =
+  "에르시안 | MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오";
+const homeDescription =
+  "에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다. 단계별 힌트와 20단계 훈련을 갖춘 지뢰찾기 게임, 개발 중인 모바일 수집형 2D SRPG의 소식과 화면을 확인하세요.";
+
 export const metadata: Metadata = {
-  description: "에르시안 공식 홈페이지입니다.",
+  title: {
+    absolute: homeTitle,
+  },
+  description: homeDescription,
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "ERSIYAN",
+    url: "/",
+    title: homeTitle,
+    description: homeDescription,
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        width: 1200,
+        height: 630,
+        alt: "MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: homeTitle,
+    description: homeDescription,
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        alt: "MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고",
+      },
+    ],
   },
 };
 
@@ -22,6 +57,8 @@ const homeStructuredData = {
       url: "https://ersiyan.com/",
       name: "에르시안",
       alternateName: "ERSIYAN",
+      description: homeDescription,
+      inLanguage: "ko-KR",
       publisher: {
         "@id": "https://ersiyan.com/#organization",
       },
@@ -33,7 +70,7 @@ const homeStructuredData = {
       name: "에르시안",
       alternateName: "ERSIYAN",
       description:
-        "좋아하는 게임을 직접 만들고 끝까지 운영하는 에르시안의 공식 홈페이지입니다.",
+        "MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다.",
       logo: {
         "@type": "ImageObject",
         url: "https://ersiyan.com/images/brand/ersiyan-logo-hero.webp",
@@ -134,14 +171,15 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">INDEPENDENT GAMES</p>
             <h1 id="hero-title">
-              제가 좋아하는 게임을
+              제가 좋아하는 인디 게임을
               <br />
               <span>직접 만들고</span>
               <br />
               끝까지 운영합니다.
             </h1>
             <p className="hero-description">
-              에르시안은 제가 직접 게임을 만들고 운영하는 곳입니다.
+              에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국
+              1인 인디 게임 스튜디오입니다.
             </p>
 
             <div className="hero-actions">

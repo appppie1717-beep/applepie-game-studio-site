@@ -878,6 +878,13 @@ a {
   font-weight: 700;
 }
 
+.game-actions {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 18px;
+}
+
 .text-link {
   display: inline-flex;
   width: fit-content;
@@ -900,6 +907,10 @@ a {
 
 .text-link--light {
   color: var(--lavender-soft);
+}
+
+.text-link--muted {
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .next-project {

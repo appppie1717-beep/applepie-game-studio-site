@@ -12,7 +12,7 @@ const forbiddenErsiyanGameStudioPatterns = [
   new RegExp(String.raw`\bERSIYAN${htmlFormattingGap}GAME${htmlFormattingGap}STUDIO\b`, "i"),
 ];
 const homepageHeroPattern =
-  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
+  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 인디 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -40,6 +40,7 @@ test("stages every public page for asset-first delivery", async () => {
     manifestSource,
     pathsSource,
     homepage,
+    mineLogic,
     velsienSummit,
     velsienLateUpdate,
     velsienSecret,
@@ -49,6 +50,7 @@ test("stages every public page for asset-first delivery", async () => {
     archivedPrivacyPolicy20260823,
     archivedPrivacyPolicy20260828,
     staticHomepage,
+    staticMineLogic,
     staticVelsienSummit,
     staticVelsienLateUpdate,
     staticVelsienSecret,
@@ -62,6 +64,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit/late-update.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit/secret.html", import.meta.url), "utf8"),
@@ -71,6 +74,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-23.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit/late-update.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit/secret.html", import.meta.url), "utf8"),
@@ -89,6 +93,7 @@ test("stages every public page for asset-first delivery", async () => {
   );
 
   assert.equal(renderedRoutes.get("/"), "rendered");
+  assert.equal(renderedRoutes.get("/mine-logic"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/late-update"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/secret"), "rendered");
@@ -101,6 +106,7 @@ test("stages every public page for asset-first delivery", async () => {
     [...paths.paths].sort(),
     [
       "/",
+      "/mine-logic",
       "/privacy",
       "/privacy/archive/2026-08-22",
       "/privacy/archive/2026-08-23",
@@ -111,7 +117,14 @@ test("stages every public page for asset-first delivery", async () => {
       "/velsien-summit/secret",
     ].sort(),
   );
-  assert.match(homepage, /<title>에르시안<\/title>/i);
+  assert.match(
+    homepage,
+    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+  );
+  assert.match(
+    mineLogic,
+    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+  );
   assert.match(
     velsienSummit,
     /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 수집형 2D SRPG<\/title>/i,
@@ -130,6 +143,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(archivedPrivacyPolicy20260823, /<title>개인정보처리방침 2026년 8월 23일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260828, /<title>개인정보처리방침 2026년 8월 28일 보관본 \| 에르시안<\/title>/i);
   assert.equal(staticHomepage, homepage);
+  assert.equal(staticMineLogic, mineLogic);
   assert.equal(staticVelsienSummit, velsienSummit);
   assert.equal(staticVelsienLateUpdate, velsienLateUpdate);
   assert.equal(staticVelsienSecret, velsienSecret);
@@ -141,6 +155,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(staticNotFound, /<title>에르시안<\/title>/i);
   for (const publicHtml of [
     staticHomepage,
+    staticMineLogic,
     staticVelsienSummit,
     staticVelsienLateUpdate,
     staticVelsienSecret,
@@ -159,6 +174,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(staticHomepage, /게임제작업자 등록번호/);
   assert.match(staticHomepage, /제2026-000002호/);
   assert.doesNotMatch(staticHomepage, /\/_next\/image\?/);
+  assert.doesNotMatch(staticMineLogic, /\/_next\/image\?/);
   assert.doesNotMatch(
     staticHomepage,
     /<link\b(?=[^>]*rel="preload")(?=[^>]*velsien-summit)[^>]*>/i,
@@ -264,15 +280,26 @@ test("server-renders the official studio homepage", async () => {
 
   const html = await response.text();
   assert.match(html, /<html[^>]*lang="ko"/i);
-  assert.match(html, /<title>에르시안<\/title>/i);
+  assert.match(
+    html,
+    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+  );
   assert.match(html, homepageHeroPattern);
-  assert.match(html, /에르시안은 제가 직접 게임을 만들고 운영하는 곳입니다/);
-  assert.doesNotMatch(html, /스튜디오/);
+  assert.match(
+    html,
+    /에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국[\s\S]*1인 인디 게임 스튜디오입니다/,
+  );
   assert.match(html, /작품 둘러보기/);
   assert.match(html, /게임을 선택해 화면과 소개를 둘러보세요/);
   assert.match(html, /OUR GAMES · 01/);
   assert.match(html, /게임을 만들 때[\s\S]*신경 쓰는 것/);
   assert.match(html, /MINE LOGIC/);
+  assert.match(html, /href="\/mine-logic"/i);
+  assert.match(html, /MINE LOGIC 자세히 보기/);
+  assert.match(html, /feature-480\.webp 480w/i);
+  assert.match(html, /feature-768\.webp 768w/i);
+  assert.match(html, /06_lobby-360\.webp 360w/i);
+  assert.doesNotMatch(html, /src="\/images\/mine-logic\/(?:02_hint|03_training)\.png"/i);
   assert.match(html, /VELSIEN SUMMIT/);
   assert.match(html, /com\.applepie\.minelogic/);
   assert.match(html, /mailto:help@ersiyan\.com/);
@@ -355,7 +382,7 @@ test("server-renders the official studio homepage", async () => {
   );
   assert.match(
     html,
-    /name="twitter:image:alt" content="에르시안 로고"/i,
+    /name="twitter:image:alt" content="MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고"/i,
   );
   assert.match(html, /ersiyan-logo-hero\.webp/);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/?"/i);
@@ -367,6 +394,53 @@ test("server-renders the official studio homepage", async () => {
     privateDocumentDataPattern,
   );
   assert.doesNotMatch(html, /Your site is taking shape|Building your site|Starter Project/);
+});
+
+test("server-renders the MINE LOGIC product page", async () => {
+  const response = await render("/mine-logic?utm_source=google");
+  assert.equal(response.status, 200);
+  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+
+  const html = await response.text();
+  assert.match(
+    html,
+    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+  );
+  assert.match(
+    html,
+    /rel="canonical" href="https:\/\/ersiyan\.com\/mine-logic"/i,
+  );
+  assert.match(
+    html,
+    /property="og:url" content="https:\/\/ersiyan\.com\/mine-logic"/i,
+  );
+  assert.match(html, /막히면 이유를 보고,[\s\S]*20단계로 지뢰찾기를 익힙니다/);
+  assert.match(html, /9 × 9 · 지뢰 10개/);
+  assert.match(html, /16 × 16 · 지뢰 40개/);
+  assert.match(html, /30 × 16 · 지뢰 99개/);
+  assert.match(html, /일반훈련 1~15단계/);
+  assert.match(html, /강화훈련 16~20단계/);
+  assert.match(html, /Android INTERNET 권한을 요청하지 않습니다/);
+  assert.match(html, /href="https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.applepie\.minelogic"/i);
+  assert.match(html, /href="\/privacy\/mine-logic"/i);
+  assert.match(html, /mailto:help@ersiyan\.com/i);
+  assert.match(html, /"@type":\["VideoGame","MobileApplication"\]/);
+  assert.match(html, /"softwareVersion":"1\.3\.3"/);
+  assert.match(html, /"publisher":\{"@id":"https:\/\/ersiyan\.com\/#organization"\}/);
+  assert.match(html, /"offers":\{"@type":"Offer","url":"https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.applepie\.minelogic","price":0\}/);
+  assert.doesNotMatch(html, /"aggregateRating"|"review"/);
+  for (const prefix of ["06_lobby", "02_hint", "03_training"]) {
+    assert.match(html, new RegExp(`${prefix}-360\\.webp 360w`, "i"));
+    assert.match(html, new RegExp(`${prefix}-720\\.webp 720w`, "i"));
+  }
+  assert.match(html, /feature-480\.webp 480w/i);
+  assert.match(html, /feature-1024\.webp 1024w/i);
+  assert.match(
+    html,
+    /<img\b(?=[^>]*src="\/images\/mine-logic\/feature\.png")(?=[^>]*fetchpriority="high")[^>]*>/i,
+  );
+  assert.equal(html.match(/<h1\b/gi)?.length ?? 0, 1);
+  assert.doesNotMatch(html, /\/_next\/image\?/i);
 });
 
 test("server-renders the VELSIEN SUMMIT promotional page", async () => {
@@ -578,10 +652,25 @@ test("required public images are present", async () => {
     "../public/images/brand/ersiyan-logo.png",
     "../public/images/brand/ersiyan-logo-hero.webp",
     "../public/images/mine-logic/feature.png",
+    "../public/images/mine-logic/feature-480.webp",
+    "../public/images/mine-logic/feature-768.webp",
+    "../public/images/mine-logic/feature-1024.webp",
     "../public/images/mine-logic/icon.png",
+    "../public/images/mine-logic/icon-96.webp",
+    "../public/images/mine-logic/icon-144.webp",
+    "../public/images/mine-logic/icon-192.webp",
     "../public/images/mine-logic/02_hint.png",
+    "../public/images/mine-logic/02_hint-360.webp",
+    "../public/images/mine-logic/02_hint-540.webp",
+    "../public/images/mine-logic/02_hint-720.webp",
     "../public/images/mine-logic/03_training.png",
+    "../public/images/mine-logic/03_training-360.webp",
+    "../public/images/mine-logic/03_training-540.webp",
+    "../public/images/mine-logic/03_training-720.webp",
     "../public/images/mine-logic/06_lobby.png",
+    "../public/images/mine-logic/06_lobby-360.webp",
+    "../public/images/mine-logic/06_lobby-540.webp",
+    "../public/images/mine-logic/06_lobby-720.webp",
     "../public/images/velsien-summit/teaser-title-640.webp",
     "../public/images/velsien-summit/teaser-title-960.webp",
     "../public/images/velsien-summit/teaser-title.webp",
@@ -614,6 +703,8 @@ test("source contains no starter preview dependency or private certificate data"
     mineLogicPrivacyContent,
     archivedPrivacy,
     gameShowcase,
+    responsivePicture,
+    mineLogicPage,
     velsienPage,
     velsienSignalDeck,
     velsienStyles,
@@ -622,6 +713,7 @@ test("source contains no starter preview dependency or private certificate data"
     globalStyles,
     robots,
     sitemap,
+    llms,
     teaserPreparation,
     responsivePreparation,
   ] = await Promise.all([
@@ -638,6 +730,8 @@ test("source contains no starter preview dependency or private certificate data"
       "utf8",
     ),
     readFile(new URL("../app/_components/GameShowcase.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/_components/ResponsivePicture.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/mine-logic/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/velsien-summit/page.tsx", import.meta.url), "utf8"),
     readFile(
       new URL("../app/velsien-summit/VelsienSignalDeck.tsx", import.meta.url),
@@ -652,6 +746,7 @@ test("source contains no starter preview dependency or private certificate data"
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../public/robots.txt", import.meta.url), "utf8"),
     readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
+    readFile(new URL("../public/llms.txt", import.meta.url), "utf8"),
     readFile(
       new URL("../scripts/prepare-velsien-teaser.mjs", import.meta.url),
       "utf8",
@@ -699,6 +794,17 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(archivedPrivacy, /OpenAI Sites/);
   assert.match(gameShowcase, /role="tab"/);
   assert.match(gameShowcase, /ArrowRight/);
+  assert.match(gameShowcase, /href="\/mine-logic"/);
+  assert.match(gameShowcase, /feature-480\.webp/);
+  assert.match(gameShowcase, /06_lobby-360\.webp/);
+  assert.match(responsivePicture, /<picture>/);
+  assert.match(responsivePicture, /type="image\/webp"/);
+  assert.match(mineLogicPage, /\["VideoGame", "MobileApplication"\]/);
+  assert.match(mineLogicPage, /softwareVersion: "1\.3\.3"/);
+  assert.match(mineLogicPage, /canonical: "\/mine-logic"/);
+  assert.match(mineLogicPage, /"@type": "Offer"/);
+  assert.match(mineLogicPage, /price: 0/);
+  assert.doesNotMatch(mineLogicPage, /aggregateRating|review/);
   assert.match(gameShowcase, /href="\/velsien-summit"/);
   assert.match(gameShowcase, /velsienScenes/);
   assert.match(gameShowcase, /worldFiles/);
@@ -732,7 +838,9 @@ test("source contains no starter preview dependency or private certificate data"
     /Project8|QA\/Evidence|Client\/Assets|순수인간|평생계약|첫 계약|Lesia|Nael/,
   );
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
+  assert.match(sitemap, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(sitemap, /https:\/\/ersiyan\.com\/velsien-summit/);
+  assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(teaserPreparation, /teaser-title\.webp/);
   assert.match(responsivePreparation, /id: "teaser-title"/);
   assert.match(responsivePreparation, /width: 640/);

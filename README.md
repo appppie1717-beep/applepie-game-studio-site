@@ -5,11 +5,13 @@
 ## 포함된 내용
 
 - 에르시안 브랜드 로고와 소개
-- Google Play 출시작 `MINE LOGIC`
+- Google Play 출시작 `MINE LOGIC`과 단계별 힌트·20단계 훈련·오프라인 플레이를 설명하는 `/mine-logic` 상세 페이지
 - 개발 중인 모바일 수집형 2D SRPG `VELSIEN SUMMIT · 벨시엔 서밋`
 - 메인 홈페이지의 기존 VELSIEN SUMMIT 소개와 3장 개발 화면 갤러리, `/velsien-summit` 단일 진입 링크
 - 타이틀·작전 로비·동행자 상세 화면, 세계관 주제 탭, 전투 흐름 탭으로 구성한 별도 홍보 페이지
 - MINE LOGIC 화면 탭과 게임을 만들 때 신경 쓰는 내용을 담은 제작 원칙
+- MINE LOGIC 원본 PNG를 보존하면서 전송량을 줄인 반응형 WebP 파생본
+- 검색 엔진용 메타데이터, 구조화 데이터, sitemap과 `llms.txt`
 - 제삼자의 평가문처럼 들리는 표현을 걷어내고 제작자가 직접 말하는 문체로 정리한 소개 문구
 - 통신판매업 신고번호 옆 공정거래위원회 신고 조회 링크
 - 홈페이지용 개인정보처리방침 초안
@@ -40,7 +42,7 @@ npm test
 npm run build:cloudflare
 ```
 
-`npm test`는 프로덕션 빌드 뒤 홈페이지, `/velsien-summit`, 개인정보처리방침과 보관본, 404 페이지, robots, sitemap, 필수 이미지, Cloudflare 정적 전용 구성, 스타터 잔재 제거 여부를 확인합니다. 홈페이지에는 MINE LOGIC 화면 선택 탭, 기존 VELSIEN SUMMIT 소개와 3장 갤러리, 홍보 페이지로 가는 링크 하나, 제작 원칙 아코디언이 포함되어 있습니다. 사업자 정보는 별도 펼침 없이 홈페이지 하단에 항상 표시합니다.
+`npm test`는 프로덕션 빌드 뒤 홈페이지, `/mine-logic`, `/velsien-summit`, 개인정보처리방침과 보관본, 404 페이지, robots, sitemap, `llms.txt`, 필수 이미지, Cloudflare 정적 전용 구성, 스타터 잔재 제거 여부를 확인합니다. 홈페이지에는 MINE LOGIC 화면 선택 탭, 기존 VELSIEN SUMMIT 소개와 3장 갤러리, 각 게임 상세 페이지로 가는 링크, 제작 원칙 아코디언이 포함되어 있습니다. 사업자 정보는 별도 펼침 없이 홈페이지 하단에 항상 표시합니다.
 
 ## Cloudflare 정적 배포
 
@@ -53,7 +55,7 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redirect-from http://ersiyan.com --redirect-from https://www.ersiyan.com --redirect-from http://www.ersiyan.com --redirect-from https://applepie.im --redirect-from http://applepie.im --redirect-from https://www.applepie.im --redirect-from http://www.applepie.im --dns-server 8.8.8.8
 ```
 
-마지막 명령은 홈, 벨시엔 홍보 페이지, 개인정보처리방침과 보관본, 404, 이미지, CSS, JavaScript를 현재 로컬 정적 빌드와 대조합니다. 새 도메인의 HTTP·www와 기존 도메인의 HTTP·HTTPS·www는 같은 경로와 쿼리를 보존해 새 HTTPS 주소로 한 번만 301 이동하는지도 확인합니다. 이어서 65초 간격의 홈페이지 요청을 세 번 측정하며, 하나라도 1초 이상이면 실패합니다. `--reference`는 별도 사본이 현재 빌드와 같은 내용일 때만 추가합니다. `--dns-server`는 전환 중 로컬 공유기에 남은 DNS 캐시를 우회해 지정한 공용 DNS의 현재 경로를 검사할 때 사용합니다.
+마지막 명령은 홈, MINE LOGIC 상세 페이지, 벨시엔 홍보 페이지, 개인정보처리방침과 보관본, `llms.txt`, 404, 이미지, CSS, JavaScript를 현재 로컬 정적 빌드와 대조합니다. 새 도메인의 HTTP·www와 기존 도메인의 HTTP·HTTPS·www는 같은 경로와 쿼리를 보존해 새 HTTPS 주소로 한 번만 301 이동하는지도 확인합니다. 이어서 65초 간격의 홈페이지 요청을 세 번 측정하며, 하나라도 1초 이상이면 실패합니다. `--reference`는 별도 사본이 현재 빌드와 같은 내용일 때만 추가합니다. `--dns-server`는 전환 중 로컬 공유기에 남은 DNS 캐시를 우회해 지정한 공용 DNS의 현재 경로를 검사할 때 사용합니다.
 
 운영 배포는 새 `ersiyan-com-static` Worker에 `ersiyan.com`만 연결합니다. 기존 `applepie-im-static` Worker와 Google 사이트 인증 TXT는 롤백을 위해 보존합니다. 새 주소를 검증한 뒤 `www.ersiyan.com`, `applepie.im`, `www.applepie.im`은 Cloudflare 프록시 DNS와 Single Redirect를 사용해 경로와 쿼리를 보존한 단일 301로 새 HTTPS 주소에 연결합니다.
 
@@ -64,11 +66,14 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 ## 주요 경로
 
 - 홈페이지 `app/page.tsx`
+- MINE LOGIC 상세 페이지 `app/mine-logic/page.tsx`
 - 전체 스타일 `app/globals.css`
 - 개인정보처리방침 `app/privacy/page.tsx`
 - 공개 이미지 `public/images`
 - 원본 브랜드 로고 `public/images/brand/ersiyan-logo.png`
 - 첫 화면 최적화 로고 `public/images/brand/ersiyan-logo-hero.webp`
 - 소셜 미리보기 `public/ersiyan-social-card.jpg`
+- sitemap `public/sitemap.xml`
+- AI 검색용 공개 안내 `public/llms.txt`
 
 원본 로고와 MINE LOGIC 등록용 이미지는 수정하지 않았으며, 홈페이지 폴더 안에는 원본 사본과 웹 전송용 파생본만 들어 있습니다.

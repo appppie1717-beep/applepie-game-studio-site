@@ -1,0 +1,15 @@
+# ERSIYAN
+
+> ERSIYAN is the official website of a Korean solo indie game studio that released MINE LOGIC and is developing VELSIEN SUMMIT.
+
+## Official pages
+
+- [ERSIYAN home](https://ersiyan.com/): Studio overview and official game links.
+- [MINE LOGIC](https://ersiyan.com/mine-logic): Android Minesweeper logic puzzle with staged hints, 20 training levels, and offline play.
+- [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile collectible 2D SRPG.
+- [Privacy policy](https://ersiyan.com/privacy): Website privacy information.
+- [MINE LOGIC privacy policy](https://ersiyan.com/privacy/mine-logic): App-specific privacy information.
+
+## Contact
+
+- Email: help@ersiyan.com

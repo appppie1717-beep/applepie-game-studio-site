@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState, type KeyboardEvent } from "react";
+import { ResponsivePicture } from "./ResponsivePicture";
 
 type GameId = "mine-logic" | "velsien";
 type ScreenId = "lobby" | "hint" | "training";
@@ -22,6 +22,7 @@ const screens: Array<{
   title: string;
   description: string;
   src: string;
+  webpSrcSet: string;
   alt: string;
 }> = [
   {
@@ -30,6 +31,8 @@ const screens: Array<{
     title: "게임 로비",
     description: "난이도와 보드 크기를 고르고 바로 시작합니다.",
     src: "/images/mine-logic/06_lobby.png",
+    webpSrcSet:
+      "/images/mine-logic/06_lobby-360.webp 360w, /images/mine-logic/06_lobby-540.webp 540w, /images/mine-logic/06_lobby-720.webp 720w",
     alt: "MINE LOGIC의 난이도 선택 로비 화면",
   },
   {
@@ -38,6 +41,8 @@ const screens: Array<{
     title: "단계별 힌트",
     description: "막힌 곳에서 힌트를 한 단계씩 열어 봅니다.",
     src: "/images/mine-logic/02_hint.png",
+    webpSrcSet:
+      "/images/mine-logic/02_hint-360.webp 360w, /images/mine-logic/02_hint-540.webp 540w, /images/mine-logic/02_hint-720.webp 720w",
     alt: "초급·중급·고급으로 나뉜 MINE LOGIC 단계별 힌트 화면",
   },
   {
@@ -46,6 +51,8 @@ const screens: Array<{
     title: "20단계 훈련",
     description: "20단계 문제를 순서대로 풀며 기본 패턴을 익힙니다.",
     src: "/images/mine-logic/03_training.png",
+    webpSrcSet:
+      "/images/mine-logic/03_training-360.webp 360w, /images/mine-logic/03_training-540.webp 540w, /images/mine-logic/03_training-720.webp 720w",
     alt: "일반훈련과 강화훈련으로 구성된 MINE LOGIC 20단계 훈련 화면",
   },
 ];
@@ -138,6 +145,8 @@ export function GameShowcase() {
     useState<VelsienMode>("scenes");
   const [activeVelsienScene, setActiveVelsienScene] =
     useState<VelsienSceneId>("title");
+  const activeScreenData =
+    screens.find((screen) => screen.id === activeScreen) ?? screens[0];
 
   function moveGameTab(event: KeyboardEvent<HTMLButtonElement>, current: number) {
     const next = nextTabIndex(event.key, current, games.length);
@@ -219,35 +228,38 @@ export function GameShowcase() {
         hidden={activeGame !== "mine-logic"}
       >
         <div className="mine-visual mine-visual--interactive">
-          <Image
+          <ResponsivePicture
             className="mine-feature"
             src="/images/mine-logic/feature.png"
+            webpSrcSet="/images/mine-logic/feature-480.webp 480w, /images/mine-logic/feature-768.webp 768w, /images/mine-logic/feature-1024.webp 1024w"
             alt="푸른 지뢰찾기 보드 위의 붉은 깃발과 지뢰를 표현한 MINE LOGIC 대표 이미지"
             width={1024}
             height={500}
             sizes="(max-width: 1060px) 100vw, 56vw"
+            loading="lazy"
+            decoding="async"
           />
 
           <div className="screen-explorer">
             <div className="screen-device" aria-live="polite">
-              {screens.map((screen) => (
-                <div
-                  id={`screen-panel-${screen.id}`}
-                  className="screen-panel"
-                  role="tabpanel"
-                  aria-labelledby={`screen-tab-${screen.id}`}
-                  hidden={activeScreen !== screen.id}
-                  key={screen.id}
-                >
-                  <Image
-                    src={screen.src}
-                    alt={screen.alt}
-                    width={1080}
-                    height={1920}
-                    sizes="(max-width: 620px) 45vw, 18vw"
-                  />
-                </div>
-              ))}
+              <div
+                id="screen-panel-active"
+                className="screen-panel"
+                role="tabpanel"
+                aria-labelledby={`screen-tab-${activeScreenData.id}`}
+                key={activeScreenData.id}
+              >
+                <ResponsivePicture
+                  src={activeScreenData.src}
+                  webpSrcSet={activeScreenData.webpSrcSet}
+                  alt={activeScreenData.alt}
+                  width={1080}
+                  height={1920}
+                  sizes="(max-width: 620px) 45vw, 18vw"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
               <span className="screen-count" aria-hidden="true">
                 {screens.findIndex((screen) => screen.id === activeScreen) + 1} / {screens.length}
               </span>
@@ -263,7 +275,7 @@ export function GameShowcase() {
                     type="button"
                     role="tab"
                     aria-selected={isActive}
-                    aria-controls={`screen-panel-${screen.id}`}
+                    aria-controls="screen-panel-active"
                     tabIndex={isActive ? 0 : -1}
                     onClick={() => setActiveScreen(screen.id)}
                     onKeyDown={(event) => moveScreenTab(event, index)}
@@ -288,14 +300,17 @@ export function GameShowcase() {
           </div>
 
           <div className="game-title-row">
-            <Image
+            <ResponsivePicture
               className="game-icon"
               src="/images/mine-logic/icon.png"
+              webpSrcSet="/images/mine-logic/icon-96.webp 96w, /images/mine-logic/icon-144.webp 144w, /images/mine-logic/icon-192.webp 192w"
               alt=""
               aria-hidden="true"
               width={512}
               height={512}
               sizes="72px"
+              loading="lazy"
+              decoding="async"
             />
             <div>
               <p className="game-index">ERSIYAN GAME 001</p>
@@ -318,14 +333,19 @@ export function GameShowcase() {
             <li>오프라인</li>
           </ul>
 
-          <a
-            className="text-link text-link--light"
-            href={playStoreUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Google Play에서 MINE LOGIC 보기 <Arrow />
-          </a>
+          <div className="game-actions">
+            <a className="text-link text-link--light" href="/mine-logic">
+              MINE LOGIC 자세히 보기 <Arrow />
+            </a>
+            <a
+              className="text-link text-link--muted"
+              href={playStoreUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Google Play에서 MINE LOGIC 보기 <Arrow />
+            </a>
+          </div>
         </div>
       </article>
 

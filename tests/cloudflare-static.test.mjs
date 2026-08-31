@@ -11,7 +11,7 @@ const forbiddenErsiyanGameStudioPatterns = [
   new RegExp(String.raw`\bERSIYAN${htmlFormattingGap}GAME${htmlFormattingGap}STUDIO\b`, "i"),
 ];
 const homepageHeroPattern =
-  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
+  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 인디 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
 
 async function readJson(relativePath) {
   return JSON.parse(await readFile(new URL(relativePath, root), "utf8"));
@@ -40,13 +40,75 @@ test("Cloudflare deployment is static-assets only", async () => {
 
 test("Cloudflare asset directory contains every public route", async () => {
   await Promise.all(
-    ["index.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "404.html", "_headers", "robots.txt", "sitemap.xml", "ersiyan-social-card.jpg", "ersiyan-mark.svg", "images/brand/ersiyan-logo.png", "images/brand/ersiyan-logo-hero.webp", "images/velsien-summit/teaser-title-640.webp", "images/velsien-summit/teaser-title-960.webp", "images/velsien-summit/teaser-title.webp", "images/velsien-summit/teaser-lobby-640.webp", "images/velsien-summit/teaser-lobby-960.webp", "images/velsien-summit/teaser-lobby.webp", "images/velsien-summit/teaser-character-640.webp", "images/velsien-summit/teaser-character-960.webp", "images/velsien-summit/teaser-character.webp", "images/velsien-summit/velsien-summit-social.jpg", "images/velsien-summit/late-update-operation.webp", "images/velsien-summit/late-update-gacha.webp", "images/velsien-summit/late-update-formation.webp", "images/velsien-summit/secret/nika-oren.webp", "images/velsien-summit/secret/luena-havel.webp", "images/velsien-summit/secret/serin-noer.webp", "images/velsien-summit/secret/pia-morel.webp", "images/velsien-summit/secret/kael-droen.webp", "images/velsien-summit/secret/battle-shaped-charge.webp", "images/velsien-summit/secret/battle-prism-orbits.webp", "images/velsien-summit/secret/battle-percussion-rings.webp"].map((file) =>
+    [
+      "index.html",
+      "mine-logic.html",
+      "velsien-summit.html",
+      "velsien-summit/late-update.html",
+      "velsien-summit/secret.html",
+      "privacy.html",
+      "privacy/mine-logic.html",
+      "privacy/archive/2026-08-22.html",
+      "privacy/archive/2026-08-23.html",
+      "privacy/archive/2026-08-28.html",
+      "404.html",
+      "_headers",
+      "robots.txt",
+      "sitemap.xml",
+      "llms.txt",
+      "ersiyan-social-card.jpg",
+      "ersiyan-mark.svg",
+      "images/brand/ersiyan-logo.png",
+      "images/brand/ersiyan-logo-hero.webp",
+      "images/mine-logic/feature.png",
+      "images/mine-logic/feature-480.webp",
+      "images/mine-logic/feature-768.webp",
+      "images/mine-logic/feature-1024.webp",
+      "images/mine-logic/icon.png",
+      "images/mine-logic/icon-96.webp",
+      "images/mine-logic/icon-144.webp",
+      "images/mine-logic/icon-192.webp",
+      "images/mine-logic/02_hint.png",
+      "images/mine-logic/02_hint-360.webp",
+      "images/mine-logic/02_hint-540.webp",
+      "images/mine-logic/02_hint-720.webp",
+      "images/mine-logic/03_training.png",
+      "images/mine-logic/03_training-360.webp",
+      "images/mine-logic/03_training-540.webp",
+      "images/mine-logic/03_training-720.webp",
+      "images/mine-logic/06_lobby.png",
+      "images/mine-logic/06_lobby-360.webp",
+      "images/mine-logic/06_lobby-540.webp",
+      "images/mine-logic/06_lobby-720.webp",
+      "images/velsien-summit/teaser-title-640.webp",
+      "images/velsien-summit/teaser-title-960.webp",
+      "images/velsien-summit/teaser-title.webp",
+      "images/velsien-summit/teaser-lobby-640.webp",
+      "images/velsien-summit/teaser-lobby-960.webp",
+      "images/velsien-summit/teaser-lobby.webp",
+      "images/velsien-summit/teaser-character-640.webp",
+      "images/velsien-summit/teaser-character-960.webp",
+      "images/velsien-summit/teaser-character.webp",
+      "images/velsien-summit/velsien-summit-social.jpg",
+      "images/velsien-summit/late-update-operation.webp",
+      "images/velsien-summit/late-update-gacha.webp",
+      "images/velsien-summit/late-update-formation.webp",
+      "images/velsien-summit/secret/nika-oren.webp",
+      "images/velsien-summit/secret/luena-havel.webp",
+      "images/velsien-summit/secret/serin-noer.webp",
+      "images/velsien-summit/secret/pia-morel.webp",
+      "images/velsien-summit/secret/kael-droen.webp",
+      "images/velsien-summit/secret/battle-shaped-charge.webp",
+      "images/velsien-summit/secret/battle-prism-orbits.webp",
+      "images/velsien-summit/secret/battle-percussion-rings.webp",
+    ].map((file) =>
       access(new URL(file, client)),
     ),
   );
 
-  const [homepage, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound, robots, sitemap] = await Promise.all([
+  const [homepage, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound, robots, sitemap, llms] = await Promise.all([
     readFile(new URL("index.html", client), "utf8"),
+    readFile(new URL("mine-logic.html", client), "utf8"),
     readFile(new URL("velsien-summit.html", client), "utf8"),
     readFile(new URL("velsien-summit/late-update.html", client), "utf8"),
     readFile(new URL("velsien-summit/secret.html", client), "utf8"),
@@ -58,18 +120,51 @@ test("Cloudflare asset directory contains every public route", async () => {
     readFile(new URL("404.html", client), "utf8"),
     readFile(new URL("robots.txt", client), "utf8"),
     readFile(new URL("sitemap.xml", client), "utf8"),
+    readFile(new URL("llms.txt", client), "utf8"),
   ]);
 
   assert.match(homepage, /<html[^>]*lang="ko"/i);
-  assert.match(homepage, /<title>에르시안<\/title>/i);
+  assert.match(
+    homepage,
+    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+  );
   assert.match(homepage, /ersiyan-social-card\.jpg/i);
   assert.match(homepage, /ersiyan-logo-hero\.webp/i);
   assert.match(homepage, homepageHeroPattern);
+  assert.match(homepage, /href="\/mine-logic"/i);
+  assert.match(homepage, /feature-480\.webp 480w/i);
+  assert.match(homepage, /06_lobby-360\.webp 360w/i);
+  assert.doesNotMatch(
+    homepage,
+    /src="\/images\/mine-logic\/(?:02_hint|03_training)\.png"/i,
+  );
   assert.match(homepage, /게임제작업자 등록번호/);
   assert.match(homepage, /제2026-000002호/);
   assert.match(homepage, /개인사업자 에르시안이 운영하는 공식 홈페이지입니다/);
   assert.match(homepage, /aria-label="에르시안 법정 사업자 정보"/);
   assert.doesNotMatch(homepage, /ERSIYAN은 애플파이가 운영하는 브랜드입니다/);
+  assert.match(
+    mineLogic,
+    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+  );
+  assert.match(
+    mineLogic,
+    /rel="canonical" href="https:\/\/ersiyan\.com\/mine-logic"/i,
+  );
+  assert.match(mineLogic, /"@type":\["VideoGame","MobileApplication"\]/);
+  assert.match(mineLogic, /"softwareVersion":"1\.3\.3"/);
+  assert.match(mineLogic, /9 × 9 · 지뢰 10개/);
+  assert.match(mineLogic, /16 × 16 · 지뢰 40개/);
+  assert.match(mineLogic, /30 × 16 · 지뢰 99개/);
+  assert.match(mineLogic, /일반훈련 1~15단계/);
+  assert.match(mineLogic, /강화훈련 16~20단계/);
+  assert.match(mineLogic, /Android INTERNET 권한을 요청하지 않습니다/);
+  assert.match(mineLogic, /feature-480\.webp 480w/i);
+  assert.match(mineLogic, /feature-1024\.webp 1024w/i);
+  assert.match(mineLogic, /02_hint-360\.webp 360w/i);
+  assert.match(mineLogic, /03_training-720\.webp 720w/i);
+  assert.match(mineLogic, /"offers":\{"@type":"Offer","url":"https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.applepie\.minelogic","price":0\}/);
+  assert.doesNotMatch(mineLogic, /"aggregateRating"|"review"/);
   assert.match(
     velsienSummit,
     /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 수집형 2D SRPG<\/title>/i,
@@ -163,11 +258,13 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(archivedPrivacyPolicy20260828, /개인사업자 애플파이/);
   assert.match(notFound, /<title>에르시안<\/title>/i);
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
+  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/mine-logic<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/late-update<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/secret<\/loc>/);
+  assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
 
-  for (const html of [homepage, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound]) {
+  for (const html of [homepage, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound]) {
     assert.doesNotMatch(html, /dist\/server|server\/index\.js|\/_worker\.js/i);
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
       assert.doesNotMatch(html, forbiddenPattern);
@@ -182,7 +279,7 @@ test("Cloudflare asset directory contains every public route", async () => {
 
 test("every local image, stylesheet, and script referenced by HTML exists", async () => {
   const pages = await Promise.all(
-    ["index.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "404.html"].map((file) =>
+    ["index.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "404.html"].map((file) =>
       readFile(new URL(file, client), "utf8"),
     ),
   );

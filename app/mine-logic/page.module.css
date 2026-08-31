@@ -1,0 +1,495 @@
+.page {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 18%, rgba(169, 193, 250, 0.2), transparent 34rem),
+    radial-gradient(circle at 12% 88%, rgba(220, 84, 88, 0.1), transparent 28rem),
+    var(--navy-950);
+  color: var(--white);
+}
+
+.hero::after {
+  position: absolute;
+  right: -8vw;
+  bottom: -10vw;
+  width: min(42vw, 620px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(169, 193, 250, 0.12);
+  border-radius: 50%;
+  content: "";
+  pointer-events: none;
+}
+
+.heroInner,
+.sectionInner,
+.footerInner {
+  width: min(calc(100% - (var(--page-pad) * 2)), var(--page-width));
+  margin-inline: auto;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: min(780px, calc(100svh - 76px));
+  padding-block: clamp(72px, 10vw, 132px);
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  align-items: center;
+  gap: clamp(46px, 7vw, 96px);
+}
+
+.eyebrow {
+  margin: 0 0 22px;
+  color: var(--lavender);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.heroCopy h1 {
+  max-width: 720px;
+  margin: 0;
+  font-size: clamp(3rem, 6vw, 6rem);
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  word-break: keep-all;
+}
+
+.heroLead {
+  max-width: 680px;
+  margin: 30px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(1rem, 1.8vw, 1.25rem);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.heroActions {
+  display: flex;
+  margin-top: 38px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.heroActions :global(.button--primary),
+.installActions :global(.button--primary) {
+  background: var(--red-dark);
+}
+
+.heroActions :global(.button--primary:hover),
+.installActions :global(.button--primary:hover) {
+  background: var(--red);
+}
+
+.heroActions :global(.button--quiet),
+.installActions :global(.button--quiet) {
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--white);
+}
+
+.heroActions :global(.button--quiet:hover),
+.installActions :global(.button--quiet:hover) {
+  border-color: rgba(255, 255, 255, 0.48);
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.heroFacts {
+  display: grid;
+  margin: 48px 0 0;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.heroFacts div {
+  padding: 18px 14px;
+}
+
+.heroFacts div + div {
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.heroFacts dt {
+  color: rgba(255, 255, 255, 0.42);
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.heroFacts dd {
+  margin: 6px 0 0;
+  color: var(--lavender-soft);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.heroVisual {
+  position: relative;
+}
+
+.heroArtFrame {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(169, 193, 250, 0.28);
+  border-radius: 6px 42px 6px 42px;
+  background: #0b1728;
+  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.42);
+}
+
+.heroArt {
+  width: 100%;
+  height: auto;
+}
+
+.heroIcon {
+  position: absolute;
+  right: clamp(18px, 4vw, 42px);
+  bottom: clamp(18px, 4vw, 42px);
+  width: clamp(76px, 10vw, 118px);
+  height: auto;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 22%;
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.4);
+}
+
+.section {
+  padding-block: clamp(82px, 11vw, 142px);
+}
+
+.sectionDark {
+  background: var(--navy-900);
+  color: var(--white);
+}
+
+.sectionHeading {
+  display: grid;
+  max-width: 820px;
+  gap: 16px;
+}
+
+.sectionHeading p {
+  margin: 0;
+  color: var(--red);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+}
+
+.sectionDark .sectionHeading p {
+  color: var(--lavender);
+}
+
+.sectionHeading h2 {
+  margin: 0;
+  font-size: clamp(2.2rem, 5vw, 4.8rem);
+  letter-spacing: -0.06em;
+  line-height: 1.02;
+  word-break: keep-all;
+}
+
+.sectionHeading span {
+  max-width: 720px;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.sectionDark .sectionHeading span {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.difficultyGrid,
+.featureGrid {
+  display: grid;
+  margin-top: clamp(42px, 6vw, 72px);
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.difficultyCard,
+.featureCard {
+  position: relative;
+  min-height: 100%;
+  padding: clamp(28px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: 4px 26px 4px 26px;
+  background: rgba(255, 255, 255, 0.56);
+}
+
+.difficultyCard::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 54px;
+  height: 4px;
+  background: var(--red);
+  content: "";
+}
+
+.difficultyCard small,
+.featureCard small {
+  color: var(--red-dark);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+}
+
+.difficultyCard h3,
+.featureCard h3 {
+  margin: 18px 0 0;
+  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  letter-spacing: -0.04em;
+}
+
+.difficultyCard strong {
+  display: block;
+  margin-top: 28px;
+  color: var(--navy-700);
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+}
+
+.difficultyCard p,
+.featureCard p {
+  margin: 14px 0 0;
+  color: var(--muted);
+  line-height: 1.8;
+  word-break: keep-all;
+}
+
+.featureCard {
+  border-color: rgba(169, 193, 250, 0.2);
+  background:
+    linear-gradient(145deg, rgba(169, 193, 250, 0.08), transparent 58%),
+    rgba(7, 16, 30, 0.54);
+}
+
+.featureCard small {
+  color: var(--lavender);
+}
+
+.featureCard h3 {
+  color: var(--white);
+}
+
+.featureCard p {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.trainingBands {
+  display: grid;
+  margin-top: 34px;
+  gap: 10px;
+}
+
+.trainingBands span {
+  padding: 12px 14px;
+  border-left: 3px solid var(--red);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.86rem;
+  font-weight: 760;
+}
+
+.screenGrid {
+  display: grid;
+  margin-top: clamp(42px, 6vw, 72px);
+  gap: clamp(20px, 3vw, 34px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.screenCard {
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px 28px 4px 28px;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: 0 24px 60px rgba(7, 16, 30, 0.12);
+}
+
+.screenImageWrap {
+  display: grid;
+  padding: clamp(18px, 3vw, 34px);
+  place-items: center;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(169, 193, 250, 0.2), transparent 18rem),
+    var(--navy-950);
+}
+
+.screenImage {
+  width: min(100%, 300px);
+  height: auto;
+  border: 4px solid #13243d;
+  border-radius: 26px;
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.38);
+}
+
+.screenCard figcaption {
+  display: grid;
+  padding: 24px;
+  gap: 8px;
+}
+
+.screenCard strong {
+  font-size: 1.05rem;
+}
+
+.screenCard span {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.installPanel {
+  display: grid;
+  padding: clamp(34px, 6vw, 72px);
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 36px;
+  border: 1px solid rgba(169, 193, 250, 0.24);
+  border-radius: 6px 34px 6px 34px;
+  background:
+    linear-gradient(135deg, rgba(169, 193, 250, 0.1), transparent 52%),
+    var(--navy-950);
+  color: var(--white);
+}
+
+.installPanel h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.8rem);
+  letter-spacing: -0.055em;
+  line-height: 1.08;
+  word-break: keep-all;
+}
+
+.installPanel p {
+  max-width: 720px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.64);
+  line-height: 1.85;
+  word-break: keep-all;
+}
+
+.installActions {
+  display: flex;
+  min-width: 240px;
+  align-items: stretch;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.supportLinks {
+  display: flex;
+  margin-top: 24px;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.supportLinks a {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.44);
+  color: var(--lavender-soft);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.footerInner {
+  display: flex;
+  min-height: 124px;
+  padding-block: 30px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.footerInner p {
+  margin: 0;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+
+.footerLinks a {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.82rem;
+  font-weight: 760;
+}
+
+@media (max-width: 980px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+  }
+
+  .heroVisual {
+    width: min(100%, 760px);
+  }
+
+  .difficultyGrid,
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .screenGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .screenCard:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .installPanel {
+    grid-template-columns: 1fr;
+  }
+
+  .installActions {
+    width: min(100%, 420px);
+  }
+}
+
+@media (max-width: 680px) {
+  .heroInner {
+    min-height: 0;
+    padding-top: 62px;
+  }
+
+  .heroCopy h1 {
+    font-size: clamp(2.7rem, 13vw, 4rem);
+  }
+
+  .heroFacts {
+    grid-template-columns: 1fr;
+  }
+
+  .heroFacts div + div {
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    border-left: 0;
+  }
+
+  .screenGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .screenCard:last-child {
+    grid-column: auto;
+  }
+
+  .footerInner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page {
+    scroll-behavior: auto;
+  }
+}

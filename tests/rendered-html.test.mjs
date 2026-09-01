@@ -285,6 +285,21 @@ test("server-renders the official studio homepage", async () => {
     /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
   );
   assert.match(html, homepageHeroPattern);
+  assert.match(html, /<details\b(?=[^>]*id="company-history")[^>]*>/i);
+  assert.match(html, /Company History/);
+  assert.match(html, /에르시안이 걸어온 첫 기록/);
+  assert.equal(html.match(/data-history-milestone="[^"]+"/g)?.length ?? 0, 7);
+  for (const milestone of [
+    "MINE LOGIC 첫 출시",
+    "개인사업자 개업",
+    "공식 홈페이지 공개",
+    "통신판매업 신고",
+    "게임제작업자 등록",
+    "ERSIYAN 브랜드 전환",
+    "법정 상호 에르시안 변경",
+  ]) {
+    assert.match(html, new RegExp(milestone));
+  }
   assert.match(
     html,
     /에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국[\s\S]*1인 인디 게임 스튜디오입니다/,
@@ -375,7 +390,9 @@ test("server-renders the official studio homepage", async () => {
   assert.match(html, /"@type":"WebSite"/);
   assert.match(html, /"@type":"Organization"/);
   assert.match(html, /"name":"에르시안"/);
+  assert.match(html, /"legalName":"에르시안"/);
   assert.match(html, /"alternateName":"ERSIYAN"/);
+  assert.match(html, /"foundingDate":"2026-08-19"/);
   assert.match(
     html,
     /"contentUrl":"https:\/\/ersiyan\.com\/images\/brand\/ersiyan-logo-hero\.webp"/,
@@ -703,6 +720,7 @@ test("source contains no starter preview dependency or private certificate data"
     mineLogicPrivacyContent,
     archivedPrivacy,
     gameShowcase,
+    companyHistory,
     responsivePicture,
     mineLogicPage,
     velsienPage,
@@ -730,6 +748,7 @@ test("source contains no starter preview dependency or private certificate data"
       "utf8",
     ),
     readFile(new URL("../app/_components/GameShowcase.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/_components/CompanyHistory.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/_components/ResponsivePicture.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/mine-logic/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/velsien-summit/page.tsx", import.meta.url), "utf8"),
@@ -797,6 +816,30 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(gameShowcase, /href="\/mine-logic"/);
   assert.match(gameShowcase, /feature-480\.webp/);
   assert.match(gameShowcase, /06_lobby-360\.webp/);
+  assert.match(companyHistory, /<details id="company-history"/);
+  assert.match(companyHistory, /data-history-milestone=\{event\.id\}/);
+  assert.match(companyHistory, /dialogRef\.current\.showModal\(\)/);
+  assert.match(companyHistory, /<dialog/);
+  assert.match(companyHistory, /event\.target === dialog/);
+  assert.match(companyHistory, /dialog\.addEventListener\("click", handleBackdropClick\)/);
+  assert.match(companyHistory, /onCancel=\{\(event\) =>/);
+  assert.match(companyHistory, /history-dialog--closing/);
+  assert.match(companyHistory, /HISTORY_DIALOG_CLOSE_MS = 180/);
+  assert.match(companyHistory, /image: "\/ersiyan-social-card\.jpg"[\s\S]*?imageFit: "contain"[\s\S]*?imageSurface: "dark"/);
+  assert.match(companyHistory, /image: "\/images\/velsien-summit\/velsien-summit-social\.jpg"/);
+  assert.doesNotMatch(
+    companyHistory,
+    /id: "game-producer-registration"[\s\S]*?image: "\/images\/mine-logic\/icon\.png"/,
+  );
+  assert.match(globalStyles, /@keyframes history-dialog-out/);
+  assert.match(globalStyles, /history-dialog-backdrop-out/);
+  assert.match(companyHistory, /href: "\/privacy\/archive\/2026-08-22"/);
+  assert.match(companyHistory, /href: "\/privacy\/archive\/2026-08-28"/);
+  assert.doesNotMatch(
+    companyHistory,
+    /행정문서|사업자등록증\.pdf|통신판매업 변경 신고증\.pdf|게임제작업자 등록증\.jpg/,
+  );
+  assert.doesNotMatch(companyHistory, privateDocumentDataPattern);
   assert.match(responsivePicture, /<picture>/);
   assert.match(responsivePicture, /type="image\/webp"/);
   assert.match(mineLogicPage, /\["VideoGame", "MobileApplication"\]/);

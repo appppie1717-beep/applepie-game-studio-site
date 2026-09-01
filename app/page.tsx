@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 import { BrandLockup } from "./_components/BrandLockup";
 import { businessProfile } from "./_components/business-profile";
+import { CompanyHistory } from "./_components/CompanyHistory";
 import { GameShowcase } from "./_components/GameShowcase";
 import { StudioAccordion } from "./_components/StudioAccordion";
 
@@ -68,7 +69,9 @@ const homeStructuredData = {
       "@id": "https://ersiyan.com/#organization",
       url: "https://ersiyan.com/",
       name: "에르시안",
+      legalName: "에르시안",
       alternateName: "ERSIYAN",
+      foundingDate: "2026-08-19",
       description:
         "MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다.",
       logo: {
@@ -168,6 +171,8 @@ export default function Home() {
 
       <main id="main-content">
         <section className="hero section-pad" aria-labelledby="hero-title">
+          <CompanyHistory />
+
           <div className="hero-copy">
             <p className="eyebrow">INDEPENDENT GAMES</p>
             <h1 id="hero-title">

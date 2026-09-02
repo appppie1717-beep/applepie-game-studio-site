@@ -66,11 +66,16 @@ const mineLogicStructuredData = {
   applicationCategory: "GameApplication",
   genre: ["지뢰찾기", "논리 퍼즐"],
   softwareVersion: "1.3.3",
+  identifier: "com.applepie.minelogic",
+  sameAs: playStoreUrl,
+  contentRating: "전체이용가",
   downloadUrl: playStoreUrl,
   offers: {
     "@type": "Offer",
     url: playStoreUrl,
     price: 0,
+    priceCurrency: "KRW",
+    availability: "https://schema.org/InStock",
   },
   image: "https://ersiyan.com/images/mine-logic/feature-1024.webp",
   screenshot: [

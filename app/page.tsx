@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import type { ReactNode } from "react";
-import { BrandLockup } from "./_components/BrandLockup";
 import { businessProfile } from "./_components/business-profile";
 import { CompanyHistory } from "./_components/CompanyHistory";
 import { GameShowcase } from "./_components/GameShowcase";
+import { HomeExperience } from "./_components/HomeExperience";
 import { StudioAccordion } from "./_components/StudioAccordion";
 
 const homeTitle =
   "에르시안 | MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오";
+const homeSocialTitle = "에르시안 | ERSIYAN";
 const homeDescription =
   "에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다. 단계별 힌트와 20단계 훈련을 갖춘 지뢰찾기 게임, 개발 중인 모바일 수집형 2D SRPG의 소식과 화면을 확인하세요.";
 
@@ -25,7 +26,7 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     siteName: "ERSIYAN",
     url: "/",
-    title: homeTitle,
+    title: homeSocialTitle,
     description: homeDescription,
     images: [
       {
@@ -38,7 +39,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: homeTitle,
+    title: homeSocialTitle,
     description: homeDescription,
     images: [
       {
@@ -65,6 +66,26 @@ const homeStructuredData = {
       },
     },
     {
+      "@type": "WebPage",
+      "@id": "https://ersiyan.com/#webpage",
+      url: "https://ersiyan.com/",
+      name: homeTitle,
+      description: homeDescription,
+      inLanguage: "ko-KR",
+      isPartOf: {
+        "@id": "https://ersiyan.com/#website",
+      },
+      about: {
+        "@id": "https://ersiyan.com/#organization",
+      },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: "https://ersiyan.com/ersiyan-social-card.jpg",
+        width: 1200,
+        height: 630,
+      },
+    },
+    {
       "@type": "Organization",
       "@id": "https://ersiyan.com/#organization",
       url: "https://ersiyan.com/",
@@ -74,6 +95,8 @@ const homeStructuredData = {
       foundingDate: "2026-08-19",
       description:
         "MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다.",
+      email: "help@ersiyan.com",
+      telephone: "+82-10-2416-6267",
       logo: {
         "@type": "ImageObject",
         url: "https://ersiyan.com/images/brand/ersiyan-logo-hero.webp",
@@ -148,31 +171,15 @@ function BusinessDetail({
 
 export default function Home() {
   return (
-    <div id="top" className="site-shell">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(homeStructuredData) }}
       />
-      <a className="skip-link" href="#main-content">
-        본문으로 바로가기
-      </a>
-
-      <header className="site-header">
-        <div className="header-inner">
-          <BrandLockup href="#top" />
-
-          <nav className="primary-nav" aria-label="주요 메뉴">
-            <a href="#games">게임</a>
-            <a href="#studio">소개</a>
-            <a href="#business-info">사업자 정보</a>
-          </nav>
-        </div>
-      </header>
-
-      <main id="main-content">
+      <HomeExperience
+        games={
+          <>
         <section className="hero section-pad" aria-labelledby="hero-title">
-          <CompanyHistory />
-
           <div className="hero-copy">
             <p className="eyebrow">INDEPENDENT GAMES</p>
             <h1 id="hero-title">
@@ -256,9 +263,11 @@ export default function Home() {
             <StudioAccordion />
           </div>
         </section>
-      </main>
-
-      <footer id="business-info" className="site-footer">
+          </>
+        }
+        company={<CompanyHistory />}
+        footer={
+          <footer id="business-info" className="site-footer">
         <div className="footer-inner">
           <div className="footer-brand">
             <p>© {new Date().getFullYear()} ERSIYAN</p>
@@ -321,7 +330,9 @@ export default function Home() {
             <a href="/privacy/mine-logic">MINE LOGIC 개인정보처리방침</a>
           </div>
         </div>
-      </footer>
-    </div>
+          </footer>
+        }
+      />
+    </>
   );
 }

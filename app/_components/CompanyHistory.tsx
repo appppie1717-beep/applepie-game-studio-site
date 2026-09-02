@@ -251,7 +251,7 @@ export function CompanyHistory() {
         <div className="company-history-heading">
           <div>
             <p>COMPANY HISTORY</p>
-            <h2 id="company-history-title">에르시안이 걸어온 첫 기록</h2>
+            <h2 id="company-history-title">에르시안 연혁</h2>
           </div>
           <p id="company-history-description">
             사업자 등록 문서와 사이트의 공개 정책·보관 기록을 기준으로 정리했습니다.

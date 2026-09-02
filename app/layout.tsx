@@ -2,8 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { siteBrand } from "./_components/brand";
 
-const homeTitle =
-  "에르시안 | MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오";
+const homeSocialTitle = "에르시안 | ERSIYAN";
 const homeDescription =
   "에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다. 단계별 힌트와 20단계 훈련을 갖춘 지뢰찾기 게임, 개발 중인 모바일 수집형 2D SRPG의 소식과 화면을 확인하세요.";
 
@@ -43,7 +42,7 @@ export const metadata: Metadata = {
     locale: "ko_KR",
     siteName: siteBrand.name,
     url: "/",
-    title: homeTitle,
+    title: homeSocialTitle,
     description: homeDescription,
     images: [
       {
@@ -56,7 +55,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: homeTitle,
+    title: homeSocialTitle,
     description: homeDescription,
     images: [
       {

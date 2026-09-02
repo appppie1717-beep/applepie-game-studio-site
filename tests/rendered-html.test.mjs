@@ -122,6 +122,14 @@ test("stages every public page for asset-first delivery", async () => {
     /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
   );
   assert.match(
+    homepage,
+    /<meta property="og:title" content="에르시안 \| ERSIYAN"\/>/i,
+  );
+  assert.match(
+    homepage,
+    /<meta name="twitter:title" content="에르시안 \| ERSIYAN"\/>/i,
+  );
+  assert.match(
     mineLogic,
     /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
   );
@@ -285,9 +293,29 @@ test("server-renders the official studio homepage", async () => {
     /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
   );
   assert.match(html, homepageHeroPattern);
+  assert.match(
+    html,
+    /<button\b(?=[^>]*class="home-view-button")(?=[^>]*aria-pressed="true")(?=[^>]*aria-controls="ersiyan-games-view")[^>]*>[\s\S]*?ERSIYAN GAMES[\s\S]*?<\/button>/i,
+  );
+  assert.match(
+    html,
+    /<button\b(?=[^>]*class="home-view-button")(?=[^>]*aria-pressed="false")(?=[^>]*aria-controls="ersiyan-virtual-view")[^>]*>[\s\S]*?ERSIYAN VIRTUAL[\s\S]*?<\/button>/i,
+  );
+  assert.match(
+    html,
+    /<button\b(?=[^>]*class="company-view-button")(?=[^>]*aria-pressed="false")(?=[^>]*aria-controls="ersiyan-company-view")[^>]*>[\s\S]*?회사 정보[\s\S]*?<\/button>/i,
+  );
+  assert.match(
+    html,
+    /<section\b(?=[^>]*id="ersiyan-virtual-view")(?=[^>]*hidden="")[^>]*>[\s\S]*?COMING SOON[\s\S]*?<\/section>/i,
+  );
+  assert.match(
+    html,
+    /<section\b(?=[^>]*id="ersiyan-company-view")(?=[^>]*hidden="")[^>]*>/i,
+  );
   assert.match(html, /<details\b(?=[^>]*id="company-history")[^>]*>/i);
   assert.match(html, /Company History/);
-  assert.match(html, /에르시안이 걸어온 첫 기록/);
+  assert.match(html, /에르시안 연혁/);
   assert.equal(html.match(/data-history-milestone="[^"]+"/g)?.length ?? 0, 7);
   for (const milestone of [
     "MINE LOGIC 첫 출시",
@@ -351,7 +379,12 @@ test("server-renders the official studio homepage", async () => {
     html.match(/id="velsien-scene-(?:title|lobby|character)"/g)?.length ?? 0,
     3,
   );
-  assert.equal(html.match(/aria-pressed="true"/g)?.length ?? 0, 1);
+  assert.equal(
+    html.match(
+      /<button\b(?=[^>]*id="velsien-scene-(?:title|lobby|character)")(?=[^>]*aria-pressed="true")[^>]*>/g,
+    )?.length ?? 0,
+    1,
+  );
   for (const image of [
     "teaser-title.webp",
     "teaser-lobby.webp",
@@ -444,7 +477,7 @@ test("server-renders the MINE LOGIC product page", async () => {
   assert.match(html, /"@type":\["VideoGame","MobileApplication"\]/);
   assert.match(html, /"softwareVersion":"1\.3\.3"/);
   assert.match(html, /"publisher":\{"@id":"https:\/\/ersiyan\.com\/#organization"\}/);
-  assert.match(html, /"offers":\{"@type":"Offer","url":"https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.applepie\.minelogic","price":0\}/);
+  assert.match(html, /"offers":\{"@type":"Offer","url":"https:\/\/play\.google\.com\/store\/apps\/details\?id=com\.applepie\.minelogic","price":0,"priceCurrency":"KRW","availability":"https:\/\/schema\.org\/InStock"\}/);
   assert.doesNotMatch(html, /"aggregateRating"|"review"/);
   for (const prefix of ["06_lobby", "02_hint", "03_training"]) {
     assert.match(html, new RegExp(`${prefix}-360\\.webp 360w`, "i"));

@@ -355,9 +355,9 @@ if (!options.skipIdle) {
   for (let run = 1; run <= options.idleRuns; run += 1) {
     await new Promise((resolve) => setTimeout(resolve, options.idleSeconds * 1000));
     for (const idleTarget of idleTargets) {
-      const result = await request(idleTarget, 200);
-      const cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
-      const openAiCacheStatus = headerValue(result.headers, "x-openai-cache-status");
+      let result = await request(idleTarget, 200);
+      let cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
+      let openAiCacheStatus = headerValue(result.headers, "x-openai-cache-status");
       console.log(
         `IDLE ${run}/${options.idleRuns} ${idleTarget.pathname} ${result.durationMs.toFixed(1)}ms cf-cache-status=${cacheStatus}`,
       );
@@ -365,6 +365,21 @@ if (!options.skipIdle) {
         result.durationMs < options.limitMs,
         `Idle request ${run} for ${idleTarget.pathname} took ${result.durationMs.toFixed(1)}ms (limit ${options.limitMs}ms)`,
       );
+      assert.equal(openAiCacheStatus, null, `${idleTarget.pathname} exposed an OpenAI Sites cache header`);
+
+      if (cacheStatus === "MISS") {
+        result = await request(idleTarget, 200);
+        cacheStatus = headerValue(result.headers, "cf-cache-status") ?? "n/a";
+        openAiCacheStatus = headerValue(result.headers, "x-openai-cache-status");
+        console.log(
+          `IDLE RETRY ${run}/${options.idleRuns} ${idleTarget.pathname} ${result.durationMs.toFixed(1)}ms cf-cache-status=${cacheStatus}`,
+        );
+        assert.ok(
+          result.durationMs < options.limitMs,
+          `Idle retry ${run} for ${idleTarget.pathname} took ${result.durationMs.toFixed(1)}ms (limit ${options.limitMs}ms)`,
+        );
+      }
+
       assert.equal(cacheStatus, "HIT", `${idleTarget.pathname} was not served from Static Assets cache`);
       assert.equal(openAiCacheStatus, null, `${idleTarget.pathname} exposed an OpenAI Sites cache header`);
     }

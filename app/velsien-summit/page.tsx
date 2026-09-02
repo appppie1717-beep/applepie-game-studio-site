@@ -56,6 +56,28 @@ export const metadata: Metadata = {
   },
 };
 
+const velsienStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "@id": "https://ersiyan.com/velsien-summit#game",
+  url: "https://ersiyan.com/velsien-summit",
+  name: "VELSIEN SUMMIT",
+  alternateName: "벨시엔 서밋",
+  description,
+  image:
+    "https://ersiyan.com/images/velsien-summit/velsien-summit-social.jpg",
+  genre: ["수집형", "2D SRPG"],
+  gamePlatform: "Mobile",
+  creativeWorkStatus: "In Development",
+  inLanguage: "ko-KR",
+  publisher: {
+    "@id": "https://ersiyan.com/#organization",
+  },
+  isPartOf: {
+    "@id": "https://ersiyan.com/#website",
+  },
+};
+
 const genres = ["MOBILE", "COLLECTIBLE", "2D SRPG"] as const;
 
 const signalDeckClasses = {
@@ -90,6 +112,12 @@ const signalDeckClasses = {
 export default function VelsienSummitPage() {
   return (
     <div id="top" className={"site-shell " + styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(velsienStructuredData),
+        }}
+      />
       <a className="skip-link" href="#main-content">
         본문으로 바로가기
       </a>

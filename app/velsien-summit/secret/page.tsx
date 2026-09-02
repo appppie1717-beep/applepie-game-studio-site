@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 
 const title = "VELSIEN SUMMIT Secret Archive | ERSIYAN";
 const description =
-  "A discoverable but unlisted VELSIEN SUMMIT archive with five character studies and three current combat captures.";
+  "A discoverable but unlisted VELSIEN SUMMIT development archive with five character studies and three current combat captures.";
 
 export const metadata: Metadata = {
   title: {
@@ -37,7 +37,7 @@ const characters = [
   },
   {
     name: "Luena Havel",
-    role: "Character Study 01",
+    role: "Character Study",
     src: "/images/velsien-summit/secret/luena-havel.webp",
     width: 1024,
     height: 1536,
@@ -51,14 +51,14 @@ const characters = [
   },
   {
     name: "Pia Morel",
-    role: "Character Study 01",
+    role: "Character Study",
     src: "/images/velsien-summit/secret/pia-morel.webp",
     width: 1024,
     height: 1536,
   },
   {
     name: "Kael Droen",
-    role: "Character Study 01",
+    role: "Character Study",
     src: "/images/velsien-summit/secret/kael-droen.webp",
     width: 1024,
     height: 1536,
@@ -85,7 +85,7 @@ const combatCaptures = [
 
 export default function VelsienSecretArchivePage() {
   return (
-    <div className={styles.page}>
+    <div className={styles.page} lang="en">
       <header className={styles.header}>
         <p>ERSIYAN / VELSIEN SUMMIT</p>
         <span>UNLISTED ARCHIVE</span>
@@ -97,7 +97,10 @@ export default function VelsienSecretArchivePage() {
           <h1>Secret Archive</h1>
           <span>
             Five character studies and three current combat captures from
-            VELSIEN SUMMIT.
+            VELSIEN SUMMIT. These materials come from a game in development,
+            so visuals and interface details may change before release. Read
+            the <a href="/velsien-summit">official game overview</a> for the
+            current public description.
           </span>
         </section>
 

@@ -10,6 +10,13 @@
 - [Privacy policy](https://ersiyan.com/privacy): Website privacy information.
 - [MINE LOGIC privacy policy](https://ersiyan.com/privacy/mine-logic): App-specific privacy information.
 
+## Key facts
+
+- ERSIYAN (에르시안) is a Korean solo indie game studio founded in 2026.
+- MINE LOGIC is a released Android game. Its package ID is `com.applepie.minelogic`.
+- [MINE LOGIC on Google Play](https://play.google.com/store/apps/details?id=com.applepie.minelogic) is the official installation page.
+- VELSIEN SUMMIT is a mobile collectible 2D SRPG in development with no announced release date.
+
 ## Contact
 
 - Email: help@ersiyan.com

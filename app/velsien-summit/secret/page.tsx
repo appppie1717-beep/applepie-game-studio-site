@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import styles from "./page.module.css";
+import { capture as devCapture01 } from "./devCapture01";
+import { capture as devCapture02 } from "./devCapture02";
+import { capture as devCapture03 } from "./devCapture03";
+import { capture as devCapture04 } from "./devCapture04";
 
 const title = "VELSIEN SUMMIT Secret Archive | ERSIYAN";
 const description =
-  "A discoverable but unlisted VELSIEN SUMMIT development archive with five character studies and three current combat captures.";
+  "A discoverable but unlisted VELSIEN SUMMIT development archive with five character studies, three combat captures, and four current development captures.";
 
 export const metadata: Metadata = {
   title: {
@@ -83,6 +87,13 @@ const combatCaptures = [
   },
 ];
 
+const developmentCaptures = [
+  devCapture01,
+  devCapture02,
+  devCapture03,
+  devCapture04,
+];
+
 export default function VelsienSecretArchivePage() {
   return (
     <div className={styles.page} lang="en">
@@ -93,13 +104,14 @@ export default function VelsienSecretArchivePage() {
 
       <main className={styles.main}>
         <section className={styles.intro}>
-          <p>ARCHIVE ACCESS // 08</p>
+          <p>ARCHIVE ACCESS // 12</p>
           <h1>Secret Archive</h1>
           <span>
-            Five character studies and three current combat captures from
-            VELSIEN SUMMIT. These materials come from a game in development,
-            so visuals and interface details may change before release. Read
-            the <a href="/velsien-summit">official game overview</a> for the
+            Five character studies, three combat captures, and four current
+            development captures from VELSIEN SUMMIT. These materials come
+            from a game in development, so visuals and interface details may
+            change before release. Read the{" "}
+            <a href="/velsien-summit">official game overview</a> for the
             current public description.
           </span>
         </section>
@@ -152,6 +164,35 @@ export default function VelsienSecretArchivePage() {
                 />
                 <figcaption>
                   <span>{String(index + 6).padStart(2, "0")}</span>
+                  <div>
+                    <strong>{capture.title}</strong>
+                    <small>{capture.detail}</small>
+                  </div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+
+        <section className={styles.section} aria-labelledby="development-title">
+          <div className={styles.sectionHeading}>
+            <p>FILES 09–12</p>
+            <h2 id="development-title">Current Development</h2>
+          </div>
+          <div className={styles.combatStack}>
+            {developmentCaptures.map((capture, index) => (
+              <figure className={styles.combatCard} key={capture.title}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={capture.src}
+                  alt={`VELSIEN SUMMIT current development capture ${index + 1}`}
+                  width={480}
+                  height={227}
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>
+                  <span>{String(index + 9).padStart(2, "0")}</span>
                   <div>
                     <strong>{capture.title}</strong>
                     <small>{capture.detail}</small>

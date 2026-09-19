@@ -421,8 +421,8 @@ for (const [pathname, localHtml] of localPages) {
 const sitemapResult = await request(new URL("/sitemap.xml", target), 200, "manual");
 const sitemapXml = sitemapResult.body.toString("utf8");
 assert.equal(
-  sitemapXml,
-  await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
+  sitemapXml.replace(/\r\n/g, "\n"),
+  (await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8")).replace(/\r\n/g, "\n"),
   "Published sitemap differs from the current source",
 );
 const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => decodeEntities(match[1]));

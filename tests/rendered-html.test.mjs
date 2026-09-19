@@ -391,14 +391,19 @@ test("server-renders the current public VELSIEN world overview", async () => {
   const breadcrumb = nodes.find((node) => node["@type"] === "BreadcrumbList" && node["@id"] === `${metadata.url}#breadcrumb`);
   assert.ok(page && article && breadcrumb, "The world page publishes linked article and breadcrumb data");
   assert.equal(page.mainEntity["@id"], article["@id"]);
-  assert.equal(page.dateModified, "2026-09-19");
+  assert.equal(page.dateModified, "2026-09-20");
   assert.equal(article.datePublished, "2026-09-19");
+  assert.equal(article.dateModified, "2026-09-20");
   assert.equal(breadcrumb.itemListElement.at(-1).item, metadata.url);
   const text = visibleText(html);
   for (const term of ["세계관", "순수인간", "평생계약", "오리센", "비렌타", "네릭스"]) {
     assert.ok(text.includes(term), `The public world overview explains ${term}`);
   }
   assert.match(text, /2026[-.년\s]*0?9[-.월\s]*19/);
+  assert.match(text, /2026[-.년\s]*0?9[-.월\s]*20/);
+  assert.match(text, /신체기기 호환 검사/);
+  assert.match(text, /접객과 간병, 교육, 물류/);
+  assert.match(text, /특정 AI가 없으면 계약을 진행할 수 없는 필수 조건/);
   assert.match(html, /href="\/velsien-summit"/);
   for (const company of ["orysen", "virenta", "neryx"]) {
     assert.match(html, new RegExp(`href="/velsien-summit/corporate/${company}"`));

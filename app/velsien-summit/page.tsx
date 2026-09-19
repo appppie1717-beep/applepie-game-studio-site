@@ -144,7 +144,7 @@ const pageStructuredData = {
       name: title,
       description,
       inLanguage: "ko-KR",
-      dateModified: "2026-09-05",
+      dateModified: "2026-09-19",
       isPartOf: { "@id": "https://ersiyan.com/#website" },
       mainEntity: { "@id": `${pageUrl}#game` },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },

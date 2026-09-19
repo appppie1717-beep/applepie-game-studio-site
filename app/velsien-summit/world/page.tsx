@@ -10,6 +10,7 @@ const description =
   "벨시엔 서밋을 처음 보는 사람을 위한 2026년 9월 공개 세계관. 수직도시와 평생 생태계 계약, 오리센·비렌타·네릭스, 중립계약자와 인간형 AI, 계약에서 시작되는 이야기를 순서대로 설명합니다.";
 const pageUrl = "https://ersiyan.com/velsien-summit/world";
 const published = "2026-09-19";
+const modified = "2026-09-20";
 const socialImage = {
   url: "/images/velsien-summit/velsien-summit-social.jpg",
   width: 1200,
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     description,
     images: [socialImage],
     publishedTime: published,
-    modifiedTime: published,
+    modifiedTime: modified,
     authors: ["https://ersiyan.com/#games"],
   },
   twitter: {
@@ -53,7 +54,7 @@ const structuredData = {
       description,
       inLanguage: "ko-KR",
       datePublished: published,
-      dateModified: published,
+      dateModified: modified,
       isPartOf: { "@id": "https://ersiyan.com/#website" },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
       mainEntity: { "@id": `${pageUrl}#article` },
@@ -66,7 +67,7 @@ const structuredData = {
       description,
       inLanguage: "ko-KR",
       datePublished: published,
-      dateModified: published,
+      dateModified: modified,
       author: {
         "@type": "Organization",
         "@id": "https://ersiyan.com/#games-organization",
@@ -238,7 +239,8 @@ export default function VelsienWorldPage() {
             </p>
             <div className={styles.heroMeta}>
               <span>세계관 공개본</span>
-              <time dateTime={published}>2026.09.19 공개</time>
+              <time dateTime={published}>2026.09.19 첫 공개</time>
+              <time dateTime={modified}>2026.09.20 갱신</time>
               <span>개발 중 · 출시 미정</span>
             </div>
             <a className={styles.heroLink} href="#overview">처음부터 읽기 <span aria-hidden="true">↓</span></a>
@@ -363,6 +365,12 @@ export default function VelsienWorldPage() {
               기업이 운영하기 때문에 정부도 이들의 요구를 쉽게 무시할 수
               없습니다. 세 기업을 실질적으로 견제하는 힘은 서로 다른 두
               기업에서 나옵니다.
+            </p>
+            <p>
+              공식 국적과 별개로 일상에서는 어느 기업의 계약자인지가 중요해집니다.
+              다른 회사의 구역에 들어가면 신체기기 호환 검사가 필요할 수 있고,
+              의료 기록과 데이터 이전, 시설 이용권도 새 계약의 영향을 받습니다.
+              그래서 기업을 바꾸는 선택은 병원을 바꾸는 일보다 훨씬 큽니다.
             </p>
           </div>
         </section>
@@ -514,6 +522,12 @@ export default function VelsienWorldPage() {
                 계약을 수행합니다. 제조사의 이해를 더 중시하거나 처음에는
                 플레이어를 믿지 않는 동행자도 있을 수 있습니다.
               </p>
+              <p>
+                이들은 접객과 간병, 교육, 물류, 연구 보조, 공연, 경호처럼
+                다양한 일을 맡습니다. 사람의 공간에서 일하도록 만든 감각과
+                동작 능력이 있어 비전투형에도 잠재력이 있지만, 위험한 현장에
+                투입할 때는 목적과 안전 제한에 맞는 별도 운용이 필요합니다.
+              </p>
             </div>
           </div>
           <div className={styles.aiRoles}>
@@ -534,7 +548,8 @@ export default function VelsienWorldPage() {
             계약 보수는 팀의 운용과 정비에도 쓰입니다. 오래 함께한 AI를 바로
             바꾸는 대신 원래 가진 기능에 맞춰 센서와 출력, 판단 알고리즘을
             다듬을 수 있습니다. 새 동행자를 만나는 일과 기존 동행자를
-            길러가는 일이 모두 팀의 성장에 포함됩니다.
+            길러가는 일이 모두 팀의 성장에 포함됩니다. 제조사와 현장 운용자는
+            같지 않을 수 있으며, 운용 계약과 소유권 이전도 서로 다른 일입니다.
           </p>
         </section>
 
@@ -563,6 +578,21 @@ export default function VelsienWorldPage() {
             설계하고 있습니다. 한 계약도 브리핑, 여러 작전과 결과 정산으로 이어질 수
             있습니다. 이 설명은 개발 방향이며 완성된 기능 목록은 아닙니다.
           </p>
+          <div className={styles.bodyCopy}>
+            <p>
+              작은 계약의 보수와 실적은 팀을 유지하고 더 어려운 의뢰에 지원할
+              기반이 됩니다. 현장에서 함께한 AI를 정비하거나 새 동행자를
+              편성하면서 계약자가 맡을 수 있는 일도 넓어집니다. 이것이
+              캐릭터의 성장과 이야기의 진행이 연결되는 이유입니다.
+            </p>
+            <p>
+              개발 방향에는 일부 계약의 브리핑에서 접근 방식을 고르거나,
+              AI가 원래 맡던 일에 따라 작은 현장 이점을 얻는 구상도 있습니다.
+              특정 AI가 없으면 계약을 진행할 수 없는 필수 조건으로 만들지는
+              않습니다. 이 구상은 게임 속 계약 임무를 위한 것이며, 구체적인 효과와
+              적용 시점은 아직 확정된 출시 기능이 아닙니다.
+            </p>
+          </div>
           <div className={styles.sectionHeading}>
             <p>THE LONGER STORY</p>
             <h2>의뢰가 커질수록, 하나의 진실도 흔들립니다.</h2>
@@ -613,10 +643,10 @@ export default function VelsienWorldPage() {
 
         <section className={styles.endNote} aria-labelledby="status-title">
           <div>
-            <p>PUBLIC WORLD FILE / 2026.09.19</p>
+            <p>PUBLIC WORLD FILE / UPDATED 2026.09.20</p>
             <h2 id="status-title">여기까지가 지금 공개된 벨시엔입니다.</h2>
             <span>
-              이 페이지는 2026년 9월 19일 기준 통합 세계관과 추가 설정을
+              이 페이지는 2026년 9월 20일 기준 통합 세계관과 추가 설정을
               처음 보는 사람의 순서로 설명한 공개판입니다. 플레이어의 구체적
               과거와 계약 법률의 세부 조항, Summit의 실체는 아직 공개된
               사실로 확정하지 않습니다. 벨시엔 서밋은 개발 중이며 이

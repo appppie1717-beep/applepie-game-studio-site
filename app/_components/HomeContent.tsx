@@ -240,112 +240,112 @@ function VirtualContent() {
             <span>함께 시작할 한 분</span>을 찾습니다.
           </h2>
           <p className="virtual-description">
-            에르시안 역시 이번이 첫 버츄얼 크리에이터 영입입니다. 그래서 한 명만 모집합니다.
-            지원은 지금부터 받습니다. 선정 후 캐릭터와 방송 방향, 필요한 장비를 함께 정하고 준비를 마친 뒤 활동을 시작합니다.
+            에르시안은 게임을 만들고 운영하는 한국의 1인 스튜디오입니다. 이제 함께 방송을 만들어 갈 첫 소속 버츄얼 크리에이터 한 분을 모집합니다.
+            지원은 지금부터 받습니다. 서로 대화하고 캐릭터와 방송 환경을 준비한 뒤 활동을 시작합니다.
           </p>
           <div className="virtual-actions">
             <a className="button button--primary" href="#virtual-apply">지원 방법 보기 <span aria-hidden="true">↓</span></a>
             <a className="button button--quiet" href="mailto:biz@ersiyan.com?subject=ERSIYAN%20VIRTUAL%20%EC%B2%AB%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90">이메일로 지원하기 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
-        <aside className="virtual-project" aria-label="이번 모집의 핵심 조건">
+        <aside className="virtual-project" aria-label="이번 모집 안내">
           <span className="preparation-status">APPLICATIONS OPEN</span>
           <p className="virtual-project-kicker">ERSIYAN VIRTUAL / 001</p>
           <h3>ONE CREATOR.<br />ONE BEGINNING.</h3>
-          <p className="virtual-project-copy">대규모 오디션 대신 첫 한 분과 함께 출발합니다.</p>
+          <p className="virtual-project-copy">에르시안의 첫 버츄얼 크리에이터와 함께 방향을 만들어 갑니다.</p>
           <dl className="virtual-project-facts">
             <div><dt>모집 인원</dt><dd>1명</dd></div>
-            <div><dt>데뷔 후 활동</dt><dd>월 12회 이상</dd></div>
+            <div><dt>지원 대상</dt><dd>꾸준히 방송하고 싶은 성인</dd></div>
             <div><dt>지원 마감</dt><dd>별도 공지 전까지</dd></div>
           </dl>
         </aside>
       </div>
 
+      <section className="virtual-section virtual-about" aria-labelledby="virtual-about-title">
+        <div className="virtual-section-heading">
+          <p className="eyebrow">01 / MEET ERSIYAN</p>
+          <h3 id="virtual-about-title">에르시안을 처음 만났다면</h3>
+          <p>에르시안은 게임 개발·운영과 버츄얼 크리에이터 활동을 함께 만들어 가는 브랜드입니다. 게임부에서는 작품을 출시하고 다음 게임을 개발하고 있습니다. 버츄얼부의 첫 소속 크리에이터는 지금 찾고 있습니다.</p>
+        </div>
+        <div className="virtual-work-grid">
+          <a className="virtual-work-card" href="/mine-logic">
+            <span className="virtual-card-index">RELEASED GAME</span>
+            <strong>MINE LOGIC</strong>
+            <span>출시한 게임 살펴보기 <span aria-hidden="true">↗</span></span>
+          </a>
+          <a className="virtual-work-card" href="/velsien-summit">
+            <span className="virtual-card-index">IN DEVELOPMENT</span>
+            <strong>VELSIEN SUMMIT</strong>
+            <span>개발 중인 세계 살펴보기 <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+        <p className="virtual-about-link">에르시안의 전체 소개와 사업자 정보는 <a href="#company-title">회사 정보</a>에서 확인할 수 있습니다.</p>
+      </section>
+
       <section className="virtual-section" aria-labelledby="virtual-support-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">01 / WHAT WE BUILD</p>
-          <h3 id="virtual-support-title">시작에 필요한 것을 함께 만듭니다.</h3>
-          <p>완성된 캐릭터에 사람을 맞추지 않습니다. 선정된 분의 목소리와 성격, 해보고 싶은 콘텐츠를 바탕으로 함께 방향을 정합니다.</p>
+          <p className="eyebrow">02 / WHAT WE BUILD</p>
+          <h3 id="virtual-support-title">선정 후, 함께 준비합니다.</h3>
+          <p>서로 이야기하면서 콘텐츠 방향을 찾고, 크리에이터의 목소리와 성격에 맞는 캐릭터와 방송 환경을 준비합니다.</p>
         </div>
         <div className="virtual-support-grid">
           <div className="virtual-support-card">
             <span className="virtual-card-index">01 · CHARACTER</span>
             <h4>캐릭터와 방송 화면</h4>
-            <p>캐릭터 공동 기획, 디자인, 3D 모델·리깅·표정, 로고, 채널 디자인과 방송 오버레이를 회사가 제작·지원합니다.</p>
+            <p>크리에이터와 함께 캐릭터를 기획하고 디자인, 3D 모델, 로고와 방송 화면을 준비합니다.</p>
           </div>
           <div className="virtual-support-card">
             <span className="virtual-card-index">02 · SETUP</span>
             <h4>방송 준비</h4>
-            <p>OBS·트래킹과 채널 세팅을 함께 테스트합니다. 필요한 트래킹 기기·마이크 등은 회사 소유 장비로 대여하며, PC와 인터넷은 본인이 준비합니다.</p>
+            <p>방송 채널, OBS와 트래킹을 함께 맞춥니다. 필요한 기기와 현재 사용 중인 장비는 대화하면서 확인합니다.</p>
           </div>
           <div className="virtual-support-card">
             <span className="virtual-card-index">03 · GROWTH</span>
             <h4>데뷔와 운영</h4>
-            <p>데뷔 티저와 월 4개 안팎의 쇼츠·클립 제작, 공식 홈페이지·SNS 소개, 초기 홍보, 콘텐츠 기획, 협찬 업무와 정산을 지원합니다. 악성 이용자와 권리 침해 대응도 함께합니다.</p>
+            <p>데뷔 콘텐츠, 클립과 홍보를 함께 준비합니다. 활동을 시작한 뒤에도 콘텐츠 기획과 운영을 지원합니다.</p>
           </div>
         </div>
-        <p className="virtual-section-note">지원·오디션 참가비는 없습니다. 회사가 부담한 캐릭터 제작비와 초기 홍보비를 크리에이터의 채무로 만들거나 정산금에서 다시 공제하지 않습니다.</p>
+        <p className="virtual-section-note">지원이나 선발 과정에 참가비는 없습니다. 구체적인 제작 범위와 준비 일정은 선정 과정에서 함께 정합니다.</p>
       </section>
 
-      <section className="virtual-section" aria-labelledby="virtual-terms-title">
+      <section className="virtual-section" aria-labelledby="virtual-journey-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">02 / CLEAR TERMS</p>
-          <h3 id="virtual-terms-title">활동과 정산 기준을 먼저 공개합니다.</h3>
+          <p className="eyebrow">03 / HOW IT STARTS</p>
+          <h3 id="virtual-journey-title">지원부터 데뷔까지 차근차근 준비합니다.</h3>
+          <p>먼저 서로를 알아보고, 함께할 수 있겠다고 판단하면 방송의 모습을 만들어 갑니다.</p>
         </div>
-        <div className="virtual-terms-grid">
-          <div className="virtual-term-card virtual-term-card--featured">
-            <span className="virtual-card-index">방송 · 콘텐츠 · 광고/협찬</span>
-            <strong>70 <span>/</span> 30</strong>
-            <p>크리에이터 70%, 에르시안 30%. 플랫폼·결제 수수료를 제외하고 실제 지급된 금액을 기준으로 합니다. 회사가 부담한 제작비·초기 홍보비를 추가 공제하지 않습니다.</p>
-          </div>
-          <div className="virtual-term-card">
-            <span className="virtual-card-index">굿즈</span>
-            <strong>50 <span>/</span> 50</strong>
-            <p>매출에서 사전에 공유한 제작비와 배송·플랫폼 실비를 뺀 순이익을 절반씩 나눕니다. 굿즈 진행과 비용은 사전에 협의합니다.</p>
-          </div>
-          <div className="virtual-term-card">
-            <span className="virtual-card-index">활동 · 계약</span>
-            <strong>12 <span>회 / 월</span></strong>
-            <p>월 12회 이상 방송은 활동을 시작한 뒤의 기본 기준입니다. 데뷔 일정과 준비 과정은 함께 정하고, 직장·학업·건강·가족 일정 등 합리적인 사유가 있으면 활동 횟수도 협의해 조정합니다. 첫 계약은 1년이며 자동 연장하지 않습니다.</p>
-          </div>
-        </div>
-        <div className="virtual-rights">
-          <h4>캐릭터와 개인의 권리</h4>
-          <p>회사가 제작·확보한 캐릭터, 모델, 로고 등의 권리 범위는 계약서에 명시합니다. 크리에이터의 기존 저작물과 실제 신원·얼굴·목소리는 양도 대상이 아닙니다. 계약 종료 후 실제 목소리의 재현이나 후임자의 캐릭터 사용은 별도 합의 사항입니다. 대여 장비는 계약 종료 시 정상 반환합니다.</p>
-          <p>수익 정산, IP, 장비, 활동 조건과 계약 종료 절차는 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다.</p>
-        </div>
+        <ol className="virtual-journey-grid">
+          <li><span className="virtual-card-index">01 / APPLY</span><h4>이메일 지원</h4><p>자기소개와 음성을 보내주세요.</p></li>
+          <li><span className="virtual-card-index">02 / TALK</span><h4>대화와 방송 테스트</h4><p>온라인으로 이야기하고 비공개 방송을 함께 해봅니다.</p></li>
+          <li><span className="virtual-card-index">03 / PLAN</span><h4>방향과 조건 협의</h4><p>캐릭터, 장비, 방송 계획과 서로의 기대를 맞춥니다.</p></li>
+          <li><span className="virtual-card-index">04 / PREPARE</span><h4>함께 준비한 뒤 시작</h4><p>최종 결정 후 제작과 테스트를 거쳐 활동을 시작합니다.</p></li>
+        </ol>
+        <p className="virtual-section-note">정산, 활동, 캐릭터 권리, 장비 등 구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다.</p>
       </section>
 
       <section className="virtual-section virtual-apply" id="virtual-apply" aria-labelledby="virtual-apply-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">03 / APPLY</p>
-          <h3 id="virtual-apply-title">경험보다 함께할 가능성을 봅니다.</h3>
-          <p>만 19세 이상이며 한국어 방송과 국내 계약·정산이 가능하고, 데뷔 후 월 12회 이상 꾸준히 활동할 수 있는 분이라면 지원할 수 있습니다. 타 소속 계약과 활동상 충돌이 없어야 합니다. 방송·버츄얼 경력과 팔로워·구독자 수는 지원 조건이 아닙니다. 얼굴 공개도 요구하지 않습니다.</p>
+          <p className="eyebrow">04 / APPLY</p>
+          <h3 id="virtual-apply-title">첫 번째 크리에이터를 기다립니다.</h3>
+          <p>만 19세 이상이며 한국어로 꾸준히 방송하고, 국내에서 계약·정산할 수 있는 분을 찾습니다. 타 소속 계약과 활동상 충돌이 없어야 합니다. 방송 경력, 버츄얼 경험, 팔로워 수는 지원 조건이 아닙니다. 얼굴 공개도 요구하지 않습니다.</p>
         </div>
         <div className="virtual-apply-grid">
           <div className="virtual-apply-panel">
             <h4>이메일에 담아 주세요</h4>
             <ul>
               <li>활동명 또는 닉네임, 연락 가능한 이메일, 만 19세 이상 여부</li>
-              <li>간단한 자기소개, 현재 직업·학업 여부, 방송·버츄얼 활동 경험</li>
-              <li>월 활동 가능 횟수와 방송 가능한 요일·시간대</li>
-              <li>해보고 싶은 방송·콘텐츠, 본인의 장점과 오래 활동할 수 있다고 생각하는 이유</li>
-              <li>사용 가능한 PC·마이크 등 방송 장비와 타 소속·계약 여부</li>
+              <li>간단한 자기소개와 방송·버츄얼 활동 경험</li>
+              <li>현재 직업·학업 여부와 방송 가능한 요일·시간, 월 활동 가능 횟수</li>
+              <li>해보고 싶은 콘텐츠, 본인의 장점과 오래 활동할 수 있다고 생각하는 이유</li>
+              <li>사용 중인 PC·마이크 등 장비와 타 소속·계약 여부</li>
               <li>3~5분 자유 음성 파일</li>
             </ul>
-            <p>Discord 연락을 원한다면 계정을 함께 적어 주세요. 음성은 “처음 방송을 켜고 시청자 다섯 명과 이야기한다면”을 떠올리며 자유롭게 녹음해 주세요. 얼굴 사진, 정확한 생년월일, 건강 정보는 보내지 마세요.</p>
+            <p>음성은 “처음 방송을 켜고 시청자 다섯 명과 이야기한다면”을 떠올리며 자유롭게 녹음해 주세요. Discord 연락을 원하면 계정을 적어 주세요. 얼굴 사진, 정확한 생년월일, 건강 정보는 보내지 마세요.</p>
           </div>
           <div className="virtual-apply-panel virtual-apply-panel--process">
-            <h4>선발 과정</h4>
-            <ol>
-              <li><span>01</span> 지원서·음성 확인</li>
-              <li><span>02</span> 온라인 인터뷰</li>
-              <li><span>03</span> 비공개 방송 테스트</li>
-              <li><span>04</span> 캐릭터·장비·방송 계획 및 계약 조건 협의</li>
-              <li><span>05</span> 최종 선정 및 계약</li>
-            </ol>
-            <p>최종 선정 이후에도 캐릭터 제작과 방송 환경 준비가 이어집니다. 활동 시작일은 준비 상황을 함께 확인해 정합니다.</p>
-            <p>지원 음성은 선발 심사에만 사용하며 AI 학습이나 홍보에 재사용하지 않습니다. 지원 시 <a href="/privacy">개인정보처리방침</a>을 확인해 주세요.</p>
+            <h4>지원 전에 알아두세요</h4>
+            <p>지원서를 보내도 바로 활동이 시작되는 것은 아닙니다. 서로 대화하고 비공개 방송을 해본 뒤, 캐릭터와 방송 계획을 함께 정합니다. 활동 시작일은 준비 상황을 함께 확인해 정합니다.</p>
+            <p>지원 음성은 선발 심사에만 사용하며 AI 학습이나 홍보에 재사용하지 않습니다. 불합격 지원 자료는 최종 선정 또는 모집 종료 후 30일 이내 삭제합니다. 자세한 내용은 <a href="/privacy">개인정보처리방침</a>을 확인해 주세요.</p>
           </div>
         </div>
         <div className="virtual-apply-cta">

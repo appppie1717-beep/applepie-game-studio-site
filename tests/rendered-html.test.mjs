@@ -486,13 +486,19 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assert.match(html, /첫 번째 소속 크리에이터 모집 중/);
   assert.match(html, /APPLICATIONS OPEN/);
   assert.match(html, /지원은 지금부터 받습니다/);
-  assert.match(html, /선정 후 캐릭터와 방송 방향, 필요한 장비를 함께 정하고 준비를 마친 뒤 활동을 시작합니다/);
+  assert.match(html, /서로 대화하고 캐릭터와 방송 환경을 준비한 뒤 활동을 시작합니다/);
   assert.match(html, /활동 시작일은 준비 상황을 함께 확인해 정합니다/);
+  assert.match(html, /에르시안을 처음 만났다면/);
+  assert.match(html, /href="\/mine-logic"/);
+  assert.match(html, /href="\/velsien-summit"/);
+  assert.match(html, /지원부터 데뷔까지 차근차근 준비합니다/);
+  assert.match(html, /구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다/);
+  assert.doesNotMatch(visibleText(html), /70\s*\/\s*30|50\s*\/\s*50|월 12회 이상|첫 계약은 1년|대여 장비는 계약 종료/);
   assert.match(html, /href="#virtual-apply"/);
   assert.match(html, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   const applySection = html.match(/<section\b[^>]*id="virtual-apply"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
   assert.ok(applySection, "Application details are visible in the public route");
-  for (const term of ["만 19세 이상", "월 12회 이상", "3~5분 자유 음성 파일"]) {
+  for (const term of ["만 19세 이상", "3~5분 자유 음성 파일", "30일 이내 삭제"]) {
     assert.ok(visibleText(applySection).includes(term), `Recruitment explains ${term}`);
   }
   assert.match(applySection, /href="\/privacy"/);

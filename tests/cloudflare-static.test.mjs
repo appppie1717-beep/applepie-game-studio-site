@@ -82,6 +82,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       "privacy/archive/2026-08-23.html",
       "privacy/archive/2026-08-28.html",
       "privacy/archive/2026-08-31.html",
+      "privacy/archive/2026-09-05.html",
       "404.html",
       "_headers",
       "_redirects",
@@ -165,7 +166,7 @@ test("Cloudflare asset directory contains every public route", async () => {
     ),
   );
 
-  const [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound, headers, robots, sitemap, llms] = await Promise.all([
+  const [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, archivedPrivacyPolicy20260905, notFound, headers, robots, sitemap, llms] = await Promise.all([
     readFile(new URL("index.html", client), "utf8"),
     readFile(new URL("virtual.html", client), "utf8"),
     readFile(new URL("mine-logic.html", client), "utf8"),
@@ -179,6 +180,7 @@ test("Cloudflare asset directory contains every public route", async () => {
     readFile(new URL("privacy/archive/2026-08-23.html", client), "utf8"),
     readFile(new URL("privacy/archive/2026-08-28.html", client), "utf8"),
     readFile(new URL("privacy/archive/2026-08-31.html", client), "utf8"),
+    readFile(new URL("privacy/archive/2026-09-05.html", client), "utf8"),
     readFile(new URL("404.html", client), "utf8"),
     readFile(new URL("_headers", client), "utf8"),
     readFile(new URL("robots.txt", client), "utf8"),
@@ -196,6 +198,7 @@ test("Cloudflare asset directory contains every public route", async () => {
     ["/privacy/archive/2026-08-23", archivedPrivacyPolicy20260823],
     ["/privacy/archive/2026-08-28", archivedPrivacyPolicy20260828],
     ["/privacy/archive/2026-08-31", archivedPrivacyPolicy20260831],
+    ["/privacy/archive/2026-09-05", archivedPrivacyPolicy20260905],
     ["/velsien-summit", velsienSummit],
     ["/velsien-summit/world", velsienWorld],
     ["/velsien-summit/late-update", velsienLateUpdate],
@@ -230,7 +233,10 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(virtual, /<section\b[^>]*id="ersiyan-virtual-view"/i);
   assert.doesNotMatch(virtual, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.match(virtual, /rel="canonical" href="https:\/\/ersiyan\.com\/virtual"/i);
-  assert.match(virtual, /PROJECT 001/);
+  assert.match(virtual, /첫 번째 소속 크리에이터 모집 중/);
+  assert.match(virtual, /href="#virtual-apply"/);
+  assert.match(virtual, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
+  assert.match(virtual, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);
   assert.match(virtual, /id="ersiyan-company-view"/);
   assert.match(virtual, /id="business-info"/);
   assert.doesNotMatch(virtual, /href="\/velsien-summit\/secret"/i);
@@ -341,6 +347,10 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(privacyPolicy, /개인사업자 에르시안\(대표자 탁진/);
   assert.match(privacyPolicy, /\/privacy\/archive\/2026-08-28/);
   assert.match(privacyPolicy, /href="\/privacy\/archive\/2026-08-31"/);
+  assert.match(privacyPolicy, /href="\/privacy\/archive\/2026-09-05"/);
+  assert.match(privacyPolicy, /최근 변경일 및 시행일 2026년 9월 19일/);
+  assert.match(privacyPolicy, /최종 선정 후[\s\S]*?30일 이내에 삭제합니다/);
+  assert.match(privacyPolicy, /AI 학습이나 홍보 콘텐츠에[\s\S]*?재사용하지 않습니다/);
   assert.match(privacyPolicy, /Cloudflare Web Analytics/);
   assert.match(mineLogicPrivacyPolicy, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
   assert.match(mineLogicPrivacyPolicy, /https:\/\/ersiyan\.com\/privacy\/mine-logic/i);
@@ -374,7 +384,10 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(archivedPrivacyPolicy20260828, /개인사업자 애플파이/);
   assert.match(archivedPrivacyPolicy20260831, /<title>개인정보처리방침 2026년 8월 31일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260831, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/archive\/2026-08-31"/i);
-  for (const archive of [archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831]) {
+  assert.match(archivedPrivacyPolicy20260905, /<title>개인정보처리방침 2026년 9월 5일 보관본 \| 에르시안<\/title>/i);
+  assert.match(archivedPrivacyPolicy20260905, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/archive\/2026-09-05"/i);
+  assert.doesNotMatch(archivedPrivacyPolicy20260905, /최종 선정 후 30일 이내/);
+  for (const archive of [archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, archivedPrivacyPolicy20260905]) {
     assert.match(archive, /name="robots" content="index, follow"/i);
   }
   assert.match(archivedPrivacyPolicy20260831, /사업자명 변경/);
@@ -385,6 +398,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(headers, /X-Content-Type-Options:\s*nosniff/i);
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/mine-logic<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/virtual<\/loc>\s*<lastmod>2026-09-19<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>\s*<lastmod>2026-09-19<\/lastmod>/);
@@ -409,6 +423,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       "https://ersiyan.com/privacy/archive/2026-08-23",
       "https://ersiyan.com/privacy/archive/2026-08-28",
       "https://ersiyan.com/privacy/archive/2026-08-31",
+      "https://ersiyan.com/privacy/archive/2026-09-05",
     ].sort(),
   );
   assert.equal(sitemap, await readFile(new URL("public/sitemap.xml", root), "utf8"),
@@ -425,6 +440,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       `${location} has a real calendar date`);
   }
   assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
+  assert.match(llms, /biz@ersiyan\.com/);
   assert.match(llms, /https:\/\/ersiyan\.com\/velsien-summit\/world/);
   assert.match(llms, /com\.applepie\.minelogic/);
 
@@ -473,7 +489,7 @@ test("corporate static pages retain their own title and social identity", async 
 });
 
 test("every local image, responsive candidate, social image, stylesheet, and script exists", async () => {
-  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/world.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "404.html"];
+  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/world.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "privacy/archive/2026-09-05.html", "404.html"];
   const pages = await Promise.all(
     pageFiles.map((file) =>
       readFile(new URL(file, client), "utf8"),
@@ -555,7 +571,7 @@ test("explicit permanent aliases are staged without loops or query overrides", a
   for (const path of ["/games", "/virtual", "/mine-logic", "/velsien-summit", "/velsien-summit/world",
     "/velsien-summit/corporate/orysen", "/velsien-summit/corporate/virenta", "/velsien-summit/corporate/neryx",
     "/velsien-summit/late-update", "/velsien-summit/secret", "/privacy", "/privacy/mine-logic",
-    "/privacy/archive/2026-08-22", "/privacy/archive/2026-08-23", "/privacy/archive/2026-08-28", "/privacy/archive/2026-08-31"]) {
+    "/privacy/archive/2026-08-22", "/privacy/archive/2026-08-23", "/privacy/archive/2026-08-28", "/privacy/archive/2026-08-31", "/privacy/archive/2026-09-05"]) {
     for (const suffix of ["/", ".html", "/index", "/index/", "/index.html"]) {
       expected.set(`${path}${suffix}`, path === "/games" ? "/" : path);
     }

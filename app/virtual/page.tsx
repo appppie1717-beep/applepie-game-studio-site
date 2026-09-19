@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DivisionHomePage, virtualDescription } from "../_components/HomeContent";
 
-const virtualTitle = "ERSIYAN VIRTUAL · 버츄얼 크리에이터·디지털 캐릭터 | 에르시안";
+const virtualTitle = "ERSIYAN VIRTUAL · 첫 번째 버츄얼 크리에이터 모집 | 에르시안";
 
 export const metadata: Metadata = {
   title: { absolute: virtualTitle },

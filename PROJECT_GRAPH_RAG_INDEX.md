@@ -5,15 +5,15 @@
 - 공식 도메인: `https://ersiyan.com`
 - 저장소: `C:\Users\USER\Desktop\잡다한거\applepie-game-studio-site`
 - 목적: ERSIYAN GAMES, ERSIYAN VIRTUAL, MINE LOGIC, VELSIEN SUMMIT와 관련 개인정보·기업 페이지의 라우트, 소스, 자산, SEO, 검증, 정적 Cloudflare 배포 관계를 한눈에 찾는 것
-- 기준일: 2026-09-13
-- 2026-09-19 로컬·GitHub·운영 사이트 재대조 결과: [SOURCE_RECONCILIATION_2026-09-19.md](SOURCE_RECONCILIATION_2026-09-19.md). 아래 검증 수치와 manifest는 9월 13일 당시의 기록입니다.
+- GraphRAG 스냅샷 기준일: 2026-09-13. `manifest.json`의 15개 라우트와 검증 수치는 당시 기록이며 현재 소스나 운영 사이트 상태를 뜻하지 않습니다.
+- 2026-09-19 로컬·GitHub·운영 사이트 재대조 결과: [SOURCE_RECONCILIATION_2026-09-19.md](SOURCE_RECONCILIATION_2026-09-19.md). 이후 변경은 새로 검증해야 합니다.
 - 상세 그래프: `graph-rag/manifest.json`, `graph-rag/nodes.jsonl`, `graph-rag/edges.jsonl`, `graph-rag/chunks.jsonl`
 
 ## 읽는 순서
 
 1. 이 파일에서 보존 정책과 라우트 지도를 확인합니다.
-2. `graph-rag/manifest.json`에서 생성 시점, 색인 경계, 정리 상태를 확인합니다.
-3. 필요한 route·file·component 노드를 `graph-rag/nodes.jsonl`에서 찾습니다.
+2. `graph-rag/manifest.json`에서 2026-09-13 생성 시점, 색인 경계, 정리 상태를 확인합니다. 새 `/velsien-summit/world` 경로와 `/virtual` 모집 상태는 아래 현행 소스 지도를 우선합니다.
+3. 필요한 route·file·component 노드를 `graph-rag/nodes.jsonl`에서 찾습니다. 9월 13일 이후 변경은 소스와 사이트맵에서 추가 확인합니다.
 4. `graph-rag/edges.jsonl`에서 `renders`, `imports`, `has_metadata`, `tested_by`, `preserves` 관계를 따라갑니다.
 5. 판단 근거는 `graph-rag/chunks.jsonl`과 `outputs/seo-audit-2026-09-13/SEO-AUDIT-REPORT.md`에서 확인합니다.
 
@@ -22,21 +22,21 @@
 | 영역 | 대표 라우트 | 소유 소스 | 정책 |
 |---|---|---|---|
 | ERSIYAN GAMES | `/` | `app/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 브랜드·게임 허브 |
-| ERSIYAN VIRTUAL | `/virtual` | `app/virtual/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 버츄얼·디지털 캐릭터 준비 영역. 공개된 상세 정보만 사용 |
+| ERSIYAN VIRTUAL | `/virtual` | `app/virtual/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 첫 소속 버츄얼 크리에이터 1명 모집 안내. 이메일 지원 조건은 현행 소스에서 확인 |
 | MINE LOGIC | `/mine-logic` | `app/mine-logic/page.tsx` | Android 오프라인 지뢰찾기 제품 페이지 |
 | VELSIEN SUMMIT | `/velsien-summit` | `app/velsien-summit/page.tsx`, `VelsienSignalDeck.tsx` | 게임·세계관·개발 기록 허브 |
-| 최신 공개 세계관 | `/velsien-summit/world` | `app/velsien-summit/world/page.tsx` | 2026-09-19 공개본. 기존 허브와 구분된 정식 페이지 |
-| 추가 개발 기록 | `/velsien-summit/late-update` | `app/velsien-summit/late-update/page.tsx` | 날짜를 확인할 수 있는 기록만 구조화 |
+| 최신 공개 세계관 | `/velsien-summit/world` | `app/velsien-summit/world/page.tsx` | 현재 공개 세계관. 기존 허브에서 연결하는 별도 정식 페이지 |
+| 추가 개발 기록 | `/velsien-summit/late-update` | `app/velsien-summit/late-update/page.tsx` | 2026년 8월 당시의 구상을 보존하고 현재 공개본과 구분 |
 | Secret 기록 | `/velsien-summit/secret` | `app/velsien-summit/secret/page.tsx` | searchable-but-unlisted 정책. 임의로 noindex 처리하지 않음 |
-| 기업 홈페이지 | `/velsien-summit/corporate/orysen`, `/virenta`, `/neryx` | 각 기업 `page.tsx`, `*Experience.tsx`, `*.module.css` | 독립 UI·콘텐츠·맞춤 푸터 보존. 세계관의 기업 소개에서 세 홈페이지로 연결하고 각 맞춤 푸터에서 세계관으로 돌아감. 공통 푸터로 합치지 않음 |
-| 개인정보 | `/privacy`, `/privacy/mine-logic` | 각 `page.tsx`, `MineLogicPrivacyContent.tsx` | 현재 법적 문서 및 대표자 `탁진` 보존 |
-| 보관본 | `/privacy/archive/2026-08-22`, `/2026-08-23`, `/2026-08-28`, `/2026-08-31` | 각 보관 `page.tsx` | 역사 기록 보존. 현재 문서와 혼동하지 않음 |
+| 기업 홈페이지 | `/velsien-summit/corporate/orysen`, `/virenta`, `/neryx` | 각 기업 `page.tsx`, `*Experience.tsx`, `*.module.css` | 독립 UI·콘텐츠·맞춤 푸터 보존. 세계관의 기업 소개에서 세 홈페이지로 연결하고 각 맞춤 푸터에서 세계관으로 돌아감. 정적 클릭 이동은 일반 `<a>` 사용. 공통 푸터로 합치지 않음 |
+| 개인정보 | `/privacy`, `/privacy/mine-logic` | 각 `page.tsx`, `MineLogicPrivacyContent.tsx` | 2026-09-19 모집 이메일 지원 자료 처리 안내와 대표자 `탁진` 보존 |
+| 보관본 | `/privacy/archive/2026-08-22`, `/2026-08-23`, `/2026-08-28`, `/2026-08-31`, `/2026-09-05` | 각 보관 `page.tsx` | 역사 기록 보존. 현재 문서와 혼동하지 않음 |
 
 ## 정식 라우트 목록
 
-`public/sitemap.xml` 기준 정식 URL은 16개입니다. `graph-rag/manifest.json`의 15개 라우트는 2026-09-13 당시 스냅샷입니다.
+2026-09-19 모집 공개본의 정식 URL은 최신 세계관과 9월 5일 개인정보 보관본을 포함해 17개입니다. `/virtual`에서 첫 소속 크리에이터 1명의 지원을 이메일로 받습니다. 운영 반영 여부는 배포 후 검증 결과로 판단합니다. `graph-rag/manifest.json`의 15개는 9월 13일 스냅샷입니다.
 
-`/`, `/virtual`, `/mine-logic`, `/privacy`, `/privacy/mine-logic`, `/privacy/archive/2026-08-22`, `/privacy/archive/2026-08-23`, `/privacy/archive/2026-08-28`, `/privacy/archive/2026-08-31`, `/velsien-summit`, `/velsien-summit/world`, `/velsien-summit/late-update`, `/velsien-summit/secret`, `/velsien-summit/corporate/orysen`, `/velsien-summit/corporate/virenta`, `/velsien-summit/corporate/neryx`.
+`/`, `/virtual`, `/mine-logic`, `/privacy`, `/privacy/mine-logic`, `/privacy/archive/2026-08-22`, `/privacy/archive/2026-08-23`, `/privacy/archive/2026-08-28`, `/privacy/archive/2026-08-31`, `/privacy/archive/2026-09-05`, `/velsien-summit`, `/velsien-summit/world`, `/velsien-summit/late-update`, `/velsien-summit/secret`, `/velsien-summit/corporate/orysen`, `/velsien-summit/corporate/virenta`, `/velsien-summit/corporate/neryx`.
 
 `/404`와 legacy `.html`, `/index`, `/games`, trailing-slash 별칭은 배포 리다이렉트·404 계약으로만 취급합니다. 검색용 정식 페이지로 중복 등록하지 않습니다.
 
@@ -45,7 +45,7 @@
 - 전역 metadata: `app/layout.tsx`
 - 홈·VIRTUAL metadata와 JSON-LD: `app/page.tsx`, `app/virtual/page.tsx`, `app/_components/HomeContent.tsx`
 - MINE LOGIC metadata·`VideoGame`·`MobileApplication`·`BreadcrumbList`: `app/mine-logic/page.tsx`
-- VELSIEN `VideoGame`·`WebPage`·`Article`·`BreadcrumbList`: `app/velsien-summit/page.tsx`, `app/velsien-summit/late-update/page.tsx`
+- VELSIEN metadata·구조화 데이터: `app/velsien-summit/page.tsx`, `app/velsien-summit/world/page.tsx`, `app/velsien-summit/late-update/page.tsx`
 - 검색 제어: `public/robots.txt`, `public/sitemap.xml`, `public/llms.txt`, `public/_redirects`
 - 보안·캐시 헤더: `public/_headers`
 - 정적 빌드와 Cloudflare Worker: `vite.config.ts`, `worker/index.ts`, `wrangler.cloudflare.jsonc`, `scripts/stage-static-routes.mjs`, `scripts/verify-cloudflare-deployment.mjs`
@@ -60,7 +60,7 @@
 - Naver IndexNow 계약: `node tests/naver-indexnow.test.mjs`
 - 전체 빌드·검증: `npm run build:cloudflare`
 
-2026-09-13 기준 소스 타입 검사와 JavaScript 구문 검사는 통과했습니다. 최신 shim 빌드와 스테이징 후 rendered HTML은 18/18, 정적 Cloudflare 계약은 6/6, legacy route는 3/3, Naver IndexNow 계약은 8/8로 통과했습니다. 일반 `npm run build`와 `npm run build:cloudflare`는 이 Windows 샌드박스에서 Node 내부 `child_process.spawn`의 `EPERM`으로 중단되며, 일회성 로컬 검증 shim으로 최신 소스의 `vinext build` 5/5 단계와 16개 프리렌더 경로를 확인한 뒤 shim은 삭제했습니다. 외부 배포 완료나 일반 빌드 성공으로 표시하지 않습니다. 라이브 `ersiyan.com`은 최신 로컬 산출물과 드리프트되어 있어 배포 후 15개 경로를 다시 확인해야 합니다.
+아래는 2026-09-13 GraphRAG 생성 당시의 역사적 검증 기록입니다. 당시 소스 타입 검사와 JavaScript 구문 검사는 통과했고, 일회성 로컬 shim 빌드와 스테이징 후 rendered HTML 18/18, 정적 Cloudflare 계약 6/6, legacy route 3/3, Naver IndexNow 계약 8/8이 통과했습니다. 일반 `npm run build`와 `npm run build:cloudflare`는 당시 Windows 샌드박스의 Node `child_process.spawn` `EPERM`으로 중단됐습니다. 일회성 shim으로 당시 소스의 `vinext build` 5/5 단계와 16개 프리렌더 경로를 확인한 뒤 shim은 삭제했습니다. 이 기록은 새 세계관·VIRTUAL 모집 변경의 빌드 성공이나 운영 배포를 증명하지 않습니다. 현행 검증 결과는 이번 변경의 별도 테스트와 배포 확인으로 판단합니다.
 
 ## 보존·삭제 경계
 

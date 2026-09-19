@@ -114,6 +114,7 @@ const footerRoutes = [
   "/privacy/archive/2026-08-23",
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
+  "/privacy/archive/2026-09-05",
   "/velsien-summit",
   "/velsien-summit/world",
   "/velsien-summit/late-update",
@@ -191,6 +192,7 @@ test("stages every public page for asset-first delivery", async () => {
     archivedPrivacyPolicy20260823,
     archivedPrivacyPolicy20260828,
     archivedPrivacyPolicy20260831,
+    archivedPrivacyPolicy20260905,
     staticHomepage,
     staticVirtual,
     staticMineLogic,
@@ -204,6 +206,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy20260823,
     staticArchivedPrivacyPolicy20260828,
     staticArchivedPrivacyPolicy20260831,
+    staticArchivedPrivacyPolicy20260905,
     staticNotFound,
   ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
@@ -221,6 +224,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-23.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-09-05.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
@@ -234,6 +238,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/client/privacy/archive/2026-08-23.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/privacy/archive/2026-09-05.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/404.html", import.meta.url), "utf8"),
   ]);
 
@@ -259,6 +264,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-23"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-28"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-31"), "rendered");
+  assert.equal(renderedRoutes.get("/privacy/archive/2026-09-05"), "rendered");
   assert.deepEqual(
     [...paths.paths].sort(),
     [
@@ -270,6 +276,7 @@ test("stages every public page for asset-first delivery", async () => {
       "/privacy/archive/2026-08-23",
       "/privacy/archive/2026-08-28",
       "/privacy/archive/2026-08-31",
+      "/privacy/archive/2026-09-05",
       "/privacy/mine-logic",
       "/velsien-summit",
       "/velsien-summit/corporate/neryx",
@@ -329,6 +336,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(staticArchivedPrivacyPolicy20260823, archivedPrivacyPolicy20260823);
   assert.equal(staticArchivedPrivacyPolicy20260828, archivedPrivacyPolicy20260828);
   assert.equal(staticArchivedPrivacyPolicy20260831, archivedPrivacyPolicy20260831);
+  assert.equal(staticArchivedPrivacyPolicy20260905, archivedPrivacyPolicy20260905);
   assert.match(staticNotFound, /<title>에르시안<\/title>/i);
   for (const publicHtml of [
     staticHomepage,
@@ -344,6 +352,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy20260823,
     staticArchivedPrivacyPolicy20260828,
     staticArchivedPrivacyPolicy20260831,
+    staticArchivedPrivacyPolicy20260905,
     staticNotFound,
   ]) {
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
@@ -474,8 +483,17 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assertDivisionLinks(html, "virtual");
   assert.equal(html.match(/<h1\b/gi)?.length, 1);
   assert.match(html, /<section\b(?=[^>]*id="ersiyan-virtual-view")(?![^>]*\bhidden)[^>]*>/i);
-  assert.match(html, /버츄얼 크리에이터와 디지털 캐릭터를 중심으로 한[\s\S]*?엔터테인먼트 사업을 준비하고 있습니다/);
-  assert.match(html, /IN PREPARATION[\s\S]*?PROJECT 001/);
+  assert.match(html, /첫 번째 소속 크리에이터 모집 중/);
+  assert.match(html, /APPLICATIONS OPEN/);
+  assert.match(html, /href="#virtual-apply"/);
+  assert.match(html, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
+  const applySection = html.match(/<section\b[^>]*id="virtual-apply"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
+  assert.ok(applySection, "Application details are visible in the public route");
+  for (const term of ["만 19세 이상", "월 12회 이상", "3~5분 자유 음성 파일"]) {
+    assert.ok(visibleText(applySection).includes(term), `Recruitment explains ${term}`);
+  }
+  assert.match(applySection, /href="\/privacy"/);
+  assert.match(applySection, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   assert.doesNotMatch(html, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.doesNotMatch(html, /id="(?:games|studio|game-tab-mine-logic|game-tab-velsien)"/i);
   assert.doesNotMatch(html, /<img\b[^>]*src="\/images\/(?:mine-logic|velsien-summit)\//i);
@@ -983,7 +1001,20 @@ test("server-renders the privacy policy", async () => {
   assert.match(html, /help@ersiyan\.com/);
   assert.match(html, /게임 앱 정책/);
   assert.match(html, /Workers Static Assets/);
-  assert.match(html, /최근 변경일 및 시행일 2026년 9월 5일/);
+  assert.match(html, /최근 변경일 및 시행일 2026년 9월 19일/);
+  assert.match(html, /href="\/privacy\/archive\/2026-09-05"/);
+  const recruitmentNotice = visibleText(policySection(html, "recruitment-notice"));
+  assert.match(recruitmentNotice, /에르시안 버츄얼 크리에이터 모집 지원 정보/);
+  assert.match(recruitmentNotice, /일반 문의와 홈페이지 방문 정보에 관한 기존 안내는 유지합니다/);
+  const collection = visibleText(policySection(html, "collection"));
+  for (const term of ["biz@ersiyan.com", "만 19세 이상", "3~5분 음성 파일", "실제 얼굴 사진이나 신분증 사본"]) {
+    assert.match(collection, new RegExp(term));
+  }
+  const purpose = visibleText(policySection(html, "purpose"));
+  for (const term of ["선발 심사에만 사용", "AI 학습이나 홍보 콘텐츠", "최종 선정 후 30일 이내", "지원을 철회", "계약과 정산 절차"]) {
+    assert.match(purpose, new RegExp(term));
+  }
+  assert.match(html, /href="mailto:biz@ersiyan\.com"/);
   assert.match(html, /사업자명 변경/);
   assert.match(html, /상호가 애플파이에서[\s\S]*에르시안으로 변경/);
   assert.match(html, /개인사업자 에르시안\(대표자 탁진,[\s\S]*206-43-62580\)/);
@@ -1122,6 +1153,20 @@ test("preserves the complete August 31 policy as a self-canonical searchable arc
   for (const date of ["2026-08-22", "2026-08-23", "2026-08-28"]) {
     assert.ok(html.includes(`href="/privacy/archive/${date}"`));
   }
+});
+
+test("preserves the September 5 privacy policy before virtual recruitment", async () => {
+  const response = await render("/privacy/archive/2026-09-05?utm_source=history");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-09-05");
+  assert.equal(metaContent(html, "robots"), "index, follow");
+  assert.match(html, /개인정보처리방침 2026년 9월 5일 보관본/);
+  assert.match(html, /href="\/privacy"/);
+  assert.match(html, /적용 기간 2026년 9월 5일/);
+  assert.match(visibleText(policySection(html, "change-notice")), /방문·성능 통계 안내 정정/);
+  assert.match(visibleText(policySection(html, "hosting")), /Cloudflare Web Analytics를 사용합니다/);
+  assert.doesNotMatch(html, /id="recruitment-notice"|최종 선정 후 30일 이내/);
 });
 
 test("required public images are present", async () => {

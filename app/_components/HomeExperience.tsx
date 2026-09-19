@@ -50,7 +50,7 @@ export function HomeExperience({
       <main id="main-content" tabIndex={-1}>
         <h1 className="home-page-title">
           {division === "virtual"
-            ? "ERSIYAN VIRTUAL · 버츄얼 크리에이터·디지털 캐릭터"
+            ? "ERSIYAN VIRTUAL · 첫 번째 버츄얼 크리에이터 모집"
             : "에르시안(ERSIYAN) · 게임 개발과 운영"}
         </h1>
         <section

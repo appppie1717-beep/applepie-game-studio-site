@@ -329,6 +329,10 @@ const localPages = new Map(
         "/privacy/archive/2026-08-31",
         new URL("../dist/client/privacy/archive/2026-08-31.html", import.meta.url),
       ],
+      [
+        "/privacy/archive/2026-09-05",
+        new URL("../dist/client/privacy/archive/2026-09-05.html", import.meta.url),
+      ],
     ].map(async ([pathname, file]) => [pathname, await readFile(file, "utf8")]),
   ),
 );
@@ -338,6 +342,7 @@ const targetOnlyPaths = new Set([
   "/privacy/mine-logic",
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
+  "/privacy/archive/2026-09-05",
   "/velsien-summit",
   "/velsien-summit/world",
   "/velsien-summit/late-update",
@@ -354,6 +359,11 @@ for (const [pathname, localHtml] of localPages) {
   const expected = semanticSnapshot(localHtml);
   const targetResult = await request(new URL(pathname, target), 200, "manual");
   const targetHtml = targetResult.body.toString("utf8");
+  if (pathname === "/virtual") {
+    assert.match(targetHtml, /첫 번째 소속 크리에이터 모집 중/);
+    assert.match(targetHtml, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
+    assert.match(targetHtml, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);
+  }
   const corporateExpectation = corporateRouteExpectations.get(pathname);
   if (corporateExpectation) {
     assert.equal(
@@ -481,6 +491,7 @@ const redirectChecks = [
   { path: "/privacy/archive/2026-08-23?check=2", status: 200 },
   { path: "/privacy/archive/2026-08-28?check=3", status: 200 },
   { path: "/privacy/archive/2026-08-31?check=4", status: 200 },
+  { path: "/privacy/archive/2026-09-05?check=5", status: 200 },
   { path: "/__redirect-probe-not-found-20260828?source=migration", status: 404 },
 ];
 

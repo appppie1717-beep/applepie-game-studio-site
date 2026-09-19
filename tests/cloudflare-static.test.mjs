@@ -91,6 +91,8 @@ test("Cloudflare asset directory contains every public route", async () => {
       "llms.txt",
       "ersiyan-social-card.jpg",
       "ersiyan-mark.svg",
+      "favicon.ico",
+      "favicon-192.png",
       "images/brand/ersiyan-logo.png",
       "images/brand/ersiyan-logo-hero.webp",
       "images/mine-logic/feature.png",

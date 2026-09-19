@@ -39,8 +39,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   icons: {
-    icon: "/ersiyan-mark.svg",
-    shortcut: "/ersiyan-mark.svg",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon-192.png",
   },
   openGraph: {
     type: "website",

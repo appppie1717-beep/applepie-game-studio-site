@@ -251,6 +251,7 @@
 .footer p { margin: 0; color: #d4c7d4; font-family: Georgia, serif; font-size: 1rem; text-align: center; }
 .footerActions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 1.2rem; }
 .footerActions button, .footerActions a { border: 0; padding: 0; background: transparent; color: var(--active-tone); font-size: .53rem; font-weight: 800; letter-spacing: .1em; }
+.footerActions a[href="/velsien-summit/world"] { display: inline-flex; box-sizing: border-box; max-width: 100%; min-height: 44px; align-items: center; padding: 8px 12px; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
 .footerActions button:hover, .footerActions a:hover { color: #ee8d73; }
 .footer > small { grid-column: 1 / -1; padding-top: 1rem; border-top: 1px solid rgba(247,243,235,.14); color: #85778a; font-size: .47rem; font-weight: 800; letter-spacing: .1em; }
 

@@ -11,6 +11,7 @@ type SceneId = "title" | "lobby" | "character";
 type WorldId = "city" | "corporations" | "contractor" | "companions";
 type PlayId = "contract" | "team" | "plan" | "battle";
 type SignalDeckClassName =
+  | "recordMeta"
   | "screenSection"
   | "sectionIntro"
   | "galleryShell"
@@ -56,7 +57,7 @@ const scenes: Array<{
     tabLabel: "타이틀",
     title: "수직도시 벨시엔",
     description:
-      "밝고 정돈된 도시의 전경과 작품 로고를 담은 타이틀 화면입니다. 도시의 정상으로 향하는 계약이라는 문장이 이야기의 출발점을 보여 줍니다.",
+      "밝고 정돈된 도시의 전경과 작품 로고를 담은 8월의 타이틀 화면입니다. 당시의 문구와 화면 구성을 개발 기록으로 남겨 둡니다.",
     src: "/images/velsien-summit/teaser-title.webp",
     srcSet:
       "/images/velsien-summit/teaser-title-640.webp 640w, /images/velsien-summit/teaser-title-960.webp 960w, /images/velsien-summit/teaser-title.webp 1600w",
@@ -218,8 +219,10 @@ function focusAt(
 
 export function VelsienSignalDeck({
   classes,
+  view = "all",
 }: {
   classes: SignalDeckClasses;
+  view?: "all" | "introduction" | "archive" | "share";
 }) {
   const [activeScene, setActiveScene] = useState<SceneId>("lobby");
   const [activeWorld, setActiveWorld] = useState<WorldId>("city");
@@ -228,6 +231,7 @@ export function VelsienSignalDeck({
   const sceneRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const worldRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const playRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const ScreenHeading = view === "archive" ? "h3" : "h2";
 
   function moveTab<T extends string>(
     event: KeyboardEvent<HTMLButtonElement>,
@@ -247,8 +251,8 @@ export function VelsienSignalDeck({
   async function sharePage() {
     const canonicalUrl = "https://ersiyan.com/velsien-summit";
     const shareData = {
-      title: "VELSIEN SUMMIT(벨시엔 서밋) | 모바일 수집형 2D SRPG",
-      text: "ERSIYAN이 만들고 있는 모바일 수집형 2D SRPG, 벨시엔 서밋을 소개합니다.",
+      title: "VELSIEN SUMMIT(벨시엔 서밋) | 모바일 캐릭터 수집형 전략 RPG",
+      text: "ERSIYAN이 만들고 있는 모바일 캐릭터 수집형 전략 RPG, 벨시엔 서밋의 개발 기록입니다.",
       url: canonicalUrl,
     };
 
@@ -275,18 +279,24 @@ export function VelsienSignalDeck({
 
   return (
     <>
+      {(view === "all" || view === "archive") && (
       <section
         id="screens"
         className={classes.screenSection}
         aria-labelledby="screens-title"
       >
         <div className={classes.sectionIntro}>
-          <p>DEVELOPMENT SCREENS · 03</p>
-          <h2 id="screens-title">실제 개발 화면</h2>
+          <p>2026.08 · DEVELOPMENT ARCHIVE</p>
+          <ScreenHeading id="screens-title">벨시엔 서밋 2026년 8월의 개발 화면</ScreenHeading>
           <span>
-            타이틀뿐 아니라 작전을 준비하고 동행자를 살펴보는 실제 화면도 볼 수 있습니다. 이름과 개발 수치는 공개용 이미지에서 일부 흐리게 처리했습니다.
+            타이틀과 작전 준비, 동행자를 살펴보던 당시의 실제 화면입니다. 이름과 개발 수치는 일부 흐리게 처리했으며, 현재 작업 중인 모습과 차이가 있을 수 있습니다.
           </span>
         </div>
+        <p className={classes.recordMeta}>
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+          <span>작성 <a href="/#games">ERSIYAN GAMES</a></span>
+          <span>기록 기준 <time dateTime="2026-08">2026.08</time></span>
+        </p>
 
         <div className={classes.galleryShell}>
           <div
@@ -317,9 +327,9 @@ export function VelsienSignalDeck({
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={scene.src}
-                    srcSet={scene.srcSet}
-                    sizes="160px"
+                    src={`/images/velsien-summit/teaser-${scene.id}-320.webp`}
+                    srcSet={`/images/velsien-summit/teaser-${scene.id}-160.webp 160w, /images/velsien-summit/teaser-${scene.id}-320.webp 320w, /images/velsien-summit/teaser-${scene.id}-640.webp 640w`}
+                    sizes="auto, 160px"
                     alt=""
                     width={1600}
                     height={720}
@@ -359,7 +369,7 @@ export function VelsienSignalDeck({
                   />
                 </div>
                 <figcaption>
-                  <span>{scene.index} · DEVELOPMENT BUILD</span>
+                  <span>{scene.index} · 2026.08 DEVELOPMENT BUILD</span>
                   <strong>{scene.title}</strong>
                   <p>{scene.description}</p>
                   <small>
@@ -371,7 +381,10 @@ export function VelsienSignalDeck({
           </div>
         </div>
       </section>
+      )}
 
+      {(view === "all" || view === "introduction") && (
+      <>
       <section
         id="world"
         className={classes.worldSection}
@@ -381,7 +394,7 @@ export function VelsienSignalDeck({
           <p>WORLD OF VELSIEN</p>
           <h2 id="world-title">벨시엔이라는 도시</h2>
           <span>
-            도시가 왜 아름답고 불편한지, 그리고 플레이어가 왜 필요한지만 먼저 소개합니다.
+            지금 구상 중인 도시와 그 안의 사람들에 관한 일부입니다. 이야기의 바탕을 먼저 소개하고, 나머지는 개발 기록에서 조금씩 꺼내겠습니다.
           </span>
         </div>
 
@@ -457,7 +470,7 @@ export function VelsienSignalDeck({
           <p>HOW IT PLAYS</p>
           <h2 id="play-title">전투는 준비에서 갈립니다</h2>
           <span>
-            손이 빠른 것보다 계약을 읽고, 팀과 진형, 첫 행동 타이밍을 준비하는 판단이 중요합니다.
+            계약을 읽고, 팀과 진형, 첫 행동 타이밍을 준비하는 재미를 만들고 있습니다. 세부 규칙은 개발 과정에서 다듬고 있습니다.
           </span>
         </div>
 
@@ -517,6 +530,10 @@ export function VelsienSignalDeck({
 
       </section>
 
+      </>
+      )}
+
+      {(view === "all" || view === "share") && (
       <section className={classes.sharePanel} aria-labelledby="share-title">
         <div>
           <p>SHARE</p>
@@ -534,6 +551,7 @@ export function VelsienSignalDeck({
           {shareStatus}
         </p>
       </section>
+      )}
     </>
   );
 }

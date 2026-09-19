@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { siteBrand } from "./_components/brand";
+import { legacyDivisionRouteScript } from "./_components/legacy-division-route";
 
 const homeSocialTitle = "에르시안 | ERSIYAN";
 const homeDescription =
-  "에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국 1인 인디 게임 스튜디오입니다. 단계별 힌트와 20단계 훈련을 갖춘 지뢰찾기 게임, 개발 중인 모바일 수집형 2D SRPG의 소식과 화면을 확인하세요.";
+  "에르시안(ERSIYAN)은 게임 개발·운영의 ERSIYAN GAMES와 버츄얼 사업을 준비하는 ERSIYAN VIRTUAL을 둔 회사입니다.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteBrand.origin),
@@ -17,6 +18,10 @@ export const metadata: Metadata = {
   keywords: [
     "ERSIYAN",
     "에르시안",
+    "ERSIYAN GAMES",
+    "ERSIYAN VIRTUAL",
+    "버츄얼 크리에이터",
+    "디지털 캐릭터",
     "MINE LOGIC",
     "마인로직",
     "지뢰찾기 게임",
@@ -25,7 +30,7 @@ export const metadata: Metadata = {
     "인디 게임",
     "VELSIEN SUMMIT",
     "벨시엔 서밋",
-    "모바일 2D SRPG",
+    "모바일 캐릭터 수집형 전략 RPG",
   ],
   authors: [{ name: siteBrand.name }],
   creator: siteBrand.name,
@@ -49,7 +54,7 @@ export const metadata: Metadata = {
         url: siteBrand.socialCardPath,
         width: 1200,
         height: 630,
-        alt: "MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고",
+        alt: "에르시안(ERSIYAN) 로고",
       },
     ],
   },
@@ -60,7 +65,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: siteBrand.socialCardPath,
-        alt: "MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고",
+        alt: "에르시안(ERSIYAN) 로고",
       },
     ],
   },
@@ -80,6 +85,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <head>
+        <meta name="naver-site-verification" content="baefeb696d0dddb453f1d3edcb9d5149aeda089c" />
+        <style>{"html[data-division-redirect] body{visibility:hidden}"}</style>
+        <script
+          id="legacy-division-route"
+          dangerouslySetInnerHTML={{ __html: legacyDivisionRouteScript }}
+        />
+      </head>
       <body>{children}</body>
     </html>
   );

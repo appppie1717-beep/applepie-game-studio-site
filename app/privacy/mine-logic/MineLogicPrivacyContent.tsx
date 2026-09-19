@@ -4,6 +4,11 @@ import { useEffect, useState } from "react";
 
 type PolicyLanguage = "ko" | "en";
 
+const policyLocale: Record<PolicyLanguage, "ko-KR" | "en-US"> = {
+  ko: "ko-KR",
+  en: "en-US",
+};
+
 type MineLogicPrivacyContentProps = {
   businessName: string;
   representative: string;
@@ -42,9 +47,9 @@ export function MineLogicPrivacyContent({
   const [language, setLanguage] = useState<PolicyLanguage>("en");
 
   useEffect(() => {
-    document.documentElement.lang = language;
+    document.documentElement.lang = policyLocale[language];
     return () => {
-      document.documentElement.lang = "ko";
+      document.documentElement.lang = "ko-KR";
     };
   }, [language]);
 
@@ -52,7 +57,7 @@ export function MineLogicPrivacyContent({
     <>
       <script
         dangerouslySetInnerHTML={{
-          __html: 'document.documentElement.lang="en";',
+          __html: 'document.documentElement.lang="en-US";',
         }}
       />
       <div className="policy-language-toolbar section-pad">
@@ -87,7 +92,7 @@ export function MineLogicPrivacyContent({
         </p>
       </noscript>
 
-      <div id="mine-logic-policy-ko" lang="ko" hidden={language !== "ko"}>
+      <div id="mine-logic-policy-ko" lang="ko-KR" hidden={language !== "ko"}>
         <section className="privacy-hero section-pad" aria-labelledby="policy-title-ko">
           <p className="eyebrow">MINE LOGIC · PRIVACY POLICY</p>
           <h1 id="policy-title-ko">MINE LOGIC 개인정보처리방침</h1>
@@ -113,7 +118,7 @@ export function MineLogicPrivacyContent({
             <section id="scope-ko" aria-labelledby="scope-title-ko">
               <h2 id="scope-title-ko">1. 적용 범위</h2>
               <p>
-                이 방침은 개인사업자 {businessName}(대표자 {representative})가 제공하는
+                이 방침은 개인사업자 {businessName}(대표자 {representative})이 제공하는
                 MINE LOGIC Android 앱에 적용됩니다.
               </p>
               <p>
@@ -242,7 +247,7 @@ export function MineLogicPrivacyContent({
         </div>
       </div>
 
-      <div id="mine-logic-policy-en" lang="en" hidden={language !== "en"}>
+      <div id="mine-logic-policy-en" lang="en-US" hidden={language !== "en"}>
         <section className="privacy-hero section-pad" aria-labelledby="policy-title-en">
           <p className="eyebrow">MINE LOGIC · PRIVACY POLICY</p>
           <h1 id="policy-title-en">MINE LOGIC Privacy Policy</h1>

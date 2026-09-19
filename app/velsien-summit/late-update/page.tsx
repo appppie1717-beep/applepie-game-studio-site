@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
 import { BrandLockup } from "../../_components/BrandLockup";
-import { GameProducerRegistration } from "../../_components/GameProducerRegistration";
+import { ErFooter } from "../../_components/ErFooter";
 import styles from "../page.module.css";
 
 const title =
-  "VELSIEN SUMMIT 8월말 추가정보 | ERSIYAN";
+  "벨시엔 서밋 2026년 8월말 추가정보 | VELSIEN SUMMIT";
 const description =
-  "벨시엔 서밋의 8월 말 추가 공개 기록입니다. 수직도시와 세 기업, 중립계약자와 인간형 AI 동행자에 관한 단서를 개발 화면과 함께 소개합니다.";
+  "벨시엔 서밋의 2026년 8월말 개발 기록. 수직도시·세 기업·중립계약자·AI 동행자에 관한 당시 구상과 작전·편성 화면을 보존합니다.";
+const pageUrl = "https://ersiyan.com/velsien-summit/late-update";
+const socialImage = {
+  url: "/images/velsien-summit/velsien-summit-social.jpg",
+  width: 1200,
+  height: 630,
+  alt: "밝은 수직도시와 VELSIEN SUMMIT 로고, 개발 중 안내가 담긴 벨시엔 서밋 대표 이미지",
+};
 
 export const metadata: Metadata = {
   title: {
@@ -21,13 +28,77 @@ export const metadata: Metadata = {
     follow: true,
   },
   openGraph: {
-    type: "website",
+    type: "article",
     locale: "ko_KR",
     siteName: "ERSIYAN",
     url: "/velsien-summit/late-update",
     title,
     description,
+    images: [socialImage],
+    modifiedTime: "2026-09-05",
+    authors: ["https://ersiyan.com/#games"],
   },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [{ url: socialImage.url, alt: socialImage.alt }],
+  },
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": `${pageUrl}#webpage`,
+      url: pageUrl,
+      name: title,
+      description,
+      inLanguage: "ko-KR",
+      dateModified: "2026-09-05",
+      isPartOf: { "@id": "https://ersiyan.com/#website" },
+      breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
+      mainEntity: { "@id": `${pageUrl}#article` },
+    },
+    {
+      "@type": "Article",
+      "@id": `${pageUrl}#article`,
+      url: pageUrl,
+      headline: "벨시엔 서밋 2026년 8월말 추가정보",
+      description,
+      inLanguage: "ko-KR",
+      // The archive period is known; its exact original publication day is not.
+      temporalCoverage: "2026-08",
+      // Archive context and navigation were added in the verified September 5 deployment.
+      dateModified: "2026-09-05",
+      author: {
+        "@type": "Organization",
+        "@id": "https://ersiyan.com/#games-organization",
+        name: "ERSIYAN GAMES",
+        url: "https://ersiyan.com/#games",
+        parentOrganization: { "@id": "https://ersiyan.com/#organization" },
+      },
+      publisher: { "@id": "https://ersiyan.com/#organization" },
+      image: [
+        "https://ersiyan.com/images/velsien-summit/late-update-operation.webp",
+        "https://ersiyan.com/images/velsien-summit/late-update-gacha.webp",
+        "https://ersiyan.com/images/velsien-summit/late-update-formation.webp",
+      ],
+      about: { "@id": "https://ersiyan.com/velsien-summit#game" },
+      mainEntityOfPage: { "@id": `${pageUrl}#webpage` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": `${pageUrl}#breadcrumb`,
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "ERSIYAN", item: "https://ersiyan.com/" },
+        { "@type": "ListItem", position: 2, name: "ERSIYAN GAMES", item: "https://ersiyan.com/#games" },
+        { "@type": "ListItem", position: 3, name: "VELSIEN SUMMIT", item: "https://ersiyan.com/velsien-summit" },
+        { "@type": "ListItem", position: 4, name: "2026년 8월말 추가정보", item: pageUrl },
+      ],
+    },
+  ],
 };
 
 const worldSignals = [
@@ -93,25 +164,32 @@ const sealedSignals = [
 
 const gallery = [
   {
+    id: "operation",
     src: "/images/velsien-summit/late-update-operation.webp",
-    alt: "벨시엔 서밋 작전 계약 화면",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 작전 계약 화면",
     note: "계약별 세부 작전과 진행 경로를 고르는 작전 계약 화면",
   },
   {
+    id: "gacha",
     src: "/images/velsien-summit/late-update-gacha.webp",
-    alt: "벨시엔 서밋 신호 계약 스캐너 화면",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 신호 계약 스캐너 화면",
     note: "새로운 동행자의 신호를 탐색하는 계약 스캐너",
   },
   {
+    id: "formation",
     src: "/images/velsien-summit/late-update-formation.webp",
-    alt: "벨시엔 서밋 편성 화면",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 편성 화면",
     note: "위치와 첫 행동 시점을 정하는 전투 준비 화면",
   },
 ];
 
 export default function VelsienLateUpdatePage() {
   return (
-    <div id="top" className={"site-shell " + styles.page}>
+    <div id="top" className={"site-shell velsien-shell " + styles.page}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
       <a className="skip-link" href="#main-content">
         본문으로 바로가기
       </a>
@@ -120,7 +198,7 @@ export default function VelsienLateUpdatePage() {
         <div className="header-inner">
           <BrandLockup />
           <nav
-            className={"primary-nav " + styles.summitNav}
+            className={"primary-nav " + styles.summitNav + " " + styles.archiveNav}
             aria-label="벨시엔 페이지 메뉴"
           >
             <a href="/velsien-summit">벨시엔 메인</a>
@@ -129,14 +207,35 @@ export default function VelsienLateUpdatePage() {
       </header>
 
       <main id="main-content">
+        <nav className={styles.breadcrumb} aria-label="현재 위치">
+          <ol>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <li><a href="/">ERSIYAN</a></li>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <li><a href="/#games">ERSIYAN GAMES</a></li>
+            <li><a href="/velsien-summit">VELSIEN SUMMIT</a></li>
+            <li aria-current="page">2026년 8월말 추가정보</li>
+          </ol>
+        </nav>
         <section className={styles.sectionIntro + " " + styles.lateUpdateIntro}>
-          <p>VELSIEN SUMMIT · AUGUST UPDATE</p>
-          <h1>8월말 추가정보</h1>
+          <p>VELSIEN SUMMIT · AUGUST 2026 UPDATE</p>
+          <h1>벨시엔 서밋<br />2026년 8월말 추가정보</h1>
           <span>
             기존 소개에서 한 걸음 더 들어갑니다. 벨시엔이 왜 중립계약자를
             필요로 하는지, 동행자와 전투가 어떤 방향으로 이어지는지 몇 가지
             단서만 먼저 공개합니다.
           </span>
+          <div className={styles.recordMeta}>
+            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
+            <span>작성 <a href="/#games">ERSIYAN GAMES</a></span>
+            <span>기록 기준 <time dateTime="2026-08">2026.08 말</time></span>
+            <span>페이지 정리 <time dateTime="2026-09-05">2026.09.05</time></span>
+          </div>
+          <aside className={styles.archiveNotice} aria-label="이전 개발 기록 안내">
+            <strong>2026년 8월 말의 개발 기록입니다.</strong>
+            <p>이 글의 설정과 성장 방식, 화면은 당시의 구상을 담고 있습니다. 이후 개발하면서 달라진 부분도 있으며, 그 과정을 남기기 위해 원래 기록을 보존합니다.</p>
+            <a href="/velsien-summit#development-log">최근 개발 기록 이어 보기 ↗</a>
+          </aside>
         </section>
 
         <section className={styles.lateUpdateSection} aria-label="추가 공개 항목">
@@ -188,7 +287,7 @@ export default function VelsienLateUpdatePage() {
         <section className={styles.lateUpdateSection} aria-label="추가 화면 공개">
           <div className={styles.sectionIntro}>
             <p>실제 화면 공개</p>
-            <h2>벨시엔의 현재 모습</h2>
+            <h2>벨시엔 서밋 2026년 8월 말 개발 화면</h2>
             <span>
               작전 계약과 신호 탐색, 전투를 준비하는 순간을 먼저 공개합니다.
               화면과 문구, 수치와 구성은 개발 과정에서 달라질 수 있습니다.
@@ -200,9 +299,11 @@ export default function VelsienLateUpdatePage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={image.src}
+                  srcSet={`/images/velsien-summit/late-update-${image.id}-400.webp 400w, /images/velsien-summit/late-update-${image.id}-640.webp 640w, ${image.src} 960w`}
+                  sizes="(max-width: 1060px) 90vw, (max-width: 1324px) 29vw, 382px"
                   alt={image.alt}
                   width={960}
-                  height={452}
+                  height={455}
                   loading="lazy"
                   decoding="async"
                 />
@@ -248,19 +349,7 @@ export default function VelsienLateUpdatePage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <div className={styles.footerInner}>
-          <div>
-            <p>© {new Date().getFullYear()} ERSIYAN</p>
-            <GameProducerRegistration />
-          </div>
-          <nav aria-label="푸터 메뉴">
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/">홈페이지</a>
-            <a href="/privacy">개인정보처리방침</a>
-          </nav>
-        </div>
-      </footer>
+      <ErFooter />
     </div>
   );
 }

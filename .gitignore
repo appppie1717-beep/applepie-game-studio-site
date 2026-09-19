@@ -40,3 +40,7 @@ yarn-error.log*
 /work/
 /local-private/
 /.seo-cache/
+/.seo-audit-fresh/
+
+# TypeScript incremental cache
+*.tsbuildinfo

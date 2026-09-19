@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -12,7 +13,136 @@ const forbiddenErsiyanGameStudioPatterns = [
   new RegExp(String.raw`\bERSIYAN${htmlFormattingGap}GAME${htmlFormattingGap}STUDIO\b`, "i"),
 ];
 const homepageHeroPattern =
-  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 인디 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
+  /<h1\b[^>]*class="home-page-title"[^>]*>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/h1>/i;
+
+function decodeHtml(value) {
+  return value.replace(/&(?:amp|quot|apos|lt|gt|#\d+|#x[\da-f]+);/gi, (entity) => {
+    const named = { "&amp;": "&", "&quot;": '"', "&apos;": "'", "&lt;": "<", "&gt;": ">" };
+    if (entity.toLowerCase() in named) return named[entity.toLowerCase()];
+    return String.fromCodePoint(entity[2].toLowerCase() === "x"
+      ? parseInt(entity.slice(3, -1), 16) : Number(entity.slice(2, -1)));
+  });
+}
+
+function attributes(tag) {
+  return Object.fromEntries([...tag.matchAll(/([\w:-]+)="([^"]*)"/g)]
+    .map(([, name, value]) => [name.toLowerCase(), decodeHtml(value)]));
+}
+
+function metaContent(html, name) {
+  const matching = [...html.matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter((tag) => (tag.name ?? tag.property) === name);
+  assert.equal(matching.length, 1, `One ${name} meta tag`);
+  return matching[0].content;
+}
+
+function visibleText(html) {
+  return decodeHtml(html.replace(/<head\b[\s\S]*?<\/head>/gi, "")
+    .replace(/<(script|style)\b[\s\S]*?<\/\1>/gi, "")
+    .replace(/<!--[\s\S]*?-->/g, "").replace(/<[^>]+>/g, " "))
+    .replace(/\s+/g, " ").trim();
+}
+
+function policySection(html, id) {
+  const section = html.match(new RegExp(`<section\\b(?=[^>]*id="${id}")[^>]*>([\\s\\S]*?)<\\/section>`, "i"))?.[1];
+  assert.ok(section, `Policy section ${id} exists`);
+  return section;
+}
+
+// Visible text captured from the last deployed August 31 policy, before the September 5 correction.
+// Hashes exclude markup and normalize spacing, while keeping every historical clause intact.
+const august31PolicySectionHashes = {
+  "change-notice": "a8ae70cf00e0efa69c6ffc499b77c3ff42e0af3c88486073c4818db25e9871ae",
+  overview: "e919ff996c5b4c6572aa26324981faf10ee6165042045d5726aee52c1bbddffd",
+  collection: "6fbf397a860809021aebc8e212fa75dcc235f14182e4de3765744b908bc9c570",
+  hosting: "57669da5e00330576bec1bf9cabcce502f0671eb1b6e21ea173cc489ed48806d",
+  purpose: "c8f652a3ef0afba03215fb93222d0a03ebf5b540601053a64d3c8474145eaf3b",
+  cookies: "cfbfcf1430f36a1853142549e3015b066da18e141e45355d2cd1f8fec366e33d",
+  rights: "27354e23a538892d59836381f00642462fb9d637e169b47d30774dcd7040e88c",
+  apps: "50debeaaf6eee350abc1137d76c580e55d90957a9a015b6fcac3a8a448c55ff9",
+  changes: "86b8a3a9192d410110605e6fa1cce9a898d9607562f324308cbdfe17d22fb95e",
+};
+
+function structuredNodes(html) {
+  return [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap(([, source]) => {
+      const value = JSON.parse(source);
+      return Array.isArray(value) ? value : value["@graph"] ?? [value];
+    });
+}
+
+function assertPageMetadata(html, pathname, { socialTitle } = {}) {
+  const url = `https://ersiyan.com${pathname}`;
+  const title = decodeHtml(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] ?? "");
+  assert.ok(title.length > 0);
+  const expectedSocialTitle = socialTitle ?? title;
+  assert.equal(metaContent(html, "og:title"), expectedSocialTitle);
+  assert.equal(metaContent(html, "twitter:title"), expectedSocialTitle);
+  const description = metaContent(html, "description");
+  assert.ok(description.length > 0);
+  assert.equal(metaContent(html, "og:description"), description);
+  assert.equal(metaContent(html, "twitter:description"), description);
+  assert.equal(metaContent(html, "og:url"), url);
+  const canonicals = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter(({ rel }) => rel === "canonical");
+  assert.deepEqual(canonicals.map(({ href }) => href), [url]);
+  assert.equal(metaContent(html, "og:image"), metaContent(html, "twitter:image"));
+  assert.ok(metaContent(html, "og:image:alt"));
+  assert.ok(metaContent(html, "twitter:image:alt"));
+  return { title, description, url, socialTitle: expectedSocialTitle };
+}
+
+function assertDivisionLinks(html, current) {
+  for (const [division, href] of [["games", "/"], ["virtual", "/virtual"]]) {
+    const links = [...html.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+      .filter(({ id }) => id === `ersiyan-${division}-tab`);
+    assert.equal(links.length, 1);
+    assert.equal(links[0].href, href);
+    assert.equal(links[0]["aria-current"], division === current ? "page" : undefined);
+    assert.equal(links[0].role, undefined, "Business divisions navigate between documents");
+  }
+  assert.doesNotMatch(html, /<button\b[^>]*id="ersiyan-(?:games|virtual)-tab"/i);
+}
+
+const footerRoutes = [
+  "/",
+  "/virtual",
+  "/mine-logic",
+  "/privacy",
+  "/privacy/mine-logic",
+  "/privacy/archive/2026-08-22",
+  "/privacy/archive/2026-08-23",
+  "/privacy/archive/2026-08-28",
+  "/privacy/archive/2026-08-31",
+  "/velsien-summit",
+  "/velsien-summit/late-update",
+  "/velsien-summit/secret",
+];
+
+function assertCommonFooter(html, pathname) {
+  const footers = [...html.matchAll(
+    /<footer\b[^>]*\bdata-er-footer(?:="true")?[^>]*>[\s\S]*?<\/footer>/gi,
+  )].map(([footer]) => footer);
+  assert.equal(footers.length, 1, `${pathname} renders exactly one common footer`);
+  const [footer] = footers;
+  assert.match(footer, /aria-label="에르시안 사업자 정보"/i);
+  assert.match(footer, /<dt>대표자<\/dt>[\s\S]*?<dd>탁진<\/dd>/i);
+  assert.doesNotMatch(footer, /박진/);
+  assert.match(html, /<[^>]*\bid="top"[^>]*>/i, `${pathname} has a #top target`);
+  assert.match(footer, /<a\b[^>]*href="#top"[^>]*data-er-back-top(?:="true")?[^>]*>/i);
+  assert.match(footer, /<details\b[^>]*\bdata-er-details(?:="true")?[^>]*>/i);
+  assert.match(footer, /<summary\b[^>]*>[\s\S]*?사업자 상세 정보[\s\S]*?<\/summary>/i);
+  for (const href of ["/privacy", "/privacy/mine-logic", "#top"]) {
+    assert.match(footer, new RegExp(`href="${href.replace("#", "\\#")}"`, "i"),
+      `${pathname} footer keeps ${href}`);
+  }
+  assert.match(footer, /href="mailto:help@ersiyan\.com"/i);
+  assert.match(footer, /href="tel:\+821024166267"/i);
+  assert.match(
+    footer,
+    /href="https:\/\/www\.ftc\.go\.kr\/bizCommPop\.do\?wrkr_no=2064362580"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/i,
+  );
+}
 
 async function render(pathname = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -35,11 +165,20 @@ async function render(pathname = "/") {
   );
 }
 
+test("server-renders the common footer on every footer route", async () => {
+  for (const pathname of footerRoutes) {
+    const response = await render(pathname);
+    assert.equal(response.status, 200, `${pathname} responds successfully`);
+    assertCommonFooter(await response.text(), pathname);
+  }
+});
+
 test("stages every public page for asset-first delivery", async () => {
   const [
     manifestSource,
     pathsSource,
     homepage,
+    virtual,
     mineLogic,
     velsienSummit,
     velsienLateUpdate,
@@ -49,7 +188,9 @@ test("stages every public page for asset-first delivery", async () => {
     archivedPrivacyPolicy,
     archivedPrivacyPolicy20260823,
     archivedPrivacyPolicy20260828,
+    archivedPrivacyPolicy20260831,
     staticHomepage,
+    staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
     staticVelsienLateUpdate,
@@ -59,11 +200,13 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy,
     staticArchivedPrivacyPolicy20260823,
     staticArchivedPrivacyPolicy20260828,
+    staticArchivedPrivacyPolicy20260831,
     staticNotFound,
   ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit/late-update.html", import.meta.url), "utf8"),
@@ -73,7 +216,9 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-22.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-23.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit/late-update.html", import.meta.url), "utf8"),
@@ -83,6 +228,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/client/privacy/archive/2026-08-22.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-08-23.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/404.html", import.meta.url), "utf8"),
   ]);
 
@@ -93,53 +239,63 @@ test("stages every public page for asset-first delivery", async () => {
   );
 
   assert.equal(renderedRoutes.get("/"), "rendered");
+  assert.equal(renderedRoutes.get("/virtual"), "rendered");
   assert.equal(renderedRoutes.get("/mine-logic"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/late-update"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/secret"), "rendered");
+  assert.equal(renderedRoutes.get("/velsien-summit/corporate/orysen"), "rendered");
+  assert.equal(renderedRoutes.get("/velsien-summit/corporate/virenta"), "rendered");
+  assert.equal(renderedRoutes.get("/velsien-summit/corporate/neryx"), "rendered");
   assert.equal(renderedRoutes.get("/privacy"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/mine-logic"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-22"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-23"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-28"), "rendered");
+  assert.equal(renderedRoutes.get("/privacy/archive/2026-08-31"), "rendered");
   assert.deepEqual(
     [...paths.paths].sort(),
     [
       "/",
+      "/virtual",
       "/mine-logic",
       "/privacy",
       "/privacy/archive/2026-08-22",
       "/privacy/archive/2026-08-23",
       "/privacy/archive/2026-08-28",
+      "/privacy/archive/2026-08-31",
       "/privacy/mine-logic",
       "/velsien-summit",
+      "/velsien-summit/corporate/neryx",
+      "/velsien-summit/corporate/orysen",
+      "/velsien-summit/corporate/virenta",
       "/velsien-summit/late-update",
       "/velsien-summit/secret",
     ].sort(),
   );
   assert.match(
     homepage,
-    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+    /<title>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/title>/i,
   );
   assert.match(
     homepage,
-    /<meta property="og:title" content="에르시안 \| ERSIYAN"\/>/i,
+    /<meta property="og:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
   );
   assert.match(
     homepage,
-    /<meta name="twitter:title" content="에르시안 \| ERSIYAN"\/>/i,
+    /<meta name="twitter:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
   );
   assert.match(
     mineLogic,
-    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+    /<title>MINE LOGIC\(마인로직\) \| Android 오프라인 지뢰찾기 · 단계별 힌트 · 20단계 훈련<\/title>/i,
   );
   assert.match(
     velsienSummit,
-    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 수집형 2D SRPG<\/title>/i,
+    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 캐릭터 수집형 전략 RPG<\/title>/i,
   );
   assert.match(
     velsienLateUpdate,
-    /<title>VELSIEN SUMMIT 8월말 추가정보 \| ERSIYAN<\/title>/i,
+    /<title>벨시엔 서밋 2026년 8월말 추가정보 \| VELSIEN SUMMIT<\/title>/i,
   );
   assert.match(
     velsienSecret,
@@ -150,7 +306,10 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(archivedPrivacyPolicy, /<title>개인정보처리방침 2026년 8월 22일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260823, /<title>개인정보처리방침 2026년 8월 23일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260828, /<title>개인정보처리방침 2026년 8월 28일 보관본 \| 에르시안<\/title>/i);
+  assert.match(archivedPrivacyPolicy20260831, /<title>개인정보처리방침 2026년 8월 31일 보관본 \| 에르시안<\/title>/i);
   assert.equal(staticHomepage, homepage);
+  assert.equal(staticVirtual, virtual);
+  assertPageMetadata(staticVirtual, "/virtual");
   assert.equal(staticMineLogic, mineLogic);
   assert.equal(staticVelsienSummit, velsienSummit);
   assert.equal(staticVelsienLateUpdate, velsienLateUpdate);
@@ -160,9 +319,11 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(staticArchivedPrivacyPolicy, archivedPrivacyPolicy);
   assert.equal(staticArchivedPrivacyPolicy20260823, archivedPrivacyPolicy20260823);
   assert.equal(staticArchivedPrivacyPolicy20260828, archivedPrivacyPolicy20260828);
+  assert.equal(staticArchivedPrivacyPolicy20260831, archivedPrivacyPolicy20260831);
   assert.match(staticNotFound, /<title>에르시안<\/title>/i);
   for (const publicHtml of [
     staticHomepage,
+    staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
     staticVelsienLateUpdate,
@@ -172,6 +333,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy,
     staticArchivedPrivacyPolicy20260823,
     staticArchivedPrivacyPolicy20260828,
+    staticArchivedPrivacyPolicy20260831,
     staticNotFound,
   ]) {
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
@@ -199,13 +361,33 @@ test("server-renders the VELSIEN late-August update", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  const metadata = assertPageMetadata(html, "/velsien-summit/late-update");
+  const nodes = structuredNodes(html);
+  const page = nodes.find((node) => node["@type"] === "WebPage");
+  const article = nodes.find((node) => node["@type"] === "Article");
+  const breadcrumb = nodes.find((node) => node["@type"] === "BreadcrumbList");
+  assert.equal(page.url, metadata.url);
+  assert.equal(page.name, metadata.title);
+  assert.equal(page.description, metadata.description);
+  assert.equal(page.mainEntity["@id"], article["@id"]);
+  assert.equal(page.breadcrumb["@id"], breadcrumb["@id"]);
+  assert.equal(article.temporalCoverage, "2026-08");
+  assert.equal(article.datePublished, undefined, "The original August publication day is unknown");
+  assert.equal(article.dateModified, "2026-09-05");
+  assert.equal(article.author.name, "ERSIYAN GAMES");
+  assert.equal(article.author.parentOrganization["@id"], "https://ersiyan.com/#organization");
+  assert.ok(visibleText(html).includes(article.headline));
+  assert.equal(metaContent(html, "og:type"), "article");
+  assert.doesNotMatch(html, /property="article:published_time"/i);
+  assert.deepEqual(breadcrumb.itemListElement.map(({ position }) => position), [1, 2, 3, 4]);
+  assert.equal(breadcrumb.itemListElement.at(-1).item, metadata.url);
   assert.match(html, /8월말 추가정보/);
   assert.match(html, /밝은 도시일수록 계약의 그림자는 짙어집니다/);
   assert.match(html, /신체개조와 기업 평생계약이 없는/);
   assert.match(html, /PUBLIC ACCESS ENDS HERE/);
-  assert.match(html, /벨시엔의 현재 모습/);
+  assert.match(html, /8월 말 개발 화면/);
   assert.doesNotMatch(
-    html,
+    visibleText(html),
     /1회\/5회\/10회|9개 작전 노드|공개량|30%|60%|2026년 8월 26일|시각 QA|마지막으로 검증된|현재 개편|검증이 끝날 때까지|최종 전투 규격/,
   );
   assert.match(html, /href="\/velsien-summit"/);
@@ -228,6 +410,61 @@ test("server-renders the VELSIEN late-August update", async () => {
         "i",
       ),
     );
+    const imageTag = [...html.matchAll(/<img\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+      .find(({ src }) => src === `/images/velsien-summit/${image}`);
+    assert.equal(Number(imageTag.width) / Number(imageTag.height), 960 / 455);
+    assert.equal(imageTag.loading, "lazy");
+    for (const width of [400, 640]) {
+      assert.ok(imageTag.srcset.includes(`${image.replace(".webp", `-${width}.webp`)} ${width}w`));
+    }
+    assert.ok(imageTag.srcset.includes(`${image} 960w`));
+    assert.ok(imageTag.sizes);
+  }
+});
+
+test("Virtual has a complete server-rendered route without the Games panel", async () => {
+  const response = await render("/virtual?utm_source=virtual");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/virtual");
+  assertDivisionLinks(html, "virtual");
+  assert.equal(html.match(/<h1\b/gi)?.length, 1);
+  assert.match(html, /<section\b(?=[^>]*id="ersiyan-virtual-view")(?![^>]*\bhidden)[^>]*>/i);
+  assert.match(html, /버츄얼 크리에이터와 디지털 캐릭터를 중심으로 한[\s\S]*?엔터테인먼트 사업을 준비하고 있습니다/);
+  assert.match(html, /IN PREPARATION[\s\S]*?PROJECT 001/);
+  assert.doesNotMatch(html, /<section\b[^>]*id="ersiyan-games-view"/i);
+  assert.doesNotMatch(html, /id="(?:games|studio|game-tab-mine-logic|game-tab-velsien)"/i);
+  assert.doesNotMatch(html, /<img\b[^>]*src="\/images\/(?:mine-logic|velsien-summit)\//i);
+  assert.doesNotMatch(html, /<link\b(?=[^>]*rel="preload")(?=[^>]*\/(?:mine-logic|velsien-summit)\/)[^>]*>/i);
+  assert.match(html, /id="ersiyan-company-view"/);
+  assert.match(html, /id="company-history"/);
+  assert.match(html, /id="business-info"/);
+  assert.match(html, /에르시안 사업자 정보/);
+  assert.doesNotMatch(html, /href="\/velsien-summit\/secret"/i);
+});
+
+test("both division documents identify the same parent and equal departments", async () => {
+  for (const pathname of ["/", "/virtual"]) {
+    const html = await (await render(pathname)).text();
+    const nodes = structuredNodes(html);
+    const company = nodes.find((node) => node["@id"] === "https://ersiyan.com/#organization");
+    const page = nodes.find((node) => node["@type"] === "WebPage");
+    const departments = company.department.map(({ "@id": id }) => nodes.find((node) => node["@id"] === id));
+    assert.equal(company["@type"], "Organization");
+    assert.equal(company.name, "에르시안");
+    assert.equal(company.legalName, "에르시안");
+    assert.equal(company.email, "help@ersiyan.com");
+    assert.deepEqual(departments.map(({ name }) => name), ["ERSIYAN GAMES", "ERSIYAN VIRTUAL"]);
+    assert.deepEqual(departments.map(({ url }) => url), ["https://ersiyan.com/", "https://ersiyan.com/virtual"]);
+    for (const department of departments) {
+      assert.equal(department["@type"], "Organization");
+      assert.equal(department.parentOrganization["@id"], company["@id"]);
+      assert.equal(department.legalName, undefined);
+      assert.equal(department.foundingDate, undefined);
+    }
+    assert.equal(page.url, `https://ersiyan.com${pathname}`);
+    assert.equal(page.description, metaContent(html, "description"));
+    assert.equal(page.about["@id"], pathname === "/" ? company["@id"] : departments[1]["@id"]);
   }
 });
 
@@ -248,9 +485,19 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
     lateUpdateResponse.text(),
   ]);
 
+  assertPageMetadata(html, "/velsien-summit/secret");
+  const socialImageUrl = "https://ersiyan.com/images/velsien-summit/velsien-summit-social.jpg";
+  assert.equal(metaContent(html, "og:image"), socialImageUrl);
+  assert.equal(metaContent(html, "twitter:image"), socialImageUrl);
+  await access(new URL(`../public${new URL(socialImageUrl).pathname}`, import.meta.url));
   assert.match(html, /Secret Archive/);
   assert.match(html, /Character Studies/);
   assert.match(html, /Combat Captures/);
+  assert.match(html, /Current Development/);
+  assert.match(html, /ARCHIVE ACCESS \/\/ 12/);
+  for (const number of ["01", "02", "03", "04"]) {
+    assert.match(html, new RegExp(`Current Development Capture ${number}`));
+  }
   assert.match(
     html,
     /rel="canonical" href="https:\/\/ersiyan\.com\/velsien-summit\/secret"/i,
@@ -281,7 +528,7 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
   }
 });
 
-test("server-renders the official studio homepage", async () => {
+test("server-renders Games with equal division links and parent company information", async () => {
   const response = await render();
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
@@ -290,33 +537,34 @@ test("server-renders the official studio homepage", async () => {
   assert.match(html, /<html[^>]*lang="ko"/i);
   assert.match(
     html,
-    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+    /<title>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/title>/i,
   );
   assert.match(html, homepageHeroPattern);
+  assertDivisionLinks(html, "games");
   assert.match(
     html,
-    /<button\b(?=[^>]*class="home-view-button")(?=[^>]*aria-pressed="true")(?=[^>]*aria-controls="ersiyan-games-view")[^>]*>[\s\S]*?ERSIYAN GAMES[\s\S]*?<\/button>/i,
+    /<a\b(?=[^>]*class="company-view-button")(?=[^>]*href="#ersiyan-company-view")[^>]*>회사 정보<\/a>/i,
   );
+  assert.doesNotMatch(html, /<section\b[^>]*id="ersiyan-virtual-view"/i);
+  const gamesStart = html.search(/<section\b[^>]*id="ersiyan-games-view"/i);
+  const companyStart = html.search(/<section\b[^>]*id="ersiyan-company-view"/i);
+  assert.ok(gamesStart >= 0 && companyStart > gamesStart);
+  // Shared company history may describe Virtual; its project belongs outside the Games division.
+  assert.doesNotMatch(html.slice(gamesStart, companyStart), /PROJECT 001/);
   assert.match(
     html,
-    /<button\b(?=[^>]*class="home-view-button")(?=[^>]*aria-pressed="false")(?=[^>]*aria-controls="ersiyan-virtual-view")[^>]*>[\s\S]*?ERSIYAN VIRTUAL[\s\S]*?<\/button>/i,
+    /<section\b(?=[^>]*id="ersiyan-company-view")[^>]*>[\s\S]*?에르시안 회사 정보/i,
   );
-  assert.match(
-    html,
-    /<button\b(?=[^>]*class="company-view-button")(?=[^>]*aria-pressed="false")(?=[^>]*aria-controls="ersiyan-company-view")[^>]*>[\s\S]*?회사 정보[\s\S]*?<\/button>/i,
-  );
-  assert.match(
-    html,
-    /<section\b(?=[^>]*id="ersiyan-virtual-view")(?=[^>]*hidden="")[^>]*>[\s\S]*?COMING SOON[\s\S]*?<\/section>/i,
-  );
-  assert.match(
-    html,
-    /<section\b(?=[^>]*id="ersiyan-company-view")(?=[^>]*hidden="")[^>]*>/i,
-  );
+  assert.equal(html.match(/<h1\b/g)?.length, 1);
+  assert.match(html, /두 사업 영역으로[\s\S]*?둔 회사이자 브랜드입니다/);
+  assert.doesNotMatch(html, /company-overview|brand-intro|brand-hierarchy|하나의 에르시안/);
+  assert.doesNotMatch(html, /role="tablist" aria-label="사업부 선택"/i);
+  assert.doesNotMatch(html, /<section\b(?=[^>]*id="ersiyan-(?:games|company)-view")(?=[^>]*\bhidden)[^>]*>/i);
+  assert.match(html, /<h2 id="games-intro-title">제가 좋아하는 인디 게임을<br\s*\/?><span>직접 만들고<\/span><br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.<\/h2>/i);
   assert.match(html, /<details\b(?=[^>]*id="company-history")[^>]*>/i);
   assert.match(html, /Company History/);
   assert.match(html, /에르시안 연혁/);
-  assert.equal(html.match(/data-history-milestone="[^"]+"/g)?.length ?? 0, 7);
+  assert.equal(html.match(/data-history-milestone="[^"]+"/g)?.length ?? 0, 8);
   for (const milestone of [
     "MINE LOGIC 첫 출시",
     "개인사업자 개업",
@@ -330,7 +578,7 @@ test("server-renders the official studio homepage", async () => {
   }
   assert.match(
     html,
-    /에르시안은 MINE LOGIC을 출시하고 VELSIEN SUMMIT을 개발하는 한국[\s\S]*1인 인디 게임 스튜디오입니다/,
+    /ERSIYAN GAMES는 에르시안의 게임 개발 및 운영 영역입니다\.[\s\S]*한국 1인 인디 게임 스튜디오로서 MINE LOGIC을 출시하고[\s\S]*VELSIEN SUMMIT을 개발하고 있습니다/,
   );
   assert.match(html, /작품 둘러보기/);
   assert.match(html, /게임을 선택해 화면과 소개를 둘러보세요/);
@@ -347,7 +595,7 @@ test("server-renders the official studio homepage", async () => {
   assert.match(html, /com\.applepie\.minelogic/);
   assert.match(html, /mailto:help@ersiyan\.com/);
   assert.match(html, /개인사업자 에르시안이 운영하는 공식 홈페이지입니다/);
-  assert.match(html, /aria-label="에르시안 법정 사업자 정보"/);
+  assert.match(html, /aria-label="에르시안 사업자 정보"/);
   assert.match(html, /<dt>상호<\/dt>[\s\S]*?<dd>에르시안<\/dd>/);
   assert.doesNotMatch(html, /ERSIYAN은 애플파이가 운영하는 브랜드입니다/);
   assert.match(html, /role="tablist"/);
@@ -359,11 +607,11 @@ test("server-renders the official studio homepage", async () => {
   );
   assert.match(html, /VELSIEN SUMMIT 자세히 보기/);
   assert.match(html, /SNEAK PEEK/);
-  assert.match(html, /MOBILE · COLLECTIBLE · 2D SRPG/);
+  assert.match(html, /MOBILE · COLLECTIBLE · STRATEGY RPG/);
   assert.match(html, /세계관 신호/);
-  assert.match(html, /WORLD FILE \/\/ PUBLIC ACCESS 03%/);
-  assert.match(html, /지금 공개할 수 있는 설정은 여기까지입니다/);
-  assert.match(html, /도시의 정상으로 향하는 계약/);
+  assert.match(html, /WORLD FILE \/\/ WORK IN PROGRESS/);
+  assert.match(html, /만들어 가는 세계의 일부를 먼저 소개합니다/);
+  assert.match(html, /아름답게 돌아가는 미래도시/);
   assert.match(html, /어느 기업에도 묶이지 않은 계약자/);
   assert.match(html, /세 개의 기업 채널/);
   assert.match(html, /MORE DATA LOCKED UNTIL NEXT DEV LOG/);
@@ -372,8 +620,8 @@ test("server-renders the official studio homepage", async () => {
     2,
   );
   assert.equal(
-    html.match(/id="velsien-mode-tab-(?:scenes|world)"/g)?.length ?? 0,
-    2,
+    html.match(/id="velsien-mode-tab-(?:art|scenes|world)"/g)?.length ?? 0,
+    3,
   );
   assert.equal(
     html.match(/id="velsien-scene-(?:title|lobby|character)"/g)?.length ?? 0,
@@ -412,12 +660,12 @@ test("server-renders the official studio homepage", async () => {
   assert.match(html, /제2026-000002호/);
   assert.match(html, /전남광주통합특별시 광산구청/);
   assert.match(html, /010-2416-6267/);
-  assert.match(html, /tel:01024166267/);
+  assert.match(html, /tel:\+821024166267/);
   assert.match(html, /Cloudflare, Inc\./);
   assert.match(html, /bizCommPop\.do\?wrkr_no=2064362580/);
   assert.match(html, /공정위 신고 조회/);
   assert.doesNotMatch(html, /사업자정보확인|<dt>업태<\/dt>|<dt>종목<\/dt>/);
-  assert.match(html, /이 홈페이지에서는 주문이나 결제를 받지 않습니다/);
+  assert.match(html, /이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다/);
   assert.match(html, /ersiyan-social-card\.jpg/);
   assert.match(html, /type="application\/ld\+json"/);
   assert.match(html, /"@type":"WebSite"/);
@@ -432,7 +680,7 @@ test("server-renders the official studio homepage", async () => {
   );
   assert.match(
     html,
-    /name="twitter:image:alt" content="MINE LOGIC과 VELSIEN SUMMIT을 만드는 에르시안 로고"/i,
+    /name="twitter:image:alt" content="에르시안\(ERSIYAN\) 로고"/i,
   );
   assert.match(html, /ersiyan-logo-hero\.webp/);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/?"/i);
@@ -452,9 +700,35 @@ test("server-renders the MINE LOGIC product page", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const metadata = assertPageMetadata(html, "/mine-logic");
+  const nodes = structuredNodes(html);
+  const app = nodes.find((node) => node["@id"] === `${metadata.url}#app`);
+  const page = nodes.find((node) => node["@type"] === "WebPage");
+  const text = visibleText(html);
+  assert.equal(page.url, metadata.url);
+  assert.equal(page.name, metadata.title);
+  assert.equal(page.description, metadata.description);
+  assert.equal(page.mainEntity["@id"], app["@id"]);
+  assert.equal(page.breadcrumb["@type"], "BreadcrumbList");
+  assert.equal(page.breadcrumb.itemListElement.at(-1).item, metadata.url);
+  assert.ok(text.includes(`v${app.softwareVersion}`), "Visible release version matches the app schema");
+  assert.ok(text.includes(app.contentRating), "Visible content rating matches the app schema");
+  assert.equal(app.offers.price, 0);
+  assert.ok(text.includes("무료"));
+  const languages = new Map([
+    ["ko", "한국어"], ["en", "영어"], ["ja", "일본어"],
+    ["zh-Hans", "중국어 간체"], ["zh-Hant", "중국어 번체"],
+    ["es", "스페인어"], ["pt-BR", "포르투갈어(브라질)"], ["th", "태국어"],
+    ["id", "인도네시아어"], ["fr", "프랑스어"], ["de", "독일어"], ["ar", "아랍어"],
+  ]);
+  assert.deepEqual([...app.inLanguage].sort(), [...languages.keys()].sort());
+  assert.ok(text.includes(`${app.inLanguage.length}개 언어 지원`));
+  for (const code of app.inLanguage) assert.ok(text.includes(languages.get(code)), `Visible language ${code}`);
+  assert.match(html, /<time\b[^>]*datetime="2026-09-05"[^>]*>2026년 9월 5일<\/time>/i);
+  assert.match(html, /<time\b[^>]*datetime="2026-08-28"[^>]*>2026년 8월 28일<\/time>/i);
   assert.match(
     html,
-    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+    /<title>MINE LOGIC\(마인로직\) \| Android 오프라인 지뢰찾기 · 단계별 힌트 · 20단계 훈련<\/title>/i,
   );
   assert.match(
     html,
@@ -499,10 +773,60 @@ test("server-renders the VELSIEN SUMMIT promotional page", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
+  const metadata = assertPageMetadata(html, "/velsien-summit");
+  const nodes = structuredNodes(html);
+  const page = nodes.find((node) => node["@type"] === "WebPage");
+  const breadcrumb = nodes.find((node) => node["@type"] === "BreadcrumbList");
+  const articles = nodes.filter((node) => node["@type"] === "Article");
+  assert.equal(page.url, metadata.url);
+  assert.equal(page.name, metadata.title);
+  assert.equal(page.description, metadata.description);
+  assert.equal(page.mainEntity["@id"], `${metadata.url}#game`);
+  assert.equal(page.breadcrumb["@id"], breadcrumb["@id"]);
+  assert.equal(breadcrumb.itemListElement.at(-1).item, metadata.url);
+  assert.deepEqual(page.hasPart.map((part) => part["@id"]), articles.map((article) => article["@id"]));
+  assert.equal(articles.length, 3);
+  for (const article of articles) {
+    const anchor = new URL(article.url).hash.slice(1);
+    assert.ok(html.includes(`id="${anchor}"`), "Every article resolves to a visible record");
+    assert.equal(article.author.name, "ERSIYAN GAMES");
+    assert.equal(article.publisher["@id"], "https://ersiyan.com/#organization");
+    assert.equal(article.about["@id"], `${metadata.url}#game`);
+    assert.equal(article.isPartOf["@id"], page["@id"]);
+    if (anchor === "screens") {
+      assert.equal(article.temporalCoverage, "2026-08");
+      assert.equal(article.datePublished, undefined, "August screen capture days are not invented");
+      assert.equal(article.dateModified, undefined);
+    } else {
+      assert.equal(article.datePublished, "2026-09-05");
+      assert.equal(article.dateModified, "2026-09-05");
+    }
+  }
+  const recordIds = ["devlog-2026-09-05-battle", "devlog-2026-09-05", "devlog-2026-08-late", "screens"];
+  const recordPositions = recordIds.map((id) => html.indexOf(`id="${id}"`));
+  assert.ok(recordPositions.every((position) => position >= 0));
+  assert.deepEqual(recordPositions, [...recordPositions].sort((a, b) => a - b), "Records remain newest first");
+  for (const id of recordIds) assert.ok(html.includes(`href="#${id}"`));
+  for (const id of ["01", "02"]) {
+    const prefix = `/images/velsien-summit/devlog-20260905-battle-${id}`;
+    const image = [...html.matchAll(/<img\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+      .find(({ src }) => src === `${prefix}-960.webp`);
+    assert.ok(image, `Battle screen ${id} is rendered`);
+    assert.equal(Number(image.width) / Number(image.height), 16 / 9);
+    assert.equal(image.loading, "lazy");
+    assert.ok(image.alt);
+    for (const width of [640, 960, 1920]) assert.ok(image.srcset.includes(`${prefix}-${width}.webp ${width}w`));
+    const fullSize = [...html.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+      .filter(({ href }) => href === `${prefix}-1920.webp`);
+    assert.ok(fullSize.length > 0);
+    assert.ok(fullSize.every((link) => link.target === "_blank"
+      && (link.rel ?? "").split(/\s+/).some((token) => token === "noopener" || token === "noreferrer")),
+    "Full-size images open separately without an opener reference");
+  }
   assert.match(html, /<html[^>]*lang="ko"/i);
   assert.match(
     html,
-    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 수집형 2D SRPG<\/title>/i,
+    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 캐릭터 수집형 전략 RPG<\/title>/i,
   );
   assert.match(
     html,
@@ -527,21 +851,36 @@ test("server-renders the VELSIEN SUMMIT promotional page", async () => {
     html,
     /name="twitter:image:alt" content="밝은 수직도시와 VELSIEN SUMMIT 로고, IN DEVELOPMENT 안내"/i,
   );
-  assert.match(html, /현재 개발 중이며 출시 미정인 모바일 수집형 2D SRPG/);
+  assert.match(html, /모바일 캐릭터 수집형 전략 RPG/);
+  assert.match(html, /개발 중이며 출시 미정입니다/);
   assert.match(html, /<h1[^>]*>[\s\S]*VELSIEN[\s\S]*SUMMIT[\s\S]*벨시엔 서밋[\s\S]*<\/h1>/i);
   assert.match(html, /IN DEVELOPMENT/);
   assert.match(html, /개발 중 · 출시 미정/);
   assert.match(html, /기술이 너무 잘 작동하는 도시/);
   assert.match(html, /어느 기업에도 속하지 않은 계약자/);
-  assert.match(html, /실제 개발 화면/);
+  assert.match(html, /8월의 개발 화면/);
   assert.match(html, /벨시엔이라는 도시/);
   assert.match(html, /전투는 준비에서 갈립니다/);
   assert.match(html, /role="tablist" aria-label="개발 중 화면 선택"/i);
   assert.match(html, /role="tablist" aria-label="벨시엔 세계관 주제 선택"/i);
   assert.match(html, /role="tablist" aria-label="게임 진행 단계 선택"/i);
   assert.match(html, /aria-orientation="horizontal"/i);
-  assert.match(html, /개발 중 타이틀 화면입니다/);
-  assert.match(html, /이름과 개발 수치는 공개용 이미지에서 일부 흐리게 처리했습니다/);
+  assert.match(html, /개발에 사용 중인 도시 배경 아트입니다/);
+  assert.match(html, /이름과 개발 수치는 일부 흐리게 처리했으며/);
+  assert.match(html, /<time dateTime="2026-09-05">2026\.09\.05<\/time>/i);
+  assert.match(html, /작성 당시의 구상과 작업/);
+  assert.match(html, /3D 표현으로 옮기는 작업도 진행하고 있습니다/);
+  for (const name of ["루에나 하벨", "레시아 벨른", "세린 노에르"]) {
+    assert.match(html, new RegExp(name));
+  }
+  assert.match(html, /id="characters"/);
+  assert.match(html, /동행자의 얼굴들/);
+  assert.match(html, /devlog-20260905-lesia-360\.webp 360w/);
+  assert.match(html, /devlog-20260905-serin-360\.webp 360w/);
+  assert.match(html, /devlog-20260905-city-640\.webp 640w/);
+  assert.match(html, /devlog-20260905-sunlit-960\.webp 960w/);
+  assert.match(html, /devlog-20260905-luena-360\.webp 360w/);
+  assert.match(html, /href="\/velsien-summit\/late-update"/);
   assert.equal(html.match(/role="tablist"/g)?.length ?? 0, 3);
   assert.equal(
     html.match(/id="scene-tab-(?:title|lobby|character)"/g)?.length ?? 0,
@@ -593,17 +932,37 @@ test("server-renders the privacy policy", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  assertPageMetadata(html, "/privacy");
   assert.match(html, /<title>개인정보처리방침 \| 에르시안<\/title>/i);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy"/i);
   assert.match(html, /회원가입과 문의 양식을 제공하지 않으며/);
   assert.match(html, /help@ersiyan\.com/);
   assert.match(html, /게임 앱 정책/);
   assert.match(html, /Workers Static Assets/);
-  assert.match(html, /최근 변경일 및 시행일 2026년 8월 31일/);
+  assert.match(html, /최근 변경일 및 시행일 2026년 9월 5일/);
   assert.match(html, /사업자명 변경/);
   assert.match(html, /상호가 애플파이에서[\s\S]*에르시안으로 변경/);
   assert.match(html, /개인사업자 에르시안\(대표자 탁진,[\s\S]*206-43-62580\)/);
   assert.match(html, /\/privacy\/archive\/2026-08-28/);
+  assert.match(html, /href="\/privacy\/archive\/2026-08-31"/);
+  const correction = visibleText(policySection(html, "change-notice"));
+  assert.match(correction, /방문·성능 통계 안내 정정/);
+  assert.match(correction, /이미 작동 중인 Cloudflare Web Analytics/);
+  assert.match(correction, /새로운 방문자 분석 도구를 추가한 것은 아닙니다/);
+  const oldNotice = visibleText(policySection(html, "business-name-notice"));
+  assert.equal(createHash("sha256").update(oldNotice).digest("hex"), august31PolicySectionHashes["change-notice"]);
+  const hosting = policySection(html, "hosting");
+  assert.match(visibleText(hosting), /Cloudflare Web Analytics를 사용합니다/);
+  for (const measurement of ["페이지 경로", "유입 경로", "국가", "브라우저·기기 종류", "성능 지표"]) {
+    assert.ok(visibleText(hosting).includes(measurement), `Disclosed measurement ${measurement}`);
+  }
+  assert.match(hosting, /href="https:\/\/developers\.cloudflare\.com\/web-analytics\/data-metrics\/dimensions\/"/);
+  assert.match(hosting, /href="https:\/\/developers\.cloudflare\.com\/web-analytics\/data-metrics\/core-web-vitals\/"/);
+  const cookies = policySection(html, "cookies");
+  assert.match(visibleText(cookies), /Cloudflare는 Web Analytics의 방문·성능 측정에 쿠키나 브라우저 저장소를 사용하지 않으며/);
+  assert.match(visibleText(cookies), /지문 정보를 만들지 않는다고 공식 문서 에서 안내합니다/);
+  assert.match(cookies, /href="https:\/\/developers\.cloudflare\.com\/web-analytics\/data-metrics\/core-web-vitals\/"/);
+  assert.doesNotMatch(visibleText(hosting + cookies), /별도의 방문자 분석 도구를 추가하지 않으며|방문자 분석 도구를 사용하지 않습니다/);
   assert.match(html, /href="\/privacy\/mine-logic"[^>]*>MINE LOGIC 개인정보처리방침 보기<\/a>/);
   assert.doesNotMatch(html, /`applepie\.im`/);
 });
@@ -613,6 +972,7 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  assertPageMetadata(html, "/privacy/mine-logic");
   assert.match(html, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/mine-logic"/i);
   assert.match(html, /최초 시행일 2026년 7월 29일/);
@@ -642,7 +1002,7 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
   );
   assert.match(html, /아동의 개인정보/);
   assert.match(html, /role="group" aria-label="Privacy policy language"/);
-  assert.match(html, /document\.documentElement\.lang="en"/);
+  assert.match(html, /document\.documentElement\.lang="en-US"/);
   assert.match(html, /aria-controls="mine-logic-policy-ko" aria-pressed="false"/);
   assert.match(html, /aria-controls="mine-logic-policy-en" aria-pressed="true"/);
   assert.match(html, /<button[^>]*aria-controls="mine-logic-policy-ko"[^>]*>한국어<\/button>/);
@@ -650,11 +1010,11 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
   assert.match(html, /<noscript>/);
   assert.match(html, /href="#mine-logic-policy-ko"[^>]*>한국어 개인정보처리방침으로 이동<\/a>/);
   assert.match(html, /#mine-logic-policy-ko\[hidden\][\s\S]*?display:\s*block\s*!important/);
-  assert.match(html, /id="mine-logic-policy-ko" lang="ko" hidden=""/);
-  assert.match(html, /id="mine-logic-policy-en" lang="en"/);
-  assert.doesNotMatch(html, /id="mine-logic-policy-en" lang="en" hidden/);
+  assert.match(html, /id="mine-logic-policy-ko" lang="ko-KR" hidden=""/);
+  assert.match(html, /id="mine-logic-policy-en" lang="en-US"/);
+  assert.doesNotMatch(html, /id="mine-logic-policy-en" lang="en-US" hidden/);
   assert.match(html, /href="\/"[^>]*>← 홈페이지로<\/a>/);
-  assert.match(html, /href="\/privacy"[^>]*>사이트 개인정보처리방침<\/a>/);
+  assert.match(html, /href="\/privacy"[^>]*>개인정보처리방침<\/a>/);
   assert.doesNotMatch(html, /수집·저장·이용·공유하지|제3자 SDK 없음|삭제할 데이터 없음/);
 });
 
@@ -663,6 +1023,8 @@ test("server-renders the archived privacy policy", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-08-22");
+  assert.equal(metaContent(html, "robots"), "index, follow");
   assert.match(html, /개인정보처리방침 2026년 8월 22일 보관본/);
   assert.match(html, /사용하는 OpenAI Sites와 그 기반 서비스/);
   assert.match(html, /이 방침의 최초 시행일은 2026년 8월 22일입니다/);
@@ -674,11 +1036,12 @@ test("server-renders the August 23 privacy policy archive", async () => {
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-08-23");
   assert.match(html, /개인정보처리방침 2026년 8월 23일 보관본/);
   assert.match(html, /홈페이지 호스팅 서비스 변경/);
   assert.match(html, /Cloudflare Workers Static Assets/);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/archive\/2026-08-23"/i);
-  assert.match(html, /name="robots" content="noindex, follow"/i);
+  assert.equal(metaContent(html, "robots"), "index, follow");
 });
 
 test("preserves the August 28 ApplePie privacy policy as a historical archive", async () => {
@@ -686,13 +1049,35 @@ test("preserves the August 28 ApplePie privacy policy as a historical archive", 
   assert.equal(response.status, 200);
 
   const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-08-28");
   assert.match(html, /개인정보처리방침 2026년 8월 28일 보관본/);
   assert.match(html, /브랜드 및 공식 도메인 변경/);
   assert.match(html, /개인사업자 애플파이\(대표자 탁진,[\s\S]*206-43-62580\)/);
   assert.match(html, /applepie\.im에서[\s\S]*ersiyan\.com으로 이전/);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/archive\/2026-08-28"/i);
-  assert.match(html, /name="robots" content="noindex, follow"/i);
+  assert.equal(metaContent(html, "robots"), "index, follow");
   assert.doesNotMatch(html, /id="change-notice-title">사업자명 변경<\/h2>/);
+});
+
+test("preserves the complete August 31 policy as a self-canonical searchable archive", async () => {
+  const response = await render("/privacy/archive/2026-08-31?utm_source=history");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-08-31");
+  assert.equal(metaContent(html, "robots"), "index, follow");
+  assert.match(html, /개인정보처리방침 2026년 8월 31일 보관본/);
+  assert.match(html, /href="\/privacy"/);
+  assert.match(html, /사업자명 변경/);
+  assert.match(html, /개인사업자 에르시안\(대표자 탁진,[\s\S]*206-43-62580\)/);
+  assert.match(html, /현재 홈페이지는 자체 광고 쿠키나 방문자 분석 도구를 사용하지 않습니다/);
+  for (const [id, expectedHash] of Object.entries(august31PolicySectionHashes)) {
+    const text = visibleText(policySection(html, id));
+    assert.equal(createHash("sha256").update(text).digest("hex"), expectedHash,
+      `The original August 31 ${id} clause is preserved`);
+  }
+  for (const date of ["2026-08-22", "2026-08-23", "2026-08-28"]) {
+    assert.ok(html.includes(`href="/privacy/archive/${date}"`));
+  }
 });
 
 test("required public images are present", async () => {
@@ -761,6 +1146,7 @@ test("source contains no starter preview dependency or private certificate data"
     velsienStyles,
     studioAccordion,
     businessProfile,
+    footer,
     globalStyles,
     robots,
     sitemap,
@@ -768,7 +1154,7 @@ test("source contains no starter preview dependency or private certificate data"
     teaserPreparation,
     responsivePreparation,
   ] = await Promise.all([
-    readFile(new URL("../app/page.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/_components/HomeContent.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/layout.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/privacy/page.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/privacy/mine-logic/page.tsx", import.meta.url), "utf8"),
@@ -795,7 +1181,9 @@ test("source contains no starter preview dependency or private certificate data"
     ),
     readFile(new URL("../app/_components/StudioAccordion.tsx", import.meta.url), "utf8"),
     readFile(new URL("../app/_components/business-profile.ts", import.meta.url), "utf8"),
-    readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
+    readFile(new URL("../app/_components/ErFooter.tsx", import.meta.url), "utf8"),
+    Promise.all(["globals.css", "home.css"].map((file) =>
+      readFile(new URL(`../app/${file}`, import.meta.url), "utf8"))).then((styles) => styles.join("\n")),
     readFile(new URL("../public/robots.txt", import.meta.url), "utf8"),
     readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
     readFile(new URL("../public/llms.txt", import.meta.url), "utf8"),
@@ -816,13 +1204,13 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(mineLogicPrivacy, /canonical:\s*"\/privacy\/mine-logic"/);
   assert.match(mineLogicPrivacy, /businessProfile\.email/);
   assert.match(mineLogicPrivacyContent, /useState<PolicyLanguage>\("en"\)/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = language/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = "ko"/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang="en"/);
+  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = policyLocale\[language\]/);
+  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = "ko-KR"/);
+  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang="en-US"/);
   assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "ko"\}/);
   assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "en"\}/);
-  assert.match(mineLogicPrivacyContent, /lang="ko" hidden=\{language !== "ko"\}/);
-  assert.match(mineLogicPrivacyContent, /lang="en" hidden=\{language !== "en"\}/);
+  assert.match(mineLogicPrivacyContent, /lang="ko-KR" hidden=\{language !== "ko"\}/);
+  assert.match(mineLogicPrivacyContent, /lang="en-US" hidden=\{language !== "en"\}/);
   assert.match(mineLogicPrivacyContent, /cache\/shared_cards/);
   assert.match(mineLogicPrivacyContent, /강화훈련에서 이미 제공한 문제의/);
   assert.match(mineLogicPrivacyContent, /when selected, a[\s\S]*?completion date\./);
@@ -835,7 +1223,8 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(mineLogicPrivacyContent, /<noscript>/);
   assert.match(mineLogicPrivacyContent, /href="#mine-logic-policy-ko"/);
   assert.match(mineLogicPrivacyContent, /#mine-logic-policy-ko\[hidden\][\s\S]*?display: block !important/);
-  assert.match(globalStyles, /\.policy-language-switcher button[\s\S]*?min-height:\s*44px/);
+  const policyButtonHeight = globalStyles.match(/\.policy-language-switcher button\s*\{[^}]*?min-height:\s*(\d+)px/);
+  assert.ok(Number(policyButtonHeight?.[1]) >= 44, "Policy language buttons retain a usable touch target");
   assert.match(globalStyles, /\.logo-stage\s*\{[\s\S]*?color-scheme:\s*only light/);
   assert.match(
     globalStyles,
@@ -850,7 +1239,7 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(gameShowcase, /feature-480\.webp/);
   assert.match(gameShowcase, /06_lobby-360\.webp/);
   assert.match(companyHistory, /<details id="company-history"/);
-  assert.match(companyHistory, /data-history-milestone=\{event\.id\}/);
+    assert.match(companyHistory, /data-history-milestone=\{event\.id\}/);
   assert.match(companyHistory, /dialogRef\.current\.showModal\(\)/);
   assert.match(companyHistory, /<dialog/);
   assert.match(companyHistory, /event\.target === dialog/);
@@ -876,7 +1265,6 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(responsivePicture, /<picture>/);
   assert.match(responsivePicture, /type="image\/webp"/);
   assert.match(mineLogicPage, /\["VideoGame", "MobileApplication"\]/);
-  assert.match(mineLogicPage, /softwareVersion: "1\.3\.3"/);
   assert.match(mineLogicPage, /canonical: "\/mine-logic"/);
   assert.match(mineLogicPage, /"@type": "Offer"/);
   assert.match(mineLogicPage, /price: 0/);
@@ -887,7 +1275,8 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(gameShowcase, /teaser-lobby\.webp/);
   assert.match(gameShowcase, /teaser-character\.webp/);
   assert.match(velsienPage, /canonical:\s*"\/velsien-summit"/);
-  assert.match(velsienPage, /teaser-title\.webp/);
+  assert.match(velsienPage, /devlog-20260905-city-1600\.webp/);
+  assert.match(velsienSignalDeck, /teaser-title\.webp/);
   assert.match(velsienSignalDeck, /role="tab"/);
   assert.doesNotMatch(velsienSignalDeck, /page\.module\.css/);
   assert.match(velsienPage, /signalDeckClasses/);
@@ -904,7 +1293,7 @@ test("source contains no starter preview dependency or private certificate data"
     velsienSignalDeck,
     /const canonicalUrl = "https:\/\/ersiyan\.com\/velsien-summit"/,
   );
-  assert.match(velsienSignalDeck, /만들고 있는 모바일 수집형 2D SRPG/);
+  assert.match(velsienSignalDeck, /만들고 있는 모바일 캐릭터 수집형 전략 RPG/);
   assert.match(velsienStyles, /100svh/);
   assert.match(velsienStyles, /prefers-reduced-motion:\s*reduce/);
   assert.match(velsienStyles, /min-height:\s*48px/);
@@ -916,6 +1305,13 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
   assert.match(sitemap, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(sitemap, /https:\/\/ersiyan\.com\/velsien-summit/);
+  for (const pathname of [
+    "/velsien-summit/corporate/orysen",
+    "/velsien-summit/corporate/virenta",
+    "/velsien-summit/corporate/neryx",
+  ]) {
+    assert.match(sitemap, new RegExp(`https://ersiyan\\.com${pathname.replaceAll("/", "\\/")}`));
+  }
   assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(teaserPreparation, /teaser-title\.webp/);
   assert.match(responsivePreparation, /id: "teaser-title"/);
@@ -928,12 +1324,76 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(responsivePreparation, /sourceHash/);
   assert.match(studioAccordion, /aria-expanded=\{isOpen\}/);
   assert.match(page, /id="business-info"/);
-  assert.match(page, /businessProfile\.phone/);
+  assert.match(page, /ErFooter/);
+  assert.match(footer, /businessProfile\.phone/);
+  assert.match(footer, /businessProfile\.representative/);
   assert.match(businessProfile, /businessName: "에르시안"/);
+  assert.match(businessProfile, /representative: "탁진"/);
+  assert.doesNotMatch(footer, /박진/);
   assert.doesNotMatch(page, /애플파이가 운영하는 브랜드/);
   assert.doesNotMatch(page, /사업자정보 ?확인|<dt>업태<\/dt>|<dt>종목<\/dt>/);
   assert.doesNotMatch(
     `${page}\n${businessProfile}`,
     privateDocumentDataPattern,
   );
+});
+
+test("server-renders each VELSIEN corporate page with route-specific SEO metadata", async () => {
+  const corporatePages = [
+    {
+      pathname: "/velsien-summit/corporate/orysen",
+      title: "ORYSEN | 오리센 · 벨시엔 서밋",
+      socialTitle: "ORYSEN | 오리센",
+      description: "주거, 의료, 금융, 가족 지원을 하나의 안전한 생활망으로 연결하는 오리센 공식 사이트입니다.",
+      siteName: "ORYSEN",
+      image: "/orysen-logo.png",
+      imageAlt: "오리센 공식 로고",
+      englishName: "ORYSEN",
+      koreanName: "오리센",
+    },
+    {
+      pathname: "/velsien-summit/corporate/virenta",
+      title: "VIRENTA | 비렌타 · 벨시엔 서밋",
+      socialTitle: "VIRENTA | 비렌타",
+      description: "감각, 외형, 건강, 경험을 개인의 취향에 맞춰 설계하는 비렌타 공식 사이트입니다.",
+      siteName: "VIRENTA",
+      image: "/virenta-logo.png",
+      imageAlt: "비렌타 공식 로고",
+      englishName: "VIRENTA",
+      koreanName: "비렌타",
+    },
+    {
+      pathname: "/velsien-summit/corporate/neryx",
+      title: "NERYX | 네릭스 · 벨시엔 서밋",
+      socialTitle: "NERYX | 네릭스",
+      description: "신경기술, AI, 로보틱스, 고성능 개조를 통해 인간의 능력을 확장하는 네릭스 공식 사이트입니다.",
+      siteName: "NERYX",
+      image: "/neryx-logo.png",
+      imageAlt: "네릭스 공식 로고",
+      englishName: "NERYX",
+      koreanName: "네릭스",
+    },
+  ];
+
+  for (const page of corporatePages) {
+    const response = await render(page.pathname);
+    assert.equal(response.status, 200, `${page.pathname} responds successfully`);
+
+    const html = await response.text();
+    const metadata = assertPageMetadata(html, page.pathname, { socialTitle: page.socialTitle });
+    assert.equal(metadata.title, page.title);
+    assert.equal(metadata.description, page.description);
+    assert.equal(metaContent(html, "og:site_name"), page.siteName);
+    assert.equal(metaContent(html, "og:type"), "website");
+    assert.equal(metaContent(html, "og:locale"), "ko_KR");
+    assert.equal(metaContent(html, "og:image"), `https://ersiyan.com${page.image}`);
+    assert.equal(metaContent(html, "twitter:image"), `https://ersiyan.com${page.image}`);
+    assert.equal(metaContent(html, "og:image:alt"), page.imageAlt);
+    assert.equal(metaContent(html, "twitter:image:alt"), page.imageAlt);
+
+    const text = visibleText(html);
+    assert.ok(text.includes(page.englishName), `${page.pathname} keeps its English company name visible`);
+    assert.ok(text.includes(page.koreanName), `${page.pathname} keeps its Korean company name visible`);
+    assert.doesNotMatch(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i);
+  }
 });

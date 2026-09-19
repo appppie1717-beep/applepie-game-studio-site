@@ -1,111 +1,76 @@
-"use client";
-
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import "../home.css";
+import type { ReactNode } from "react";
 import { BrandLockup } from "./BrandLockup";
 
-type HomeView = "games" | "virtual" | "company";
+export type HomeDivision = "games" | "virtual";
+
+const divisions = [
+  { id: "games", href: "/", label: "게임부", name: "ERSIYAN GAMES" },
+  { id: "virtual", href: "/virtual", label: "버츄얼부", name: "ERSIYAN VIRTUAL" },
+] as const;
 
 type HomeExperienceProps = {
-  games: ReactNode;
+  division: HomeDivision;
+  children: ReactNode;
   company: ReactNode;
   footer: ReactNode;
 };
 
 export function HomeExperience({
-  games,
+  division,
+  children,
   company,
   footer,
 }: HomeExperienceProps) {
-  const [activeView, setActiveView] = useState<HomeView>("games");
-  const previousView = useRef<HomeView>(activeView);
-
-  useEffect(() => {
-    if (previousView.current === activeView) {
-      return;
-    }
-
-    previousView.current = activeView;
-    window.scrollTo({ top: 0, behavior: "auto" });
-  }, [activeView]);
-
-  const selectView = (view: HomeView) => {
-    setActiveView(view);
-  };
-
   return (
-    <div id="top" className="site-shell" data-home-view={activeView}>
-      <a className="skip-link" href="#main-content">
-        본문으로 바로가기
-      </a>
-
+    <div id="top" className="site-shell home-shell">
+      <a className="skip-link" href="#main-content">본문으로 바로가기</a>
       <header className="site-header home-header">
         <div className="header-inner">
-          <BrandLockup href="#top" />
-
-          <div className="home-view-controls" aria-label="에르시안 화면 선택">
-            <div className="ersiyan-view-switch" role="group" aria-label="에르시안 서비스">
-              <button
-                type="button"
-                className="home-view-button"
-                aria-pressed={activeView === "games"}
-                aria-controls="ersiyan-games-view"
-                onClick={() => selectView("games")}
-              >
-                ERSIYAN GAMES
-              </button>
-              <button
-                type="button"
-                className="home-view-button"
-                aria-pressed={activeView === "virtual"}
-                aria-controls="ersiyan-virtual-view"
-                onClick={() => selectView("virtual")}
-              >
-                ERSIYAN VIRTUAL
-              </button>
+          <BrandLockup />
+          <nav className="home-view-controls" aria-label="에르시안 주요 메뉴">
+            <div className="ersiyan-view-switch">
+              {divisions.map((item) => (
+                <a
+                  id={`ersiyan-${item.id}-tab`}
+                  className="home-view-button"
+                  href={item.href}
+                  aria-current={division === item.id ? "page" : undefined}
+                  key={item.id}
+                >
+                  <strong>{item.label}</strong>
+                  <span>{item.name}</span>
+                </a>
+              ))}
             </div>
-
-            <button
-              type="button"
-              className="company-view-button"
-              aria-pressed={activeView === "company"}
-              aria-controls="ersiyan-company-view"
-              onClick={() => selectView("company")}
-            >
-              회사 정보
-            </button>
-          </div>
+            <a className="company-view-button" href="#ersiyan-company-view">회사 정보</a>
+          </nav>
         </div>
       </header>
-
-      <main id="main-content">
-        <div id="ersiyan-games-view" hidden={activeView !== "games"}>
-          {games}
-        </div>
-
+      <main id="main-content" tabIndex={-1}>
+        <h1 className="home-page-title">
+          {division === "virtual"
+            ? "ERSIYAN VIRTUAL · 버츄얼 크리에이터·디지털 캐릭터"
+            : "에르시안(ERSIYAN) · 게임 개발과 운영"}
+        </h1>
         <section
-          id="ersiyan-virtual-view"
-          className="virtual-view"
-          aria-label="ERSIYAN VIRTUAL"
-          hidden={activeView !== "virtual"}
+          id={`ersiyan-${division}-view`}
+          className={division === "virtual"
+            ? "home-division-panel virtual-view section-pad"
+            : "home-division-panel games-division"}
+          aria-labelledby={`ersiyan-${division}-tab`}
         >
-          <p role="heading" aria-level={1}>
-            COMING SOON
-          </p>
+          {children}
         </section>
-
         <section
           id="ersiyan-company-view"
           className="company-info-view section-pad"
-          aria-label="회사 정보"
-          hidden={activeView !== "company"}
+          aria-labelledby="company-title"
         >
           {company}
         </section>
       </main>
-
-      <div className="home-footer-view" hidden={activeView === "virtual"}>
-        {footer}
-      </div>
+      {footer}
     </div>
   );
 }

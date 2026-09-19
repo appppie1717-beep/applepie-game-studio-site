@@ -5,7 +5,7 @@ import { ResponsivePicture } from "./ResponsivePicture";
 
 type GameId = "mine-logic" | "velsien";
 type ScreenId = "lobby" | "hint" | "training";
-type VelsienMode = "scenes" | "world";
+type VelsienMode = "art" | "scenes" | "world";
 type VelsienSceneId = "title" | "lobby" | "character";
 
 const playStoreUrl =
@@ -58,7 +58,8 @@ const screens: Array<{
 ];
 
 const velsienModes: Array<{ id: VelsienMode; label: string }> = [
-  { id: "scenes", label: "개발 화면" },
+  { id: "art", label: "아트" },
+  { id: "scenes", label: "8월 화면" },
   { id: "world", label: "세계관 신호" },
 ];
 
@@ -107,15 +108,15 @@ const worldFiles = [
   {
     index: "01",
     signal: "VERTICAL CITY",
-    title: "도시의 정상으로 향하는 계약",
-    description: "도시의 정상에 가려면 계약부터 받아야 합니다.",
+    title: "아름답게 돌아가는 미래도시",
+    description: "인간형 AI와 자동화가 일상을 채우는 수직도시, 벨시엔을 그리고 있습니다.",
   },
   {
     index: "02",
     signal: "NEUTRAL CONTRACTOR",
     title: "어느 기업에도 묶이지 않은 계약자",
     description:
-      "당신은 평생계약을 거절했습니다. 어느 기업의 장치도 몸에 넣지 않은 채 중립으로 남았습니다.",
+      "어느 기업에도 속하지 않은 당신이 동행자들과 팀을 꾸려 계약을 맡는 이야기입니다.",
   },
   {
     index: "03",
@@ -142,7 +143,7 @@ export function GameShowcase() {
   const [activeGame, setActiveGame] = useState<GameId>("mine-logic");
   const [activeScreen, setActiveScreen] = useState<ScreenId>("lobby");
   const [activeVelsienMode, setActiveVelsienMode] =
-    useState<VelsienMode>("scenes");
+    useState<VelsienMode>("art");
   const [activeVelsienScene, setActiveVelsienScene] =
     useState<VelsienSceneId>("title");
   const activeScreenData =
@@ -319,7 +320,7 @@ export function GameShowcase() {
           </div>
 
           <p className="game-lead">
-            MINE LOGIC에는 단계별 힌트와 20단계 훈련이 들어 있습니다.
+            MINE LOGIC(마인로직)에는 단계별 힌트와 20단계 훈련이 들어 있습니다.
           </p>
           <p className="game-description">
             지뢰찾기가 처음이라면 20단계 훈련부터 시작하면 됩니다. 막히는 곳은
@@ -359,7 +360,7 @@ export function GameShowcase() {
         <div className="next-copy">
           <div className="status-row">
             <span className="status status--development">개발 중</span>
-            <span className="platform">MOBILE · COLLECTIBLE · 2D SRPG</span>
+            <span className="platform">MOBILE · COLLECTIBLE · STRATEGY RPG</span>
           </div>
           <p className="game-index">ERSIYAN GAME 002</p>
           <h3 id="velsien-title">
@@ -367,17 +368,17 @@ export function GameShowcase() {
             <small>벨시엔 서밋</small>
           </h3>
           <p>
-            캐릭터를 모아 팀을 짜고, 행동 순서를 보며 싸우는 모바일 2D
-            SRPG입니다. 아직 만드는 중이라 지금 보여드릴 수 있는 화면만 조금
-            올렸습니다.
+            아름다운 미래도시에서 인간형 AI 동행자들과 팀을 꾸리는 모바일
+            캐릭터 수집형 전략 RPG를 만들고 있습니다. 전투 전에 배치와 행동
+            순서를 준비하는 재미를 중심으로 다듬는 중입니다.
           </p>
           <ul className="development-tags" aria-label="VELSIEN SUMMIT 장르">
             <li>모바일</li>
             <li>수집형</li>
-            <li>2D SRPG</li>
+            <li>전략 RPG</li>
           </ul>
           <span className="development-note">
-            아직 개발 중이라 출시할 때 화면이 바뀔 수 있습니다.
+            완성 전의 구상과 아트, 개발 화면을 조금씩 기록합니다. 내용은 개발하면서 달라질 수 있습니다.
           </span>
           <a className="text-link" href="/velsien-summit">
             VELSIEN SUMMIT 자세히 보기 <Arrow />
@@ -391,7 +392,7 @@ export function GameShowcase() {
           <div className="velsien-experience__header">
             <div>
               <span>SNEAK PEEK</span>
-              <strong>DEV LOG · 001</strong>
+              <strong>DEV LOG · 2026.09</strong>
             </div>
             <div
               className="velsien-mode-tabs"
@@ -418,6 +419,33 @@ export function GameShowcase() {
                 );
               })}
             </div>
+          </div>
+
+          <div
+            id="velsien-mode-panel-art"
+            className="velsien-mode-panel"
+            role="tabpanel"
+            aria-labelledby="velsien-mode-tab-art"
+            hidden={activeVelsienMode !== "art"}
+          >
+            <figure className="velsien-art-preview">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/velsien-summit/devlog-20260905-city-960.webp"
+                srcSet="/images/velsien-summit/devlog-20260905-city-640.webp 640w, /images/velsien-summit/devlog-20260905-city-960.webp 960w, /images/velsien-summit/devlog-20260905-city-1600.webp 1600w"
+                sizes="(max-width: 1060px) 92vw, 48vw"
+                width={1600}
+                height={900}
+                alt="구름 위로 흰 첨탑과 넓은 광장이 펼쳐진 벨시엔의 도시 배경 아트"
+                loading="lazy"
+                decoding="async"
+              />
+              <figcaption>
+                <span>2026.09 · WORLD ART</span>
+                <strong>지금 그리고 있는 벨시엔</strong>
+                <p>개발에 사용 중인 도시 배경 아트입니다. 게임 화면과 함께 변화하는 과정을 남깁니다.</p>
+              </figcaption>
+            </figure>
           </div>
 
           <div
@@ -466,7 +494,7 @@ export function GameShowcase() {
               })}
             </div>
             <div className="velsien-experience__foot" aria-hidden="true">
-              <span>SELECT A SCENE</span>
+              <span>2026.08 · DEVELOPMENT ARCHIVE</span>
               <span>WORK IN PROGRESS</span>
             </div>
           </div>
@@ -479,8 +507,8 @@ export function GameShowcase() {
             hidden={activeVelsienMode !== "world"}
           >
             <div className="velsien-world__intro">
-              <p>WORLD FILE // PUBLIC ACCESS 03%</p>
-              <h4>지금 공개할 수 있는 설정은 여기까지입니다.</h4>
+              <p>WORLD FILE // WORK IN PROGRESS</p>
+              <h4>만들어 가는 세계의 일부를 먼저 소개합니다.</h4>
             </div>
             <ol className="world-files">
               {worldFiles.map((file) => (

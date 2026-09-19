@@ -1,17 +1,44 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
 import { BrandLockup } from "../../../_components/BrandLockup";
-import { GameProducerRegistration } from "../../../_components/GameProducerRegistration";
+import { ErFooter } from "../../../_components/ErFooter";
 
 export const metadata: Metadata = {
-  title: "개인정보처리방침 2026년 8월 23일 보관본",
+  title: { absolute: "개인정보처리방침 2026년 8월 23일 보관본 | 에르시안" },
   description: "애플파이 게임 스튜디오 개인정보처리방침의 2026년 8월 23일 보관본입니다.",
   alternates: {
     canonical: "/privacy/archive/2026-08-23",
   },
   robots: {
-    index: false,
+    index: true,
     follow: true,
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "ERSIYAN",
+    url: "/privacy/archive/2026-08-23",
+    title: "개인정보처리방침 2026년 8월 23일 보관본 | 에르시안",
+    description: "애플파이 게임 스튜디오 개인정보처리방침의 2026년 8월 23일 보관본입니다.",
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        width: 1200,
+        height: 630,
+        alt: "에르시안(ERSIYAN) 로고",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "개인정보처리방침 2026년 8월 23일 보관본 | 에르시안",
+    description: "애플파이 게임 스튜디오 개인정보처리방침의 2026년 8월 23일 보관본입니다.",
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        alt: "에르시안(ERSIYAN) 로고",
+      },
+    ],
   },
 };
 
@@ -29,7 +56,7 @@ const policySections = [
 
 export default function ArchivedPrivacyPolicy20260823() {
   return (
-    <div className="privacy-page">
+    <div id="top" className="privacy-page">
       <a className="skip-link" href="#policy-content">
         본문으로 바로가기
       </a>
@@ -217,18 +244,7 @@ export default function ArchivedPrivacyPolicy20260823() {
         </div>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <div>
-            <p>© {new Date().getFullYear()} ERSIYAN</p>
-            <GameProducerRegistration />
-          </div>
-          <div>
-            <a href="/">홈페이지</a>
-            <a href="mailto:help@ersiyan.com">문의</a>
-          </div>
-        </div>
-      </footer>
+      <ErFooter />
     </div>
   );
 }

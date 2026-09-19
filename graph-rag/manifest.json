@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "1.0",
+  "project": "applepie-game-studio-site",
+  "root": "C:\\Users\\USER\\Desktop\\잡다한거\\applepie-game-studio-site",
+  "canonicalOrigin": "https://ersiyan.com",
+  "observedAt": "2026-09-13",
+  "entrypoint": "PROJECT_GRAPH_RAG_INDEX.md",
+  "artifacts": {
+    "nodes": "graph-rag/nodes.jsonl",
+    "edges": "graph-rag/edges.jsonl",
+    "chunks": "graph-rag/chunks.jsonl",
+    "cleanup": "graph-rag/cleanup-candidates.md"
+  },
+  "scope": {
+    "indexedKinds": ["repo", "directory", "file", "route", "component", "asset", "asset-variant", "seo-metadata", "seo-artifact", "script", "test", "deployment", "policy", "evidence", "external-service"],
+    "canonicalRoutes": 15,
+    "wholeTreeFileCountObserved": 22565,
+    "wholeTreeBytesObserved": 838574599,
+    "contentExcluded": [".git/**", "node_modules/**", ".next/**", ".vinext/**", ".wrangler/**", "dist/**", "local-private/**", ".seo-audit-fresh/**", ".seo-cache/**", "outputs/**/chrome-profile/**", "**/Cookies", "**/Login Data", "**/History", "**/Sessions/**"]
+  },
+  "cleanup": {
+    "status": "pending_auto_review_limit",
+    "userAuthorized": true,
+    "executed": false,
+    "reason": "파일 삭제 명령이 자동 승인 검토 사용량 제한으로 거부됨",
+    "details": "graph-rag/cleanup-candidates.md"
+  },
+  "validation": {
+    "graphRag": "pass",
+    "renderedHtml": "18/18",
+    "cloudflareStatic": "6/6",
+    "legacyDivisionRoute": "3/3",
+    "naverIndexNowContract": "8/8",
+    "typescript": "pass",
+    "oneShotShimBuild": "pass:5 stages,16 prerendered routes",
+    "ordinaryNpmBuild": "blocked:Node child_process spawn EPERM in sandbox",
+    "localChromeReview": "pass:15 routes, desktop/mobile 390px, error=0, warn=0, no horizontal overflow, click checks pass",
+    "liveChromeReview": "reject:public site is previous build; repeat after deployment",
+    "liveLocalDrift": "live ersiyan.com remains on previous public build until external deployment"
+  },
+  "integrity": {
+    "sensitiveContentIndexed": false,
+    "corporatePagesModifiedBySeoPass": false,
+    "corporateRuntimePrefetchFix": "corporate UI, copy, and custom footers unchanged; next/link replaced with plain anchors to restore static click navigation",
+    "representative": "탁진",
+    "deploymentClaim": "not_verified"
+  }
+}

@@ -1,21 +1,29 @@
 # ERSIYAN
 
-> ERSIYAN is the official website of a Korean solo indie game studio that released MINE LOGIC and is developing VELSIEN SUMMIT.
+> ERSIYAN is a Korean company and brand with two business areas: ERSIYAN GAMES for game development and operation, and ERSIYAN VIRTUAL, preparing in the fields of virtual creators, digital characters, and entertainment.
 
 ## Official pages
 
-- [ERSIYAN home](https://ersiyan.com/): Studio overview, verified 2026 company history, and official game links.
+- [ERSIYAN home and GAMES](https://ersiyan.com/): The game development area, the parent company's verified 2026 history and legal information, and official game links.
+- [ERSIYAN VIRTUAL](https://ersiyan.com/virtual): The separate virtual creator, digital character, and entertainment area in preparation, with PROJECT 001 and shared ERSIYAN company information.
 - [MINE LOGIC](https://ersiyan.com/mine-logic): Android Minesweeper logic puzzle with staged hints, 20 training levels, and offline play.
-- [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile collectible 2D SRPG.
+- [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile character-collecting strategy RPG, with world concepts, artwork, and dated development notes.
+- [VELSIEN SUMMIT September 5 battle record](https://ersiyan.com/velsien-summit#devlog-2026-09-05-battle): Two actual 5-versus-5 development screenshots captured and published on September 5, 2026, showing battle opening and the first impact.
+- [VELSIEN SUMMIT August development record](https://ersiyan.com/velsien-summit/late-update): Archived August 2026 concepts and screenshots; these may differ from the current development direction.
 - [Privacy policy](https://ersiyan.com/privacy): Website privacy information.
 - [MINE LOGIC privacy policy](https://ersiyan.com/privacy/mine-logic): App-specific privacy information.
 
 ## Key facts
 
-- ERSIYAN (에르시안) is a Korean solo indie game studio founded in 2026.
+- ERSIYAN (에르시안) is the parent company and brand, founded in 2026. Company history and legal business information belong to ERSIYAN.
+- ERSIYAN GAMES is its game development and operation area, run as a Korean solo indie game studio.
+- ERSIYAN VIRTUAL is its virtual creator, digital character, and entertainment area in preparation. PROJECT 001 is marked IN PREPARATION; no specific project, person, contract, or launch date is announced here.
 - MINE LOGIC is a released Android game. Its package ID is `com.applepie.minelogic`.
 - [MINE LOGIC on Google Play](https://play.google.com/store/apps/details?id=com.applepie.minelogic) is the official installation page.
-- VELSIEN SUMMIT is a mobile collectible 2D SRPG in development with no announced release date.
+- VELSIEN SUMMIT is being developed as a mobile character-collecting strategy RPG with no announced release date. The website shares selected work in progress, not a final feature specification.
+- The September 5, 2026 art note discusses first-entry screen and readability work and an ongoing transition to 3D presentation. Its city and character images are artwork, not gameplay screenshots or evidence of completed 3D gameplay.
+- The separate September 5 battle record contains actual 5-versus-5 gameplay screenshots in the current 2D presentation. Character placement and some temporary enemy visuals are still being refined. These are work-in-progress images and do not demonstrate completed 3D gameplay.
+- Development records are written by ERSIYAN GAMES, the game development area of ERSIYAN. The August 2026 records preserve earlier concepts and images; their archive period is not an exact publication date.
 
 ## Contact
 

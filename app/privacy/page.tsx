@@ -1,23 +1,64 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
 import { BrandLockup } from "../_components/BrandLockup";
-import { GameProducerRegistration } from "../_components/GameProducerRegistration";
+import { ErFooter } from "../_components/ErFooter";
 
 export const metadata: Metadata = {
-  title: "개인정보처리방침",
+  title: { absolute: "개인정보처리방침 | 에르시안" },
   description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
   alternates: {
     canonical: "/privacy",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
   openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    siteName: "ERSIYAN",
     url: "/privacy",
     title: "개인정보처리방침 | 에르시안",
     description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        width: 1200,
+        height: 630,
+        alt: "에르시안(ERSIYAN) 로고",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "개인정보처리방침 | 에르시안",
+    description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+    images: [
+      {
+        url: "/ersiyan-social-card.jpg",
+        alt: "에르시안(ERSIYAN) 로고",
+      },
+    ],
   },
 };
 
+const privacyPolicyStructuredData = {
+  "@context": "https://schema.org",
+  "@type": ["WebPage", "PrivacyPolicy"],
+  "@id": "https://ersiyan.com/privacy#webpage",
+  url: "https://ersiyan.com/privacy",
+  name: "개인정보처리방침 | 에르시안",
+  description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
+  inLanguage: "ko-KR",
+  datePublished: "2026-08-22",
+  dateModified: "2026-09-05",
+  isPartOf: { "@id": "https://ersiyan.com/#website" },
+  publisher: { "@id": "https://ersiyan.com/#organization" },
+};
+
 const policySections = [
-  ["change-notice", "2026년 8월 31일 변경 안내"],
+  ["change-notice", "2026년 9월 5일 안내 정정"],
+  ["business-name-notice", "2026년 8월 31일 사업자명 변경"],
   ["overview", "방침 개요"],
   ["collection", "처리하는 정보"],
   ["hosting", "호스팅과 국외 처리"],
@@ -30,7 +71,13 @@ const policySections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="privacy-page">
+    <div id="top" className="privacy-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(privacyPolicyStructuredData),
+        }}
+      />
       <a className="skip-link" href="#policy-content">
         본문으로 바로가기
       </a>
@@ -53,7 +100,7 @@ export default function PrivacyPolicy() {
             이해하기 쉬운 방식으로 안내하는 것을 원칙으로 합니다.
           </p>
           <span className="draft-note">
-            최초 시행일 2026년 8월 22일 · 최근 변경일 및 시행일 2026년 8월 31일
+            최초 시행일 2026년 8월 22일 · 최근 변경일 및 시행일 2026년 9월 5일
           </span>
         </section>
 
@@ -68,8 +115,28 @@ export default function PrivacyPolicy() {
 
           <div className="policy-sections">
             <section id="change-notice" className="policy-change-notice" aria-labelledby="change-notice-title">
+              <p className="policy-change-kicker">2026년 9월 5일 안내 정정</p>
+              <h2 id="change-notice-title">방문·성능 통계 안내 정정</h2>
+              <p>
+                홈페이지에서 이미 작동 중인 Cloudflare Web Analytics의 방문·성능
+                측정에 대한 설명을 바로잡았습니다. 이번 정정으로 새로운 방문자 분석
+                도구를 추가한 것은 아닙니다.
+              </p>
+              <p>
+                측정 항목과 쿠키·브라우저 저장소 사용 여부를 아래에 명시했습니다.
+                개인정보 처리 주체와 문의 창구는 그대로이며, 이전 방침은 계속 열람할
+                수 있습니다.
+              </p>
+              <p>
+                <a href="/privacy/archive/2026-08-31">
+                  2026년 8월 31일 개인정보처리방침 보기
+                </a>
+              </p>
+            </section>
+
+            <section id="business-name-notice" className="policy-change-notice" aria-labelledby="business-name-notice-title">
               <p className="policy-change-kicker">2026년 8월 31일 변경 안내</p>
-              <h2 id="change-notice-title">사업자명 변경</h2>
+              <h2 id="business-name-notice-title">사업자명 변경</h2>
               <p>
                 개인정보 처리 주체인 개인사업자의 상호가 애플파이에서
                 에르시안으로 변경되었습니다. 대표자와 사업자등록번호는 동일합니다.
@@ -135,8 +202,30 @@ export default function PrivacyPolicy() {
                 을 따릅니다.
               </p>
               <p>
-                운영자는 별도의 방문자 분석 도구를 추가하지 않으며, Cloudflare의
-                개별 방문자 요청 로그를 홈페이지 데이터베이스에 수집하거나 내려받아
+                홈페이지의 이용 현황과 로딩 속도, 반응 속도, 화면 배치의 안정성을
+                확인하기 위해 Cloudflare Web Analytics를 사용합니다. 페이지 경로,
+                유입 경로, 국가, 브라우저·기기 종류와 성능 지표가 Cloudflare에
+                전송되어 통계로 제공됩니다. 측정 항목은
+                {" "}
+                <a
+                  href="https://developers.cloudflare.com/web-analytics/data-metrics/dimensions/"
+                  rel="noreferrer"
+                >
+                  Cloudflare 통계 항목 안내
+                </a>
+                와
+                {" "}
+                <a
+                  href="https://developers.cloudflare.com/web-analytics/data-metrics/core-web-vitals/"
+                  rel="noreferrer"
+                >
+                  웹 성능 측정 안내
+                </a>
+                에서 확인할 수 있습니다.
+              </p>
+              <p>
+                운영자는 Cloudflare의 개별 방문자 요청 로그를 홈페이지
+                데이터베이스에 수집하거나 내려받아
                 보관하지 않습니다. 접속 정보의 자동 처리를 원하지 않으면 홈페이지에
                 접속하지 않는 방법으로 거부할 수 있으나 이 경우 홈페이지를 이용할 수
                 없습니다.
@@ -162,8 +251,19 @@ export default function PrivacyPolicy() {
             <section id="cookies" aria-labelledby="cookies-title">
               <h2 id="cookies-title">5. 쿠키와 외부 서비스</h2>
               <p>
-                현재 홈페이지는 자체 광고 쿠키나 방문자 분석 도구를 사용하지 않습니다.
-                향후 관련 기능을 추가하면 적용 전에 이 방침을 변경해 안내합니다.
+                홈페이지는 자체 광고 쿠키를 사용하지 않습니다. Cloudflare는 Web
+                Analytics의 방문·성능 측정에 쿠키나 브라우저 저장소를 사용하지 않으며,
+                IP 주소나 브라우저 정보 등을 조합해 개인을 식별하는 지문 정보를
+                만들지 않는다고
+                {" "}
+                <a
+                  href="https://developers.cloudflare.com/web-analytics/data-metrics/core-web-vitals/"
+                  rel="noreferrer"
+                >
+                  공식 문서
+                </a>
+                에서 안내합니다. 관련 기능이 달라지면 적용 전에 이 방침을 변경해
+                안내합니다.
               </p>
               <p>
                 홈페이지에는 Google Play 등 외부 서비스로 이동하는 링크가 포함될 수
@@ -204,6 +304,15 @@ export default function PrivacyPolicy() {
               </p>
               <ul>
                 <li>
+                  2026년 9월 5일 정정본부터 이미 작동 중인 Cloudflare Web Analytics의
+                  방문·성능 측정 항목과 쿠키·브라우저 저장소 사용 여부를 명시합니다.
+                </li>
+                <li>
+                  <a href="/privacy/archive/2026-08-31">
+                    2026년 8월 31일 사업자명 변경 방침
+                  </a>
+                </li>
+                <li>
                   2026년 8월 31일 변경본부터 개인정보 처리 주체의 상호를 에르시안으로
                   표시합니다.
                 </li>
@@ -228,18 +337,7 @@ export default function PrivacyPolicy() {
         </div>
       </main>
 
-      <footer className="site-footer">
-        <div className="footer-inner">
-          <div>
-            <p>© {new Date().getFullYear()} ERSIYAN</p>
-            <GameProducerRegistration />
-          </div>
-          <div>
-            <a href="/">홈페이지</a>
-            <a href="mailto:help@ersiyan.com">문의</a>
-          </div>
-        </div>
-      </footer>
+      <ErFooter />
     </div>
   );
 }

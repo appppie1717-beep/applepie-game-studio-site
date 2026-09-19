@@ -184,6 +184,42 @@ function extractCanonicalHref(html) {
   return "";
 }
 
+function extractMetaContent(html, attribute, value) {
+  for (const [tag] of html.matchAll(/<meta\b[^>]*>/gi)) {
+    const actualValue = tag.match(new RegExp(`\\b${attribute}=["']([^"']*)["']`, "i"))?.[1] ?? "";
+    if (actualValue.toLowerCase() !== value.toLowerCase()) continue;
+    return decodeEntities(tag.match(/\bcontent=["']([^"']*)["']/i)?.[1] ?? "");
+  }
+  return "";
+}
+
+const corporateRouteExpectations = new Map([
+  [
+    "/velsien-summit/corporate/orysen",
+    {
+      title: "ORYSEN | 오리센 · 벨시엔 서밋",
+      socialTitle: "ORYSEN | 오리센",
+      socialImage: "https://ersiyan.com/orysen-logo.png",
+    },
+  ],
+  [
+    "/velsien-summit/corporate/virenta",
+    {
+      title: "VIRENTA | 비렌타 · 벨시엔 서밋",
+      socialTitle: "VIRENTA | 비렌타",
+      socialImage: "https://ersiyan.com/virenta-logo.png",
+    },
+  ],
+  [
+    "/velsien-summit/corporate/neryx",
+    {
+      title: "NERYX | 네릭스 · 벨시엔 서밋",
+      socialTitle: "NERYX | 네릭스",
+      socialImage: "https://ersiyan.com/neryx-logo.png",
+    },
+  ],
+]);
+
 function semanticSnapshot(html) {
   const title = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] ?? "";
   const visibleText = decodeEntities(
@@ -214,6 +250,14 @@ function sameOriginAssetUrls(html, origin) {
     ...extractAttributes(html, "img", "src"),
     ...extractAttributes(html, "script", "src"),
     ...extractAttributes(html, "link", "href"),
+    ...[...html.matchAll(/<meta\b[^>]*>/gi)]
+      .map(([tag]) => {
+        const property = tag.match(/\b(?:property|name)=["']([^"']*)["']/i)?.[1] ?? "";
+        return /^(?:og:image|twitter:image)$/i.test(property)
+          ? tag.match(/\bcontent=["']([^"']*)["']/i)?.[1]
+          : undefined;
+      })
+      .filter(Boolean),
   ];
   const urls = new Set();
 
@@ -231,6 +275,7 @@ const localPages = new Map(
   await Promise.all(
     [
       ["/", new URL("../dist/client/index.html", import.meta.url)],
+      ["/virtual", new URL("../dist/client/virtual.html", import.meta.url)],
       [
         "/mine-logic",
         new URL("../dist/client/mine-logic.html", import.meta.url),
@@ -246,6 +291,18 @@ const localPages = new Map(
       [
         "/velsien-summit/secret",
         new URL("../dist/client/velsien-summit/secret.html", import.meta.url),
+      ],
+      [
+        "/velsien-summit/corporate/orysen",
+        new URL("../dist/client/velsien-summit/corporate/orysen.html", import.meta.url),
+      ],
+      [
+        "/velsien-summit/corporate/virenta",
+        new URL("../dist/client/velsien-summit/corporate/virenta.html", import.meta.url),
+      ],
+      [
+        "/velsien-summit/corporate/neryx",
+        new URL("../dist/client/velsien-summit/corporate/neryx.html", import.meta.url),
       ],
       ["/privacy", new URL("../dist/client/privacy.html", import.meta.url)],
       [
@@ -264,16 +321,25 @@ const localPages = new Map(
         "/privacy/archive/2026-08-28",
         new URL("../dist/client/privacy/archive/2026-08-28.html", import.meta.url),
       ],
+      [
+        "/privacy/archive/2026-08-31",
+        new URL("../dist/client/privacy/archive/2026-08-31.html", import.meta.url),
+      ],
     ].map(async ([pathname, file]) => [pathname, await readFile(file, "utf8")]),
   ),
 );
 const targetOnlyPaths = new Set([
+  "/virtual",
   "/mine-logic",
   "/privacy/mine-logic",
   "/privacy/archive/2026-08-28",
+  "/privacy/archive/2026-08-31",
   "/velsien-summit",
   "/velsien-summit/late-update",
   "/velsien-summit/secret",
+  "/velsien-summit/corporate/orysen",
+  "/velsien-summit/corporate/virenta",
+  "/velsien-summit/corporate/neryx",
 ]);
 
 console.log(`Target: ${target.origin}`);
@@ -281,8 +347,53 @@ console.log(`Reference: ${reference?.origin ?? "target-only"}`);
 
 for (const [pathname, localHtml] of localPages) {
   const expected = semanticSnapshot(localHtml);
-  const targetResult = await request(new URL(pathname, target), 200);
+  const targetResult = await request(new URL(pathname, target), 200, "manual");
   const targetHtml = targetResult.body.toString("utf8");
+  const corporateExpectation = corporateRouteExpectations.get(pathname);
+  if (corporateExpectation) {
+    assert.equal(
+      targetHtml.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.replace(/\s+/g, " ").trim(),
+      corporateExpectation.title,
+      `${pathname} must expose its own brand title`,
+    );
+    assert.equal(
+      extractMetaContent(targetHtml, "property", "og:title"),
+      corporateExpectation.socialTitle,
+      `${pathname} must expose its own Open Graph title`,
+    );
+    assert.equal(
+      extractMetaContent(targetHtml, "name", "twitter:title"),
+      corporateExpectation.socialTitle,
+      `${pathname} must expose its own X/Twitter title`,
+    );
+    assert.equal(
+      extractMetaContent(targetHtml, "property", "og:image"),
+      corporateExpectation.socialImage,
+      `${pathname} must expose its own Open Graph image`,
+    );
+    assert.equal(
+      extractMetaContent(targetHtml, "name", "twitter:image"),
+      corporateExpectation.socialImage,
+      `${pathname} must expose its own X/Twitter image`,
+    );
+  }
+  const canonicalTags = [...targetHtml.matchAll(/<link\b[^>]*>/gi)].filter(([tag]) => {
+    const rel = tag.match(/\brel=["']([^"']*)["']/i)?.[1] ?? "";
+    return rel.split(/\s+/).some((value) => value.toLowerCase() === "canonical");
+  });
+  assert.equal(canonicalTags.length, 1, `${pathname} must have exactly one canonical`);
+  assert.equal(
+    new URL(extractCanonicalHref(targetHtml)).href,
+    new URL(pathname, "https://ersiyan.com").href,
+    `${pathname} must use its own published canonical URL`,
+  );
+  const robotsDirectives = [
+    headerValue(targetResult.headers, "x-robots-tag") ?? "",
+    ...[...targetHtml.matchAll(/<meta\b[^>]*>/gi)]
+      .filter(([tag]) => /^(?:robots|googlebot|bingbot)$/i.test(tag.match(/\bname=["']([^"']*)["']/i)?.[1] ?? ""))
+      .map(([tag]) => tag.match(/\bcontent=["']([^"']*)["']/i)?.[1] ?? ""),
+  ].join(", ");
+  assert.doesNotMatch(robotsDirectives, /\b(?:noindex|nofollow|none)\b/i, `${pathname} must permit indexing and following links`);
 
   let referenceSummary = "target-only";
   if (!options.targetOnly && !targetOnlyPaths.has(pathname) && reference) {
@@ -302,6 +413,45 @@ for (const [pathname, localHtml] of localPages) {
   }
 }
 
+const sitemapResult = await request(new URL("/sitemap.xml", target), 200, "manual");
+const sitemapXml = sitemapResult.body.toString("utf8");
+assert.equal(
+  sitemapXml,
+  await readFile(new URL("../public/sitemap.xml", import.meta.url), "utf8"),
+  "Published sitemap differs from the current source",
+);
+const sitemapUrls = [...sitemapXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => decodeEntities(match[1]));
+assert.equal(new Set(sitemapUrls).size, sitemapUrls.length, "Sitemap contains duplicate URLs");
+assert.deepEqual(
+  [...sitemapUrls].sort(),
+  [...localPages.keys()].map((pathname) => new URL(pathname, "https://ersiyan.com").href).sort(),
+  "Sitemap must contain every published canonical page, including privacy archives",
+);
+console.log(`PASS /sitemap.xml ${sitemapUrls.length} unique canonical pages`);
+
+// Check every declared document alias directly. The destination page was
+// already required to return 200 without a redirect above, so these are
+// one-hop canonical redirects even when the original URL has a query string.
+const aliasRules = (await readFile(new URL("../public/_redirects", import.meta.url), "utf8"))
+  .split(/\r?\n/)
+  .map((line) => line.trim())
+  .filter((line) => line && !line.startsWith("#"));
+for (const rule of aliasRules) {
+  const [sourcePath, destinationPath, status, ...extra] = rule.split(/\s+/);
+  assert.equal(extra.length, 0, `Invalid alias rule: ${rule}`);
+  assert.equal(status, "301", `Document aliases must be permanent: ${rule}`);
+  assert.ok(localPages.has(destinationPath), `Alias target is not a public route: ${rule}`);
+  assert.notEqual(sourcePath, destinationPath, `Self-redirect: ${rule}`);
+  const query = "?utm_source=canonical-check&label=%ED%99%95%EC%9D%B8&return=%2Fvirtual%3Ffrom%3Dgames";
+  const sourceUrl = new URL(`${sourcePath}${query}`, target);
+  const expectedUrl = new URL(`${destinationPath}${query}`, target);
+  const result = await request(sourceUrl, 301, "manual");
+  const location = headerValue(result.headers, "location");
+  assert.ok(location, `${sourceUrl} did not return a Location header`);
+  assert.equal(new URL(location, sourceUrl).href, expectedUrl.href, `${sourceUrl} lost its query or canonical path`);
+  console.log(`PASS canonical alias 301 ${sourcePath} -> ${destinationPath} query-preserved`);
+}
+
 const missingResult = await request(new URL("/__ersiyan_missing_route__", target), 404);
 console.log(`PASS 404 ${missingResult.durationMs.toFixed(1)}ms`);
 
@@ -313,13 +463,17 @@ console.log(`PASS /llms.txt ${llmsResult.durationMs.toFixed(1)}ms`);
 const redirectSources = [...new Set([...options.redirectFrom, options.www].filter(Boolean))];
 const redirectChecks = [
   { path: "/?utm_source=naver&utm_medium=display", status: 200 },
+  { path: "/virtual?utm_source=naver&utm_medium=display", status: 200 },
   { path: "/mine-logic?utm_source=google&utm_medium=organic", status: 200 },
   { path: "/velsien-summit?utm_source=kakao&utm_medium=link", status: 200 },
+  { path: "/velsien-summit/late-update?utm_source=kakao&utm_medium=link", status: 200 },
+  { path: "/velsien-summit/secret?source=old-domain", status: 200 },
   { path: "/privacy?source=old-domain", status: 200 },
   { path: "/privacy/mine-logic?lang=ko&source=old-domain", status: 200 },
   { path: "/privacy/archive/2026-08-22?check=1", status: 200 },
   { path: "/privacy/archive/2026-08-23?check=2", status: 200 },
   { path: "/privacy/archive/2026-08-28?check=3", status: 200 },
+  { path: "/privacy/archive/2026-08-31?check=4", status: 200 },
   { path: "/__redirect-probe-not-found-20260828?source=migration", status: 404 },
 ];
 

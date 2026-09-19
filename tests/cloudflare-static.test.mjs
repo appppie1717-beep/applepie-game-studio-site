@@ -11,10 +11,35 @@ const forbiddenErsiyanGameStudioPatterns = [
   new RegExp(String.raw`\bERSIYAN${htmlFormattingGap}GAME${htmlFormattingGap}STUDIO\b`, "i"),
 ];
 const homepageHeroPattern =
-  /<h1\b(?=[^>]*\bid=["']hero-title["'])[^>]*>(?:\s|<!--[\s\S]*?-->)*제가 좋아하는 인디 게임을(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*<span\b[^>]*>(?:\s|<!--[\s\S]*?-->)*직접 만들고(?:\s|<!--[\s\S]*?-->)*<\/span>(?:\s|<!--[\s\S]*?-->)*<br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.(?:\s|<!--[\s\S]*?-->)*<\/h1>/i;
+  /<h1\b[^>]*class="home-page-title"[^>]*>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/h1>/i;
 
 async function readJson(relativePath) {
   return JSON.parse(await readFile(new URL(relativePath, root), "utf8"));
+}
+
+function assertCommonFooter(html, pathname) {
+  const footers = [...html.matchAll(
+    /<footer\b[^>]*\bdata-er-footer(?:="true")?[^>]*>[\s\S]*?<\/footer>/gi,
+  )].map(([footer]) => footer);
+  assert.equal(footers.length, 1, `${pathname} renders exactly one common footer`);
+  const [footer] = footers;
+  assert.match(footer, /aria-label="에르시안 사업자 정보"/i);
+  assert.match(footer, /<dt>대표자<\/dt>[\s\S]*?<dd>탁진<\/dd>/i);
+  assert.doesNotMatch(footer, /박진/);
+  assert.match(html, /<[^>]*\bid="top"[^>]*>/i, `${pathname} has a #top target`);
+  assert.match(footer, /<a\b[^>]*href="#top"[^>]*data-er-back-top(?:="true")?[^>]*>/i);
+  assert.match(footer, /<details\b[^>]*\bdata-er-details(?:="true")?[^>]*>/i);
+  assert.match(footer, /<summary\b[^>]*>[\s\S]*?사업자 상세 정보[\s\S]*?<\/summary>/i);
+  for (const href of ["/privacy", "/privacy/mine-logic", "#top"]) {
+    assert.match(footer, new RegExp(`href="${href.replace("#", "\\#")}"`, "i"),
+      `${pathname} footer keeps ${href}`);
+  }
+  assert.match(footer, /href="mailto:help@ersiyan\.com"/i);
+  assert.match(footer, /href="tel:\+821024166267"/i);
+  assert.match(
+    footer,
+    /href="https:\/\/www\.ftc\.go\.kr\/bizCommPop\.do\?wrkr_no=2064362580"[^>]*target="_blank"[^>]*rel="noopener noreferrer"/i,
+  );
 }
 
 test("Cloudflare deployment is static-assets only", async () => {
@@ -42,8 +67,12 @@ test("Cloudflare asset directory contains every public route", async () => {
   await Promise.all(
     [
       "index.html",
+      "virtual.html",
       "mine-logic.html",
       "velsien-summit.html",
+      "velsien-summit/corporate/orysen.html",
+      "velsien-summit/corporate/virenta.html",
+      "velsien-summit/corporate/neryx.html",
       "velsien-summit/late-update.html",
       "velsien-summit/secret.html",
       "privacy.html",
@@ -51,8 +80,10 @@ test("Cloudflare asset directory contains every public route", async () => {
       "privacy/archive/2026-08-22.html",
       "privacy/archive/2026-08-23.html",
       "privacy/archive/2026-08-28.html",
+      "privacy/archive/2026-08-31.html",
       "404.html",
       "_headers",
+      "_redirects",
       "robots.txt",
       "sitemap.xml",
       "llms.txt",
@@ -83,6 +114,27 @@ test("Cloudflare asset directory contains every public route", async () => {
       "images/velsien-summit/teaser-title-640.webp",
       "images/velsien-summit/teaser-title-960.webp",
       "images/velsien-summit/teaser-title.webp",
+      "images/velsien-summit/devlog-20260905-city-640.webp",
+      "images/velsien-summit/devlog-20260905-city-960.webp",
+      "images/velsien-summit/devlog-20260905-city-1600.webp",
+      "images/velsien-summit/devlog-20260905-sunlit-640.webp",
+      "images/velsien-summit/devlog-20260905-sunlit-960.webp",
+      "images/velsien-summit/devlog-20260905-sunlit-1440.webp",
+      "images/velsien-summit/devlog-20260905-luena-360.webp",
+      "images/velsien-summit/devlog-20260905-luena-540.webp",
+      "images/velsien-summit/devlog-20260905-luena-720.webp",
+      "images/velsien-summit/devlog-20260905-lesia-360.webp",
+      "images/velsien-summit/devlog-20260905-lesia-540.webp",
+      "images/velsien-summit/devlog-20260905-lesia-720.webp",
+      "images/velsien-summit/devlog-20260905-serin-360.webp",
+      "images/velsien-summit/devlog-20260905-serin-540.webp",
+      "images/velsien-summit/devlog-20260905-serin-720.webp",
+      "images/velsien-summit/devlog-20260905-battle-01-640.webp",
+      "images/velsien-summit/devlog-20260905-battle-01-960.webp",
+      "images/velsien-summit/devlog-20260905-battle-01-1920.webp",
+      "images/velsien-summit/devlog-20260905-battle-02-640.webp",
+      "images/velsien-summit/devlog-20260905-battle-02-960.webp",
+      "images/velsien-summit/devlog-20260905-battle-02-1920.webp",
       "images/velsien-summit/teaser-lobby-640.webp",
       "images/velsien-summit/teaser-lobby-960.webp",
       "images/velsien-summit/teaser-lobby.webp",
@@ -91,8 +143,14 @@ test("Cloudflare asset directory contains every public route", async () => {
       "images/velsien-summit/teaser-character.webp",
       "images/velsien-summit/velsien-summit-social.jpg",
       "images/velsien-summit/late-update-operation.webp",
+      "images/velsien-summit/late-update-operation-400.webp",
+      "images/velsien-summit/late-update-operation-640.webp",
       "images/velsien-summit/late-update-gacha.webp",
+      "images/velsien-summit/late-update-gacha-400.webp",
+      "images/velsien-summit/late-update-gacha-640.webp",
       "images/velsien-summit/late-update-formation.webp",
+      "images/velsien-summit/late-update-formation-400.webp",
+      "images/velsien-summit/late-update-formation-640.webp",
       "images/velsien-summit/secret/nika-oren.webp",
       "images/velsien-summit/secret/luena-havel.webp",
       "images/velsien-summit/secret/serin-noer.webp",
@@ -106,8 +164,9 @@ test("Cloudflare asset directory contains every public route", async () => {
     ),
   );
 
-  const [homepage, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound, headers, robots, sitemap, llms] = await Promise.all([
+  const [homepage, virtual, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound, headers, robots, sitemap, llms] = await Promise.all([
     readFile(new URL("index.html", client), "utf8"),
+    readFile(new URL("virtual.html", client), "utf8"),
     readFile(new URL("mine-logic.html", client), "utf8"),
     readFile(new URL("velsien-summit.html", client), "utf8"),
     readFile(new URL("velsien-summit/late-update.html", client), "utf8"),
@@ -117,6 +176,7 @@ test("Cloudflare asset directory contains every public route", async () => {
     readFile(new URL("privacy/archive/2026-08-22.html", client), "utf8"),
     readFile(new URL("privacy/archive/2026-08-23.html", client), "utf8"),
     readFile(new URL("privacy/archive/2026-08-28.html", client), "utf8"),
+    readFile(new URL("privacy/archive/2026-08-31.html", client), "utf8"),
     readFile(new URL("404.html", client), "utf8"),
     readFile(new URL("_headers", client), "utf8"),
     readFile(new URL("robots.txt", client), "utf8"),
@@ -124,18 +184,35 @@ test("Cloudflare asset directory contains every public route", async () => {
     readFile(new URL("llms.txt", client), "utf8"),
   ]);
 
+  for (const [pathname, html] of [
+    ["/", homepage],
+    ["/virtual", virtual],
+    ["/mine-logic", mineLogic],
+    ["/privacy", privacyPolicy],
+    ["/privacy/mine-logic", mineLogicPrivacyPolicy],
+    ["/privacy/archive/2026-08-22", archivedPrivacyPolicy],
+    ["/privacy/archive/2026-08-23", archivedPrivacyPolicy20260823],
+    ["/privacy/archive/2026-08-28", archivedPrivacyPolicy20260828],
+    ["/privacy/archive/2026-08-31", archivedPrivacyPolicy20260831],
+    ["/velsien-summit", velsienSummit],
+    ["/velsien-summit/late-update", velsienLateUpdate],
+    ["/velsien-summit/secret", velsienSecret],
+  ]) {
+    assertCommonFooter(html, pathname);
+  }
+
   assert.match(homepage, /<html[^>]*lang="ko"/i);
   assert.match(
     homepage,
-    /<title>에르시안 \| MINE LOGIC·VELSIEN SUMMIT 인디 게임 스튜디오<\/title>/i,
+    /<title>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/title>/i,
   );
   assert.match(
     homepage,
-    /<meta property="og:title" content="에르시안 \| ERSIYAN"\/>/i,
+    /<meta property="og:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
   );
   assert.match(
     homepage,
-    /<meta name="twitter:title" content="에르시안 \| ERSIYAN"\/>/i,
+    /<meta name="twitter:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
   );
   assert.match(homepage, /ersiyan-social-card\.jpg/i);
   assert.match(homepage, /ersiyan-logo-hero\.webp/i);
@@ -143,6 +220,17 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(homepage, /"email":"help@ersiyan\.com"/);
   assert.match(homepage, homepageHeroPattern);
   assert.match(homepage, /href="\/mine-logic"/i);
+  assert.match(homepage, /<a\b(?=[^>]*id="ersiyan-virtual-tab")(?=[^>]*href="\/virtual")[^>]*>/i);
+  assert.doesNotMatch(homepage, /<section\b[^>]*id="ersiyan-virtual-view"/i);
+  assert.match(virtual, /<a\b(?=[^>]*id="ersiyan-games-tab")(?=[^>]*href="\/")[^>]*>/i);
+  assert.match(virtual, /<a\b(?=[^>]*id="ersiyan-virtual-tab")(?=[^>]*aria-current="page")[^>]*>/i);
+  assert.match(virtual, /<section\b[^>]*id="ersiyan-virtual-view"/i);
+  assert.doesNotMatch(virtual, /<section\b[^>]*id="ersiyan-games-view"/i);
+  assert.match(virtual, /rel="canonical" href="https:\/\/ersiyan\.com\/virtual"/i);
+  assert.match(virtual, /PROJECT 001/);
+  assert.match(virtual, /id="ersiyan-company-view"/);
+  assert.match(virtual, /id="business-info"/);
+  assert.doesNotMatch(virtual, /href="\/velsien-summit\/secret"/i);
   assert.match(homepage, /feature-480\.webp 480w/i);
   assert.match(homepage, /06_lobby-360\.webp 360w/i);
   assert.doesNotMatch(
@@ -152,11 +240,11 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(homepage, /게임제작업자 등록번호/);
   assert.match(homepage, /제2026-000002호/);
   assert.match(homepage, /개인사업자 에르시안이 운영하는 공식 홈페이지입니다/);
-  assert.match(homepage, /aria-label="에르시안 법정 사업자 정보"/);
+  assert.match(homepage, /aria-label="에르시안 사업자 정보"/);
   assert.doesNotMatch(homepage, /ERSIYAN은 애플파이가 운영하는 브랜드입니다/);
   assert.match(
     mineLogic,
-    /<title>MINE LOGIC \| 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임<\/title>/i,
+    /<title>MINE LOGIC\(마인로직\) \| Android 오프라인 지뢰찾기 · 단계별 힌트 · 20단계 훈련<\/title>/i,
   );
   assert.match(
     mineLogic,
@@ -167,6 +255,8 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(mineLogic, /"identifier":"com\.applepie\.minelogic"/);
   assert.match(mineLogic, /"priceCurrency":"KRW"/);
   assert.match(mineLogic, /9 × 9 · 지뢰 10개/);
+  assert.doesNotMatch(mineLogic, /\/_next\/static\/chunks\/link-[^"\s]+\.js/,
+    "Static document links do not load the unsupported RSC prefetch client");
   assert.match(mineLogic, /16 × 16 · 지뢰 40개/);
   assert.match(mineLogic, /30 × 16 · 지뢰 99개/);
   assert.match(mineLogic, /일반훈련 1~15단계/);
@@ -180,7 +270,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.doesNotMatch(mineLogic, /"aggregateRating"|"review"/);
   assert.match(
     velsienSummit,
-    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 수집형 2D SRPG<\/title>/i,
+    /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 캐릭터 수집형 전략 RPG<\/title>/i,
   );
   assert.match(velsienSummit, /rel="canonical" href="https:\/\/ersiyan\.com\/velsien-summit"/i);
   assert.match(velsienSummit, /property="og:url" content="https:\/\/ersiyan\.com\/velsien-summit"/i);
@@ -213,8 +303,10 @@ test("Cloudflare asset directory contains every public route", async () => {
     1,
   );
   assert.match(homepage, /OUR GAMES · 01/);
-  assert.match(homepage, /WORLD FILE \/\/ PUBLIC ACCESS 03%/);
-  assert.match(homepage, /도시의 정상으로 향하는 계약/);
+  assert.match(homepage, /WORLD FILE \/\/ WORK IN PROGRESS/);
+  assert.match(homepage, /아름답게 돌아가는 미래도시/);
+  assert.match(velsienLateUpdate, /2026년 8월 말의 개발 기록입니다/);
+  assert.match(velsienLateUpdate, /href="\/velsien-summit#development-log"/);
   assert.match(homepage, /어느 기업에도 묶이지 않은 계약자/);
   assert.match(homepage, /세 개의 기업 채널/);
   assert.equal(
@@ -241,17 +333,19 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(privacyPolicy, /사업자명 변경/);
   assert.match(privacyPolicy, /개인사업자 에르시안\(대표자 탁진/);
   assert.match(privacyPolicy, /\/privacy\/archive\/2026-08-28/);
+  assert.match(privacyPolicy, /href="\/privacy\/archive\/2026-08-31"/);
+  assert.match(privacyPolicy, /Cloudflare Web Analytics/);
   assert.match(mineLogicPrivacyPolicy, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
   assert.match(mineLogicPrivacyPolicy, /https:\/\/ersiyan\.com\/privacy\/mine-logic/i);
   assert.match(mineLogicPrivacyPolicy, /MINE LOGIC Privacy Policy/);
-  assert.match(mineLogicPrivacyPolicy, /document\.documentElement\.lang="en"/);
+  assert.match(mineLogicPrivacyPolicy, /document\.documentElement\.lang="en-US"/);
   assert.match(mineLogicPrivacyPolicy, /aria-controls="mine-logic-policy-en" aria-pressed="true"/);
   assert.match(mineLogicPrivacyPolicy, /aria-controls="mine-logic-policy-ko" aria-pressed="false"/);
   assert.match(mineLogicPrivacyPolicy, /<noscript>/);
   assert.match(mineLogicPrivacyPolicy, /href="#mine-logic-policy-ko"[^>]*>한국어 개인정보처리방침으로 이동<\/a>/);
   assert.match(mineLogicPrivacyPolicy, /#mine-logic-policy-ko\[hidden\][\s\S]*?display:\s*block\s*!important/);
-  assert.match(mineLogicPrivacyPolicy, /id="mine-logic-policy-ko" lang="ko" hidden=""/);
-  assert.match(mineLogicPrivacyPolicy, /id="mine-logic-policy-en" lang="en"/);
+  assert.match(mineLogicPrivacyPolicy, /id="mine-logic-policy-ko" lang="ko-KR" hidden=""/);
+  assert.match(mineLogicPrivacyPolicy, /id="mine-logic-policy-en" lang="en-US"/);
   assert.match(mineLogicPrivacyPolicy, /cache\/shared_cards/);
   assert.match(mineLogicPrivacyPolicy, /Children.s privacy/);
   assert.match(mineLogicPrivacyPolicy, /강화훈련에서 이미 제공한 문제의\s*이력/);
@@ -271,6 +365,13 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(archivedPrivacyPolicy20260823, /<title>개인정보처리방침 2026년 8월 23일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260828, /<title>개인정보처리방침 2026년 8월 28일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260828, /개인사업자 애플파이/);
+  assert.match(archivedPrivacyPolicy20260831, /<title>개인정보처리방침 2026년 8월 31일 보관본 \| 에르시안<\/title>/i);
+  assert.match(archivedPrivacyPolicy20260831, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/archive\/2026-08-31"/i);
+  for (const archive of [archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831]) {
+    assert.match(archive, /name="robots" content="index, follow"/i);
+  }
+  assert.match(archivedPrivacyPolicy20260831, /사업자명 변경/);
+  assert.match(archivedPrivacyPolicy20260831, /현재 홈페이지는 자체 광고 쿠키나 방문자 분석 도구를 사용하지 않습니다/);
   assert.match(notFound, /<title>에르시안<\/title>/i);
   assert.match(headers, /Strict-Transport-Security:\s*max-age=31536000/i);
   assert.match(headers, /Content-Security-Policy:[^\r\n]*frame-ancestors 'none'/i);
@@ -281,22 +382,42 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/late-update<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/secret<\/loc>/);
   assert.deepEqual(
-    [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]),
+    [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]).sort(),
     [
       "https://ersiyan.com/",
+      "https://ersiyan.com/virtual",
       "https://ersiyan.com/mine-logic",
       "https://ersiyan.com/velsien-summit",
+      "https://ersiyan.com/velsien-summit/corporate/orysen",
+      "https://ersiyan.com/velsien-summit/corporate/virenta",
+      "https://ersiyan.com/velsien-summit/corporate/neryx",
       "https://ersiyan.com/velsien-summit/late-update",
       "https://ersiyan.com/velsien-summit/secret",
       "https://ersiyan.com/privacy",
       "https://ersiyan.com/privacy/mine-logic",
-    ],
+      "https://ersiyan.com/privacy/archive/2026-08-22",
+      "https://ersiyan.com/privacy/archive/2026-08-23",
+      "https://ersiyan.com/privacy/archive/2026-08-28",
+      "https://ersiyan.com/privacy/archive/2026-08-31",
+    ].sort(),
   );
-  assert.doesNotMatch(sitemap, /\/privacy\/archive\//);
+  assert.equal(sitemap, await readFile(new URL("public/sitemap.xml", root), "utf8"),
+    "Staged sitemap preserves the current source URLs and modification dates");
+  for (const [, entry] of sitemap.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+    const location = entry.match(/<loc>([^<]+)<\/loc>/)?.[1];
+    const modificationDates = [...entry.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)];
+    assert.equal(modificationDates.length, 1, `${location} has exactly one modification date`);
+    const date = modificationDates[0][1];
+    assert.match(date, /^\d{4}-\d{2}-\d{2}$/, `${location} uses an ISO calendar date`);
+    const timestamp = Date.parse(`${date}T00:00:00.000Z`);
+    assert.ok(Number.isFinite(timestamp), `${location} has a valid modification date`);
+    assert.equal(new Date(timestamp).toISOString().slice(0, 10), date,
+      `${location} has a real calendar date`);
+  }
   assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(llms, /com\.applepie\.minelogic/);
 
-  for (const html of [homepage, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, notFound]) {
+  for (const html of [homepage, virtual, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound]) {
     assert.doesNotMatch(html, /dist\/server|server\/index\.js|\/_worker\.js/i);
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
       assert.doesNotMatch(html, forbiddenPattern);
@@ -309,19 +430,98 @@ test("Cloudflare asset directory contains every public route", async () => {
   );
 });
 
-test("every local image, stylesheet, and script referenced by HTML exists", async () => {
+test("corporate static pages retain their own title and social identity", async () => {
+  for (const [company, socialTitle] of [
+    ["orysen", "ORYSEN | 오리센"],
+    ["virenta", "VIRENTA | 비렌타"],
+    ["neryx", "NERYX | 네릭스"],
+  ]) {
+    const html = await readFile(new URL(`velsien-summit/corporate/${company}.html`, client), "utf8");
+    assert.doesNotMatch(html, /<footer\b[^>]*data-er-footer/i,
+      `${company} keeps its footer-free corporate page intact`);
+    assert.doesNotMatch(html, /id="business-info"|에르시안 사업자 정보|대표자<\/dt>/i,
+      `${company} is excluded from the shared business footer`);
+    assert.deepEqual(
+      [...html.matchAll(/<title[^>]*>([\s\S]*?)<\/title>/gi)].map((match) => match[1]),
+      [`${socialTitle} · 벨시엔 서밋`],
+      `${company} uses its own title without the parent-site template`,
+    );
+    const metaTags = [...html.matchAll(/<meta\b[^>]*>/gi)].map(([tag]) => tag);
+    for (const [attribute, name, expected] of [
+      ["property", "og:title", socialTitle],
+      ["name", "twitter:title", socialTitle],
+      ["property", "og:image", `https://ersiyan.com/${company}-logo.png`],
+      ["name", "twitter:image", `https://ersiyan.com/${company}-logo.png`],
+    ]) {
+      const contents = metaTags
+        .filter((tag) => tag.match(new RegExp(`\\b${attribute}=["']([^"']*)["']`, "i"))?.[1] === name)
+        .map((tag) => tag.match(/\bcontent=["']([^"']*)["']/i)?.[1]);
+      assert.deepEqual(contents, [expected], `${company} publishes exactly one current ${name}`);
+    }
+  }
+});
+
+test("every local image, responsive candidate, social image, stylesheet, and script exists", async () => {
+  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "404.html"];
   const pages = await Promise.all(
-    ["index.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "404.html"].map((file) =>
+    pageFiles.map((file) =>
       readFile(new URL(file, client), "utf8"),
     ),
   );
+  const manifest = await readJson("dist/server/.vite/manifest.json");
+  const entryKeys = Object.keys(manifest).filter((key) => manifest[key].isEntry);
+  assert.ok(entryKeys.length > 0, "Build manifest identifies the shared entry");
+  function requiredStyles(file) {
+    const seen = new Set();
+    const hrefs = new Set();
+    function visit(key) {
+      if (seen.has(key)) return;
+      seen.add(key);
+      assert.ok(manifest[key], `Build entry ${key} exists`);
+      for (const css of manifest[key].css ?? []) hrefs.add(`/${css}`);
+      for (const dependency of manifest[key].imports ?? []) visit(dependency);
+    }
+    entryKeys.forEach(visit);
+    if (file !== "404.html") {
+      visit(file === "index.html" ? "app/page.tsx" : `app/${file.replace(/\.html$/, "")}/page.tsx`);
+    }
+    return [...hrefs].sort();
+  }
   const assetPaths = new Set();
+  function addLocalAsset(value) {
+    if (value.startsWith("https://ersiyan.com/")) value = new URL(value).pathname;
+    if (value.startsWith("/") && !value.startsWith("//")) {
+      assetPaths.add(value.split(/[?#]/, 1)[0]);
+    }
+  }
 
-  for (const html of pages) {
+  for (const [pageIndex, html] of pages.entries()) {
+    // Check the complete dependency set, not only whichever styles happened
+    // to survive static rendering. This guards external and embedded delivery.
+    const styles = [...html.matchAll(/<style\b[^>]*data-vinext-inline-css[^>]*data-href="([^"]+)"[^>]*>([\s\S]*?)<\/style>/g)];
+    const linkedStyles = [...html.matchAll(/<link\b(?=[^>]*rel="stylesheet")[^>]*href="([^"]+)"[^>]*>/gi)]
+      .map(([, href]) => href);
+    const allStyleHrefs = [...styles.map(([, href]) => href), ...linkedStyles];
+    assert.ok(allStyleHrefs.length > 0, "Static HTML includes its route styles");
+    assert.equal(new Set(allStyleHrefs).size, allStyleHrefs.length,
+      "Each route stylesheet is included once");
+    assert.deepEqual(allStyleHrefs.sort(), requiredStyles(pageFiles[pageIndex]),
+      "Static HTML contains every stylesheet required by its build dependencies");
+    for (const [, href, css] of styles) {
+      assert.equal(css, await readFile(new URL(`.${href}`, client), "utf8"),
+        "The embedded CSS preserves the complete compiled stylesheet");
+    }
     for (const match of html.matchAll(/<(?:img|script|link)\b[^>]*?\b(?:src|href)=["']([^"']+)["']/gi)) {
-      const value = match[1];
-      if (value.startsWith("/") && !value.startsWith("//")) {
-        assetPaths.add(value.split(/[?#]/, 1)[0]);
+      // Absolute canonical links identify pages, not files in the asset directory.
+      if (match[1].startsWith("/")) addLocalAsset(match[1]);
+    }
+    for (const [, candidates] of html.matchAll(/\b(?:srcset|imagesrcset)="([^"]+)"/gi)) {
+      for (const candidate of candidates.split(",")) addLocalAsset(candidate.trim().split(/\s+/)[0]);
+    }
+    for (const [tag] of html.matchAll(/<meta\b[^>]*>/gi)) {
+      if (/\b(?:name|property)="(?:og:image|twitter:image)"/i.test(tag)) {
+        const content = tag.match(/\bcontent="([^"]+)"/i)?.[1];
+        if (content) addLocalAsset(content);
       }
     }
   }
@@ -330,4 +530,54 @@ test("every local image, stylesheet, and script referenced by HTML exists", asyn
   await Promise.all(
     [...assetPaths].map((pathname) => access(new URL(`.${pathname}`, client))),
   );
+});
+
+test("explicit permanent aliases are staged without loops or query overrides", async () => {
+  const [source, staged] = await Promise.all([
+    readFile(new URL("public/_redirects", root), "utf8"),
+    readFile(new URL("_redirects", client), "utf8"),
+  ]);
+  assert.equal(staged, source);
+  const rules = source.split(/\r?\n/).map((line) => line.trim())
+    .filter((line) => line && !line.startsWith("#")).map((line) => line.split(/\s+/));
+  const expected = new Map([["/index", "/"], ["/index/", "/"], ["/index.html", "/"], ["/games", "/"]]);
+  for (const path of ["/games", "/virtual", "/mine-logic", "/velsien-summit",
+    "/velsien-summit/corporate/orysen", "/velsien-summit/corporate/virenta", "/velsien-summit/corporate/neryx",
+    "/velsien-summit/late-update", "/velsien-summit/secret", "/privacy", "/privacy/mine-logic",
+    "/privacy/archive/2026-08-22", "/privacy/archive/2026-08-23", "/privacy/archive/2026-08-28", "/privacy/archive/2026-08-31"]) {
+    for (const suffix of ["/", ".html", "/index", "/index/", "/index.html"]) {
+      expected.set(`${path}${suffix}`, path === "/games" ? "/" : path);
+    }
+  }
+  assert.equal(rules.length, expected.size);
+  for (const [from, to, status, ...extra] of rules) {
+    assert.equal(extra.length, 0);
+    assert.equal(status, "301");
+    assert.equal(to, expected.get(from), from);
+    assert.doesNotMatch(from + to, /[?*]|https?:/);
+    assert.ok(!expected.has(to), `${from} redirects directly to its canonical page`);
+    expected.delete(from);
+  }
+  assert.equal(expected.size, 0);
+});
+
+
+test("Velsien reserves its hero preload for the desktop viewport", async () => {
+  const html = await readFile(new URL("velsien-summit.html", client), "utf8");
+  const preloads = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => tag)
+    .filter(tag => /rel="preload"/.test(tag) && /devlog-20260905-city-/.test(tag));
+  assert.equal(preloads.length, 1, "Exactly one desktop hero preload is emitted");
+  for (const preload of preloads) {
+    assert.match(preload, /media="\(min-width: 1061px\)"/, "No blanket mobile hero preload is emitted");
+  }
+  assert.equal(new Set(preloads.map(tag => tag.match(/imagesrcset="([^"]+)"/i)?.[1])).size, 1,
+    "Flight and document hints identify the same responsive resource");
+  assert.match(preloads[0], /fetchPriority="high"/i);
+  assert.match(preloads[0], /imagesrcset="[^"]+640w[^"]+960w[^"]+1600w"/i);
+  assert.ok(html.indexOf(preloads[0]) < html.indexOf("</head>"));
+  const hero = html.match(/<picture style="display:contents"><img[^>]+devlog-20260905-city-1600\.webp[^>]*>/)?.[0];
+  assert.ok(hero, "Picture prevents React automatic image preload");
+  assert.match(hero, /loading="eager"/);
+  assert.match(hero, /fetchPriority="auto"/i);
+  assert.match(hero, /width="1600" height="900"/);
 });

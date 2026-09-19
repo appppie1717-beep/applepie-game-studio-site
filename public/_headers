@@ -2,6 +2,11 @@
 /_next/static/*
   Cache-Control: public, max-age=31536000, immutable
 
+# Dated development images can be reused between visits. Keep revalidation
+# possible rather than claiming every image URL is immutable.
+/images/velsien-summit/devlog-20260905-*
+  Cache-Control: public, max-age=86400
+
 # Baseline browser security headers for every public response.
 /*
   Content-Security-Policy: base-uri 'self'; frame-ancestors 'none'; object-src 'none'

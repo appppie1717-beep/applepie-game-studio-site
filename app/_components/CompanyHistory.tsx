@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 type HistoryLink = {
@@ -59,7 +58,7 @@ const historyEvents: readonly HistoryEvent[] = [
     title: "개인사업자 개업",
     summary: "모바일 게임 소프트웨어 개발 및 공급업으로 사업을 시작했습니다.",
     description:
-      "애플파이 상호로 모바일 게임 소프트웨어 개발 및 공급업을 시작했습니다. 같은 사업자등록번호와 대표자를 유지한 채 이후 법정 상호를 에르시안으로 변경했습니다.",
+      "애플파이 상호로 모바일 게임 소프트웨어 개발 및 공급업을 시작했습니다.",
     image: "/images/brand/ersiyan-logo-hero.webp",
     imageAlt: "현재 법정 상호인 에르시안 로고",
     imageWidth: 960,
@@ -166,6 +165,22 @@ const historyEvents: readonly HistoryEvent[] = [
       { label: "현재 개인정보처리방침", href: "/privacy" },
       { label: "현재 사업자 정보", href: "#business-info" },
     ],
+  },
+  {
+    id: "business-industry-expansion-2026-09-07",
+    dateTime: "2026-09-07",
+    dateLabel: "09.07",
+    fullDate: "2026. 09. 07.",
+    title: "사업자 업종 추가 등록",
+    summary: "사업자등록증의 등록 업종이 추가 등록되었습니다.",
+    description:
+      "사업자등록증의 등록 업종이 모바일 게임 소프트웨어 개발 및 공급업(722002)에 더해 매니저업(749911)과 미디어 콘텐츠 창작업(921505)이 추가되었습니다.",
+    image: "/images/brand/ersiyan-logo-hero.webp",
+    imageAlt: "현재 법정 상호인 에르시안 로고",
+    imageWidth: 960,
+    imageHeight: 246,
+    imageFit: "contain",
+    links: [{ label: "현재 사업자 정보", href: "#business-info" }],
   },
 ];
 
@@ -316,12 +331,16 @@ export function CompanyHistory() {
                   : ""
               }`}
             >
-              <Image
-                src={selectedEvent.image}
-                alt={selectedEvent.imageAlt}
-                width={selectedEvent.imageWidth}
-                height={selectedEvent.imageHeight}
-                sizes="(max-width: 700px) 100vw, 42vw"
+              {/* Native image keeps the dialog grid sizing without a client image runtime. */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                  src={selectedEvent.image}
+                  alt={selectedEvent.imageAlt}
+                  width={selectedEvent.imageWidth}
+                  height={selectedEvent.imageHeight}
+                  sizes="(max-width: 700px) 100vw, 42vw"
+                  loading="lazy"
+                  decoding="async"
               />
             </div>
 

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ErFooter } from "../../_components/ErFooter";
 import styles from "./page.module.css";
 import { capture as devCapture01 } from "./devCapture01";
 import { capture as devCapture02 } from "./devCapture02";
@@ -7,7 +8,7 @@ import { capture as devCapture04 } from "./devCapture04";
 
 const title = "VELSIEN SUMMIT Secret Archive | ERSIYAN";
 const description =
-  "A discoverable but unlisted VELSIEN SUMMIT development archive with five character studies, three combat captures, and four current development captures.";
+  "VELSIEN SUMMIT development archive with five character studies, three combat captures, and four current development captures.";
 
 export const metadata: Metadata = {
   title: {
@@ -28,6 +29,25 @@ export const metadata: Metadata = {
     url: "/velsien-summit/secret",
     title,
     description,
+    images: [
+      {
+        url: "/images/velsien-summit/velsien-summit-social.jpg",
+        width: 1200,
+        height: 630,
+        alt: "A bright vertical city with the VELSIEN SUMMIT logo and an IN DEVELOPMENT notice",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [
+      {
+        url: "/images/velsien-summit/velsien-summit-social.jpg",
+        alt: "A bright vertical city with the VELSIEN SUMMIT logo and an IN DEVELOPMENT notice",
+      },
+    ],
   },
 };
 
@@ -94,9 +114,16 @@ const developmentCaptures = [
   devCapture04,
 ];
 
+function responsiveSrcSet(src: string, widths: readonly number[], originalWidth: number) {
+  return [
+    ...widths.map((width) => `${src.replace(/\.webp$/, `-${width}.webp`)} ${width}w`),
+    `${src} ${originalWidth}w`,
+  ].join(", ");
+}
+
 export default function VelsienSecretArchivePage() {
   return (
-    <div className={styles.page} lang="en">
+    <div id="top" className={styles.page} lang="en">
       <header className={styles.header}>
         <p>ERSIYAN / VELSIEN SUMMIT</p>
         <span>UNLISTED ARCHIVE</span>
@@ -124,15 +151,21 @@ export default function VelsienSecretArchivePage() {
           <div className={styles.characterGrid}>
             {characters.map((character, index) => (
               <figure className={styles.characterCard} key={character.name}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={character.src}
-                  alt={`${character.name} full-body character study`}
-                  width={character.width}
-                  height={character.height}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  decoding="async"
-                />
+                <picture style={{ display: "contents" }}>
+                  <source
+                    media="(max-width: 680px)"
+                    srcSet={responsiveSrcSet(character.src, [400, 720], character.width)}
+                    sizes="(max-width: 400px) calc(100vw - 42px), calc(90vw - 2px)"
+                  />
+                  <img
+                    src={character.src}
+                    alt={`${character.name} full-body character study`}
+                    width={character.width}
+                    height={character.height}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                </picture>
                 <figcaption>
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <div>
@@ -156,6 +189,8 @@ export default function VelsienSecretArchivePage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={capture.src}
+                  srcSet={responsiveSrcSet(capture.src, [640, 960], 1369)}
+                  sizes="auto, (max-width: 400px) calc(100vw - 42px), (max-width: 1480px) calc(100vw - clamp(40px, 10vw, 152px) - 2px), 1326px"
                   alt={`VELSIEN SUMMIT combat capture, ${capture.title}`}
                   width={1369}
                   height={644}
@@ -204,10 +239,7 @@ export default function VelsienSecretArchivePage() {
         </section>
       </main>
 
-      <footer className={styles.footer}>
-        <p>VELSIEN SUMMIT // DEVELOPMENT ARCHIVE</p>
-        <span>© {new Date().getFullYear()} ERSIYAN</span>
-      </footer>
+      <ErFooter />
     </div>
   );
 }

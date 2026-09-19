@@ -1,16 +1,31 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+/* eslint-disable @next/next/no-html-link-for-pages -- Cross-page links load complete static documents. */
 import { BrandLockup } from "../_components/BrandLockup";
-import { GameProducerRegistration } from "../_components/GameProducerRegistration";
+import { ErFooter } from "../_components/ErFooter";
 import { ResponsivePicture } from "../_components/ResponsivePicture";
 import styles from "./page.module.css";
 
 const title =
-  "MINE LOGIC | 단계별 힌트와 20단계 훈련이 있는 지뢰찾기 게임";
+  "MINE LOGIC(마인로직) | Android 오프라인 지뢰찾기 · 단계별 힌트 · 20단계 훈련";
 const description =
-  "MINE LOGIC은 단계별 힌트와 20단계 훈련으로 지뢰찾기를 처음 배우는 사람도 즐길 수 있는 Android 논리 퍼즐 게임입니다. 초급·중급·고급 난이도, 오프라인 플레이, 실제 게임 화면과 Google Play 설치 정보를 확인하세요.";
+  "MINE LOGIC(마인로직)은 Android에서 인터넷 없이 즐기는 오프라인 지뢰찾기 게임입니다. 단계별 힌트와 일반훈련 15단계·강화훈련 5단계, 총 20단계 훈련을 제공합니다.";
 const playStoreUrl =
   "https://play.google.com/store/apps/details?id=com.applepie.minelogic";
+const currentVersion = "1.3.3";
+const supportedLanguages = [
+  { code: "ko", name: "한국어" },
+  { code: "en", name: "영어" },
+  { code: "ja", name: "일본어" },
+  { code: "zh-Hans", name: "중국어 간체" },
+  { code: "zh-Hant", name: "중국어 번체" },
+  { code: "es", name: "스페인어" },
+  { code: "pt-BR", name: "포르투갈어(브라질)" },
+  { code: "th", name: "태국어" },
+  { code: "id", name: "인도네시아어" },
+  { code: "fr", name: "프랑스어" },
+  { code: "de", name: "독일어" },
+  { code: "ar", name: "아랍어" },
+] as const;
 
 export const metadata: Metadata = {
   title: {
@@ -58,14 +73,14 @@ const mineLogicStructuredData = {
   "@type": ["VideoGame", "MobileApplication"],
   "@id": "https://ersiyan.com/mine-logic#app",
   name: "MINE LOGIC",
+  alternateName: "마인로직",
   url: "https://ersiyan.com/mine-logic",
   mainEntityOfPage: "https://ersiyan.com/mine-logic",
-  description:
-    "단계별 힌트와 20단계 훈련을 제공하며 인터넷 연결 없이 플레이할 수 있는 Android 지뢰찾기 논리 퍼즐 게임",
+  description,
   operatingSystem: "Android",
   applicationCategory: "GameApplication",
   genre: ["지뢰찾기", "논리 퍼즐"],
-  softwareVersion: "1.3.3",
+  softwareVersion: currentVersion,
   identifier: "com.applepie.minelogic",
   sameAs: playStoreUrl,
   contentRating: "전체이용가",
@@ -89,25 +104,43 @@ const mineLogicStructuredData = {
     "일반훈련 1~15단계와 강화훈련 16~20단계",
     "인터넷 권한이 필요 없는 오프라인 플레이",
   ],
-  inLanguage: [
-    "ko-KR",
-    "en-US",
-    "ja-JP",
-    "zh-CN",
-    "zh-TW",
-    "es-419",
-    "pt-BR",
-    "th",
-    "id",
-    "fr-FR",
-    "de-DE",
-    "ar",
-  ],
+  inLanguage: supportedLanguages.map((language) => language.code),
   publisher: {
     "@id": "https://ersiyan.com/#organization",
   },
   isPartOf: {
     "@id": "https://ersiyan.com/#website",
+  },
+};
+
+const mineLogicPageStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://ersiyan.com/mine-logic#webpage",
+  url: "https://ersiyan.com/mine-logic",
+  name: title,
+  description,
+  inLanguage: "ko-KR",
+  dateModified: "2026-09-05",
+  mainEntity: { "@id": "https://ersiyan.com/mine-logic#app" },
+  isPartOf: { "@id": "https://ersiyan.com/#website" },
+  publisher: { "@id": "https://ersiyan.com/#organization" },
+  breadcrumb: {
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "ERSIYAN",
+        item: "https://ersiyan.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "MINE LOGIC(마인로직)",
+        item: "https://ersiyan.com/mine-logic",
+      },
+    ],
   },
 };
 
@@ -143,7 +176,8 @@ const screens = [
   },
   {
     title: "단계별 힌트",
-    description: "숫자 단서와 주변 칸의 관계를 보고 확정되는 안전 칸이나 지뢰를 찾습니다.",
+    description:
+      "이 화면에서는 힌트 3단계가 3행 3열을 안전 칸으로 표시합니다. 초록색 확인 표시가 난 칸을 열어 다음 수를 이어갈 수 있습니다.",
     src: "/images/mine-logic/02_hint.png",
     srcSet:
       "/images/mine-logic/02_hint-360.webp 360w, /images/mine-logic/02_hint-540.webp 540w, /images/mine-logic/02_hint-720.webp 720w",
@@ -165,7 +199,7 @@ export default function MineLogicPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(mineLogicStructuredData),
+          __html: JSON.stringify([mineLogicStructuredData, mineLogicPageStructuredData]),
         }}
       />
       <a className="skip-link" href="#main-content">
@@ -188,14 +222,16 @@ export default function MineLogicPage() {
         <section className={styles.hero} aria-labelledby="mine-logic-title">
           <div className={styles.heroInner}>
             <div className={styles.heroCopy}>
-              <p className={styles.eyebrow}>ERSIYAN GAME 001 · ANDROID</p>
+              <p className={styles.eyebrow}>
+                <a href="/#games">ERSIYAN GAMES</a> / MINE LOGIC · ANDROID
+              </p>
               <h1 id="mine-logic-title">
                 막히면 이유를 보고,
                 <br />
                 20단계로 지뢰찾기를 익힙니다.
               </h1>
               <p className={styles.heroLead}>
-                MINE LOGIC은 단계별 힌트와 20단계 훈련으로 지뢰찾기를 처음
+                MINE LOGIC(마인로직)은 단계별 힌트와 20단계 훈련으로 지뢰찾기를 처음
                 배우는 사람도 즐길 수 있게 만든 Android 논리 퍼즐 게임입니다.
               </p>
               <div className={styles.heroActions}>
@@ -218,7 +254,7 @@ export default function MineLogicPage() {
                 </div>
                 <div>
                   <dt>CURRENT BUILD</dt>
-                  <dd>v1.3.3</dd>
+                  <dd>v{currentVersion}</dd>
                 </div>
                 <div>
                   <dt>NETWORK</dt>
@@ -380,6 +416,23 @@ export default function MineLogicPage() {
                   개인정보 처리 방식과 기기에 저장되는 정보는 별도 정책에 자세히
                   정리했습니다.
                 </p>
+                <p>
+                  <strong>무료 · 전체이용가</strong>
+                  <br />
+                  Google Play 대한민국 스토어에서 <time dateTime="2026-09-05">2026년 9월 5일</time> 확인했습니다.
+                </p>
+                <p>
+                  <strong>v{currentVersion} 업데이트</strong>
+                  <br />
+                  스토어 업데이트 날짜는 <time dateTime="2026-08-28">2026년 8월 28일</time>입니다.
+                  ERSIYAN 로고와 제작자 표기를 반영하고 개인정보처리방침 링크를
+                  변경했으며, 다크 모드의 일부 글자를 더 잘 읽을 수 있게 조정했습니다.
+                </p>
+                <p>
+                  <strong>12개 언어 지원</strong>
+                  <br />
+                  {supportedLanguages.map((language) => language.name).join(" · ")}
+                </p>
                 <div className={styles.supportLinks}>
                   <a href="/privacy/mine-logic">MINE LOGIC 개인정보처리방침</a>
                   <a href="mailto:help@ersiyan.com">help@ersiyan.com</a>
@@ -394,28 +447,16 @@ export default function MineLogicPage() {
                 >
                   Google Play로 이동 <span aria-hidden="true">↗</span>
                 </a>
-                <Link className="button button--quiet" href="/">
+                <a className="button button--quiet" href="/">
                   에르시안 홈페이지
-                </Link>
+                </a>
               </div>
             </div>
           </div>
         </section>
       </main>
 
-      <footer className="site-footer">
-        <div className={styles.footerInner}>
-          <div>
-            <p>© {new Date().getFullYear()} ERSIYAN</p>
-            <GameProducerRegistration />
-          </div>
-          <nav className={styles.footerLinks} aria-label="푸터 메뉴">
-            <Link href="/">홈페이지</Link>
-            <a href="/privacy">개인정보처리방침</a>
-            <a href="#top">맨 위로</a>
-          </nav>
-        </div>
-      </footer>
+      <ErFooter />
     </div>
   );
 }

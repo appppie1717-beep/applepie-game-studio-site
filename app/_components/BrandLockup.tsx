@@ -4,7 +4,7 @@ type BrandLockupProps = {
 
 export function BrandLockup({ href = "/" }: BrandLockupProps) {
   return (
-    <a className="brand-lockup" href={href} aria-label="에르시안 공식 홈페이지">
+    <a className="brand-lockup" href={href} aria-label="ERSIYAN 에르시안 공식 홈페이지">
       <span className="brand-mark" aria-hidden="true">
         ✦
       </span>

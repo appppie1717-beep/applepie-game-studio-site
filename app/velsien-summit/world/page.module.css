@@ -218,6 +218,469 @@
   word-break: keep-all;
 }
 
+/* A short orientation for readers arriving without the game page's context. */
+.introBand {
+  scroll-margin-top: 82px;
+  border-block: 1px solid rgba(169, 193, 250, 0.22);
+  background: linear-gradient(120deg, #142640, #0b182c 76%);
+}
+
+.introGrid {
+  display: grid;
+  width: min(100%, 1324px);
+  margin-inline: auto;
+  padding: clamp(36px, 6vw, 76px) max(clamp(20px, 5vw, 72px), env(safe-area-inset-left));
+  align-items: start;
+  gap: clamp(24px, 5vw, 80px);
+  grid-template-columns: minmax(0, 0.38fr) minmax(0, 1fr);
+}
+
+.introLabel {
+  margin: 0;
+  color: #a9c1fa;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.18em;
+  line-height: 1.7;
+}
+
+.introText {
+  min-width: 0;
+  color: #f6f8ff;
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+.introText p {
+  margin: 0;
+}
+
+.introText p + p {
+  margin-top: 18px;
+}
+
+.introText h2 {
+  margin: 0 0 22px;
+  color: #f6f8ff;
+  font-size: clamp(1.75rem, 3.4vw, 3.15rem);
+  font-weight: 820;
+  letter-spacing: -0.06em;
+  line-height: 1.34;
+  word-break: keep-all;
+}
+
+.introText h2 + p {
+  color: #cad5eb;
+  font-size: clamp(0.99rem, 1.55vw, 1.08rem);
+  font-weight: 450;
+  letter-spacing: 0;
+  line-height: 1.9;
+}
+
+.cityScene {
+  min-width: 0;
+  margin: clamp(48px, 7vw, 88px) 0 0;
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid rgba(169, 193, 250, 0.3);
+  border-radius: 4px 24px 4px 24px;
+  background: linear-gradient(135deg, rgba(169, 193, 250, 0.12), rgba(7, 16, 30, 0.85) 62%);
+}
+
+.cityScene img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 3px 15px 3px 15px;
+}
+
+.cityScene h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.2rem, 2.3vw, 1.65rem);
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.cityScene strong {
+  display: block;
+  margin-bottom: 16px;
+  color: #f6f8ff;
+  font-size: clamp(1.18rem, 2.3vw, 1.65rem);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.cityScene p,
+.cityScene figcaption {
+  margin: 0;
+  color: #c7d2e8;
+  font-size: 0.98rem;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.cityScene p + p {
+  margin-top: 16px;
+}
+
+.societyChapter {
+  width: 100%;
+  max-width: none;
+  border-block: 1px solid rgba(169, 193, 250, 0.12);
+  background: radial-gradient(circle at 12% 0%, rgba(169, 193, 250, 0.1), transparent 34rem), #0b1729;
+}
+
+.societyChapter > * {
+  width: min(100%, 1180px);
+  margin-inline: auto;
+}
+
+.chainGrid,
+.exampleGrid,
+.aiRoles,
+.playLoopGrid,
+.glossaryGrid {
+  display: grid;
+  min-width: 0;
+  margin-top: clamp(40px, 6vw, 68px);
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.chainGrid {
+  padding: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  list-style: none;
+}
+
+.chainStep,
+.exampleCard,
+.aiRoleCard,
+.playLoopStep,
+.glossaryTerm {
+  min-width: 0;
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid rgba(169, 193, 250, 0.24);
+  border-radius: 4px 22px 4px 22px;
+  background: rgba(7, 16, 30, 0.64);
+  overflow-wrap: anywhere;
+}
+
+.chainStep > span,
+.exampleCard > span,
+.aiRoleCard > span,
+.playLoopStep > span {
+  display: block;
+  color: #a9c1fa;
+  font-size: 0.69rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+}
+
+.chainStep h3,
+.exampleCard h4,
+.aiRoleCard h3,
+.playLoopStep h3,
+.glossaryTerm h3,
+.glossaryTerm dt {
+  margin: 24px 0 12px;
+  color: #f6f8ff;
+  font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.chainStep p,
+.exampleCard p,
+.aiRoleCard p,
+.playLoopStep p,
+.glossaryTerm p,
+.glossaryTerm dd {
+  margin: 0;
+  color: #c7d2e8;
+  font-size: 0.94rem;
+  line-height: 1.86;
+  word-break: keep-all;
+}
+
+.glossaryTerm h3,
+.glossaryTerm dt {
+  margin-top: 0;
+}
+
+.contractPanel {
+  display: grid;
+  min-width: 0;
+  margin-top: clamp(46px, 7vw, 80px);
+  padding: clamp(28px, 5vw, 58px);
+  gap: clamp(24px, 5vw, 68px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+  border: 1px solid rgba(220, 84, 88, 0.33);
+  border-radius: 4px 32px 4px 32px;
+  background: linear-gradient(130deg, #172842, #0a1628 72%);
+}
+
+.contractPanel h3,
+.contractTradeoff h3 {
+  margin: 0 0 22px;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  letter-spacing: -0.05em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.contractPanel > div:first-child > p {
+  margin: 0 0 12px;
+  color: #e8bdc0;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.13em;
+  line-height: 1.7;
+}
+
+.contractPanel > div:first-child > span {
+  display: block;
+  color: #d7e0f2;
+  font-size: 1rem;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.contractList {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.contractList li {
+  padding: 15px 0;
+  border-top: 1px solid rgba(169, 193, 250, 0.2);
+  color: #e3eafa;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  word-break: keep-all;
+}
+
+.contractList li:last-child {
+  border-bottom: 1px solid rgba(169, 193, 250, 0.2);
+}
+
+.contractTradeoff {
+  min-width: 0;
+  margin: 24px 0 0;
+  padding: clamp(20px, 2.5vw, 30px);
+  border-left: 3px solid #dc5458;
+  background: rgba(220, 84, 88, 0.09);
+  color: #ebd3da;
+  font-size: 0.97rem;
+  line-height: 1.88;
+  word-break: keep-all;
+}
+
+.contractTradeoff p {
+  margin: 0;
+  color: #ebd3da;
+  font-size: 0.97rem;
+  line-height: 1.88;
+  word-break: keep-all;
+}
+
+.contractTradeoff p + p {
+  margin-top: 18px;
+}
+
+.companyExample {
+  min-width: 0;
+  margin-top: clamp(50px, 7vw, 82px);
+  padding-top: clamp(38px, 5vw, 60px);
+  border-top: 1px solid rgba(169, 193, 250, 0.24);
+}
+
+.exampleIntro {
+  max-width: 780px;
+}
+
+.exampleIntro h3 {
+  margin: 0 0 16px;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  letter-spacing: -0.05em;
+  line-height: 1.3;
+  word-break: keep-all;
+}
+
+.exampleIntro p {
+  margin: 0 0 12px;
+  color: #a9c1fa;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.15em;
+  line-height: 1.7;
+}
+
+.exampleIntro span {
+  display: block;
+  color: #c7d2e8;
+  font-size: 1rem;
+  line-height: 1.88;
+  word-break: keep-all;
+}
+
+.exampleGrid {
+  margin-top: 30px;
+}
+
+.exampleCard {
+  background: rgba(169, 193, 250, 0.06);
+}
+
+.exampleCard h4 {
+  margin-top: 18px;
+}
+
+.exampleCard b,
+.aiRoleCard b {
+  display: block;
+  margin-bottom: 16px;
+  color: #f6f8ff;
+  font-size: 1.18rem;
+  font-weight: 780;
+  letter-spacing: -0.04em;
+  line-height: 1.45;
+}
+
+.humanGrid {
+  display: grid;
+  min-width: 0;
+  margin-top: clamp(46px, 7vw, 80px);
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.humanCard {
+  min-width: 0;
+  padding: clamp(26px, 4vw, 44px);
+  border: 1px solid rgba(169, 193, 250, 0.26);
+  border-radius: 4px 26px 4px 26px;
+  background: linear-gradient(145deg, rgba(169, 193, 250, 0.1), rgba(7, 16, 30, 0.65));
+}
+
+.humanCard h3 {
+  margin: 0 0 18px;
+  font-size: clamp(1.3rem, 2.3vw, 1.85rem);
+  letter-spacing: -0.05em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.humanCard > p:first-child {
+  margin: 0 0 15px;
+  color: #a9c1fa;
+  font-size: 0.73rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  line-height: 1.65;
+}
+
+.humanCard > span {
+  display: block;
+  color: #c7d2e8;
+  font-size: 0.97rem;
+  line-height: 1.87;
+  word-break: keep-all;
+}
+
+.humanCard p,
+.humanCard li {
+  color: #c7d2e8;
+  font-size: 0.96rem;
+  line-height: 1.86;
+  word-break: keep-all;
+}
+
+.humanCard p {
+  margin: 0;
+}
+
+.humanCard ul {
+  margin: 14px 0 0;
+  padding-left: 1.3em;
+}
+
+.conflictPanel {
+  min-width: 0;
+  margin-top: clamp(52px, 8vw, 92px);
+  padding: clamp(28px, 5vw, 62px);
+  border: 1px solid rgba(220, 84, 88, 0.36);
+  border-radius: 4px 30px 4px 30px;
+  background: radial-gradient(circle at 90% 0%, rgba(220, 84, 88, 0.13), transparent 22rem), #142239;
+}
+
+.conflictPanel h3 {
+  margin: 0 0 18px;
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+  letter-spacing: -0.05em;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.conflictPanel > div > p {
+  margin: 0 0 13px;
+  color: #e8bdc0;
+  font-size: 0.73rem;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+  line-height: 1.65;
+}
+
+.conflictPanel p {
+  max-width: 850px;
+  margin: 0;
+  color: #d8dff0;
+  font-size: 1.02rem;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.conflictPanel p + p {
+  margin-top: 18px;
+}
+
+.aiRoles {
+  margin-top: 24px;
+}
+
+.aiRoleCard {
+  background: rgba(169, 193, 250, 0.07);
+}
+
+.playLoopGrid {
+  margin-top: 46px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.playLoopStep {
+  border-top: 3px solid #a9c1fa;
+}
+
+.glossaryGrid {
+  gap: 12px;
+}
+
+.glossaryTerm {
+  padding: 24px;
+  background: rgba(169, 193, 250, 0.06);
+}
+
 .companiesChapter {
   width: 100%;
   max-width: none;
@@ -237,8 +700,10 @@
 }
 
 .companyCard {
+  display: flex;
   min-width: 0;
-  min-height: 350px;
+  min-height: 430px;
+  flex-direction: column;
   padding: clamp(24px, 3vw, 36px);
   border: 1px solid rgba(169, 193, 250, 0.24);
   border-radius: 4px 26px 4px 26px;
@@ -257,7 +722,7 @@
 
 .companyCard h3 {
   display: flex;
-  margin: 65px 0 18px;
+  margin: 42px 0 18px;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 10px;
@@ -282,6 +747,27 @@
   font-size: 0.91rem;
   line-height: 1.8;
   word-break: keep-all;
+}
+
+.companyCard .companySlogan {
+  margin-top: 14px;
+  color: #f2d2d6;
+  font-size: 0.98rem;
+  font-weight: 730;
+  line-height: 1.65;
+}
+
+.companyCard .companyShadow {
+  margin-top: auto;
+  padding-top: 21px;
+  border-top: 1px solid rgba(169, 193, 250, 0.2);
+  color: #c9d5eb;
+}
+
+.companyShadow b {
+  color: #e8bdc0;
+  font-size: 0.79rem;
+  font-weight: 780;
 }
 
 .companyNote {
@@ -344,7 +830,7 @@
   display: grid;
   margin-top: 62px;
   gap: 0;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 1px solid rgba(169, 193, 250, 0.32);
   border-bottom: 1px solid rgba(169, 193, 250, 0.32);
 }
@@ -356,6 +842,14 @@
 
 .storyCard + .storyCard {
   border-left: 1px solid rgba(169, 193, 250, 0.22);
+}
+
+.storyCard:nth-child(odd) {
+  border-left: 0;
+}
+
+.storyCard:nth-child(n + 3) {
+  border-top: 1px solid rgba(169, 193, 250, 0.22);
 }
 
 .storyCard > span {
@@ -477,9 +971,16 @@
     background: linear-gradient(90deg, rgba(5, 12, 25, 0.94), rgba(5, 12, 25, 0.64)), linear-gradient(0deg, #07101e, transparent 42%);
   }
 
-  .companyGrid,
-  .storyGrid {
+  .companyGrid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .chainGrid,
+  .exampleGrid,
+  .aiRoles,
+  .playLoopGrid,
+  .glossaryGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .companyCard {
@@ -490,9 +991,8 @@
     margin-top: 34px;
   }
 
-  .storyCard + .storyCard {
-    border-top: 1px solid rgba(169, 193, 250, 0.22);
-    border-left: 0;
+  .companyCard .companyShadow {
+    margin-top: 27px;
   }
 }
 
@@ -515,8 +1015,30 @@
 
   .cityGrid,
   .splitStory,
-  .companionPanel {
+  .companionPanel,
+  .introGrid,
+  .contractPanel,
+  .humanGrid,
+  .storyGrid,
+  .chainGrid,
+  .exampleGrid,
+  .aiRoles,
+  .playLoopGrid,
+  .glossaryGrid {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .introGrid {
+    gap: 15px;
+  }
+
+  .storyCard + .storyCard {
+    border-top: 1px solid rgba(169, 193, 250, 0.22);
+    border-left: 0;
+  }
+
+  .contractPanel {
+    gap: 34px;
   }
 
   .storyNumber {

@@ -370,7 +370,7 @@ export default function VirentaExperience({ onSwitch }: VirentaExperienceProps) 
       <footer className={styles.footer}>
         <div className={styles.footerBrand}><Image src="/virenta-logo.png" alt="" width={42} height={35} /><span>VIRENTA<br /><small>비렌타 생활 편집국</small></span></div>
         <p>원하는 삶에 더 가까이.</p>
-        <div className={styles.footerActions}><button type="button" onClick={() => setShowConcierge(true)}>편집 상담 열기 ↗</button><a href="/velsien-summit">벨시엔 서밋</a></div>
+        <div className={styles.footerActions}><button type="button" onClick={() => setShowConcierge(true)}>편집 상담 열기 ↗</button><a href="/velsien-summit/world">세계관 전체 보기 ↗</a><a href="/velsien-summit">벨시엔 서밋</a></div>
         <small>© 2187 VIRENTA GROUP · 개인화 계약 · 접근성 · 데이터 철회</small>
       </footer>
       {showConcierge && (

@@ -95,6 +95,7 @@ const companies = [
     number: "01",
     name: "ORYSEN",
     korean: "오리센",
+    slug: "orysen",
     direction: "안정과 보장",
     slogan: "내일을 더 확실하게.",
     copy: "오리센은 예측 가능한 내일을 약속합니다. 의료, 주거, AI와 생활 기반을 안정적으로 연결하고 오래 유지하는 데 강합니다.",
@@ -105,6 +106,7 @@ const companies = [
     number: "02",
     name: "VIRENTA",
     korean: "비렌타",
+    slug: "virenta",
     direction: "감각과 만족",
     slogan: "원하는 삶에 더 가까이.",
     copy: "비렌타는 각자가 원하는 모습과 경험에 집중합니다. 의료와 주거, AI 서비스를 개인의 취향과 감각에 맞춰 설계합니다.",
@@ -115,6 +117,7 @@ const companies = [
     number: "03",
     name: "NERYX",
     korean: "네릭스",
+    slug: "neryx",
     direction: "성능과 확장",
     slogan: "한계를 넘어, 다음으로.",
     copy: "네릭스는 지금 가능한 성능을 다음 단계의 출발점으로 봅니다. 신체와 지능, 기술의 한계를 넓히는 데 투자합니다.",
@@ -386,6 +389,13 @@ export default function VelsienWorldPage() {
                 <p className={styles.companySlogan}>{company.slogan}</p>
                 <p>{company.copy}</p>
                 <p className={styles.companyShadow}><b>그 약속의 다른 면</b><br />{company.shadow}</p>
+                <a
+                  className={styles.companyLink}
+                  href={`/velsien-summit/corporate/${company.slug}`}
+                  aria-label={`${company.korean} 공식 홈페이지 보기`}
+                >
+                  회사 홈페이지 보기 <span aria-hidden="true">↗</span>
+                </a>
               </article>
             ))}
           </div>

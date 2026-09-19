@@ -770,6 +770,34 @@
   font-weight: 780;
 }
 
+.companyLink {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 10px 14px;
+  border: 1px solid rgba(169, 193, 250, 0.48);
+  border-radius: 3px;
+  color: #f5f8ff;
+  font-size: 0.82rem;
+  font-weight: 760;
+  text-decoration: none;
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.companyLink:hover,
+.companyLink:focus-visible {
+  border-color: #f2d2d6;
+  background: rgba(169, 193, 250, 0.13);
+}
+
+.companyLink:focus-visible {
+  outline: 2px solid #f2d2d6;
+  outline-offset: 3px;
+}
+
 .companyNote {
   max-width: 860px;
   margin-top: 44px;

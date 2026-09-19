@@ -25,6 +25,7 @@
 | ERSIYAN VIRTUAL | `/virtual` | `app/virtual/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 버츄얼·디지털 캐릭터 준비 영역. 공개된 상세 정보만 사용 |
 | MINE LOGIC | `/mine-logic` | `app/mine-logic/page.tsx` | Android 오프라인 지뢰찾기 제품 페이지 |
 | VELSIEN SUMMIT | `/velsien-summit` | `app/velsien-summit/page.tsx`, `VelsienSignalDeck.tsx` | 게임·세계관·개발 기록 허브 |
+| 최신 공개 세계관 | `/velsien-summit/world` | `app/velsien-summit/world/page.tsx` | 2026-09-19 공개본. 기존 허브와 구분된 정식 페이지 |
 | 추가 개발 기록 | `/velsien-summit/late-update` | `app/velsien-summit/late-update/page.tsx` | 날짜를 확인할 수 있는 기록만 구조화 |
 | Secret 기록 | `/velsien-summit/secret` | `app/velsien-summit/secret/page.tsx` | searchable-but-unlisted 정책. 임의로 noindex 처리하지 않음 |
 | 기업 홈페이지 | `/velsien-summit/corporate/orysen`, `/virenta`, `/neryx` | 각 기업 `page.tsx`, `*Experience.tsx`, `*.module.css` | 사용자 지시로 독립 UI·콘텐츠·푸터 보존. 공통 푸터로 합치지 않음. 정적 클릭 라우팅을 위해 Experience 내부 이동 링크는 plain `<a>`를 사용 |
@@ -33,9 +34,9 @@
 
 ## 정식 라우트 목록
 
-`public/sitemap.xml` 기준 정식 URL은 15개입니다.
+`public/sitemap.xml` 기준 정식 URL은 16개입니다. `graph-rag/manifest.json`의 15개 라우트는 2026-09-13 당시 스냅샷입니다.
 
-`/`, `/virtual`, `/mine-logic`, `/privacy`, `/privacy/mine-logic`, `/privacy/archive/2026-08-22`, `/privacy/archive/2026-08-23`, `/privacy/archive/2026-08-28`, `/privacy/archive/2026-08-31`, `/velsien-summit`, `/velsien-summit/late-update`, `/velsien-summit/secret`, `/velsien-summit/corporate/orysen`, `/velsien-summit/corporate/virenta`, `/velsien-summit/corporate/neryx`.
+`/`, `/virtual`, `/mine-logic`, `/privacy`, `/privacy/mine-logic`, `/privacy/archive/2026-08-22`, `/privacy/archive/2026-08-23`, `/privacy/archive/2026-08-28`, `/privacy/archive/2026-08-31`, `/velsien-summit`, `/velsien-summit/world`, `/velsien-summit/late-update`, `/velsien-summit/secret`, `/velsien-summit/corporate/orysen`, `/velsien-summit/corporate/virenta`, `/velsien-summit/corporate/neryx`.
 
 `/404`와 legacy `.html`, `/index`, `/games`, trailing-slash 별칭은 배포 리다이렉트·404 계약으로만 취급합니다. 검색용 정식 페이지로 중복 등록하지 않습니다.
 

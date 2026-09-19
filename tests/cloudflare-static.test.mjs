@@ -70,6 +70,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       "virtual.html",
       "mine-logic.html",
       "velsien-summit.html",
+      "velsien-summit/world.html",
       "velsien-summit/corporate/orysen.html",
       "velsien-summit/corporate/virenta.html",
       "velsien-summit/corporate/neryx.html",
@@ -164,11 +165,12 @@ test("Cloudflare asset directory contains every public route", async () => {
     ),
   );
 
-  const [homepage, virtual, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound, headers, robots, sitemap, llms] = await Promise.all([
+  const [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound, headers, robots, sitemap, llms] = await Promise.all([
     readFile(new URL("index.html", client), "utf8"),
     readFile(new URL("virtual.html", client), "utf8"),
     readFile(new URL("mine-logic.html", client), "utf8"),
     readFile(new URL("velsien-summit.html", client), "utf8"),
+    readFile(new URL("velsien-summit/world.html", client), "utf8"),
     readFile(new URL("velsien-summit/late-update.html", client), "utf8"),
     readFile(new URL("velsien-summit/secret.html", client), "utf8"),
     readFile(new URL("privacy.html", client), "utf8"),
@@ -195,6 +197,7 @@ test("Cloudflare asset directory contains every public route", async () => {
     ["/privacy/archive/2026-08-28", archivedPrivacyPolicy20260828],
     ["/privacy/archive/2026-08-31", archivedPrivacyPolicy20260831],
     ["/velsien-summit", velsienSummit],
+    ["/velsien-summit/world", velsienWorld],
     ["/velsien-summit/late-update", velsienLateUpdate],
     ["/velsien-summit/secret", velsienSecret],
   ]) {
@@ -282,7 +285,11 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(velsienSummit, /teaser-lobby-640\.webp 640w/i);
   assert.match(velsienSummit, /teaser-character-640\.webp 640w/i);
   assert.doesNotMatch(velsienSummit, /VelsienSignalDeck\.[^"']+\.css/i);
+  assert.match(velsienSummit, /href="\/velsien-summit\/world"/i);
   assert.match(velsienSummit, /href="\/velsien-summit\/late-update"/i);
+  assert.match(velsienWorld, /rel="canonical" href="https:\/\/ersiyan\.com\/velsien-summit\/world"/i);
+  assert.match(velsienWorld, /href="\/velsien-summit"/i);
+  assert.doesNotMatch(velsienWorld, /name="robots" content="[^"]*\b(?:noindex|nofollow|none)\b/i);
   assert.match(velsienLateUpdate, /8월말 추가정보/);
   assert.match(
     velsienLateUpdate,
@@ -379,6 +386,8 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/mine-logic<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>\s*<lastmod>2026-09-19<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/late-update<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/secret<\/loc>/);
   assert.deepEqual(
@@ -391,6 +400,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       "https://ersiyan.com/velsien-summit/corporate/orysen",
       "https://ersiyan.com/velsien-summit/corporate/virenta",
       "https://ersiyan.com/velsien-summit/corporate/neryx",
+      "https://ersiyan.com/velsien-summit/world",
       "https://ersiyan.com/velsien-summit/late-update",
       "https://ersiyan.com/velsien-summit/secret",
       "https://ersiyan.com/privacy",
@@ -415,9 +425,10 @@ test("Cloudflare asset directory contains every public route", async () => {
       `${location} has a real calendar date`);
   }
   assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
+  assert.match(llms, /https:\/\/ersiyan\.com\/velsien-summit\/world/);
   assert.match(llms, /com\.applepie\.minelogic/);
 
-  for (const html of [homepage, virtual, mineLogic, velsienSummit, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound]) {
+  for (const html of [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound]) {
     assert.doesNotMatch(html, /dist\/server|server\/index\.js|\/_worker\.js/i);
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
       assert.doesNotMatch(html, forbiddenPattern);
@@ -462,7 +473,7 @@ test("corporate static pages retain their own title and social identity", async 
 });
 
 test("every local image, responsive candidate, social image, stylesheet, and script exists", async () => {
-  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "404.html"];
+  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/world.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "404.html"];
   const pages = await Promise.all(
     pageFiles.map((file) =>
       readFile(new URL(file, client), "utf8"),
@@ -541,7 +552,7 @@ test("explicit permanent aliases are staged without loops or query overrides", a
   const rules = source.split(/\r?\n/).map((line) => line.trim())
     .filter((line) => line && !line.startsWith("#")).map((line) => line.split(/\s+/));
   const expected = new Map([["/index", "/"], ["/index/", "/"], ["/index.html", "/"], ["/games", "/"]]);
-  for (const path of ["/games", "/virtual", "/mine-logic", "/velsien-summit",
+  for (const path of ["/games", "/virtual", "/mine-logic", "/velsien-summit", "/velsien-summit/world",
     "/velsien-summit/corporate/orysen", "/velsien-summit/corporate/virenta", "/velsien-summit/corporate/neryx",
     "/velsien-summit/late-update", "/velsien-summit/secret", "/privacy", "/privacy/mine-logic",
     "/privacy/archive/2026-08-22", "/privacy/archive/2026-08-23", "/privacy/archive/2026-08-28", "/privacy/archive/2026-08-31"]) {

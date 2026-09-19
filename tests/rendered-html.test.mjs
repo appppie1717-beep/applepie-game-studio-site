@@ -115,6 +115,7 @@ const footerRoutes = [
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
   "/velsien-summit",
+  "/velsien-summit/world",
   "/velsien-summit/late-update",
   "/velsien-summit/secret",
 ];
@@ -181,6 +182,7 @@ test("stages every public page for asset-first delivery", async () => {
     virtual,
     mineLogic,
     velsienSummit,
+    velsienWorld,
     velsienLateUpdate,
     velsienSecret,
     privacyPolicy,
@@ -193,6 +195,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
+    staticVelsienWorld,
     staticVelsienLateUpdate,
     staticVelsienSecret,
     staticPrivacyPolicy,
@@ -209,6 +212,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/velsien-summit/world.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit/late-update.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit/secret.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy.html", import.meta.url), "utf8"),
@@ -221,6 +225,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/client/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/velsien-summit/world.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit/late-update.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit/secret.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy.html", import.meta.url), "utf8"),
@@ -242,6 +247,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(renderedRoutes.get("/virtual"), "rendered");
   assert.equal(renderedRoutes.get("/mine-logic"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit"), "rendered");
+  assert.equal(renderedRoutes.get("/velsien-summit/world"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/late-update"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/secret"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/corporate/orysen"), "rendered");
@@ -271,6 +277,7 @@ test("stages every public page for asset-first delivery", async () => {
       "/velsien-summit/corporate/virenta",
       "/velsien-summit/late-update",
       "/velsien-summit/secret",
+      "/velsien-summit/world",
     ].sort(),
   );
   assert.match(
@@ -293,6 +300,7 @@ test("stages every public page for asset-first delivery", async () => {
     velsienSummit,
     /<title>VELSIEN SUMMIT\(벨시엔 서밋\) \| 모바일 캐릭터 수집형 전략 RPG<\/title>/i,
   );
+  assert.match(velsienWorld, /<title>[^<]*(?:벨시엔 서밋|VELSIEN SUMMIT)[^<]*세계관[^<]*<\/title>|<title>[^<]*세계관[^<]*(?:벨시엔 서밋|VELSIEN SUMMIT)[^<]*<\/title>/i);
   assert.match(
     velsienLateUpdate,
     /<title>벨시엔 서밋 2026년 8월말 추가정보 \| VELSIEN SUMMIT<\/title>/i,
@@ -312,6 +320,7 @@ test("stages every public page for asset-first delivery", async () => {
   assertPageMetadata(staticVirtual, "/virtual");
   assert.equal(staticMineLogic, mineLogic);
   assert.equal(staticVelsienSummit, velsienSummit);
+  assert.equal(staticVelsienWorld, velsienWorld);
   assert.equal(staticVelsienLateUpdate, velsienLateUpdate);
   assert.equal(staticVelsienSecret, velsienSecret);
   assert.equal(staticPrivacyPolicy, privacyPolicy);
@@ -326,6 +335,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
+    staticVelsienWorld,
     staticVelsienLateUpdate,
     staticVelsienSecret,
     staticPrivacyPolicy,
@@ -350,10 +360,41 @@ test("stages every public page for asset-first delivery", async () => {
     /<link\b(?=[^>]*rel="preload")(?=[^>]*velsien-summit)[^>]*>/i,
   );
   assert.doesNotMatch(staticVelsienSummit, /\/_next\/image\?/);
+  assert.doesNotMatch(staticVelsienWorld, /\/_next\/image\?/);
   assert.doesNotMatch(staticVelsienLateUpdate, /\/_next\/image\?/);
   assert.doesNotMatch(staticVelsienSecret, /\/_next\/image\?/);
   assert.doesNotMatch(staticPrivacyPolicy, /\/_next\/image\?/);
   assert.doesNotMatch(staticMineLogicPrivacyPolicy, /\/_next\/image\?/);
+});
+
+test("server-renders the current public VELSIEN world overview", async () => {
+  const response = await render("/velsien-summit/world");
+  assert.equal(response.status, 200);
+
+  const html = await response.text();
+  const metadata = assertPageMetadata(html, "/velsien-summit/world");
+  assert.match(metadata.title, /(?:벨시엔 서밋|VELSIEN SUMMIT)/i);
+  assert.match(metadata.title, /세계관/);
+  assert.doesNotMatch(html, /<meta\b[^>]*name="robots"[^>]*content="[^"]*\b(?:noindex|nofollow|none)\b/i);
+  const nodes = structuredNodes(html);
+  const page = nodes.find((node) => node["@type"] === "WebPage" && node.url === metadata.url);
+  const article = nodes.find((node) => node["@type"] === "Article" && node.url === metadata.url);
+  const breadcrumb = nodes.find((node) => node["@type"] === "BreadcrumbList" && node["@id"] === `${metadata.url}#breadcrumb`);
+  assert.ok(page && article && breadcrumb, "The world page publishes linked article and breadcrumb data");
+  assert.equal(page.mainEntity["@id"], article["@id"]);
+  assert.equal(page.dateModified, "2026-09-19");
+  assert.equal(article.datePublished, "2026-09-19");
+  assert.equal(breadcrumb.itemListElement.at(-1).item, metadata.url);
+  const text = visibleText(html);
+  for (const term of ["세계관", "순수인간", "평생계약", "오리센", "비렌타", "네릭스"]) {
+    assert.ok(text.includes(term), `The public world overview explains ${term}`);
+  }
+  assert.match(text, /2026[-.년\s]*0?9[-.월\s]*19/);
+  assert.match(html, /href="\/velsien-summit"/);
+
+  const overviewResponse = await render("/velsien-summit");
+  assert.equal(overviewResponse.status, 200);
+  assert.match(await overviewResponse.text(), /href="\/velsien-summit\/world"/);
 });
 
 test("server-renders the VELSIEN late-August update", async () => {
@@ -1305,6 +1346,7 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
   assert.match(sitemap, /https:\/\/ersiyan\.com\/mine-logic/);
   assert.match(sitemap, /https:\/\/ersiyan\.com\/velsien-summit/);
+  assert.match(sitemap, /https:\/\/ersiyan\.com\/velsien-summit\/world/);
   for (const pathname of [
     "/velsien-summit/corporate/orysen",
     "/velsien-summit/corporate/virenta",
@@ -1313,6 +1355,7 @@ test("source contains no starter preview dependency or private certificate data"
     assert.match(sitemap, new RegExp(`https://ersiyan\\.com${pathname.replaceAll("/", "\\/")}`));
   }
   assert.match(llms, /https:\/\/ersiyan\.com\/mine-logic/);
+  assert.match(llms, /https:\/\/ersiyan\.com\/velsien-summit\/world/);
   assert.match(teaserPreparation, /teaser-title\.webp/);
   assert.match(responsivePreparation, /id: "teaser-title"/);
   assert.match(responsivePreparation, /width: 640/);

@@ -317,6 +317,9 @@ export default function VelsienSummitPage() {
               <a className={styles.primaryLink} href="#development-log">
                 최근 개발 기록 <span aria-hidden="true">↓</span>
               </a>
+              <a className={styles.secondaryLink} href="/velsien-summit/world">
+                최신 세계관 공개본 <span aria-hidden="true">↗</span>
+              </a>
               <a className={styles.secondaryLink} href="#world">
                 세계관 읽기
               </a>

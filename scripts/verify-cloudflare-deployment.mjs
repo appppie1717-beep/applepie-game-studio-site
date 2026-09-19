@@ -285,6 +285,10 @@ const localPages = new Map(
         new URL("../dist/client/velsien-summit.html", import.meta.url),
       ],
       [
+        "/velsien-summit/world",
+        new URL("../dist/client/velsien-summit/world.html", import.meta.url),
+      ],
+      [
         "/velsien-summit/late-update",
         new URL("../dist/client/velsien-summit/late-update.html", import.meta.url),
       ],
@@ -335,6 +339,7 @@ const targetOnlyPaths = new Set([
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
   "/velsien-summit",
+  "/velsien-summit/world",
   "/velsien-summit/late-update",
   "/velsien-summit/secret",
   "/velsien-summit/corporate/orysen",
@@ -458,6 +463,7 @@ console.log(`PASS 404 ${missingResult.durationMs.toFixed(1)}ms`);
 const llmsResult = await request(new URL("/llms.txt", target), 200);
 assert.match(llmsResult.body.toString("utf8"), /^# ERSIYAN\b/m);
 assert.match(llmsResult.body.toString("utf8"), /https:\/\/ersiyan\.com\/mine-logic/);
+assert.match(llmsResult.body.toString("utf8"), /https:\/\/ersiyan\.com\/velsien-summit\/world/);
 console.log(`PASS /llms.txt ${llmsResult.durationMs.toFixed(1)}ms`);
 
 const redirectSources = [...new Set([...options.redirectFrom, options.www].filter(Boolean))];
@@ -466,6 +472,7 @@ const redirectChecks = [
   { path: "/virtual?utm_source=naver&utm_medium=display", status: 200 },
   { path: "/mine-logic?utm_source=google&utm_medium=organic", status: 200 },
   { path: "/velsien-summit?utm_source=kakao&utm_medium=link", status: 200 },
+  { path: "/velsien-summit/world?utm_source=kakao&utm_medium=link", status: 200 },
   { path: "/velsien-summit/late-update?utm_source=kakao&utm_medium=link", status: 200 },
   { path: "/velsien-summit/secret?source=old-domain", status: 200 },
   { path: "/privacy?source=old-domain", status: 200 },

@@ -8,6 +8,7 @@
 - [ERSIYAN VIRTUAL](https://ersiyan.com/virtual): The separate virtual creator, digital character, and entertainment area in preparation, with PROJECT 001 and shared ERSIYAN company information.
 - [MINE LOGIC](https://ersiyan.com/mine-logic): Android Minesweeper logic puzzle with staged hints, 20 training levels, and offline play.
 - [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile character-collecting strategy RPG, with world concepts, artwork, and dated development notes.
+- [VELSIEN SUMMIT world](https://ersiyan.com/velsien-summit/world): The current publicly released world overview, updated September 19, 2026. Read this for the latest setting; older development records are retained as archives.
 - [VELSIEN SUMMIT September 5 battle record](https://ersiyan.com/velsien-summit#devlog-2026-09-05-battle): Two actual 5-versus-5 development screenshots captured and published on September 5, 2026, showing battle opening and the first impact.
 - [VELSIEN SUMMIT August development record](https://ersiyan.com/velsien-summit/late-update): Archived August 2026 concepts and screenshots; these may differ from the current development direction.
 - [Privacy policy](https://ersiyan.com/privacy): Website privacy information.

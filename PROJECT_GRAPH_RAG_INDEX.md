@@ -28,7 +28,7 @@
 | 최신 공개 세계관 | `/velsien-summit/world` | `app/velsien-summit/world/page.tsx` | 2026-09-19 공개본. 기존 허브와 구분된 정식 페이지 |
 | 추가 개발 기록 | `/velsien-summit/late-update` | `app/velsien-summit/late-update/page.tsx` | 날짜를 확인할 수 있는 기록만 구조화 |
 | Secret 기록 | `/velsien-summit/secret` | `app/velsien-summit/secret/page.tsx` | searchable-but-unlisted 정책. 임의로 noindex 처리하지 않음 |
-| 기업 홈페이지 | `/velsien-summit/corporate/orysen`, `/virenta`, `/neryx` | 각 기업 `page.tsx`, `*Experience.tsx`, `*.module.css` | 사용자 지시로 독립 UI·콘텐츠·푸터 보존. 공통 푸터로 합치지 않음. 정적 클릭 라우팅을 위해 Experience 내부 이동 링크는 plain `<a>`를 사용 |
+| 기업 홈페이지 | `/velsien-summit/corporate/orysen`, `/virenta`, `/neryx` | 각 기업 `page.tsx`, `*Experience.tsx`, `*.module.css` | 독립 UI·콘텐츠·맞춤 푸터 보존. 세계관의 기업 소개에서 세 홈페이지로 연결하고 각 맞춤 푸터에서 세계관으로 돌아감. 공통 푸터로 합치지 않음 |
 | 개인정보 | `/privacy`, `/privacy/mine-logic` | 각 `page.tsx`, `MineLogicPrivacyContent.tsx` | 현재 법적 문서 및 대표자 `탁진` 보존 |
 | 보관본 | `/privacy/archive/2026-08-22`, `/2026-08-23`, `/2026-08-28`, `/2026-08-31` | 각 보관 `page.tsx` | 역사 기록 보존. 현재 문서와 혼동하지 않음 |
 
@@ -65,7 +65,7 @@
 ## 보존·삭제 경계
 
 - 반드시 보존: `.git`, `.openai/hosting.json`, `app`, `public`, `scripts`, `tests`, `worker`, package·TypeScript·Vite·Wrangler 설정, Google 소유권 파일, `local-private` 원본, 법적·검색 제출 증거, 최신 SEO 보고서, 배포에 필요한 `dist`·`node_modules`.
-- 기업 3개: 오리센·비렌타·네릭스의 독립 페이지와 맞춤 푸터를 수정하거나 공통 `ErFooter`로 통합하지 않습니다. 정적 프리뷰에서 실제 클릭 이동을 보장하기 위해 Experience 내부 이동 링크만 plain `<a>`로 유지합니다.
+- 기업 3개: 오리센·비렌타·네릭스의 독립 화면과 맞춤 푸터를 공통 `ErFooter`로 통합하지 않습니다. 2026-09-19 사용자 지시로 세계관↔각 기업의 명시 링크만 추가했습니다. 정적 프리뷰에서 실제 클릭 이동을 보장하기 위해 해당 링크는 plain `<a>`를 사용합니다.
 - `local-private`와 Chrome profile 내용은 GraphRAG에 넣지 않습니다.
 - 삭제 승인 대상의 상세 상태는 `graph-rag/cleanup-candidates.md`를 따릅니다. 현재 파일 삭제는 자동 승인 사용량 제한으로 실행되지 않았으므로 `pending` 상태입니다.
 

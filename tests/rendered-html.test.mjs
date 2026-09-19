@@ -391,6 +391,9 @@ test("server-renders the current public VELSIEN world overview", async () => {
   }
   assert.match(text, /2026[-.년\s]*0?9[-.월\s]*19/);
   assert.match(html, /href="\/velsien-summit"/);
+  for (const company of ["orysen", "virenta", "neryx"]) {
+    assert.match(html, new RegExp(`href="/velsien-summit/corporate/${company}"`));
+  }
 
   const overviewResponse = await render("/velsien-summit");
   assert.equal(overviewResponse.status, 200);
@@ -1437,6 +1440,7 @@ test("server-renders each VELSIEN corporate page with route-specific SEO metadat
     const text = visibleText(html);
     assert.ok(text.includes(page.englishName), `${page.pathname} keeps its English company name visible`);
     assert.ok(text.includes(page.koreanName), `${page.pathname} keeps its Korean company name visible`);
+    assert.match(html, /href="\/velsien-summit\/world"/, `${page.pathname} links back to the public world overview`);
     assert.doesNotMatch(html, /<meta[^>]+name="robots"[^>]+content="[^"]*noindex/i);
   }
 });

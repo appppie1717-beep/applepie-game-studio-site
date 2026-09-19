@@ -485,8 +485,15 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assert.equal(response.status, 200);
   const html = await response.text();
   assertPageMetadata(html, "/virtual");
+  const description = metaContent(html, "description");
+  assert.ok(description.length >= 120 && description.length <= 160, "Virtual search description stays concise and specific");
+  assert.match(description, /0기 소속 크리에이터 1명을 모집합니다/);
+  assert.equal(metaContent(html, "og:image"), "https://ersiyan.com/ersiyan-virtual-gen0-social-card.png");
+  assert.equal(metaContent(html, "og:image:alt"), "에르시안 버츄얼 0기 크리에이터 모집 안내");
   assertDivisionLinks(html, "virtual");
   assert.equal(html.match(/<h1\b/gi)?.length, 1);
+  assert.match(html, /<h1\b[^>]*id="virtual-title"/i);
+  assert.doesNotMatch(html, /<h1\b[^>]*class="home-page-title"/i);
   assert.match(html, /<section\b(?=[^>]*id="ersiyan-virtual-view")(?![^>]*\bhidden)[^>]*>/i);
   const virtualStart = html.indexOf('id="ersiyan-virtual-view"');
   const companyStart = html.indexOf('id="ersiyan-company-view"', virtualStart);
@@ -541,6 +548,12 @@ test("both division documents identify the same parent and equal departments", a
     assert.equal(company.email, "help@ersiyan.com");
     assert.deepEqual(departments.map(({ name }) => name), ["ERSIYAN GAMES", "ERSIYAN VIRTUAL"]);
     assert.deepEqual(departments.map(({ url }) => url), ["https://ersiyan.com/", "https://ersiyan.com/virtual"]);
+    assert.equal(departments[1].email, "biz@ersiyan.com");
+    assert.deepEqual(departments[1].contactPoint, {
+      "@type": "ContactPoint",
+      contactType: "recruitment",
+      email: "biz@ersiyan.com",
+    });
     for (const department of departments) {
       assert.equal(department["@type"], "Organization");
       assert.equal(department.parentOrganization["@id"], company["@id"]);
@@ -1195,6 +1208,7 @@ test("preserves the September 5 privacy policy before virtual recruitment", asyn
 test("required public images are present", async () => {
   const assets = [
     "../public/ersiyan-social-card.jpg",
+    "../public/ersiyan-virtual-gen0-social-card.png",
     "../public/ersiyan-mark.svg",
     "../public/images/brand/ersiyan-logo.png",
     "../public/images/brand/ersiyan-logo-hero.webp",

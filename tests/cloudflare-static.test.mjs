@@ -90,6 +90,7 @@ test("Cloudflare asset directory contains every public route", async () => {
       "sitemap.xml",
       "llms.txt",
       "ersiyan-social-card.jpg",
+      "ersiyan-virtual-gen0-social-card.png",
       "ersiyan-mark.svg",
       "favicon.ico",
       "favicon-192.png",
@@ -229,6 +230,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(homepage, homepageHeroPattern);
   assert.match(homepage, /href="\/mine-logic"/i);
   assert.match(homepage, /<a\b(?=[^>]*id="ersiyan-virtual-tab")(?=[^>]*href="\/virtual")[^>]*>/i);
+  assert.match(homepage, /href="\/virtual"[^>]*>\s*버츄얼 0기 크리에이터 모집 안내/i);
   assert.doesNotMatch(homepage, /<section\b[^>]*id="ersiyan-virtual-view"/i);
   assert.match(virtual, /<a\b(?=[^>]*id="ersiyan-games-tab")(?=[^>]*href="\/")[^>]*>/i);
   assert.match(virtual, /<a\b(?=[^>]*id="ersiyan-virtual-tab")(?=[^>]*aria-current="page")[^>]*>/i);
@@ -236,6 +238,8 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.doesNotMatch(virtual, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.match(virtual, /rel="canonical" href="https:\/\/ersiyan\.com\/virtual"/i);
   assert.match(virtual, /0기 크리에이터 지원 접수 중/);
+  assert.match(virtual, /<h1\b[^>]*id="virtual-title"/i);
+  assert.match(virtual, /ersiyan-virtual-gen0-social-card\.png/i);
   assert.match(virtual, /href="#virtual-apply"/);
   assert.match(virtual, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   assert.match(virtual, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);

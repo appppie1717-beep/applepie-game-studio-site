@@ -48,11 +48,9 @@ export function HomeExperience({
         </div>
       </header>
       <main id="main-content" tabIndex={-1}>
-        <h1 className="home-page-title">
-          {division === "virtual"
-            ? "에르시안 버츄얼 0기 크리에이터 모집"
-            : "에르시안(ERSIYAN) · 게임 개발과 운영"}
-        </h1>
+        {division === "games" && (
+          <h1 className="home-page-title">에르시안(ERSIYAN) · 게임 개발과 운영</h1>
+        )}
         <section
           id={`ersiyan-${division}-view`}
           className={division === "virtual"

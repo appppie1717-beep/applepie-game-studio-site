@@ -16,10 +16,10 @@ export const metadata: Metadata = {
     description: virtualDescription,
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
-        width: 1200,
-        height: 630,
-        alt: "에르시안(ERSIYAN) 로고",
+        url: "/ersiyan-virtual-gen0-social-card.png",
+        width: 1731,
+        height: 909,
+        alt: "에르시안 버츄얼 0기 크리에이터 모집 안내",
       },
     ],
   },
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
     description: virtualDescription,
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
-        alt: "에르시안(ERSIYAN) 로고",
+        url: "/ersiyan-virtual-gen0-social-card.png",
+        alt: "에르시안 버츄얼 0기 크리에이터 모집 안내",
       },
     ],
   },

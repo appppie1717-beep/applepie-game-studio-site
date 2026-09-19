@@ -485,6 +485,9 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assert.match(html, /<section\b(?=[^>]*id="ersiyan-virtual-view")(?![^>]*\bhidden)[^>]*>/i);
   assert.match(html, /첫 번째 소속 크리에이터 모집 중/);
   assert.match(html, /APPLICATIONS OPEN/);
+  assert.match(html, /지원은 지금부터 받습니다/);
+  assert.match(html, /선정 후 캐릭터와 방송 방향, 필요한 장비를 함께 정하고 준비를 마친 뒤 활동을 시작합니다/);
+  assert.match(html, /활동 시작일은 준비 상황을 함께 확인해 정합니다/);
   assert.match(html, /href="#virtual-apply"/);
   assert.match(html, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   const applySection = html.match(/<section\b[^>]*id="virtual-apply"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
@@ -1011,7 +1014,7 @@ test("server-renders the privacy policy", async () => {
     assert.match(collection, new RegExp(term));
   }
   const purpose = visibleText(policySection(html, "purpose"));
-  for (const term of ["선발 심사에만 사용", "AI 학습이나 홍보 콘텐츠", "최종 선정 후 30일 이내", "지원을 철회", "계약과 정산 절차"]) {
+  for (const term of ["선발 심사에만 사용", "AI 학습이나 홍보 콘텐츠", "최종 선정일로부터", "선정 없이 모집을 취소하거나 종료하면", "지원을 철회", "계약과 정산 절차"]) {
     assert.match(purpose, new RegExp(term));
   }
   assert.match(html, /href="mailto:biz@ersiyan\.com"/);

@@ -349,7 +349,8 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(privacyPolicy, /href="\/privacy\/archive\/2026-08-31"/);
   assert.match(privacyPolicy, /href="\/privacy\/archive\/2026-09-05"/);
   assert.match(privacyPolicy, /최근 변경일 및 시행일 2026년 9월 19일/);
-  assert.match(privacyPolicy, /최종 선정 후[\s\S]*?30일 이내에 삭제합니다/);
+  assert.match(privacyPolicy, /최종 선정일로부터[\s\S]*?30일 이내에 삭제합니다/);
+  assert.match(privacyPolicy, /선정 없이 모집을 취소하거나 종료하면[\s\S]*?30일 이내에 삭제합니다/);
   assert.match(privacyPolicy, /AI 학습이나 홍보 콘텐츠에[\s\S]*?재사용하지 않습니다/);
   assert.match(privacyPolicy, /Cloudflare Web Analytics/);
   assert.match(mineLogicPrivacyPolicy, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);

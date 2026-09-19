@@ -619,6 +619,12 @@ html:has(.home-shell) {
   }
 }
 
+@media (max-width: 360px) {
+  .virtual-intro h2 {
+    font-size: 8.5vw;
+  }
+}
+
 .company-intro {
   display: grid;
   margin-bottom: 38px;

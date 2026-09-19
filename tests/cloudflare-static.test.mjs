@@ -235,7 +235,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(virtual, /<section\b[^>]*id="ersiyan-virtual-view"/i);
   assert.doesNotMatch(virtual, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.match(virtual, /rel="canonical" href="https:\/\/ersiyan\.com\/virtual"/i);
-  assert.match(virtual, /첫 소속 크리에이터 지원 접수 중/);
+  assert.match(virtual, /0기 크리에이터 지원 접수 중/);
   assert.match(virtual, /href="#virtual-apply"/);
   assert.match(virtual, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   assert.match(virtual, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);
@@ -401,7 +401,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(headers, /X-Content-Type-Options:\s*nosniff/i);
   assert.match(robots, /Sitemap:\s*https:\/\/ersiyan\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/mine-logic<\/loc>/);
-  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/virtual<\/loc>\s*<lastmod>2026-09-19<\/lastmod>/);
+  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/virtual<\/loc>\s*<lastmod>2026-09-20<\/lastmod>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>\s*<lastmod>2026-09-20<\/lastmod>/);

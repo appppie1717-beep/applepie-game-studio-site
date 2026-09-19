@@ -495,19 +495,21 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   const virtualSection = html.slice(virtualStart, companyStart);
   const virtualText = visibleText(virtualSection);
   assert.match(virtualText, /에르시안의 버츄얼부/);
-  assert.match(virtualText, /첫 소속 크리에이터 지원 접수 중/);
+  assert.match(virtualText, /0기 크리에이터 지원 접수 중/);
   assert.match(virtualText, /APPLICATIONS OPEN/);
   assert.match(virtualText, /모집 인원\s*1명/);
-  assert.match(virtualText, /지금 첫 소속 크리에이터의 지원을 받습니다/);
-  assert.match(virtualText, /인터뷰와 비공개 방송 테스트로 서로 알아간 뒤, 캐릭터와 방송 환경을 맞춰 활동을 시작합니다/);
+  assert.match(virtualText, /에르시안 버츄얼 0기\s*크리에이터 모집/);
+  assert.match(virtualText, /첫 소속 크리에이터 한 분을 모집합니다/);
+  assert.match(virtualText, /대화와 비공개 방송 테스트로 서로를 알아간 뒤, 캐릭터와 장비·방송 환경을 준비해 활동을 시작합니다/);
   assert.match(virtualText, /활동 시작일은 준비 상황을 함께 확인해 정합니다/);
-  assert.match(virtualText, /지원부터 데뷔까지 차근차근 준비합니다/);
+  assert.match(virtualText, /지원부터 활동 시작까지 함께 준비합니다/);
   assert.match(virtualText, /구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다/);
   assert.doesNotMatch(virtualText, /에르시안을 처음 만났다면|RELEASED GAME|IN DEVELOPMENT|MINE LOGIC|VELSIEN SUMMIT/);
   assert.doesNotMatch(virtualSection, /href="\/(?:mine-logic|velsien-summit)"/i);
   assert.doesNotMatch(virtualText, /70\s*\/\s*30|50\s*\/\s*50|월 12회 이상|첫 계약은 1년|대여 장비는 계약 종료/);
   assert.match(virtualSection, /href="#virtual-apply"/);
   assert.match(virtualSection, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
+  assert.match(virtualSection, /subject=ERSIYAN%20VIRTUAL%200%EA%B8%B0%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90/);
   const applySection = html.match(/<section\b[^>]*id="virtual-apply"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
   assert.ok(applySection, "Application details are visible in the public route");
   for (const term of ["만 19세 이상", "3~5분 자유 음성 파일", "30일 이내 삭제"]) {

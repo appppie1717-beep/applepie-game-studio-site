@@ -360,7 +360,7 @@ for (const [pathname, localHtml] of localPages) {
   const targetResult = await request(new URL(pathname, target), 200, "manual");
   const targetHtml = targetResult.body.toString("utf8");
   if (pathname === "/virtual") {
-    assert.match(targetHtml, /첫 소속 크리에이터 지원 접수 중/);
+    assert.match(targetHtml, /0기 크리에이터 지원 접수 중/);
     assert.match(targetHtml, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
     assert.match(targetHtml, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);
   }

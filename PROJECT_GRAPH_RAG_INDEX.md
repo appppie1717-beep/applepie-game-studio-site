@@ -22,7 +22,7 @@
 | 영역 | 대표 라우트 | 소유 소스 | 정책 |
 |---|---|---|---|
 | ERSIYAN GAMES | `/` | `app/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 브랜드·게임 허브 |
-| ERSIYAN VIRTUAL | `/virtual` | `app/virtual/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 첫 소속 버츄얼 크리에이터 1명 모집 안내. 이메일 지원 조건은 현행 소스에서 확인 |
+| ERSIYAN VIRTUAL | `/virtual` | `app/virtual/page.tsx`, `app/_components/HomeExperience.tsx`, `app/_components/HomeContent.tsx` | 0기 첫 소속 버츄얼 크리에이터 1명 모집 안내. 이메일 지원 조건은 현행 소스에서 확인 |
 | MINE LOGIC | `/mine-logic` | `app/mine-logic/page.tsx` | Android 오프라인 지뢰찾기 제품 페이지 |
 | VELSIEN SUMMIT | `/velsien-summit` | `app/velsien-summit/page.tsx`, `VelsienSignalDeck.tsx` | 게임·세계관·개발 기록 허브 |
 | 최신 공개 세계관 | `/velsien-summit/world` | `app/velsien-summit/world/page.tsx` | 현재 공개 세계관. 기존 허브에서 연결하는 별도 정식 페이지 |
@@ -34,7 +34,7 @@
 
 ## 정식 라우트 목록
 
-2026-09-19 모집 공개본의 정식 URL은 최신 세계관과 9월 5일 개인정보 보관본을 포함해 17개입니다. `/virtual`에서 첫 소속 크리에이터 1명의 지원을 이메일로 받습니다. 운영 반영 여부는 배포 후 검증 결과로 판단합니다. `graph-rag/manifest.json`의 15개는 9월 13일 스냅샷입니다.
+2026-09-20 소스 기준 정식 URL은 최신 세계관과 9월 5일 개인정보 보관본을 포함해 17개입니다. `/virtual`은 0기 첫 소속 크리에이터 1명의 이메일 지원을 안내하며, 사이트맵 변경일은 2026-09-20입니다. 운영 반영 여부는 배포 후 검증 결과로 판단합니다. `graph-rag/manifest.json`의 15개는 9월 13일 스냅샷입니다.
 
 `/`, `/virtual`, `/mine-logic`, `/privacy`, `/privacy/mine-logic`, `/privacy/archive/2026-08-22`, `/privacy/archive/2026-08-23`, `/privacy/archive/2026-08-28`, `/privacy/archive/2026-08-31`, `/privacy/archive/2026-09-05`, `/velsien-summit`, `/velsien-summit/world`, `/velsien-summit/late-update`, `/velsien-summit/secret`, `/velsien-summit/corporate/orysen`, `/velsien-summit/corporate/virenta`, `/velsien-summit/corporate/neryx`.
 

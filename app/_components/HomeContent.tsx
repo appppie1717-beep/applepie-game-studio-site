@@ -5,9 +5,9 @@ import { StudioAccordion } from "./StudioAccordion";
 import { ErFooter } from "./ErFooter";
 
 export const homeDescription =
-  "에르시안(ERSIYAN)은 ERSIYAN GAMES에서 게임을 개발·운영하고, ERSIYAN VIRTUAL에서 첫 소속 버츄얼 크리에이터 한 분을 모집합니다.";
+  "에르시안(ERSIYAN)은 ERSIYAN GAMES에서 게임을 개발·운영하고, ERSIYAN VIRTUAL 0기 소속 크리에이터 한 분을 모집합니다.";
 export const virtualDescription =
-  "ERSIYAN VIRTUAL은 캐릭터와 방송을 함께 만들고 운영하는 에르시안의 버츄얼부입니다. 첫 소속 크리에이터 한 분을 모집하며 지원은 biz@ersiyan.com 이메일로 받습니다.";
+  "에르시안 버츄얼 0기 첫 소속 크리에이터 한 분을 모집합니다. 지원 후 대화와 비공개 방송 테스트를 거쳐 캐릭터·장비·방송 환경을 함께 준비합니다. 지원은 biz@ersiyan.com에서 받습니다.";
 
 const organizationId = "https://ersiyan.com/#organization";
 const gamesId = "https://ersiyan.com/#games-organization";
@@ -36,7 +36,7 @@ function structuredData(division: HomeDivision) {
         "@id": isVirtual ? "https://ersiyan.com/virtual#webpage" : "https://ersiyan.com/#webpage",
         url: pageUrl,
         name: isVirtual
-          ? "ERSIYAN VIRTUAL · 첫 버츄얼 크리에이터 모집 | 에르시안"
+          ? "에르시안 버츄얼 0기 크리에이터 모집 | ERSIYAN VIRTUAL"
           : "에르시안(ERSIYAN) · 게임 개발과 운영",
         description,
         inLanguage: "ko-KR",
@@ -233,26 +233,26 @@ function VirtualContent() {
     <div className="virtual-recruitment">
       <div className="virtual-hero">
         <div className="virtual-intro">
-          <p className="eyebrow">ERSIYAN VIRTUAL · FIRST CREATOR</p>
-          <p className="virtual-status"><span aria-hidden="true" /> 첫 소속 크리에이터 지원 접수 중</p>
+          <p className="eyebrow">ERSIYAN VIRTUAL · GENERATION 0</p>
+          <p className="virtual-status"><span aria-hidden="true" /> 0기 크리에이터 지원 접수 중</p>
           <h2 id="virtual-title">
-            버츄얼 크리에이터<br />
-            <span>한 분을 모집합니다.</span>
+            에르시안 버츄얼 0기<br />
+            <span>크리에이터 모집</span>
           </h2>
           <p className="virtual-description">
-            ERSIYAN VIRTUAL은 크리에이터의 캐릭터와 방송을 기획·제작하고 운영하는 에르시안의 버츄얼부입니다.
-            지금 첫 소속 크리에이터의 지원을 받습니다. 인터뷰와 비공개 방송 테스트로 서로 알아간 뒤, 캐릭터와 방송 환경을 맞춰 활동을 시작합니다.
+            ERSIYAN VIRTUAL은 크리에이터의 캐릭터와 방송을 함께 기획·제작하고 운영하는 에르시안의 버츄얼부입니다.
+            첫 소속 크리에이터 한 분을 모집합니다. 대화와 비공개 방송 테스트로 서로를 알아간 뒤, 캐릭터와 장비·방송 환경을 준비해 활동을 시작합니다.
           </p>
           <div className="virtual-actions">
-            <a className="button button--primary" href="#virtual-apply">지원 방법 보기 <span aria-hidden="true">↓</span></a>
-            <a className="button button--quiet" href="mailto:biz@ersiyan.com?subject=ERSIYAN%20VIRTUAL%20%EC%B2%AB%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90">이메일로 지원하기 <span aria-hidden="true">↗</span></a>
+            <a className="button button--primary" href="#virtual-apply">0기 모집 안내 보기 <span aria-hidden="true">↓</span></a>
+            <a className="button button--quiet" href="mailto:biz@ersiyan.com?subject=ERSIYAN%20VIRTUAL%200%EA%B8%B0%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90">이메일로 지원하기 <span aria-hidden="true">↗</span></a>
           </div>
         </div>
         <aside className="virtual-project" aria-label="이번 모집 안내">
           <span className="preparation-status">APPLICATIONS OPEN</span>
-          <p className="virtual-project-kicker">ERSIYAN VIRTUAL / 001</p>
-          <h3>ONE CREATOR.<br />ONE BEGINNING.</h3>
-          <p className="virtual-project-copy">에르시안의 첫 버츄얼 크리에이터와 함께 방향을 만들어 갑니다.</p>
+          <p className="virtual-project-kicker">ERSIYAN VIRTUAL / GEN 0</p>
+          <h3>GEN 0.<br />ONE CREATOR.</h3>
+          <p className="virtual-project-copy">에르시안 버츄얼의 출발을 함께할 첫 소속 크리에이터를 찾습니다.</p>
           <dl className="virtual-project-facts">
             <div><dt>모집 인원</dt><dd>1명</dd></div>
             <div><dt>지원 대상</dt><dd>꾸준히 방송하고 싶은 성인</dd></div>
@@ -264,7 +264,7 @@ function VirtualContent() {
       <section className="virtual-section" aria-labelledby="virtual-support-title">
         <div className="virtual-section-heading">
           <p className="eyebrow">01 / WHAT WE BUILD</p>
-          <h3 id="virtual-support-title">첫 크리에이터와 함께 만들 것</h3>
+          <h3 id="virtual-support-title">0기 크리에이터와 함께 준비합니다</h3>
           <p>서로 이야기하면서 콘텐츠 방향을 찾고, 크리에이터의 목소리와 성격에 맞는 캐릭터와 방송 환경을 준비합니다.</p>
         </div>
         <div className="virtual-support-grid">
@@ -290,14 +290,14 @@ function VirtualContent() {
       <section className="virtual-section" aria-labelledby="virtual-journey-title">
         <div className="virtual-section-heading">
           <p className="eyebrow">02 / HOW IT STARTS</p>
-          <h3 id="virtual-journey-title">지원부터 데뷔까지 차근차근 준비합니다.</h3>
+          <h3 id="virtual-journey-title">지원부터 활동 시작까지 함께 준비합니다</h3>
           <p>먼저 서로를 알아보고, 함께할 수 있겠다고 판단하면 방송의 모습을 만들어 갑니다.</p>
         </div>
         <ol className="virtual-journey-grid">
           <li><span className="virtual-card-index">01 / APPLY</span><h4>이메일 지원</h4><p>자기소개와 음성을 보내주세요.</p></li>
           <li><span className="virtual-card-index">02 / TALK</span><h4>대화와 방송 테스트</h4><p>온라인으로 이야기하고 비공개 방송을 함께 해봅니다.</p></li>
-          <li><span className="virtual-card-index">03 / PLAN</span><h4>방향과 조건 협의</h4><p>캐릭터, 장비, 방송 계획과 서로의 기대를 맞춥니다.</p></li>
-          <li><span className="virtual-card-index">04 / PREPARE</span><h4>함께 준비한 뒤 시작</h4><p>최종 결정 후 제작과 테스트를 거쳐 활동을 시작합니다.</p></li>
+          <li><span className="virtual-card-index">03 / PLAN</span><h4>활동 방향 협의</h4><p>캐릭터, 장비와 방송 계획을 함께 정합니다.</p></li>
+          <li><span className="virtual-card-index">04 / PREPARE</span><h4>제작과 방송 준비</h4><p>최종 결정 후 캐릭터 제작과 방송 환경 테스트를 거쳐 활동을 시작합니다.</p></li>
         </ol>
         <p className="virtual-section-note">정산, 활동, 캐릭터 권리, 장비 등 구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다.</p>
       </section>
@@ -305,7 +305,7 @@ function VirtualContent() {
       <section className="virtual-section virtual-apply" id="virtual-apply" aria-labelledby="virtual-apply-title">
         <div className="virtual-section-heading">
           <p className="eyebrow">03 / APPLY</p>
-          <h3 id="virtual-apply-title">첫 번째 크리에이터를 기다립니다.</h3>
+          <h3 id="virtual-apply-title">0기 크리에이터 지원 안내</h3>
           <p>만 19세 이상이며 한국어로 꾸준히 방송하고, 국내에서 계약·정산할 수 있는 분을 찾습니다. 타 소속 계약과 활동상 충돌이 없어야 합니다. 방송 경력, 버츄얼 경험, 팔로워 수는 지원 조건이 아닙니다. 얼굴 공개도 요구하지 않습니다.</p>
         </div>
         <div className="virtual-apply-grid">
@@ -329,11 +329,11 @@ function VirtualContent() {
         </div>
         <div className="virtual-apply-cta">
           <div>
-            <span className="virtual-card-index">FIRST CREATOR · APPLICATION OPEN</span>
-            <h4>첫 번째 멤버를 기다립니다.</h4>
-            <p>지원서와 음성 파일을 이메일로 보내주세요. 문의도 같은 주소로 받습니다.</p>
+            <span className="virtual-card-index">GEN 0 · APPLICATIONS OPEN</span>
+            <h4>첫 소속 크리에이터를 모집합니다</h4>
+            <p>지원서와 음성 파일을 이메일로 보내주세요. 모집 관련 문의도 같은 주소로 받습니다.</p>
           </div>
-          <a href="mailto:biz@ersiyan.com?subject=ERSIYAN%20VIRTUAL%20%EC%B2%AB%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90">biz@ersiyan.com <span aria-hidden="true">↗</span></a>
+          <a href="mailto:biz@ersiyan.com?subject=ERSIYAN%20VIRTUAL%200%EA%B8%B0%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90">biz@ersiyan.com <span aria-hidden="true">↗</span></a>
         </div>
       </section>
     </div>
@@ -352,7 +352,7 @@ function CompanyContent() {
                 <p>
                   에르시안은 ERSIYAN GAMES와 ERSIYAN VIRTUAL을 두 사업 영역으로
                   둔 회사이자 브랜드입니다. 게임 개발과 운영을 이어가며,
-                  첫 소속 버츄얼 크리에이터 한 분을 모집하고 있습니다.
+                  에르시안 버츄얼 0기 크리에이터 한 분을 모집하고 있습니다.
                 </p>
                 <a className="company-info-link" href="#business-info">
                   에르시안 사업자 정보 <span aria-hidden="true">↓</span>

@@ -403,60 +403,6 @@ html:has(.home-shell) {
   word-break: keep-all;
 }
 
-.virtual-work-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.virtual-work-card {
-  display: flex;
-  min-width: 0;
-  min-height: 176px;
-  padding: clamp(22px, 2.6vw, 32px);
-  flex-direction: column;
-  align-items: flex-start;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.68);
-  color: var(--navy-800);
-  text-decoration: none;
-  transition: border-color 180ms ease, transform 180ms ease;
-}
-
-.virtual-work-card:hover,
-.virtual-work-card:focus-visible {
-  border-color: var(--red-dark);
-  transform: translateY(-3px);
-}
-
-.virtual-work-card strong {
-  margin-top: 18px;
-  font-size: clamp(22px, 2.5vw, 30px);
-  letter-spacing: -0.04em;
-}
-
-.virtual-work-card > span:last-child {
-  margin-top: auto;
-  padding-top: 18px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.virtual-about-link {
-  margin: 18px 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.virtual-about-link a {
-  color: var(--navy-800);
-  font-weight: 800;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
 .virtual-support-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -653,7 +599,6 @@ html:has(.home-shell) {
     width: 100%;
   }
 
-  .virtual-work-grid,
   .virtual-support-grid,
   .virtual-journey-grid,
   .virtual-apply-grid {

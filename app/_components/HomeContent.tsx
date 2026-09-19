@@ -7,7 +7,7 @@ import { ErFooter } from "./ErFooter";
 export const homeDescription =
   "에르시안(ERSIYAN)은 ERSIYAN GAMES에서 게임을 개발·운영하고, ERSIYAN VIRTUAL에서 첫 소속 버츄얼 크리에이터 한 분을 모집합니다.";
 export const virtualDescription =
-  "ERSIYAN VIRTUAL에서 첫 번째 소속 버츄얼 크리에이터 한 분의 지원을 받습니다. 선정 후 캐릭터와 장비, 방송 환경을 함께 준비하며 지원은 biz@ersiyan.com 이메일로 받습니다.";
+  "ERSIYAN VIRTUAL은 캐릭터와 방송을 함께 만들고 운영하는 에르시안의 버츄얼부입니다. 첫 소속 크리에이터 한 분을 모집하며 지원은 biz@ersiyan.com 이메일로 받습니다.";
 
 const organizationId = "https://ersiyan.com/#organization";
 const gamesId = "https://ersiyan.com/#games-organization";
@@ -234,14 +234,14 @@ function VirtualContent() {
       <div className="virtual-hero">
         <div className="virtual-intro">
           <p className="eyebrow">ERSIYAN VIRTUAL · FIRST CREATOR</p>
-          <p className="virtual-status"><span aria-hidden="true" /> 첫 번째 소속 크리에이터 모집 중</p>
+          <p className="virtual-status"><span aria-hidden="true" /> 첫 소속 크리에이터 지원 접수 중</p>
           <h2 id="virtual-title">
-            첫 번째 이야기를<br />
-            <span>함께 시작할 한 분</span>을 찾습니다.
+            버츄얼 크리에이터<br />
+            <span>한 분을 모집합니다.</span>
           </h2>
           <p className="virtual-description">
-            에르시안은 게임을 만들고 운영하는 한국의 1인 스튜디오입니다. 이제 함께 방송을 만들어 갈 첫 소속 버츄얼 크리에이터 한 분을 모집합니다.
-            지원은 지금부터 받습니다. 서로 대화하고 캐릭터와 방송 환경을 준비한 뒤 활동을 시작합니다.
+            ERSIYAN VIRTUAL은 크리에이터의 캐릭터와 방송을 기획·제작하고 운영하는 에르시안의 버츄얼부입니다.
+            지금 첫 소속 크리에이터의 지원을 받습니다. 인터뷰와 비공개 방송 테스트로 서로 알아간 뒤, 캐릭터와 방송 환경을 맞춰 활동을 시작합니다.
           </p>
           <div className="virtual-actions">
             <a className="button button--primary" href="#virtual-apply">지원 방법 보기 <span aria-hidden="true">↓</span></a>
@@ -261,31 +261,10 @@ function VirtualContent() {
         </aside>
       </div>
 
-      <section className="virtual-section virtual-about" aria-labelledby="virtual-about-title">
-        <div className="virtual-section-heading">
-          <p className="eyebrow">01 / MEET ERSIYAN</p>
-          <h3 id="virtual-about-title">에르시안을 처음 만났다면</h3>
-          <p>에르시안은 게임 개발·운영과 버츄얼 크리에이터 활동을 함께 만들어 가는 브랜드입니다. 게임부에서는 작품을 출시하고 다음 게임을 개발하고 있습니다. 버츄얼부의 첫 소속 크리에이터는 지금 찾고 있습니다.</p>
-        </div>
-        <div className="virtual-work-grid">
-          <a className="virtual-work-card" href="/mine-logic">
-            <span className="virtual-card-index">RELEASED GAME</span>
-            <strong>MINE LOGIC</strong>
-            <span>출시한 게임 살펴보기 <span aria-hidden="true">↗</span></span>
-          </a>
-          <a className="virtual-work-card" href="/velsien-summit">
-            <span className="virtual-card-index">IN DEVELOPMENT</span>
-            <strong>VELSIEN SUMMIT</strong>
-            <span>개발 중인 세계 살펴보기 <span aria-hidden="true">↗</span></span>
-          </a>
-        </div>
-        <p className="virtual-about-link">에르시안의 전체 소개와 사업자 정보는 <a href="#company-title">회사 정보</a>에서 확인할 수 있습니다.</p>
-      </section>
-
       <section className="virtual-section" aria-labelledby="virtual-support-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">02 / WHAT WE BUILD</p>
-          <h3 id="virtual-support-title">선정 후, 함께 준비합니다.</h3>
+          <p className="eyebrow">01 / WHAT WE BUILD</p>
+          <h3 id="virtual-support-title">첫 크리에이터와 함께 만들 것</h3>
           <p>서로 이야기하면서 콘텐츠 방향을 찾고, 크리에이터의 목소리와 성격에 맞는 캐릭터와 방송 환경을 준비합니다.</p>
         </div>
         <div className="virtual-support-grid">
@@ -310,7 +289,7 @@ function VirtualContent() {
 
       <section className="virtual-section" aria-labelledby="virtual-journey-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">03 / HOW IT STARTS</p>
+          <p className="eyebrow">02 / HOW IT STARTS</p>
           <h3 id="virtual-journey-title">지원부터 데뷔까지 차근차근 준비합니다.</h3>
           <p>먼저 서로를 알아보고, 함께할 수 있겠다고 판단하면 방송의 모습을 만들어 갑니다.</p>
         </div>
@@ -325,7 +304,7 @@ function VirtualContent() {
 
       <section className="virtual-section virtual-apply" id="virtual-apply" aria-labelledby="virtual-apply-title">
         <div className="virtual-section-heading">
-          <p className="eyebrow">04 / APPLY</p>
+          <p className="eyebrow">03 / APPLY</p>
           <h3 id="virtual-apply-title">첫 번째 크리에이터를 기다립니다.</h3>
           <p>만 19세 이상이며 한국어로 꾸준히 방송하고, 국내에서 계약·정산할 수 있는 분을 찾습니다. 타 소속 계약과 활동상 충돌이 없어야 합니다. 방송 경력, 버츄얼 경험, 팔로워 수는 지원 조건이 아닙니다. 얼굴 공개도 요구하지 않습니다.</p>
         </div>

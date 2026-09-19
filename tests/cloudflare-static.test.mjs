@@ -233,7 +233,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(virtual, /<section\b[^>]*id="ersiyan-virtual-view"/i);
   assert.doesNotMatch(virtual, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.match(virtual, /rel="canonical" href="https:\/\/ersiyan\.com\/virtual"/i);
-  assert.match(virtual, /첫 번째 소속 크리에이터 모집 중/);
+  assert.match(virtual, /첫 소속 크리에이터 지원 접수 중/);
   assert.match(virtual, /href="#virtual-apply"/);
   assert.match(virtual, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
   assert.match(virtual, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);

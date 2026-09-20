@@ -55,11 +55,6 @@ export function MineLogicPrivacyContent({
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: 'document.documentElement.lang="en-US";',
-        }}
-      />
       <div className="policy-language-toolbar section-pad">
         <div className="policy-language-switcher" role="group" aria-label="Privacy policy language">
           <button

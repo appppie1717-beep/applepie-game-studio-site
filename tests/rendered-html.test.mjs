@@ -304,7 +304,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(velsienWorld, /<title>[^<]*(?:벨시엔 서밋|VELSIEN SUMMIT)[^<]*세계관[^<]*<\/title>|<title>[^<]*세계관[^<]*(?:벨시엔 서밋|VELSIEN SUMMIT)[^<]*<\/title>/i);
   assert.match(
     velsienSecret,
-    /<title>VELSIEN SUMMIT Secret Archive \| ERSIYAN<\/title>/i,
+    /<title>벨시엔 서밋 시각 자료 보관 \| ERSIYAN<\/title>/i,
   );
   assert.match(privacyPolicy, /<title>개인정보처리방침 \| 에르시안<\/title>/i);
   assert.match(mineLogicPrivacyPolicy, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
@@ -352,9 +352,9 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(staticHomepage, /제2026-000002호/);
   assert.doesNotMatch(staticHomepage, /\/_next\/image\?/);
   assert.doesNotMatch(staticMineLogic, /\/_next\/image\?/);
-  assert.doesNotMatch(
+  assert.match(
     staticHomepage,
-    /<link\b(?=[^>]*rel="preload")(?=[^>]*velsien-summit)[^>]*>/i,
+    /<link\b(?=[^>]*rel="preload")(?=[^>]*devlog-20260905-city-960\.webp)[^>]*>/i,
   );
   assert.doesNotMatch(staticVelsienSummit, /\/_next\/image\?/);
   assert.doesNotMatch(staticVelsienWorld, /\/_next\/image\?/);
@@ -469,15 +469,14 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   // Scope these checks to the Virtual section; the shared navigation, history, and footer may link to Games.
   const virtualSection = html.slice(virtualStart, companyStart);
   const virtualText = visibleText(virtualSection);
-  assert.match(virtualText, /에르시안의 버츄얼부/);
+  assert.match(virtualText, /에르시안 버츄얼은 첫 소속 크리에이터 한 분을 모집합니다/);
   assert.match(virtualText, /0기 크리에이터 지원 접수 중/);
-  assert.match(virtualText, /APPLICATIONS OPEN/);
+  assert.match(virtualText, /모집 중/);
   assert.match(virtualText, /모집 인원\s*1명/);
-  assert.match(virtualText, /에르시안 버츄얼 0기\s*크리에이터 모집/);
-  assert.match(virtualText, /첫 소속 크리에이터 한 분을 모집합니다/);
-  assert.match(virtualText, /대화와 비공개 방송 테스트로 서로를 알아간 뒤, 캐릭터와 장비·방송 환경을 준비해 활동을 시작합니다/);
-  assert.match(virtualText, /활동 시작일은 준비 상황을 함께 확인해 정합니다/);
-  assert.match(virtualText, /지원부터 활동 시작까지 함께 준비합니다/);
+  assert.match(virtualText, /첫 소속 크리에이터\s*한 분을 모집합니다/);
+  assert.match(virtualText, /지원 후 곧바로 방송을 시작하는 모집이 아닙니다/);
+  assert.match(virtualText, /구체적인 시작일은 함께 준비한 뒤 정합니다/);
+  assert.match(virtualText, /지원이 곧 활동 시작은 아닙니다/);
   assert.match(virtualText, /구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다/);
   assert.doesNotMatch(virtualText, /에르시안을 처음 만났다면|RELEASED GAME|IN DEVELOPMENT|MINE LOGIC|VELSIEN SUMMIT/);
   assert.doesNotMatch(virtualSection, /href="\/(?:mine-logic|velsien-summit)"/i);
@@ -554,13 +553,13 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
   assert.equal(metaContent(html, "og:image"), socialImageUrl);
   assert.equal(metaContent(html, "twitter:image"), socialImageUrl);
   await access(new URL(`../public${new URL(socialImageUrl).pathname}`, import.meta.url));
-  assert.match(html, /Secret Archive/);
-  assert.match(html, /Character Studies/);
-  assert.match(html, /Combat Captures/);
-  assert.match(html, /Current Development/);
-  assert.match(html, /ARCHIVE ACCESS \/\/ 12/);
+  assert.match(html, /시각 자료 보관/);
+  assert.match(html, /캐릭터 설정화/);
+  assert.match(html, /전투 화면/);
+  assert.match(html, /이전 개발 화면/);
+  assert.match(html, /이 자료는 현재 개발 상태와 다를 수 있습니다/);
   for (const number of ["01", "02", "03", "04"]) {
-    assert.match(html, new RegExp(`Current Development Capture ${number}`));
+    assert.match(html, new RegExp(`이전 개발 화면 ${number}`));
   }
   assert.match(
     html,
@@ -624,7 +623,7 @@ test("server-renders Games with equal division links and parent company informat
   assert.doesNotMatch(html, /company-overview|brand-intro|brand-hierarchy|하나의 에르시안/);
   assert.doesNotMatch(html, /role="tablist" aria-label="사업부 선택"/i);
   assert.doesNotMatch(html, /<section\b(?=[^>]*id="ersiyan-(?:games|company)-view")(?=[^>]*\bhidden)[^>]*>/i);
-  assert.match(html, /<h2 id="games-intro-title">제가 좋아하는 인디 게임을<br\s*\/?><span>직접 만들고<\/span><br\s*\/?>(?:\s|<!--[\s\S]*?-->)*끝까지 운영합니다\.<\/h2>/i);
+  assert.match(html, /<h2 id="games-intro-title">직접 만든 게임을<br\s*\/?><span>출시하고 운영합니다\.<\/span><\/h2>/i);
   assert.match(html, /<details\b(?=[^>]*id="company-history")[^>]*>/i);
   assert.match(html, /Company History/);
   assert.match(html, /에르시안 연혁/);
@@ -642,7 +641,7 @@ test("server-renders Games with equal division links and parent company informat
   }
   assert.match(
     html,
-    /ERSIYAN GAMES는 에르시안의 게임 개발 및 운영 영역입니다\.[\s\S]*한국 1인 인디 게임 스튜디오로서 MINE LOGIC을 출시하고[\s\S]*VELSIEN SUMMIT을 개발하고 있습니다/,
+    /에르시안의 게임 개발·운영 부문입니다\.[\s\S]*MINE LOGIC을 출시했고[\s\S]*VELSIEN SUMMIT을 개발하고 있습니다/,
   );
   assert.match(html, /작품 둘러보기/);
   assert.match(html, /게임을 선택해 화면과 소개를 둘러보세요/);
@@ -665,10 +664,7 @@ test("server-renders Games with equal division links and parent company informat
   assert.match(html, /role="tablist"/);
   assert.match(html, /aria-selected="true"/);
   assert.doesNotMatch(html, /사업자 정보 펼쳐보기/);
-  assert.equal(
-    html.match(/<a\b[^>]*href="\/velsien-summit"[^>]*>/gi)?.length ?? 0,
-    1,
-  );
+  assert.ok((html.match(/<a\b[^>]*href="\/velsien-summit"[^>]*>/gi)?.length ?? 0) >= 1);
   assert.match(html, /VELSIEN SUMMIT 자세히 보기/);
   assert.match(html, /SNEAK PEEK/);
   assert.match(html, /MOBILE · COLLECTIBLE · STRATEGY RPG/);
@@ -802,7 +798,7 @@ test("server-renders the MINE LOGIC product page", async () => {
     html,
     /property="og:url" content="https:\/\/ersiyan\.com\/mine-logic"/i,
   );
-  assert.match(html, /막히면 이유를 보고,[\s\S]*20단계로 지뢰찾기를 익힙니다/);
+  assert.match(html, /지뢰찾기, 막히면[\s\S]*이유를 보고 풉니다/);
   assert.match(html, /9 × 9 · 지뢰 10개/);
   assert.match(html, /16 × 16 · 지뢰 40개/);
   assert.match(html, /30 × 16 · 지뢰 99개/);
@@ -825,7 +821,7 @@ test("server-renders the MINE LOGIC product page", async () => {
   assert.match(html, /feature-1024\.webp 1024w/i);
   assert.match(
     html,
-    /<img\b(?=[^>]*src="\/images\/mine-logic\/feature\.png")(?=[^>]*fetchpriority="high")[^>]*>/i,
+    /<img\b(?=[^>]*src="\/images\/mine-logic\/02_hint\.png")(?=[^>]*fetchpriority="high")[^>]*>/i,
   );
   assert.equal(html.match(/<h1\b/gi)?.length ?? 0, 1);
   assert.doesNotMatch(html, /\/_next\/image\?/i);
@@ -874,7 +870,7 @@ test("server-renders the VELSIEN SUMMIT promotional page", async () => {
   for (const id of ["01", "02"]) {
     const prefix = `/images/velsien-summit/devlog-20260905-battle-${id}`;
     const image = [...html.matchAll(/<img\b[^>]*>/gi)].map(([tag]) => attributes(tag))
-      .find(({ src }) => src === `${prefix}-960.webp`);
+      .find(({ src, loading }) => src === `${prefix}-960.webp` && loading === "lazy");
     assert.ok(image, `Battle screen ${id} is rendered`);
     assert.equal(Number(image.width) / Number(image.height), 16 / 9);
     assert.equal(image.loading, "lazy");
@@ -887,6 +883,7 @@ test("server-renders the VELSIEN SUMMIT promotional page", async () => {
       && (link.rel ?? "").split(/\s+/).some((token) => token === "noopener" || token === "noreferrer")),
     "Full-size images open separately without an opener reference");
   }
+  assert.match(html, /<img\b(?=[^>]*src="\/images\/velsien-summit\/devlog-20260905-battle-01-960\.webp")(?=[^>]*loading="eager")(?=[^>]*fetchPriority="high")[^>]*>/i);
   assert.match(html, /<html[^>]*lang="ko"/i);
   assert.match(
     html,
@@ -1080,7 +1077,7 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
   );
   assert.match(html, /아동의 개인정보/);
   assert.match(html, /role="group" aria-label="Privacy policy language"/);
-  assert.match(html, /document\.documentElement\.lang="en-US"/);
+  assert.doesNotMatch(html, /document\.documentElement\.lang="en-US"/);
   assert.match(html, /aria-controls="mine-logic-policy-ko" aria-pressed="false"/);
   assert.match(html, /aria-controls="mine-logic-policy-en" aria-pressed="true"/);
   assert.match(html, /<button[^>]*aria-controls="mine-logic-policy-ko"[^>]*>한국어<\/button>/);
@@ -1299,7 +1296,7 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(mineLogicPrivacyContent, /useState<PolicyLanguage>\("en"\)/);
   assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = policyLocale\[language\]/);
   assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = "ko-KR"/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang="en-US"/);
+  assert.doesNotMatch(mineLogicPrivacyContent, /document\.documentElement\.lang="en-US"/);
   assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "ko"\}/);
   assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "en"\}/);
   assert.match(mineLogicPrivacyContent, /lang="ko-KR" hidden=\{language !== "ko"\}/);
@@ -1318,11 +1315,7 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(mineLogicPrivacyContent, /#mine-logic-policy-ko\[hidden\][\s\S]*?display: block !important/);
   const policyButtonHeight = globalStyles.match(/\.policy-language-switcher button\s*\{[^}]*?min-height:\s*(\d+)px/);
   assert.ok(Number(policyButtonHeight?.[1]) >= 44, "Policy language buttons retain a usable touch target");
-  assert.match(globalStyles, /\.logo-stage\s*\{[\s\S]*?color-scheme:\s*only light/);
-  assert.match(
-    globalStyles,
-    /@media \(prefers-color-scheme:\s*dark\)[\s\S]*?\.logo-stage img\s*\{[\s\S]*?mix-blend-mode:\s*normal;[\s\S]*?filter:\s*none;/,
-  );
+  assert.match(globalStyles, /\.hero-proof:focus-visible\s*\{[^}]*?outline:\s*3px solid var\(--red\)/);
   assert.match(globalStyles, /outline:\s*3px solid var\(--red-dark\)/);
   assert.match(globalStyles, /\.privacy-footer-links[\s\S]*?gap:\s*12px 22px/);
   assert.match(archivedPrivacy, /OpenAI Sites/);

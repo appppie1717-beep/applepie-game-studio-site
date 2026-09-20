@@ -210,9 +210,9 @@ export default function MineLogicPage() {
         <div className="header-inner">
           <BrandLockup />
           <nav className="primary-nav" aria-label="MINE LOGIC 페이지 메뉴">
+            <a href="#screens">게임 화면</a>
             <a href="#difficulty">난이도</a>
             <a href="#features">특징</a>
-            <a href="#screens">게임 화면</a>
             <a href="#install">설치</a>
           </nav>
         </div>
@@ -226,9 +226,9 @@ export default function MineLogicPage() {
                 <a href="/#games">ERSIYAN GAMES</a> / MINE LOGIC · ANDROID
               </p>
               <h1 id="mine-logic-title">
-                막히면 이유를 보고,
+                지뢰찾기, 막히면
                 <br />
-                20단계로 지뢰찾기를 익힙니다.
+                이유를 보고 풉니다.
               </h1>
               <p className={styles.heroLead}>
                 MINE LOGIC(마인로직)은 단계별 힌트와 20단계 훈련으로 지뢰찾기를 처음
@@ -243,49 +243,84 @@ export default function MineLogicPage() {
                 >
                   Google Play에서 보기 <span aria-hidden="true">↗</span>
                 </a>
-                <a className="button button--quiet" href="#features">
-                  게임 특징 보기
+                <a className="button button--quiet" href="#screens">
+                  실제 게임 화면 보기
                 </a>
               </div>
-              <dl className={styles.heroFacts} aria-label="MINE LOGIC 제품 정보">
-                <div>
-                  <dt>PLATFORM</dt>
-                  <dd>Android</dd>
-                </div>
-                <div>
-                  <dt>CURRENT BUILD</dt>
-                  <dd>v{currentVersion}</dd>
-                </div>
-                <div>
-                  <dt>NETWORK</dt>
-                  <dd>오프라인 플레이</dd>
-                </div>
-              </dl>
             </div>
 
-            <div className={styles.heroVisual}>
-              <div className={styles.heroArtFrame}>
+            <figure className={styles.heroVisual}>
+              <div className={styles.heroScreenFrame}>
                 <ResponsivePicture
-                  className={styles.heroArt}
-                  src="/images/mine-logic/feature.png"
-                  webpSrcSet="/images/mine-logic/feature-480.webp 480w, /images/mine-logic/feature-768.webp 768w, /images/mine-logic/feature-1024.webp 1024w"
-                  alt="푸른 지뢰찾기 보드 위의 붉은 깃발과 지뢰를 표현한 MINE LOGIC 대표 이미지"
-                  width={1024}
-                  height={500}
-                  sizes="(max-width: 980px) 92vw, 48vw"
+                  className={styles.heroScreen}
+                  src="/images/mine-logic/02_hint.png"
+                  webpSrcSet="/images/mine-logic/02_hint-360.webp 360w, /images/mine-logic/02_hint-540.webp 540w, /images/mine-logic/02_hint-720.webp 720w"
+                  alt="MINE LOGIC의 실제 초급 게임 화면. 숫자 단서와 주변 칸을 강조하고 3단계 힌트가 안전 칸을 표시합니다"
+                  width={1080}
+                  height={1920}
+                  sizes="(max-width: 680px) 280px, (max-width: 980px) 330px, 360px"
                   fetchPriority="high"
                 />
               </div>
-              <ResponsivePicture
-                className={styles.heroIcon}
-                src="/images/mine-logic/icon.png"
-                webpSrcSet="/images/mine-logic/icon-96.webp 96w, /images/mine-logic/icon-144.webp 144w, /images/mine-logic/icon-192.webp 192w"
-                alt="MINE LOGIC 앱 아이콘"
-                width={512}
-                height={512}
-                sizes="118px"
-                decoding="async"
-              />
+              <figcaption>
+                <span>실제 게임 화면 · 단계별 힌트 3단계</span>
+                <strong>숫자 단서를 보고 안전한 칸을 확인합니다.</strong>
+              </figcaption>
+            </figure>
+
+            <dl className={styles.heroFacts} aria-label="MINE LOGIC 제품 정보">
+              <div>
+                <dt>PLATFORM</dt>
+                <dd>Android</dd>
+              </div>
+              <div>
+                <dt>CURRENT BUILD</dt>
+                <dd>v{currentVersion}</dd>
+              </div>
+              <div>
+                <dt>NETWORK</dt>
+                <dd>오프라인 플레이</dd>
+              </div>
+            </dl>
+          </div>
+        </section>
+
+        <section
+          id="screens"
+          className={`${styles.section} ${styles.screensSection}`}
+          aria-labelledby="screens-title"
+        >
+          <div className={styles.sectionInner}>
+            <div className={styles.sectionHeading}>
+              <p>ACTUAL GAME SCREENS</p>
+              <h2 id="screens-title">게임 화면을 살펴보세요</h2>
+              <span>
+                난이도를 고르는 로비, 막힌 수를 풀어보는 힌트, 20단계 훈련
+                화면을 소개합니다.
+              </span>
+            </div>
+            <div className={styles.screenGrid}>
+              {screens.map((screen) => (
+                <figure className={styles.screenCard} key={screen.title}>
+                  <div className={styles.screenImageWrap}>
+                    <ResponsivePicture
+                      className={styles.screenImage}
+                      src={screen.src}
+                      webpSrcSet={screen.srcSet}
+                      alt={screen.alt}
+                      width={1080}
+                      height={1920}
+                      sizes="(max-width: 680px) 76vw, (max-width: 980px) 36vw, 24vw"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                  <figcaption>
+                    <strong>{screen.title}</strong>
+                    <span>{screen.description}</span>
+                  </figcaption>
+                </figure>
+              ))}
             </div>
           </div>
         </section>
@@ -323,14 +358,27 @@ export default function MineLogicPage() {
           aria-labelledby="features-title"
         >
           <div className={styles.sectionInner}>
-            <div className={styles.sectionHeading}>
-              <p>LEARN THE LOGIC</p>
-              <h2 id="features-title">답만 보여주지 않고 과정을 나눕니다</h2>
-              <span>
-                막힌 순간에는 강조된 단서부터 관계 비교, 확정 결과까지 차례로
-                확인하고, 훈련에서는 쉬운 논리부터 어려운 패턴까지 순서대로
-                연습합니다.
-              </span>
+            <div className={styles.featureIntro}>
+              <div className={styles.sectionHeading}>
+                <p>LEARN THE LOGIC</p>
+                <h2 id="features-title">답만 보여주지 않고 과정을 나눕니다</h2>
+                <span>
+                  막힌 순간에는 강조된 단서부터 관계 비교, 확정 결과까지 차례로
+                  확인하고, 훈련에서는 쉬운 논리부터 어려운 패턴까지 순서대로
+                  연습합니다.
+                </span>
+              </div>
+              <ResponsivePicture
+                className={styles.featureArtwork}
+                src="/images/mine-logic/feature.png"
+                webpSrcSet="/images/mine-logic/feature-480.webp 480w, /images/mine-logic/feature-768.webp 768w, /images/mine-logic/feature-1024.webp 1024w"
+                alt="푸른 지뢰찾기 보드 위의 붉은 깃발과 지뢰를 표현한 MINE LOGIC 대표 이미지"
+                width={1024}
+                height={500}
+                sizes="(max-width: 980px) 90vw, 38vw"
+                loading="lazy"
+                decoding="async"
+              />
             </div>
             <div className={styles.featureGrid}>
               <article className={styles.featureCard}>
@@ -362,46 +410,6 @@ export default function MineLogicPage() {
                   온라인 순위 없이 게임 상태와 설정을 기기 안에서 관리합니다.
                 </p>
               </article>
-            </div>
-          </div>
-        </section>
-
-        <section
-          id="screens"
-          className={styles.section}
-          aria-labelledby="screens-title"
-        >
-          <div className={styles.sectionInner}>
-            <div className={styles.sectionHeading}>
-              <p>ACTUAL GAME SCREENS</p>
-              <h2 id="screens-title">실제 게임 화면으로 먼저 확인하세요</h2>
-              <span>
-                난이도를 고르는 로비, 막힌 수를 풀어보는 힌트, 20단계 훈련
-                화면을 소개합니다.
-              </span>
-            </div>
-            <div className={styles.screenGrid}>
-              {screens.map((screen) => (
-                <figure className={styles.screenCard} key={screen.title}>
-                  <div className={styles.screenImageWrap}>
-                    <ResponsivePicture
-                      className={styles.screenImage}
-                      src={screen.src}
-                      webpSrcSet={screen.srcSet}
-                      alt={screen.alt}
-                      width={1080}
-                      height={1920}
-                      sizes="(max-width: 680px) 76vw, (max-width: 980px) 36vw, 24vw"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                  <figcaption>
-                    <strong>{screen.title}</strong>
-                    <span>{screen.description}</span>
-                  </figcaption>
-                </figure>
-              ))}
             </div>
           </div>
         </section>

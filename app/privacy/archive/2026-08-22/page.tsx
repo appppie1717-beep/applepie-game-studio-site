@@ -70,7 +70,10 @@ export default function ArchivedPrivacyPolicy() {
       <main id="policy-content">
         <section className="privacy-hero section-pad" aria-labelledby="policy-title">
           <p className="eyebrow">PRIVACY POLICY ARCHIVE</p>
-          <h1 id="policy-title">개인정보처리방침 보관본</h1>
+          <h1 id="policy-title">
+            개인정보처리방침{" "}
+            <span className="privacy-edition">2026년 8월 22일 보관본</span>
+          </h1>
           <p>
             2026년 8월 22일부터 다음 변경본 적용 직전까지 공개된 애플파이 게임
             스튜디오 공식 홈페이지의 최초 개인정보처리방침입니다.

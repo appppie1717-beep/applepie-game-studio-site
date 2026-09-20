@@ -93,7 +93,10 @@ export default function ArchivedPrivacyPolicy20260905() {
       <main id="policy-content">
         <section className="privacy-hero section-pad" aria-labelledby="policy-title">
           <p className="eyebrow">PRIVACY POLICY ARCHIVE</p>
-          <h1 id="policy-title">개인정보처리방침 보관본</h1>
+          <h1 id="policy-title">
+            개인정보처리방침{" "}
+            <span className="privacy-edition">2026년 9월 5일 보관본</span>
+          </h1>
           <p>
             2026년 9월 5일부터 2026년 9월 19일 변경본 적용 직전까지 공개된
             에르시안 공식 홈페이지의 개인정보처리방침입니다.

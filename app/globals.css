@@ -1133,27 +1133,40 @@ body:has(.velsien-shell) {
 }
 
 .privacy-hero {
-  padding-block: clamp(70px, 10vw, 120px) 54px;
+  padding-block: clamp(44px, 7vw, 84px) 36px;
   border-bottom: 1px solid var(--line);
 }
 
-.privacy-hero p:last-child {
-  max-width: 680px;
-  margin: 30px 0 0;
+.privacy-hero > h1 + p {
+  max-width: 640px;
+  margin: 20px 0 0;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 16px;
+  line-height: 1.75;
   word-break: keep-all;
 }
 
-.draft-note {
-  display: inline-flex;
-  margin-top: 30px;
-  padding: 8px 11px;
-  border: 1px solid rgba(185, 61, 67, 0.25);
-  background: rgba(220, 84, 88, 0.07);
+.privacy-hero h1 .privacy-edition {
+  display: block;
+  margin-top: 8px;
   color: var(--red-dark);
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 740;
+  letter-spacing: 0;
+  line-height: 1.4;
+}
+
+.draft-note {
+  display: block;
+  max-width: fit-content;
+  margin-top: 20px;
+  padding-left: 12px;
+  border-left: 2px solid var(--red-dark);
+  color: var(--muted);
   font-size: 12px;
-  font-weight: 780;
+  font-weight: 700;
+  line-height: 1.55;
+  word-break: keep-all;
 }
 
 .policy-change-notice {
@@ -1177,7 +1190,7 @@ body:has(.velsien-shell) {
 
 .policy-content {
   display: grid;
-  padding-block: 70px 120px;
+  padding-block: 44px 120px;
   grid-template-columns: 210px minmax(0, 700px);
   justify-content: space-between;
   gap: clamp(40px, 9vw, 130px);
@@ -1272,6 +1285,7 @@ body:has(.velsien-shell) {
 
   .policy-content {
     grid-template-columns: 1fr;
+    gap: 24px;
   }
 
   .footer-inner {
@@ -1289,14 +1303,21 @@ body:has(.velsien-shell) {
   .policy-index {
     position: static;
     display: flex;
-    padding-bottom: 22px;
-    flex-wrap: wrap;
-    gap: 9px 18px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    flex-wrap: nowrap;
+    gap: 18px;
     border-bottom: 1px solid var(--line);
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
   }
 
   .policy-index li + li {
     margin-top: 0;
+  }
+
+  .policy-index li {
+    flex: 0 0 auto;
   }
 }
 
@@ -1363,7 +1384,7 @@ body:has(.velsien-shell) {
   }
 
   .privacy-hero {
-    padding-top: 60px;
+    padding-top: 40px;
   }
 
   .policy-language-toolbar {
@@ -1381,7 +1402,7 @@ body:has(.velsien-shell) {
   }
 
   .policy-content {
-    padding-block: 48px 90px;
+    padding-block: 28px 90px;
   }.header-inner { gap: 12px; }
 .primary-nav { gap: 2px; }
 }

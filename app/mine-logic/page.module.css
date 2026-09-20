@@ -4,25 +4,8 @@
 }
 
 .hero {
-  position: relative;
-  overflow: hidden;
-  background:
-    radial-gradient(circle at 78% 18%, rgba(169, 193, 250, 0.2), transparent 34rem),
-    radial-gradient(circle at 12% 88%, rgba(220, 84, 88, 0.1), transparent 28rem),
-    var(--navy-950);
+  background: var(--navy-950);
   color: var(--white);
-}
-
-.hero::after {
-  position: absolute;
-  right: -8vw;
-  bottom: -10vw;
-  width: min(42vw, 620px);
-  aspect-ratio: 1;
-  border: 1px solid rgba(169, 193, 250, 0.12);
-  border-radius: 50%;
-  content: "";
-  pointer-events: none;
 }
 
 .heroInner,
@@ -33,14 +16,11 @@
 }
 
 .heroInner {
-  position: relative;
-  z-index: 1;
   display: grid;
-  min-height: min(780px, calc(100svh - 76px));
-  padding-block: clamp(72px, 10vw, 132px);
-  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  padding-block: clamp(44px, 6vw, 76px) 34px;
+  grid-template-columns: minmax(0, 1fr) minmax(290px, 0.72fr);
   align-items: center;
-  gap: clamp(46px, 7vw, 96px);
+  gap: 30px clamp(36px, 6vw, 92px);
 }
 
 .heroCopy {
@@ -48,7 +28,7 @@
 }
 
 .eyebrow {
-  margin: 0 0 22px;
+  margin: 0 0 16px;
   color: var(--lavender);
   font-size: 0.72rem;
   font-weight: 900;
@@ -56,26 +36,26 @@
 }
 
 .heroCopy h1 {
-  max-width: 720px;
+  max-width: 650px;
   margin: 0;
-  font-size: clamp(3rem, 6vw, 6rem);
-  letter-spacing: -0.065em;
-  line-height: 0.98;
+  font-size: clamp(2.5rem, 4.2vw, 4.5rem);
+  letter-spacing: -0.055em;
+  line-height: 1.12;
   word-break: keep-all;
 }
 
 .heroLead {
-  max-width: 680px;
-  margin: 30px 0 0;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: clamp(1rem, 1.8vw, 1.25rem);
-  line-height: 1.8;
+  max-width: 540px;
+  margin: 20px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 1.02rem;
+  line-height: 1.72;
   word-break: keep-all;
 }
 
 .heroActions {
   display: flex;
-  margin-top: 38px;
+  margin-top: 26px;
   flex-wrap: wrap;
   gap: 12px;
 }
@@ -105,7 +85,8 @@
 
 .heroFacts {
   display: grid;
-  margin: 48px 0 0;
+  margin: 0;
+  grid-column: 1 / -1;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   border-bottom: 1px solid rgba(255, 255, 255, 0.14);
@@ -134,36 +115,54 @@
 }
 
 .heroVisual {
-  position: relative;
+  display: grid;
+  width: 100%;
+  margin: 0;
+  justify-items: center;
+  gap: 12px;
 }
 
-.heroArtFrame {
-  position: relative;
+.heroScreenFrame {
   overflow: hidden;
-  border: 1px solid rgba(169, 193, 250, 0.28);
-  border-radius: 6px 42px 6px 42px;
-  background: #0b1728;
-  box-shadow: 0 40px 90px rgba(0, 0, 0, 0.42);
+  width: min(100%, 308px);
+  border: 5px solid #263e61;
+  border-radius: 18px;
+  background: #e8f1ff;
+  box-shadow: 0 20px 54px rgba(0, 0, 0, 0.28);
 }
 
-.heroArt {
+.heroScreen {
+  display: block;
   width: 100%;
   height: auto;
 }
 
-.heroIcon {
-  position: absolute;
-  right: clamp(18px, 4vw, 42px);
-  bottom: clamp(18px, 4vw, 42px);
-  width: clamp(76px, 10vw, 118px);
-  height: auto;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 22%;
-  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.4);
+.heroVisual figcaption {
+  display: grid;
+  width: min(100%, 308px);
+  gap: 4px;
+  line-height: 1.45;
+}
+
+.heroVisual figcaption span {
+  color: var(--lavender-soft);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.heroVisual figcaption strong {
+  color: rgba(255, 255, 255, 0.83);
+  font-size: 0.88rem;
+  font-weight: 600;
 }
 
 .section {
-  padding-block: clamp(82px, 11vw, 142px);
+  padding-block: clamp(66px, 8vw, 108px);
+}
+
+.screensSection {
+  background: var(--paper-deep);
 }
 
 .sectionDark {
@@ -191,9 +190,9 @@
 
 .sectionHeading h2 {
   margin: 0;
-  font-size: clamp(2.2rem, 5vw, 4.8rem);
-  letter-spacing: -0.06em;
-  line-height: 1.02;
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
+  letter-spacing: -0.045em;
+  line-height: 1.16;
   word-break: keep-all;
 }
 
@@ -212,29 +211,22 @@
 .difficultyGrid,
 .featureGrid {
   display: grid;
-  margin-top: clamp(42px, 6vw, 72px);
-  gap: 16px;
+  margin-top: clamp(32px, 4vw, 52px);
+}
+
+.difficultyGrid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 2px solid var(--navy-900);
+  border-bottom: 1px solid var(--line);
 }
 
-.difficultyCard,
-.featureCard {
-  position: relative;
-  min-height: 100%;
-  padding: clamp(28px, 4vw, 44px);
-  border: 1px solid var(--line);
-  border-radius: 4px 26px 4px 26px;
-  background: rgba(255, 255, 255, 0.56);
+.difficultyCard {
+  min-width: 0;
+  padding: clamp(22px, 3vw, 34px);
 }
 
-.difficultyCard::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 54px;
-  height: 4px;
-  background: var(--red);
-  content: "";
+.difficultyCard + .difficultyCard {
+  border-left: 1px solid var(--line);
 }
 
 .difficultyCard small,
@@ -242,36 +234,56 @@
   color: var(--red-dark);
   font-size: 0.68rem;
   font-weight: 900;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.1em;
 }
 
 .difficultyCard h3,
 .featureCard h3 {
-  margin: 18px 0 0;
-  font-size: clamp(1.45rem, 2.6vw, 2rem);
+  margin: 12px 0 0;
+  font-size: clamp(1.4rem, 2vw, 1.9rem);
   letter-spacing: -0.04em;
 }
 
 .difficultyCard strong {
   display: block;
-  margin-top: 28px;
+  margin-top: 20px;
   color: var(--navy-700);
-  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-size: clamp(1.4rem, 2.5vw, 2.1rem);
 }
 
 .difficultyCard p,
 .featureCard p {
-  margin: 14px 0 0;
+  margin: 12px 0 0;
   color: var(--muted);
-  line-height: 1.8;
+  line-height: 1.7;
   word-break: keep-all;
 }
 
+.featureIntro {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.7fr);
+  align-items: end;
+  gap: 32px;
+}
+
+.featureArtwork {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid rgba(169, 193, 250, 0.24);
+}
+
+.featureGrid {
+  border-top: 1px solid rgba(169, 193, 250, 0.36);
+}
+
 .featureCard {
-  border-color: rgba(169, 193, 250, 0.2);
-  background:
-    linear-gradient(145deg, rgba(169, 193, 250, 0.08), transparent 58%),
-    rgba(7, 16, 30, 0.54);
+  display: grid;
+  padding: 25px 0;
+  grid-template-columns: minmax(130px, 0.35fr) minmax(170px, 0.45fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 14px 24px;
+  border-bottom: 1px solid rgba(169, 193, 250, 0.22);
 }
 
 .featureCard small {
@@ -279,51 +291,48 @@
 }
 
 .featureCard h3 {
+  margin: 0;
   color: var(--white);
 }
 
 .featureCard p {
+  margin: 0;
   color: rgba(255, 255, 255, 0.62);
 }
 
 .trainingBands {
-  display: grid;
-  margin-top: 34px;
-  gap: 10px;
+  display: flex;
+  margin-top: 0;
+  grid-column: 3;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .trainingBands span {
-  padding: 12px 14px;
-  border-left: 3px solid var(--red);
-  background: rgba(255, 255, 255, 0.06);
+  padding: 6px 0 6px 10px;
+  border-left: 2px solid var(--red);
   color: rgba(255, 255, 255, 0.76);
-  font-size: 0.86rem;
+  font-size: 0.8rem;
   font-weight: 760;
 }
 
 .screenGrid {
   display: grid;
-  margin-top: clamp(42px, 6vw, 72px);
+  margin-top: clamp(32px, 4vw, 52px);
   gap: clamp(20px, 3vw, 34px);
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .screenCard {
   margin: 0;
-  overflow: hidden;
-  border: 1px solid var(--line);
-  border-radius: 4px 28px 4px 28px;
-  background: rgba(255, 255, 255, 0.68);
-  box-shadow: 0 24px 60px rgba(7, 16, 30, 0.12);
+  min-width: 0;
 }
 
 .screenImageWrap {
   display: grid;
-  padding: clamp(18px, 3vw, 34px);
+  padding: clamp(14px, 2.4vw, 26px);
   place-items: center;
-  background:
-    radial-gradient(circle at 50% 18%, rgba(169, 193, 250, 0.2), transparent 18rem),
-    var(--navy-950);
+  background: var(--navy-950);
 }
 
 .screenImageWrap > picture {
@@ -336,14 +345,13 @@
   width: 100%;
   height: auto;
   aspect-ratio: 1080 / 1920;
-  border: 4px solid #13243d;
-  border-radius: 26px;
-  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.38);
+  border: 3px solid #294468;
+  border-radius: 14px;
 }
 
 .screenCard figcaption {
   display: grid;
-  padding: 24px;
+  padding: 18px 0 0;
   gap: 8px;
 }
 
@@ -364,11 +372,8 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   gap: 36px;
-  border: 1px solid rgba(169, 193, 250, 0.24);
-  border-radius: 6px 34px 6px 34px;
-  background:
-    linear-gradient(135deg, rgba(169, 193, 250, 0.1), transparent 52%),
-    var(--navy-950);
+  border-left: 4px solid var(--red);
+  background: var(--navy-950);
   color: var(--white);
 }
 
@@ -413,6 +418,17 @@
   min-height: 48px;
 }
 
+.page a:focus-visible {
+  outline: 3px solid var(--red);
+  outline-offset: 4px;
+}
+
+.hero a:focus-visible,
+.sectionDark a:focus-visible,
+.installPanel a:focus-visible {
+  outline-color: var(--lavender-soft);
+}
+
 .footerInner {
   display: flex;
   min-height: 124px;
@@ -441,43 +457,35 @@
   min-height: 48px;
 }
 
-@media (min-width: 981px) and (max-height: 900px) {
-  .heroInner {
-    min-height: 0;
-    padding-block: 48px 64px;
-  }
-
-  .heroCopy h1 {
-    font-size: clamp(2.7rem, 4.25vw, 3.8rem);
-    line-height: 1.06;
-  }
-
-  .heroLead {
-    margin-top: 24px;
-    font-size: 1rem;
-  }
-
-  .heroActions {
-    margin-top: 28px;
-  }
-
-  .heroFacts {
-    margin-top: 30px;
-  }
-}
-
 @media (max-width: 980px) {
   .heroInner {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .heroVisual {
-    width: min(100%, 760px);
+    width: min(100%, 450px);
+    justify-self: start;
   }
 
-  .difficultyGrid,
-  .featureGrid {
+  .difficultyGrid {
     grid-template-columns: 1fr;
+  }
+
+  .difficultyCard + .difficultyCard {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  .featureIntro {
+    grid-template-columns: 1fr;
+  }
+
+  .featureArtwork {
+    width: min(100%, 460px);
+  }
+
+  .featureCard {
+    grid-template-columns: minmax(100px, 0.35fr) minmax(150px, 0.5fr) minmax(0, 1fr);
   }
 
   .screenGrid {
@@ -500,12 +508,30 @@
 
 @media (max-width: 680px) {
   .heroInner {
-    min-height: 0;
-    padding-top: 62px;
+    padding-top: 38px;
+    gap: 24px;
   }
 
   .heroCopy h1 {
-    font-size: clamp(2.7rem, 13vw, 4rem);
+    font-size: clamp(1.9rem, 8.7vw, 2.5rem);
+  }
+
+  .heroLead {
+    margin-top: 14px;
+    font-size: 0.94rem;
+    line-height: 1.6;
+  }
+
+  .heroActions {
+    margin-top: 20px;
+  }
+
+  .heroVisual {
+    justify-self: center;
+  }
+
+  .heroScreenFrame {
+    width: min(62vw, 230px);
   }
 
   .heroFacts {
@@ -515,6 +541,21 @@
   .heroFacts div + div {
     border-top: 1px solid rgba(255, 255, 255, 0.14);
     border-left: 0;
+  }
+
+  .featureCard {
+    padding: 22px 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .featureCard h3,
+  .featureCard p {
+    margin: 0;
+  }
+
+  .trainingBands {
+    grid-column: 1;
   }
 
   .screenGrid {

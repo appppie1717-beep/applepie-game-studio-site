@@ -176,8 +176,6 @@ const pageStructuredData = {
   ],
 };
 
-const genres = ["MOBILE", "COLLECTIBLE", "STRATEGY RPG"] as const;
-
 const characterArtwork = [
   {
     id: "luena",
@@ -264,12 +262,10 @@ const signalDeckClasses = {
 };
 
 export default function VelsienSummitPage() {
-  // The artwork follows the copy on mobile, so only desktop needs a priority hint.
-  preload("/images/velsien-summit/devlog-20260905-city-1600.webp", {
+  preload("/images/velsien-summit/devlog-20260905-battle-01-960.webp", {
     as: "image",
-    imageSrcSet: "/images/velsien-summit/devlog-20260905-city-640.webp 640w, /images/velsien-summit/devlog-20260905-city-960.webp 960w, /images/velsien-summit/devlog-20260905-city-1600.webp 1600w",
-    imageSizes: "(max-width: 1060px) calc(100vw - 36px), 54vw",
-    media: "(min-width: 1061px)",
+    imageSrcSet: "/images/velsien-summit/devlog-20260905-battle-01-640.webp 640w, /images/velsien-summit/devlog-20260905-battle-01-960.webp 960w, /images/velsien-summit/devlog-20260905-battle-01-1920.webp 1920w",
+    imageSizes: "(max-width: 1060px) calc(100vw - 36px), 52vw",
     fetchPriority: "high",
   });
 
@@ -326,61 +322,69 @@ export default function VelsienSummitPage() {
               <span>SUMMIT</span>
               <small>벨시엔 서밋</small>
             </h1>
-            <p className={styles.lead}>
-              완벽하게 돌아가는 도시에서,
-              <br />어느 기업에도 속하지 않은 계약자가 됩니다.
-            </p>
+            <p className={styles.gameClassification}>모바일 캐릭터 수집형 전략 RPG</p>
+            <p className={styles.lead}>동행자 다섯 명의 위치와 첫 행동을 정하고, 계약의 전투를 시작합니다.</p>
+          </div>
+
+          <figure className={styles.heroVisual}>
+            <a className={styles.heroBattleLink} href="#devlog-2026-09-05-battle" aria-label="2026년 9월 5일 실제 5대5 전투 기록으로 이동">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/velsien-summit/devlog-20260905-battle-01-960.webp"
+                srcSet="/images/velsien-summit/devlog-20260905-battle-01-640.webp 640w, /images/velsien-summit/devlog-20260905-battle-01-960.webp 960w, /images/velsien-summit/devlog-20260905-battle-01-1920.webp 1920w"
+                sizes="(max-width: 1060px) calc(100vw - 36px), 52vw"
+                width={1920}
+                height={1080}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                alt="아군 다섯 명과 적군 다섯 기가 마주 선 벨시엔 서밋의 2026년 9월 5일 실제 개발 전투 화면"
+              />
+              <span className={styles.heroBattleOverlay} aria-hidden="true">5 VS 5 <span>실제 전투 화면 보기 ↗</span></span>
+            </a>
+            <figcaption><time dateTime="2026-09-05">2026.09.05 촬영</time><span>개발 중인 2D 전투 화면 · 캐릭터와 적군 표현은 계속 다듬고 있습니다.</span></figcaption>
+          </figure>
+
+          <div className={styles.heroDetails}>
             <p className={styles.heroDescription}>
-              제가 만들고 있는 벨시엔 서밋은 인간형 AI 동행자를 모아 팀을
-              편성하는 모바일 캐릭터 수집형 전략 RPG입니다. 전투 전에 배치와
-              행동 순서를 준비하는 방향으로 만들고 있습니다.
+              회수와 호송, 경비와 조사 같은 계약을 고릅니다. 서로 다른 인간형 AI 동행자로 팀을 꾸리고, 전투 전 배치와 행동 순서를 준비합니다.
             </p>
             <p className={styles.developmentState}>
               <span aria-hidden="true" />
               개발 중 · 출시 미정
             </p>
-            <ul className={styles.genreList} aria-label="게임 장르">
-              {genres.map((genre) => (
-                <li key={genre}>{genre}</li>
-              ))}
-            </ul>
             <div className={styles.heroActions}>
-              <a className={styles.primaryLink} href="/velsien-summit/world">
-                현재 세계관 읽기 <span aria-hidden="true">↗</span>
+              <a className={styles.primaryLink} href="#devlog-2026-09-05-battle">
+                전투 기록 읽기 <span aria-hidden="true">↗</span>
               </a>
-              <a className={styles.secondaryLink} href="#development-log">
-                최근 개발 기록
-              </a>
-              <a className={styles.secondaryLink} href="#characters">
-                캐릭터 아트
+              <a className={styles.secondaryLink} href="/velsien-summit/world">
+                세계관 읽기
               </a>
             </div>
           </div>
 
-          <figure className={styles.heroVisual}>
-            <div className={styles.imageFrame + " " + styles.artFrame}>
-              {/* images.unoptimized 정적 배포라 런타임 이미지 청크 없이 원본 크기를 명시합니다. */}
-              <picture style={{ display: "contents" }}>
-                <img
-                  src="/images/velsien-summit/devlog-20260905-city-1600.webp"
-                  alt="푸른 하늘과 구름 위로 흰 첨탑과 광장이 펼쳐진 벨시엔의 도시 배경 아트"
-                  width={1600}
-                  height={900}
-                  srcSet="/images/velsien-summit/devlog-20260905-city-640.webp 640w, /images/velsien-summit/devlog-20260905-city-960.webp 960w, /images/velsien-summit/devlog-20260905-city-1600.webp 1600w"
-                  sizes="(max-width: 1060px) calc(100vw - 36px), 54vw"
-                  loading="eager"
-                  fetchPriority="auto"
-                  decoding="async"
-                />
-              </picture>
-              <div className={styles.frameStatus} aria-hidden="true">
-                <span>WORLD ART</span>
-                <span>2026.09 DEV LOG</span>
-              </div>
-            </div>
-            <figcaption>
-              개발에 사용 중인 도시 배경 아트입니다. 이곳에 완성 전의 구상과 변화도 함께 남깁니다.
-            </figcaption>
+        </section>
+
+        <section className={styles.cityBand} aria-label="벨시엔의 도시와 세계관">
+          <div className={styles.cityBandCopy}>
+            <p>WORLD PREMISE</p>
+            <h2>정돈된 도시, 선택할 수 없는 소속</h2>
+            <p>벨시엔의 세 기업은 같은 업종에서 거의 대등한 인프라와 군사력을 갖추고, 서로 다른 삶의 기준을 내세웁니다. 플레이어는 어느 기업에도 속하지 않은 드문 계약자입니다.</p>
+            <a href="/velsien-summit/world">처음부터 세계관 읽기 <span aria-hidden="true">↗</span></a>
+          </div>
+          <figure>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/velsien-summit/devlog-20260905-city-960.webp"
+              srcSet="/images/velsien-summit/devlog-20260905-city-640.webp 640w, /images/velsien-summit/devlog-20260905-city-960.webp 960w, /images/velsien-summit/devlog-20260905-city-1600.webp 1600w"
+              sizes="(max-width: 1060px) calc(100vw - 36px), 45vw"
+              alt="푸른 하늘과 구름 위로 흰 첨탑과 광장이 펼쳐진 벨시엔의 도시 배경 아트"
+              width={1600}
+              height={900}
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>개발에 사용 중인 도시 배경 아트입니다. 2026년 9월 공개 기록.</figcaption>
           </figure>
         </section>
 
@@ -391,50 +395,17 @@ export default function VelsienSummitPage() {
         >
           <div className={styles.sectionIntro}>
             <p>GAME OVERVIEW</p>
-            <h2 id="overview-title">어떤 게임인가요</h2>
+            <h2 id="overview-title">계약에서 전투까지</h2>
             <span>
-              현재 만들고 있는 게임의 큰 방향입니다. 계약을 고르고, 함께할 동행자와 전투 전 전략을 준비합니다.
+              전투가 시작되기 전 내리는 선택을 중심으로 만들고 있습니다.
             </span>
           </div>
 
-          <div className={styles.overviewGrid}>
-            <article>
-              <span>01</span>
-              <h3>인간형 AI 동행자</h3>
-              <p>
-                서로 다른 배경과 역할을 가진 동행자를 확보해 자신만의 계약팀을
-                구성합니다.
-              </p>
-            </article>
-            <article>
-              <span>02</span>
-              <h3>전투 전 전략 설계</h3>
-              <p>
-                진형과 위치, 첫 행동 타이밍을 정합니다. 같은 팀도 준비에 따라
-                전투의 흐름이 달라집니다.
-              </p>
-            </article>
-            <article>
-              <span>03</span>
-              <h3>계약 단위의 작전</h3>
-              <p>
-                회수와 호송, 경비와 조사 같은 계약을 여러 작전으로 해결하며 더
-                큰 의뢰로 나아갑니다.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section className={styles.premise} aria-label="벨시엔 세계관의 출발점">
-          <p>WORLD PREMISE</p>
-          <blockquote>
-            사람의 노동이 거의 필요 없어지자,
-            <br />
-            기업들은 한 사람이 어떤 서비스 안에서 살아갈지를 두고 경쟁하기 시작했습니다.
-          </blockquote>
-          <span>
-            밝고 편리한 도시를 움직이는 세 기업과, 그 어디에도 속하지 않은 한 계약자의 이야기입니다.
-          </span>
+          <ol className={styles.overviewFlow}>
+            <li><span>01 / 의뢰</span><strong>계약을 고릅니다</strong><p>회수, 호송, 경비와 조사 중 무엇을 해결할지 먼저 확인합니다.</p></li>
+            <li><span>02 / 편성</span><strong>동행자를 배치합니다</strong><p>역할이 다른 인간형 AI 동행자를 고르고 위치와 첫 행동 시점을 정합니다.</p></li>
+            <li><span>03 / 실행</span><strong>전투 기록을 읽습니다</strong><p>준비한 순서와 규칙대로 진행된 전투를 보고 다음 편성을 다듬습니다.</p></li>
+          </ol>
         </section>
 
         <VelsienSignalDeck classes={signalDeckClasses} view="introduction" />

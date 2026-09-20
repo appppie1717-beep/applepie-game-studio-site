@@ -2,9 +2,10 @@ import { businessProfile } from "./business-profile";
 
 type ErFooterProps = {
   id?: string;
+  context?: "games" | "virtual";
 };
 
-export function ErFooter({ id = "business-info" }: ErFooterProps) {
+export function ErFooter({ id = "business-info", context = "games" }: ErFooterProps) {
   return (
     <footer
       id={id}
@@ -54,7 +55,9 @@ export function ErFooter({ id = "business-info" }: ErFooterProps) {
         </div>
 
         <p className="er-footer__notice">
-          개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다.
+          {context === "virtual"
+            ? "개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 버츄얼 크리에이터 지원은 biz@ersiyan.com에서 접수하며, 이 홈페이지에서는 주문이나 결제를 받지 않습니다."
+            : "개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다."}
         </p>
 
         <div className="er-footer__info">

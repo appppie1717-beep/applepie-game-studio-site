@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-html-link-for-pages -- vinext production Link navigation fails in this deployment target */
 import type { Metadata } from "next";
 import { BrandLockup } from "../../../_components/BrandLockup";
 import { ErFooter } from "../../../_components/ErFooter";
@@ -64,8 +63,8 @@ export default function ArchivedPrivacyPolicy20260828() {
       <header className="privacy-header">
         <div className="header-inner">
           <BrandLockup />
-          <a className="back-link" href="/">
-            ← 홈페이지로 돌아가기
+          <a className="back-link" href="/privacy">
+            ← 현행 방침으로 돌아가기
           </a>
         </div>
       </header>
@@ -73,7 +72,10 @@ export default function ArchivedPrivacyPolicy20260828() {
       <main id="policy-content">
         <section className="privacy-hero section-pad" aria-labelledby="policy-title">
           <p className="eyebrow">PRIVACY POLICY ARCHIVE</p>
-          <h1 id="policy-title">개인정보처리방침 보관본</h1>
+          <h1 id="policy-title">
+            개인정보처리방침{" "}
+            <span className="privacy-edition">2026년 8월 28일 보관본</span>
+          </h1>
           <p>
             2026년 8월 28일부터 2026년 8월 31일 사업자명 변경본 적용 직전까지 공개된
             에르시안 공식 홈페이지의 개인정보처리방침입니다.

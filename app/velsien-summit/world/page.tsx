@@ -229,7 +229,7 @@ export default function VelsienWorldPage() {
             />
           </div>
           <div className={styles.heroContent}>
-            <p className={styles.eyebrow}>VELSIEN SUMMIT / THE WORLD EXPLAINED</p>
+            <p className={styles.eyebrow}>VELSIEN SUMMIT / 세계관 안내</p>
             <h1 id="world-title">처음 만나는<br /><span>벨시엔</span></h1>
             <p className={styles.heroLead}>
               벨시엔 서밋은 풍요로운 수직도시를 배경으로 한 모바일 전략
@@ -249,7 +249,7 @@ export default function VelsienWorldPage() {
 
         <section id="overview" className={styles.introBand} aria-labelledby="overview-title">
           <div className={styles.introGrid}>
-            <p className={styles.introLabel}>이 세계를 이해하는 순서 / 00</p>
+            <p className={styles.introLabel}>벨시엔을 읽는 첫 장</p>
             <div className={styles.introText}>
               <h2 id="overview-title">기술이 실패해 폐허가 된 미래는 아닙니다.<br />편리한 삶을 누가 운영하는지가 문제입니다.</h2>
               <p>
@@ -261,6 +261,11 @@ export default function VelsienWorldPage() {
               </p>
             </div>
           </div>
+          <dl className={styles.worldFacts} aria-label="벨시엔 세계관의 세 가지 기본 사실">
+            <div><dt>세 기업</dt><dd>같은 업종과 거의 대등한 힘</dd></div>
+            <div><dt>평생계약</dt><dd>회사 존속 중 계약 이전 불가</dd></div>
+            <div><dt>0.9%</dt><dd>신체개조·평생계약이 없는 순수인간</dd></div>
+          </dl>
         </section>
 
         <nav className={styles.chapterNav} aria-label="세계관 목차">
@@ -275,7 +280,7 @@ export default function VelsienWorldPage() {
 
         <section id="city" className={styles.chapter} aria-labelledby="city-title">
           <div className={styles.sectionHeading}>
-            <p>01 / THE CITY</p>
+            <p>01 / 수직도시</p>
             <h2 id="city-title">기술은 성공했습니다.<br />선택은 더 어려워졌습니다.</h2>
             <span>벨시엔은 오염과 폐허에 잠긴 도시가 아닙니다. 자동화가 실제로 삶을 편하게 만든 미래의 거대한 수직도시입니다.</span>
           </div>
@@ -300,6 +305,19 @@ export default function VelsienWorldPage() {
               </p>
             </div>
           </div>
+          <figure className={styles.worldPlate}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/velsien-summit/devlog-20260905-sunlit-960.webp"
+              srcSet="/images/velsien-summit/devlog-20260905-sunlit-640.webp 640w, /images/velsien-summit/devlog-20260905-sunlit-960.webp 960w, /images/velsien-summit/devlog-20260905-sunlit-1440.webp 1440w"
+              sizes="(max-width: 680px) 100vw, 1180px"
+              width={1440}
+              height={960}
+              loading="lazy"
+              alt="밝은 햇빛 아래 고층 건물과 곡선형 이동로가 펼쳐진 벨시엔 수직도시 시각 자료"
+            />
+            <figcaption><span>공개 시각 자료 / 도시</span> 기술이 일상을 넓힌 벨시엔의 수직도시</figcaption>
+          </figure>
           <div className={styles.cityScene}>
             <strong>벨시엔의 한 거리에서</strong>
             <p>
@@ -317,7 +335,7 @@ export default function VelsienWorldPage() {
 
         <section id="society" className={`${styles.chapter} ${styles.societyChapter}`} aria-labelledby="society-title">
           <div className={styles.sectionHeading}>
-            <p>02 / HOW THE CITY WORKS</p>
+            <p>02 / 생활과 계약</p>
             <h2 id="society-title">왜 삶을 기업과 계약할까요.</h2>
             <span>
               여기서 ‘기업 생태계’는 한 회사가 서로 연결해 제공하는 생활망을
@@ -380,7 +398,7 @@ export default function VelsienWorldPage() {
 
         <section id="companies" className={`${styles.chapter} ${styles.companiesChapter}`} aria-labelledby="companies-title">
           <div className={styles.sectionHeading}>
-            <p>03 / THREE ECOSYSTEMS</p>
+            <p>03 / 세 기업</p>
             <h2 id="companies-title">같은 도시, 다른 삶의 약속</h2>
             <span>
               오리센, 비렌타, 네릭스는 모두 같은 업종을 운영합니다. 세 회사
@@ -389,18 +407,26 @@ export default function VelsienWorldPage() {
               해결할 때의 우선순위에 있습니다.
             </span>
           </div>
+          <p className={styles.companyBaseline}>
+            <strong>공통 기반</strong>
+            <span>의료 · 주거 · AI · 금융 · 도시 기반 · 군사력</span>
+            <span>세 회사의 규모와 힘은 거의 대등합니다.</span>
+          </p>
           <div className={styles.companyGrid}>
             {companies.map((company) => (
               <article className={styles.companyCard} key={company.name}>
-                <div className={styles.companyTop}>
-                  <span>{company.number}</span>
-                  <span>VELSIEN / CORPORATION</span>
+                <div className={styles.companyIdentity}>
+                  <div className={styles.companyTop}>
+                    <span>세 기업 중 {company.number}</span>
+                  </div>
+                  <h3>{company.name}<small>{company.korean}</small></h3>
+                  <strong>{company.direction}</strong>
+                  <p className={styles.companySlogan}>{company.slogan}</p>
                 </div>
-                <h3>{company.name}<small>{company.korean}</small></h3>
-                <strong>{company.direction}</strong>
-                <p className={styles.companySlogan}>{company.slogan}</p>
-                <p>{company.copy}</p>
-                <p className={styles.companyShadow}><b>그 약속의 다른 면</b><br />{company.shadow}</p>
+                <div className={styles.companyExplanation}>
+                  <p>{company.copy}</p>
+                  <p className={styles.companyShadow}><b>그 약속의 다른 면</b><br />{company.shadow}</p>
+                </div>
                 <a
                   className={styles.companyLink}
                   href={`/velsien-summit/corporate/${company.slug}`}
@@ -413,7 +439,7 @@ export default function VelsienWorldPage() {
           </div>
           <div className={styles.companyExample}>
             <div className={styles.exampleIntro}>
-              <p>SAME NEED / THREE ANSWERS</p>
+              <p>같은 필요, 다른 우선순위</p>
               <h3>같은 인공심장을 만든다면.</h3>
               <span>
                 아래는 확정된 판매 제품 목록이 아닌 세계관의 비교 예시입니다.
@@ -440,7 +466,7 @@ export default function VelsienWorldPage() {
 
         <section id="contractor" className={styles.chapter} aria-labelledby="contractor-title">
           <div className={styles.sectionHeading}>
-            <p>04 / THE UNATTACHED HUMAN</p>
+            <p>04 / 순수인간 계약자</p>
             <h2 id="contractor-title">아무것도 연결하지 않은 사람이<br />왜 필요해졌을까요.</h2>
             <span>
               몸을 바꾸는 기술은 강제로 시작되지 않았습니다. 하지만 신경칩과
@@ -498,7 +524,7 @@ export default function VelsienWorldPage() {
 
         <section id="companions" className={`${styles.chapter} ${styles.companionChapter}`} aria-labelledby="companions-title">
           <div className={styles.sectionHeading}>
-            <p>05 / AI COMPANIONS</p>
+            <p>05 / AI 동행자</p>
             <h2 id="companions-title">이 도시의 AI는<br />전장 밖에서도 살아갑니다.</h2>
             <span>
               인간형 AI는 가사와 의료, 운송, 건설, 경호와 안내까지 일상에
@@ -534,19 +560,25 @@ export default function VelsienWorldPage() {
               </p>
             </div>
           </div>
-          <div className={styles.aiRoles}>
-            <div className={styles.aiRoleCard}>
-              <b>제조사</b>
-              <p>AI를 설계하고 만든 기업입니다. 각자의 기술과 제품 철학이 개체에 남습니다.</p>
-            </div>
-            <div className={styles.aiRoleCard}>
-              <b>현장 운용자</b>
-              <p>계약 기간 동안 AI와 함께 임무를 수행하고 팀을 지휘하는 사람입니다.</p>
-            </div>
-            <div className={styles.aiRoleCard}>
-              <b>동행자</b>
-              <p>출처만으로 설명되지 않는 개별 경험과 관계를 가진 인간형 AI입니다.</p>
-            </div>
+          <div className={styles.companionDetail}>
+            <figure className={styles.companionPortrait}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/velsien-summit/devlog-20260905-luena-540.webp"
+                srcSet="/images/velsien-summit/devlog-20260905-luena-360.webp 360w, /images/velsien-summit/devlog-20260905-luena-540.webp 540w, /images/velsien-summit/devlog-20260905-luena-720.webp 720w"
+                sizes="(max-width: 680px) 280px, 380px"
+                width={540}
+                height={810}
+                loading="lazy"
+                alt="긴 분홍빛 머리와 흰색 의상을 입은 인간형 AI 루에나 하벨의 인물 시각 자료"
+              />
+              <figcaption><b>루에나 하벨</b><span>공개된 인간형 AI 시각 자료</span></figcaption>
+            </figure>
+            <dl className={styles.aiRoles}>
+              <div><dt>제조사</dt><dd>AI를 설계하고 만든 기업입니다. 각자의 기술과 제품 철학이 개체에 남습니다.</dd></div>
+              <div><dt>현장 운용자</dt><dd>계약 기간 동안 AI와 함께 임무를 수행하고 팀을 지휘하는 사람입니다.</dd></div>
+              <div><dt>동행자</dt><dd>출처만으로 설명되지 않는 개별 경험과 관계를 가진 인간형 AI입니다.</dd></div>
+            </dl>
           </div>
           <p className={styles.companyNote}>
             계약 보수는 팀의 운용과 정비에도 쓰입니다. 오래 함께한 AI를 바로
@@ -559,7 +591,7 @@ export default function VelsienWorldPage() {
 
         <section id="story" className={styles.chapter} aria-labelledby="story-title">
           <div className={styles.sectionHeading}>
-            <p>06 / CONTRACTS AND STORY</p>
+            <p>06 / 계약과 이야기</p>
             <h2 id="story-title">계약 하나에서<br />도시 전체의 이야기로.</h2>
             <span>
               기업은 서로의 생활망을 부술 전면전 대신 제한된 현장 계약으로
@@ -598,7 +630,7 @@ export default function VelsienWorldPage() {
             </p>
           </div>
           <div className={styles.sectionHeading}>
-            <p>THE LONGER STORY</p>
+            <p>계약 너머의 이야기</p>
             <h2>의뢰가 커질수록, 하나의 진실도 흔들립니다.</h2>
             <span>
               작은 일에서 출발한 중립계약자는 평생계약을 둘러싼 갈등과 같은
@@ -616,7 +648,7 @@ export default function VelsienWorldPage() {
             ))}
           </div>
           <div className={styles.summitPanel}>
-            <p>07 / THE NAME ABOVE THE CITY</p>
+            <p>07 / 도시 정상부의 이름</p>
             <h3>Summit은 무엇일까요.</h3>
             <span>
               공개적으로 알려진 것은 이 이름이 도시의 정상부와 연결돼
@@ -631,7 +663,7 @@ export default function VelsienWorldPage() {
 
         <section id="terms" className={styles.chapter} aria-labelledby="terms-title">
           <div className={styles.sectionHeading}>
-            <p>08 / FIELD NOTES</p>
+            <p>08 / 용어 정리</p>
             <h2 id="terms-title">처음 만난 용어를 다시 읽기.</h2>
             <span>이 다섯 가지를 알면 벨시엔의 생활과 플레이어의 선택을 따라갈 수 있습니다.</span>
           </div>
@@ -647,7 +679,7 @@ export default function VelsienWorldPage() {
 
         <section className={styles.endNote} aria-labelledby="status-title">
           <div>
-            <p>PUBLIC WORLD FILE / UPDATED 2026.09.20</p>
+            <p>세계관 공개본 / 2026.09.20 갱신</p>
             <h2 id="status-title">여기까지가 지금 공개된 벨시엔입니다.</h2>
             <span>
               이 페이지는 2026년 9월 20일 기준 통합 세계관과 추가 설정을

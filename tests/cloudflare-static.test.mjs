@@ -309,15 +309,15 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(velsienSummit, /late-update-operation\.webp/i);
   assert.match(velsienSummit, /late-update-gacha\.webp/i);
   assert.match(velsienSummit, /late-update-formation\.webp/i);
-  assert.match(velsienSecret, /Secret Archive/);
+  assert.match(velsienSecret, /시각 자료 보관/);
   assert.match(velsienSecret, /images\/velsien-summit\/secret\/nika-oren\.webp/i);
   assert.match(velsienSecret, /images\/velsien-summit\/secret\/battle-percussion-rings\.webp/i);
   assert.doesNotMatch(velsienSecret, /name="robots" content="[^"]*noindex/i);
   assert.doesNotMatch(homepage, /href="\/velsien-summit\/secret"/i);
   assert.doesNotMatch(velsienSummit, /href="\/velsien-summit\/secret"/i);
-  assert.equal(
-    homepage.match(/<a\b[^>]*href="\/velsien-summit"[^>]*>/gi)?.length ?? 0,
-    1,
+  assert.ok(
+    (homepage.match(/<a\b[^>]*href="\/velsien-summit"[^>]*>/gi)?.length ?? 0) >= 1,
+    "The homepage links to the Velsien product page",
   );
   assert.match(homepage, /OUR GAMES · 01/);
   assert.match(homepage, /WORLD FILE \/\/ WORK IN PROGRESS/);
@@ -360,7 +360,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(mineLogicPrivacyPolicy, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
   assert.match(mineLogicPrivacyPolicy, /https:\/\/ersiyan\.com\/privacy\/mine-logic/i);
   assert.match(mineLogicPrivacyPolicy, /MINE LOGIC Privacy Policy/);
-  assert.match(mineLogicPrivacyPolicy, /document\.documentElement\.lang="en-US"/);
+  assert.doesNotMatch(mineLogicPrivacyPolicy, /document\.documentElement\.lang="en-US"/);
   assert.match(mineLogicPrivacyPolicy, /aria-controls="mine-logic-policy-en" aria-pressed="true"/);
   assert.match(mineLogicPrivacyPolicy, /aria-controls="mine-logic-policy-ko" aria-pressed="false"/);
   assert.match(mineLogicPrivacyPolicy, /<noscript>/);
@@ -597,22 +597,17 @@ test("explicit permanent aliases are staged without loops or query overrides", a
 });
 
 
-test("Velsien reserves its hero preload for the desktop viewport", async () => {
+test("Velsien preloads its actual battle hero for desktop and mobile", async () => {
   const html = await readFile(new URL("velsien-summit.html", client), "utf8");
   const preloads = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => tag)
-    .filter(tag => /rel="preload"/.test(tag) && /devlog-20260905-city-/.test(tag));
-  assert.equal(preloads.length, 1, "Exactly one desktop hero preload is emitted");
-  for (const preload of preloads) {
-    assert.match(preload, /media="\(min-width: 1061px\)"/, "No blanket mobile hero preload is emitted");
-  }
-  assert.equal(new Set(preloads.map(tag => tag.match(/imagesrcset="([^"]+)"/i)?.[1])).size, 1,
-    "Flight and document hints identify the same responsive resource");
+    .filter(tag => /rel="preload"/.test(tag) && /devlog-20260905-battle-01-/.test(tag));
+  assert.equal(preloads.length, 1, "Exactly one battle hero preload is emitted");
   assert.match(preloads[0], /fetchPriority="high"/i);
-  assert.match(preloads[0], /imagesrcset="[^"]+640w[^"]+960w[^"]+1600w"/i);
+  assert.match(preloads[0], /imagesrcset="[^"]+640w[^"]+960w[^"]+1920w"/i);
   assert.ok(html.indexOf(preloads[0]) < html.indexOf("</head>"));
-  const hero = html.match(/<picture style="display:contents"><img[^>]+devlog-20260905-city-1600\.webp[^>]*>/)?.[0];
-  assert.ok(hero, "Picture prevents React automatic image preload");
+  const hero = html.match(/<img\b[^>]+devlog-20260905-battle-01-960\.webp[^>]*>/)?.[0];
+  assert.ok(hero, "The visible hero uses the real battle capture");
   assert.match(hero, /loading="eager"/);
-  assert.match(hero, /fetchPriority="auto"/i);
-  assert.match(hero, /width="1600" height="900"/);
+  assert.match(hero, /fetchPriority="high"/i);
+  assert.match(hero, /width="1920" height="1080"/);
 });

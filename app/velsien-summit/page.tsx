@@ -47,6 +47,19 @@ const journalStructuredData = [
   },
   {
     "@type": "Article",
+    "@id": `${pageUrl}#devlog-2026-08-late`,
+    url: `${pageUrl}#devlog-2026-08-late`,
+    headline: "벨시엔 서밋 2026년 8월 말 개발 화면",
+    description: "2026년 8월 말 공개한 작전 계약, 신호 탐색, 전투 편성 화면을 당시 개발 기록으로 보존합니다. 화면과 문구는 개발 과정에서 달라질 수 있습니다.",
+    temporalCoverage: "2026-08",
+    image: [
+      "https://ersiyan.com/images/velsien-summit/late-update-operation.webp",
+      "https://ersiyan.com/images/velsien-summit/late-update-gacha.webp",
+      "https://ersiyan.com/images/velsien-summit/late-update-formation.webp",
+    ],
+  },
+  {
+    "@type": "Article",
     "@id": `${pageUrl}#screens`,
     url: `${pageUrl}#screens`,
     headline: "벨시엔 서밋 2026년 8월의 개발 화면",
@@ -144,7 +157,7 @@ const pageStructuredData = {
       name: title,
       description,
       inLanguage: "ko-KR",
-      dateModified: "2026-09-19",
+      dateModified: "2026-09-20",
       isPartOf: { "@id": "https://ersiyan.com/#website" },
       mainEntity: { "@id": `${pageUrl}#game` },
       breadcrumb: { "@id": `${pageUrl}#breadcrumb` },
@@ -199,6 +212,24 @@ const battleScreens = [
     id: "02",
     title: "첫 타격",
     alt: "아군 다섯 명과 적군 다섯 기의 자동 전투에서 첫 타격이 발생한 벨시엔 서밋 개발 화면",
+  },
+] as const;
+
+const augustScreens = [
+  {
+    id: "operation",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 작전 계약 화면",
+    note: "계약별 세부 작전과 진행 경로를 고르는 작전 계약 화면",
+  },
+  {
+    id: "gacha",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 신호 계약 스캐너 화면",
+    note: "새로운 동행자의 신호를 탐색하는 계약 스캐너",
+  },
+  {
+    id: "formation",
+    alt: "2026년 8월 개발 기록에 담긴 벨시엔 서밋 편성 화면",
+    note: "위치와 첫 행동 시점을 정하는 전투 준비 화면",
   },
 ] as const;
 
@@ -269,7 +300,7 @@ export default function VelsienSummitPage() {
             <a href="#overview">게임</a>
             <a href="#development-log">개발 기록</a>
             <a href="#characters">캐릭터</a>
-            <a href="#world">세계관</a>
+            <a href="/velsien-summit/world">세계관</a>
             <a href="#play">전투</a>
           </nav>
         </div>
@@ -314,20 +345,14 @@ export default function VelsienSummitPage() {
               ))}
             </ul>
             <div className={styles.heroActions}>
-              <a className={styles.primaryLink} href="#development-log">
-                최근 개발 기록 <span aria-hidden="true">↓</span>
+              <a className={styles.primaryLink} href="/velsien-summit/world">
+                현재 세계관 읽기 <span aria-hidden="true">↗</span>
               </a>
-              <a className={styles.secondaryLink} href="/velsien-summit/world">
-                최신 세계관 공개본 <span aria-hidden="true">↗</span>
-              </a>
-              <a className={styles.secondaryLink} href="#world">
-                세계관 읽기
+              <a className={styles.secondaryLink} href="#development-log">
+                최근 개발 기록
               </a>
               <a className={styles.secondaryLink} href="#characters">
                 캐릭터 아트
-              </a>
-              <a className={styles.secondaryLink} href="/velsien-summit/late-update">
-                8월말 추가정보
               </a>
             </div>
           </div>
@@ -442,7 +467,7 @@ export default function VelsienSummitPage() {
               <li>
                 <a href="#devlog-2026-08-late">
                   <time dateTime="2026-08">2026.08 말</time>
-                  <span>8월말 추가정보</span>
+                  <span>8월 개발 기록</span>
                 </a>
               </li>
               <li>
@@ -549,7 +574,7 @@ export default function VelsienSummitPage() {
                   <p>CHARACTER ART <span aria-hidden="true">·</span> 2026.09</p>
                   <h4 id="character-gallery-title">동행자의 얼굴들</h4>
                 </div>
-                <p>먼저 세 사람의 모습을 소개합니다.<br />각자의 이야기는 조금씩 풀어가겠습니다.</p>
+                <p>먼저 세 AI 동행자의 모습을 소개합니다.<br />각자의 이야기는 조금씩 풀어가겠습니다.</p>
               </div>
               <div className={styles.characterGrid}>
                 {characterArtwork.map((character, index) => (
@@ -590,11 +615,41 @@ export default function VelsienSummitPage() {
               위 이미지는 배경과 캐릭터 일러스트입니다. 실제 전투 모습은 <a href="#devlog-2026-09-05-battle">같은 날 남긴 5대5 전투 기록</a>에서 볼 수 있습니다.
             </p>
           </article>
-          <a id="devlog-2026-08-late" className={styles.previousEntry} href="/velsien-summit/late-update">
-            <time dateTime="2026-08">2026.08 말</time>
-            <span><strong>8월말 추가정보</strong><small>초기 세계관 구상과 계약·편성 화면이 담긴 이전 기록</small></span>
-            <span aria-hidden="true">↗</span>
-          </a>
+          <article id="devlog-2026-08-late" className={styles.lateUpdateSection}>
+            <div className={styles.journalHeading}>
+              <time dateTime="2026-08">2026.08 말</time>
+              <span>DEVELOPMENT ARCHIVE</span>
+              <h3>벨시엔 서밋 2026년 8월 말 개발 화면</h3>
+            </div>
+            <p className={styles.recordMeta}>
+              <span>기록 기준 <time dateTime="2026-08">2026.08 말</time></span>
+            </p>
+            <div className={styles.journalCopy}>
+              <p>당시 공개한 작전 계약, 신호 탐색, 전투 편성 화면을 보존합니다. 화면과 문구, 수치와 구성은 개발 과정에서 달라질 수 있습니다.</p>
+              <p>지금 공개된 도시와 세 기업, 평생계약의 설명은 <a href="/velsien-summit/world">현재 세계관 공개본</a>을 기준으로 읽어 주세요.</p>
+            </div>
+            <div className={styles.lateGallery}>
+              {augustScreens.map((screen) => {
+                const src = `/images/velsien-summit/late-update-${screen.id}.webp`;
+                return (
+                  <figure key={screen.id} className={styles.updateGalleryItem}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={src}
+                      srcSet={`/images/velsien-summit/late-update-${screen.id}-400.webp 400w, /images/velsien-summit/late-update-${screen.id}-640.webp 640w, ${src} 960w`}
+                      sizes="(max-width: 1060px) 90vw, (max-width: 1324px) 29vw, 382px"
+                      alt={screen.alt}
+                      width={960}
+                      height={455}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <figcaption><strong>{screen.note}</strong></figcaption>
+                  </figure>
+                );
+              })}
+            </div>
+          </article>
           <VelsienSignalDeck
             classes={{
               ...signalDeckClasses,

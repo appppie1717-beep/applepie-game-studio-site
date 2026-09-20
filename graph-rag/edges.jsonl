@@ -18,8 +18,9 @@
 {"from":"route:/mine-logic","relation":"has_metadata","to":"metadata:mine-logic"}
 {"from":"route:/velsien-summit","relation":"renders","to":"file:app/velsien-summit/page.tsx"}
 {"from":"route:/velsien-summit","relation":"has_metadata","to":"metadata:velsien"}
-{"from":"route:/velsien-summit/late-update","relation":"renders","to":"file:app/velsien-summit/late-update/page.tsx"}
-{"from":"route:/velsien-summit/late-update","relation":"has_metadata","to":"metadata:late-update"}
+{"from":"route:/velsien-summit/world","relation":"renders","to":"file:app/velsien-summit/world/page.tsx"}
+{"from":"route:/velsien-summit/world","relation":"has_metadata","to":"metadata:world"}
+{"from":"route:/velsien-summit","relation":"links_to","to":"route:/velsien-summit/world"}
 {"from":"route:/velsien-summit/secret","relation":"renders","to":"file:app/velsien-summit/secret/page.tsx"}
 {"from":"route:/velsien-summit/secret","relation":"has_metadata","to":"metadata:secret"}
 {"from":"route:/velsien-summit/secret","relation":"policy_applies","to":"policy:secret-searchable"}
@@ -57,6 +58,9 @@
 {"from":"route:/privacy/archive/2026-08-31","relation":"renders","to":"file:app/privacy/archive/2026-08-31/page.tsx"}
 {"from":"route:/privacy/archive/2026-08-31","relation":"renders","to":"component:ErFooter"}
 {"from":"route:/privacy/archive/2026-08-31","relation":"has_metadata","to":"metadata:privacy-archive-2026-08-31"}
+{"from":"route:/privacy/archive/2026-09-05","relation":"renders","to":"file:app/privacy/archive/2026-09-05/page.tsx"}
+{"from":"route:/privacy/archive/2026-09-05","relation":"renders","to":"component:ErFooter"}
+{"from":"route:/privacy/archive/2026-09-05","relation":"has_metadata","to":"metadata:privacy-archive-2026-09-05"}
 {"from":"directory:app-components","relation":"contains","to":"file:app/_components/HomeExperience.tsx"}
 {"from":"directory:app-components","relation":"contains","to":"file:app/_components/HomeContent.tsx"}
 {"from":"directory:app-components","relation":"contains","to":"component:ErFooter"}
@@ -69,7 +73,7 @@
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/virtual"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/mine-logic"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit"}
-{"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit/late-update"}
+{"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit/world"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit/secret"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit/corporate/orysen"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/velsien-summit/corporate/virenta"}
@@ -80,10 +84,12 @@
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/privacy/archive/2026-08-23"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/privacy/archive/2026-08-28"}
 {"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/privacy/archive/2026-08-31"}
+{"from":"file:public/sitemap.xml","relation":"contains_route","to":"route:/privacy/archive/2026-09-05"}
 {"from":"file:public/robots.txt","relation":"declares","to":"file:public/sitemap.xml"}
 {"from":"file:public/_redirects","relation":"normalizes","to":"route:/"}
 {"from":"file:public/_redirects","relation":"normalizes","to":"route:/mine-logic"}
 {"from":"file:public/_redirects","relation":"normalizes","to":"route:/virtual"}
+{"from":"file:public/_redirects","relation":"normalizes","to":"route:/velsien-summit"}
 {"from":"file:scripts/stage-static-routes.mjs","relation":"produces","to":"artifact:dist-client"}
 {"from":"file:scripts/stage-static-routes.mjs","relation":"reads","to":"artifact:dist-server"}
 {"from":"file:worker/index.ts","relation":"deployed_by","to":"service:cloudflare"}

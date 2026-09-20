@@ -38,7 +38,7 @@
 .brandLockup img { width: 42px; height: 36px; object-fit: contain; filter: saturate(.82); }
 .brandLockup div { display: grid; gap: .25rem; }
 .brandLockup strong { font-size: .78rem; letter-spacing: .24em; }
-.brandLockup span { color: var(--muted); font-size: .56rem; font-weight: 800; letter-spacing: .12em; }
+.brandLockup span { color: var(--muted); font-size: .56rem; font-weight: 800; letter-spacing: .12em; white-space: nowrap; }
 .headerStatus { display: flex; align-items: center; gap: clamp(.8rem, 2vw, 2rem); color: var(--muted); font-size: .56rem; font-weight: 800; letter-spacing: .12em; }
 .headerStatus > span:not(.liveSignal) { color: #a09a9e; }
 .liveSignal { display: inline-flex; align-items: center; gap: .45rem; color: #4c9b89; }

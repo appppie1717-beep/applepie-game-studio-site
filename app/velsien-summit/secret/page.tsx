@@ -8,7 +8,7 @@ import { capture as devCapture04 } from "./devCapture04";
 
 const title = "VELSIEN SUMMIT Secret Archive | ERSIYAN";
 const description =
-  "VELSIEN SUMMIT development archive with five character studies, three combat captures, and four current development captures.";
+  "VELSIEN SUMMIT visual archive with five character studies, three combat captures, and four earlier development captures. Read the current world guide for canon.";
 
 export const metadata: Metadata = {
   title: {
@@ -61,7 +61,7 @@ const characters = [
   },
   {
     name: "Luena Havel",
-    role: "Character Study",
+    role: "Humanoid AI Study",
     src: "/images/velsien-summit/secret/luena-havel.webp",
     width: 1024,
     height: 1536,
@@ -134,12 +134,13 @@ export default function VelsienSecretArchivePage() {
           <p>ARCHIVE ACCESS // 12</p>
           <h1>Secret Archive</h1>
           <span>
-            Five character studies, three combat captures, and four current
-            development captures from VELSIEN SUMMIT. These materials come
-            from a game in development, so visuals and interface details may
-            change before release. Read the{" "}
-            <a href="/velsien-summit">official game overview</a> for the
-            current public description.
+            Five character studies, three combat captures, and four earlier
+            development captures from VELSIEN SUMMIT. These are archived
+            visual records from a game in development. Designs and interfaces
+            may change. Read the{" "}
+            <a href="/velsien-summit/world">current world guide</a> for the
+            published lore, or return to the{" "}
+            <a href="/velsien-summit">game overview</a>.
           </span>
         </section>
 
@@ -212,7 +213,7 @@ export default function VelsienSecretArchivePage() {
         <section className={styles.section} aria-labelledby="development-title">
           <div className={styles.sectionHeading}>
             <p>FILES 09–12</p>
-            <h2 id="development-title">Current Development</h2>
+            <h2 id="development-title">Development Archive</h2>
           </div>
           <div className={styles.combatStack}>
             {developmentCaptures.map((capture, index) => (
@@ -220,7 +221,7 @@ export default function VelsienSecretArchivePage() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={capture.src}
-                  alt={`VELSIEN SUMMIT current development capture ${index + 1}`}
+                  alt={`VELSIEN SUMMIT archived development capture ${index + 1}`}
                   width={480}
                   height={227}
                   loading="lazy"

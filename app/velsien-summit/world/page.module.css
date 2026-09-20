@@ -1030,7 +1030,7 @@
   }
 
   .heroContent {
-    padding-block: 112px 90px;
+    padding-block: 82px 68px;
   }
 
   .hero h1 {
@@ -1039,6 +1039,16 @@
 
   .heroLead {
     font-size: 1rem;
+    line-height: 1.7;
+    margin-top: 24px;
+  }
+
+  .heroMeta {
+    margin-top: 20px;
+  }
+
+  .heroLink {
+    margin-top: 24px;
   }
 
   .cityGrid,

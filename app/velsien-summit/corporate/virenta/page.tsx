@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import CorporateExperience from "../CorporateExperience";
 
+const description = "의료·주거·생산·군사 인프라를 갖춘 벨시엔의 초거대기업 비렌타. 세 기업이 같은 산업에서 경쟁하는 가운데 개인화와 삶의 만족을 우선합니다.";
+
 export const metadata: Metadata = {
   title: { absolute: "VIRENTA | 비렌타 · 벨시엔 서밋" },
   applicationName: "벨시엔 서밋",
@@ -9,11 +11,11 @@ export const metadata: Metadata = {
   publisher: "벨시엔 서밋",
   icons: { icon: "/virenta-logo.png", shortcut: "/virenta-logo.png" },
   keywords: ["벨시엔 서밋", "VIRENTA", "비렌타", "개인화", "라이프 에디트", "경험"],
-  description: "감각, 외형, 건강, 경험을 개인의 취향에 맞춰 설계하는 비렌타 공식 사이트입니다.",
+  description,
   alternates: { canonical: "/velsien-summit/corporate/virenta" },
   openGraph: {
     title: "VIRENTA | 비렌타",
-    description: "감각, 외형, 건강, 경험을 개인의 취향에 맞춰 설계하는 비렌타 공식 사이트입니다.",
+    description,
     url: "/velsien-summit/corporate/virenta",
     siteName: "VIRENTA",
     type: "website",
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "VIRENTA | 비렌타",
-    description: "감각, 외형, 건강, 경험을 개인의 취향에 맞춰 설계하는 비렌타 공식 사이트입니다.",
+    description,
     images: [{ url: "/virenta-logo.png", alt: "비렌타 공식 로고" }],
   },
 };

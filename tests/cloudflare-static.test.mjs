@@ -74,7 +74,6 @@ test("Cloudflare asset directory contains every public route", async () => {
       "velsien-summit/corporate/orysen.html",
       "velsien-summit/corporate/virenta.html",
       "velsien-summit/corporate/neryx.html",
-      "velsien-summit/late-update.html",
       "velsien-summit/secret.html",
       "privacy.html",
       "privacy/mine-logic.html",
@@ -168,14 +167,18 @@ test("Cloudflare asset directory contains every public route", async () => {
       access(new URL(file, client)),
     ),
   );
+  await assert.rejects(
+    access(new URL("velsien-summit/late-update.html", client)),
+    { code: "ENOENT" },
+    "The retired August route must not remain as a deployable static page",
+  );
 
-  const [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, archivedPrivacyPolicy20260905, notFound, headers, robots, sitemap, llms] = await Promise.all([
+  const [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, archivedPrivacyPolicy20260905, notFound, headers, robots, sitemap, llms] = await Promise.all([
     readFile(new URL("index.html", client), "utf8"),
     readFile(new URL("virtual.html", client), "utf8"),
     readFile(new URL("mine-logic.html", client), "utf8"),
     readFile(new URL("velsien-summit.html", client), "utf8"),
     readFile(new URL("velsien-summit/world.html", client), "utf8"),
-    readFile(new URL("velsien-summit/late-update.html", client), "utf8"),
     readFile(new URL("velsien-summit/secret.html", client), "utf8"),
     readFile(new URL("privacy.html", client), "utf8"),
     readFile(new URL("privacy/mine-logic.html", client), "utf8"),
@@ -204,7 +207,6 @@ test("Cloudflare asset directory contains every public route", async () => {
     ["/privacy/archive/2026-09-05", archivedPrivacyPolicy20260905],
     ["/velsien-summit", velsienSummit],
     ["/velsien-summit/world", velsienWorld],
-    ["/velsien-summit/late-update", velsienLateUpdate],
     ["/velsien-summit/secret", velsienSecret],
   ]) {
     assertCommonFooter(html, pathname);
@@ -298,25 +300,21 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(velsienSummit, /teaser-character-640\.webp 640w/i);
   assert.doesNotMatch(velsienSummit, /VelsienSignalDeck\.[^"']+\.css/i);
   assert.match(velsienSummit, /href="\/velsien-summit\/world"/i);
-  assert.match(velsienSummit, /href="\/velsien-summit\/late-update"/i);
+  assert.match(velsienSummit, /id="devlog-2026-08-late"/i);
+  assert.doesNotMatch(velsienSummit, /href="\/velsien-summit\/late-update"/i);
   assert.match(velsienWorld, /rel="canonical" href="https:\/\/ersiyan\.com\/velsien-summit\/world"/i);
   assert.match(velsienWorld, /href="\/velsien-summit"/i);
   assert.doesNotMatch(velsienWorld, /name="robots" content="[^"]*\b(?:noindex|nofollow|none)\b/i);
-  assert.match(velsienLateUpdate, /8월말 추가정보/);
-  assert.match(
-    velsienLateUpdate,
-    /rel="canonical" href="https:\/\/ersiyan\.com\/velsien-summit\/late-update"/i,
-  );
-  assert.match(velsienLateUpdate, /late-update-operation\.webp/i);
-  assert.match(velsienLateUpdate, /late-update-gacha\.webp/i);
-  assert.match(velsienLateUpdate, /late-update-formation\.webp/i);
+  assert.match(velsienSummit, /2026년 8월 말 개발 화면/);
+  assert.match(velsienSummit, /late-update-operation\.webp/i);
+  assert.match(velsienSummit, /late-update-gacha\.webp/i);
+  assert.match(velsienSummit, /late-update-formation\.webp/i);
   assert.match(velsienSecret, /Secret Archive/);
   assert.match(velsienSecret, /images\/velsien-summit\/secret\/nika-oren\.webp/i);
   assert.match(velsienSecret, /images\/velsien-summit\/secret\/battle-percussion-rings\.webp/i);
   assert.doesNotMatch(velsienSecret, /name="robots" content="[^"]*noindex/i);
   assert.doesNotMatch(homepage, /href="\/velsien-summit\/secret"/i);
   assert.doesNotMatch(velsienSummit, /href="\/velsien-summit\/secret"/i);
-  assert.doesNotMatch(velsienLateUpdate, /href="\/velsien-summit\/secret"/i);
   assert.equal(
     homepage.match(/<a\b[^>]*href="\/velsien-summit"[^>]*>/gi)?.length ?? 0,
     1,
@@ -324,8 +322,8 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(homepage, /OUR GAMES · 01/);
   assert.match(homepage, /WORLD FILE \/\/ WORK IN PROGRESS/);
   assert.match(homepage, /아름답게 돌아가는 미래도시/);
-  assert.match(velsienLateUpdate, /2026년 8월 말의 개발 기록입니다/);
-  assert.match(velsienLateUpdate, /href="\/velsien-summit#development-log"/);
+  assert.match(velsienSummit, /href="\/velsien-summit\/world"/);
+  assert.doesNotMatch(velsienSummit, /세 기업의 실제 이름과 상징/);
   assert.match(homepage, /어느 기업에도 묶이지 않은 계약자/);
   assert.match(homepage, /세 개의 기업 채널/);
   assert.equal(
@@ -409,7 +407,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/world<\/loc>\s*<lastmod>2026-09-20<\/lastmod>/);
-  assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/late-update<\/loc>/);
+  assert.doesNotMatch(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/late-update<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/ersiyan\.com\/velsien-summit\/secret<\/loc>/);
   assert.deepEqual(
     [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1]).sort(),
@@ -422,7 +420,6 @@ test("Cloudflare asset directory contains every public route", async () => {
       "https://ersiyan.com/velsien-summit/corporate/virenta",
       "https://ersiyan.com/velsien-summit/corporate/neryx",
       "https://ersiyan.com/velsien-summit/world",
-      "https://ersiyan.com/velsien-summit/late-update",
       "https://ersiyan.com/velsien-summit/secret",
       "https://ersiyan.com/privacy",
       "https://ersiyan.com/privacy/mine-logic",
@@ -451,7 +448,7 @@ test("Cloudflare asset directory contains every public route", async () => {
   assert.match(llms, /https:\/\/ersiyan\.com\/velsien-summit\/world/);
   assert.match(llms, /com\.applepie\.minelogic/);
 
-  for (const html of [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienLateUpdate, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound]) {
+  for (const html of [homepage, virtual, mineLogic, velsienSummit, velsienWorld, velsienSecret, privacyPolicy, mineLogicPrivacyPolicy, archivedPrivacyPolicy, archivedPrivacyPolicy20260823, archivedPrivacyPolicy20260828, archivedPrivacyPolicy20260831, notFound]) {
     assert.doesNotMatch(html, /dist\/server|server\/index\.js|\/_worker\.js/i);
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
       assert.doesNotMatch(html, forbiddenPattern);
@@ -460,7 +457,7 @@ test("Cloudflare asset directory contains every public route", async () => {
 
   assert.doesNotMatch(
     velsienSummit,
-    /Project8|QA\/Evidence|Client\/Assets|순수인간|평생계약|Lesia|Nael|ABOUT THE TITLE|추가 데이터는 아직 공개되지 않았습니다/,
+    /Project8|QA\/Evidence|Client\/Assets|Lesia|Nael|ABOUT THE TITLE|추가 데이터는 아직 공개되지 않았습니다/,
   );
 });
 
@@ -496,7 +493,7 @@ test("corporate static pages retain their own title and social identity", async 
 });
 
 test("every local image, responsive candidate, social image, stylesheet, and script exists", async () => {
-  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/world.html", "velsien-summit/late-update.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "privacy/archive/2026-09-05.html", "404.html"];
+  const pageFiles = ["index.html", "virtual.html", "mine-logic.html", "velsien-summit.html", "velsien-summit/world.html", "velsien-summit/secret.html", "privacy.html", "privacy/mine-logic.html", "privacy/archive/2026-08-22.html", "privacy/archive/2026-08-23.html", "privacy/archive/2026-08-28.html", "privacy/archive/2026-08-31.html", "privacy/archive/2026-09-05.html", "404.html"];
   const pages = await Promise.all(
     pageFiles.map((file) =>
       readFile(new URL(file, client), "utf8"),
@@ -577,11 +574,15 @@ test("explicit permanent aliases are staged without loops or query overrides", a
   const expected = new Map([["/index", "/"], ["/index/", "/"], ["/index.html", "/"], ["/games", "/"]]);
   for (const path of ["/games", "/virtual", "/mine-logic", "/velsien-summit", "/velsien-summit/world",
     "/velsien-summit/corporate/orysen", "/velsien-summit/corporate/virenta", "/velsien-summit/corporate/neryx",
-    "/velsien-summit/late-update", "/velsien-summit/secret", "/privacy", "/privacy/mine-logic",
+    "/velsien-summit/secret", "/privacy", "/privacy/mine-logic",
     "/privacy/archive/2026-08-22", "/privacy/archive/2026-08-23", "/privacy/archive/2026-08-28", "/privacy/archive/2026-08-31", "/privacy/archive/2026-09-05"]) {
     for (const suffix of ["/", ".html", "/index", "/index/", "/index.html"]) {
       expected.set(`${path}${suffix}`, path === "/games" ? "/" : path);
     }
+  }
+  expected.set("/velsien-summit/late-update", "/velsien-summit");
+  for (const suffix of ["/", ".html", "/index", "/index/", "/index.html"]) {
+    expected.set(`/velsien-summit/late-update${suffix}`, "/velsien-summit");
   }
   assert.equal(rules.length, expected.size);
   for (const [from, to, status, ...extra] of rules) {

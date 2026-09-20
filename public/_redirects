@@ -1,4 +1,4 @@
-# Permanent aliases for published documents only. Query strings are preserved.
+# Permanent aliases for published and retired documents. Query strings are preserved.
 # Keep the static-assets deployment and existing domain redirect rules intact.
 # Do not replace these with wildcard .html rules that would also match assets.
 /index / 301
@@ -30,11 +30,12 @@
 /velsien-summit/world/index /velsien-summit/world 301
 /velsien-summit/world/index/ /velsien-summit/world 301
 /velsien-summit/world/index.html /velsien-summit/world 301
-/velsien-summit/late-update/ /velsien-summit/late-update 301
-/velsien-summit/late-update.html /velsien-summit/late-update 301
-/velsien-summit/late-update/index /velsien-summit/late-update 301
-/velsien-summit/late-update/index/ /velsien-summit/late-update 301
-/velsien-summit/late-update/index.html /velsien-summit/late-update 301
+/velsien-summit/late-update /velsien-summit 301
+/velsien-summit/late-update/ /velsien-summit 301
+/velsien-summit/late-update.html /velsien-summit 301
+/velsien-summit/late-update/index /velsien-summit 301
+/velsien-summit/late-update/index/ /velsien-summit 301
+/velsien-summit/late-update/index.html /velsien-summit 301
 /velsien-summit/secret/ /velsien-summit/secret 301
 /velsien-summit/secret.html /velsien-summit/secret 301
 /velsien-summit/secret/index /velsien-summit/secret 301

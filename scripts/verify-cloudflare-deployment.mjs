@@ -289,10 +289,6 @@ const localPages = new Map(
         new URL("../dist/client/velsien-summit/world.html", import.meta.url),
       ],
       [
-        "/velsien-summit/late-update",
-        new URL("../dist/client/velsien-summit/late-update.html", import.meta.url),
-      ],
-      [
         "/velsien-summit/secret",
         new URL("../dist/client/velsien-summit/secret.html", import.meta.url),
       ],
@@ -345,7 +341,6 @@ const targetOnlyPaths = new Set([
   "/privacy/archive/2026-09-05",
   "/velsien-summit",
   "/velsien-summit/world",
-  "/velsien-summit/late-update",
   "/velsien-summit/secret",
   "/velsien-summit/corporate/orysen",
   "/velsien-summit/corporate/virenta",
@@ -483,7 +478,6 @@ const redirectChecks = [
   { path: "/mine-logic?utm_source=google&utm_medium=organic", status: 200 },
   { path: "/velsien-summit?utm_source=kakao&utm_medium=link", status: 200 },
   { path: "/velsien-summit/world?utm_source=kakao&utm_medium=link", status: 200 },
-  { path: "/velsien-summit/late-update?utm_source=kakao&utm_medium=link", status: 200 },
   { path: "/velsien-summit/secret?source=old-domain", status: 200 },
   { path: "/privacy?source=old-domain", status: 200 },
   { path: "/privacy/mine-logic?lang=ko&source=old-domain", status: 200 },

@@ -52,7 +52,7 @@ test("ordinary company, game, archive, and unknown fragment links remain visible
     "/#ersiyan-company-view", "/#business-info", "/#unrelated", "/#ERSIYAN-VIRTUAL-VIEW",
     "/virtual", "/virtual?utm_source=virtual", "/virtual#ersiyan-virtual-view",
     "/virtual#ersiyan-company-view", "/virtual#business-info",
-    "/mine-logic#games", "/velsien-summit#studio", "/velsien-summit/late-update#ersiyan-virtual-view",
+    "/mine-logic#games", "/velsien-summit#studio", "/velsien-summit#devlog-2026-08-late",
     "/velsien-summit/secret#ersiyan-virtual-view", "/privacy#ersiyan-virtual-view",
     "/?next=https%3A%2F%2Fexample.com#unrelated",
   ]) assert.deepEqual(navigate(path), [], path);

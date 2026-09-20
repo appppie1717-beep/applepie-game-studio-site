@@ -103,7 +103,7 @@ const initialValues: Record<AxisKey, number> = {
 };
 
 const profiles = [
-  { id: "l", label: "루에나 하벨", detail: "프로필 03 · 순수인간", image: "/images/velsien-summit/secret/luena-havel-400.webp" },
+  { id: "l", label: "루에나 하벨", detail: "프로필 03 · 중립 허브 안내 AI", image: "/images/velsien-summit/secret/luena-havel-400.webp" },
   { id: "p", label: "피아 모렐", detail: "프로필 07 · 감각 계약", image: "/images/velsien-summit/secret/pia-morel-400.webp" },
   { id: "n", label: "니카 오렌", detail: "프로필 12 · 관계 편집", image: "/images/velsien-summit/secret/nika-oren-400.webp" },
 ];
@@ -194,7 +194,7 @@ export default function VirentaExperience({ onSwitch }: VirentaExperienceProps) 
             </div>
             <p className={styles.eyebrow}>비렌타 생활 편집기</p>
             <h1 id="instrument-title">원하는 삶을<br /><em>조정하세요.</em></h1>
-            <p className={styles.intro}>비렌타는 정해진 정상 상태를 판매하지 않습니다. 당신의 몸과 감각, 관계가 남긴 신호를 오늘의 선택으로 번역합니다.</p>
+            <p className={styles.intro}>세 기업은 모두 의료·주거·생산을 포함한 동일한 업종을 운영하며, 인프라와 군사력도 거의 대등합니다. 비렌타는 그 역량을 사람의 욕구와 감각, 삶의 만족에 맞춰 설계합니다.</p>
             <div className={styles.profileChooser} aria-label="생활 프로필 선택">
               <div className={styles.chooserHead}><span>현재 읽는 프로필</span><b>{profileScore}% 동기화</b></div>
               <div className={styles.profileStack}>
@@ -319,7 +319,7 @@ export default function VirentaExperience({ onSwitch }: VirentaExperienceProps) 
           <div className={styles.contractCopy}>
             <span className={styles.sectionCode}>03 / 동의 레이어</span>
             <h2 id="contract-title">개인화에는<br /><em>경계가 필요합니다.</em></h2>
-            <p>비렌타는 몸과 관계의 기록을 이용해 더 정확한 삶을 제안합니다. 그 기록은 비렌타의 소유가 아니라, 계약으로 잠시 맡겨진 당신의 영역입니다.</p>
+            <p>비렌타는 몸과 관계의 기록을 이용해 더 정확한 삶을 제안합니다. 그 기록은 비렌타의 소유가 아니라, 평생계약 안에서 이용 범위를 확인하는 당신의 영역입니다.</p>
             <button className={styles.contractToggle} type="button" onClick={() => setShowContract((current) => !current)} aria-expanded={showContract}>
               {showContract ? "계약 범위 닫기" : "내 데이터가 쓰이는 곳 보기"}<b>{showContract ? "−" : "+"}</b>
             </button>
@@ -327,7 +327,7 @@ export default function VirentaExperience({ onSwitch }: VirentaExperienceProps) 
               <div className={styles.contractDetails}>
                 <div><span>사용 중</span><strong>수면 리듬 · 감각 반응 · 선택 기록</strong></div>
                 <div><span>사용하지 않음</span><strong>대화 원문 · 위치 이력 · 타인 프로필</strong></div>
-                <div><span>철회</span><strong>언제든 편집국과의 계약을 닫을 수 있음</strong></div>
+                <div><span>소속</span><strong>기업이 존속하는 한 평생계약 해지와 타사 이전은 불가</strong></div>
               </div>
             )}
           </div>
@@ -371,7 +371,7 @@ export default function VirentaExperience({ onSwitch }: VirentaExperienceProps) 
         <div className={styles.footerBrand}><Image src="/virenta-logo.png" alt="" width={42} height={35} /><span>VIRENTA<br /><small>비렌타 생활 편집국</small></span></div>
         <p>원하는 삶에 더 가까이.</p>
         <div className={styles.footerActions}><button type="button" onClick={() => setShowConcierge(true)}>편집 상담 열기 ↗</button><a href="/velsien-summit/world">세계관 전체 보기 ↗</a><a href="/velsien-summit">벨시엔 서밋</a></div>
-        <small>© 2187 VIRENTA GROUP · 개인화 계약 · 접근성 · 데이터 철회</small>
+        <small>© 2187 VIRENTA GROUP · 평생계약 · 접근성 · 데이터 이용 범위</small>
       </footer>
       {showConcierge && (
         <div className={styles.conciergeLayer} role="presentation">

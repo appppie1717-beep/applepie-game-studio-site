@@ -8,12 +8,12 @@
 - [ERSIYAN VIRTUAL](https://ersiyan.com/virtual): Recruiting one inaugural Generation 0 creator. Applications are accepted by email at biz@ersiyan.com; conversation and a private broadcast test come before character and broadcast preparations.
 - [MINE LOGIC](https://ersiyan.com/mine-logic): Android Minesweeper logic puzzle with staged hints, 20 training levels, and offline play.
 - [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile character-collecting strategy RPG, with world concepts, artwork, and dated development notes.
-- [VELSIEN SUMMIT world](https://ersiyan.com/velsien-summit/world): The current publicly released world overview, updated September 20, 2026. Read this for the latest setting; older development records are retained as archives.
+- [VELSIEN SUMMIT world](https://ersiyan.com/velsien-summit/world): The current publicly released world overview, updated September 20, 2026. All three corporations operate the same industries with near-equal infrastructure and military power but different priorities. Pure humans are 0.9% of the human population; all other humans have a lifetime contract with one corporation and cannot transfer while it exists. The government remains for administrative work despite lacking power to resist any one corporation. Read this page for the latest setting; older development records are archives.
 - [ORYSEN in-world site](https://ersiyan.com/velsien-summit/corporate/orysen): The independent official-style page for one of the three fictional corporations in VELSIEN SUMMIT.
 - [VIRENTA in-world site](https://ersiyan.com/velsien-summit/corporate/virenta): The independent official-style page for one of the three fictional corporations in VELSIEN SUMMIT.
 - [NERYX in-world site](https://ersiyan.com/velsien-summit/corporate/neryx): The independent official-style page for one of the three fictional corporations in VELSIEN SUMMIT.
 - [VELSIEN SUMMIT September 5 battle record](https://ersiyan.com/velsien-summit#devlog-2026-09-05-battle): Two actual 5-versus-5 development screenshots captured and published on September 5, 2026, showing battle opening and the first impact.
-- [VELSIEN SUMMIT August development record](https://ersiyan.com/velsien-summit/late-update): Archived August 2026 concepts and screenshots; these may differ from the current development direction.
+- [VELSIEN SUMMIT August development record](https://ersiyan.com/velsien-summit#devlog-2026-08-late): Archived August 2026 screenshots within the dated development journal; these may differ from the current development direction.
 - [Privacy policy](https://ersiyan.com/privacy): Website privacy information.
 - [MINE LOGIC privacy policy](https://ersiyan.com/privacy/mine-logic): App-specific privacy information.
 

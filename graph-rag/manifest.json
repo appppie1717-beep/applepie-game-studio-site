@@ -4,6 +4,7 @@
   "root": "C:\\Users\\USER\\Desktop\\잡다한거\\applepie-game-studio-site",
   "canonicalOrigin": "https://ersiyan.com",
   "observedAt": "2026-09-13",
+  "routeMapUpdatedAt": "2026-09-20",
   "entrypoint": "PROJECT_GRAPH_RAG_INDEX.md",
   "artifacts": {
     "nodes": "graph-rag/nodes.jsonl",
@@ -13,7 +14,7 @@
   },
   "scope": {
     "indexedKinds": ["repo", "directory", "file", "route", "component", "asset", "asset-variant", "seo-metadata", "seo-artifact", "script", "test", "deployment", "policy", "evidence", "external-service"],
-    "canonicalRoutes": 15,
+    "canonicalRoutes": 16,
     "wholeTreeFileCountObserved": 22565,
     "wholeTreeBytesObserved": 838574599,
     "contentExcluded": [".git/**", "node_modules/**", ".next/**", ".vinext/**", ".wrangler/**", "dist/**", "local-private/**", ".seo-audit-fresh/**", ".seo-cache/**", "outputs/**/chrome-profile/**", "**/Cookies", "**/Login Data", "**/History", "**/Sessions/**"]

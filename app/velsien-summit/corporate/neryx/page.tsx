@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import CorporateExperience from "../CorporateExperience";
 
+const description = "의료·주거·생산·군사 인프라를 갖춘 벨시엔의 초거대기업 네릭스. 세 기업이 같은 산업에서 경쟁하는 가운데 능력과 성능의 확장을 우선합니다.";
+
 export const metadata: Metadata = {
   title: { absolute: "NERYX | 네릭스 · 벨시엔 서밋" },
   applicationName: "벨시엔 서밋",
@@ -9,11 +11,11 @@ export const metadata: Metadata = {
   publisher: "벨시엔 서밋",
   icons: { icon: "/neryx-logo.png", shortcut: "/neryx-logo.png" },
   keywords: ["벨시엔 서밋", "NERYX", "네릭스", "신경기술", "로보틱스", "시스템"],
-  description: "신경기술, AI, 로보틱스, 고성능 개조를 통해 인간의 능력을 확장하는 네릭스 공식 사이트입니다.",
+  description,
   alternates: { canonical: "/velsien-summit/corporate/neryx" },
   openGraph: {
     title: "NERYX | 네릭스",
-    description: "신경기술, AI, 로보틱스, 고성능 개조를 통해 인간의 능력을 확장하는 네릭스 공식 사이트입니다.",
+    description,
     url: "/velsien-summit/corporate/neryx",
     siteName: "NERYX",
     type: "website",
@@ -23,7 +25,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "NERYX | 네릭스",
-    description: "신경기술, AI, 로보틱스, 고성능 개조를 통해 인간의 능력을 확장하는 네릭스 공식 사이트입니다.",
+    description,
     images: [{ url: "/neryx-logo.png", alt: "네릭스 공식 로고" }],
   },
 };

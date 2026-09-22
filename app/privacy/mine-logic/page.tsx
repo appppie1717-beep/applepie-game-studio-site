@@ -47,7 +47,7 @@ export const metadata: Metadata = {
 
 const mineLogicPrivacyPolicyStructuredData = {
   "@context": "https://schema.org",
-  "@type": ["WebPage", "PrivacyPolicy"],
+  "@type": "WebPage",
   "@id": "https://ersiyan.com/privacy/mine-logic#webpage",
   url: "https://ersiyan.com/privacy/mine-logic",
   name: "MINE LOGIC Privacy Policy | 에르시안",

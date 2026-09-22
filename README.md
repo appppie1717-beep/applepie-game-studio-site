@@ -5,8 +5,8 @@
 ## 포함된 내용
 
 - 상위 회사 ERSIYAN과 동급의 ERSIYAN GAMES / ERSIYAN VIRTUAL 사업 영역
-- `/` 게임부와 `/virtual` 버츄얼부의 독립 초기 HTML 및 같은 크기의 링크 토글, 이전 해시 주소 호환
-- ERSIYAN VIRTUAL의 0기 첫 소속 버츄얼 크리에이터 1명 모집 안내와 이메일 지원 경로
+- `/` 게임부와 `/virtual` 버츄얼부의 독립 초기 HTML과 명시적인 사업부 링크, 이전 해시 주소 호환
+- ERSIYAN VIRTUAL의 0기 첫 소속 3D 버츄얼 크리에이터 1명 모집 안내와 Google Forms 지원 경로. 이메일은 모집 문의에 사용합니다.
 - Google Play 출시작 `MINE LOGIC`과 단계별 힌트·20단계 훈련·오프라인 플레이를 설명하는 `/mine-logic` 상세 페이지
 - 개발 중인 모바일 캐릭터 수집형 전략 RPG `VELSIEN SUMMIT · 벨시엔 서밋`
 - 메인 홈페이지의 기존 VELSIEN SUMMIT 소개와 3장 개발 화면 갤러리, `/velsien-summit` 단일 진입 링크
@@ -19,7 +19,7 @@
 - 검색 엔진용 메타데이터, 구조화 데이터, sitemap과 `llms.txt`
 - 제삼자의 평가문처럼 들리는 표현을 걷어내고 제작자가 직접 말하는 문체로 정리한 소개 문구
 - 통신판매업 신고번호 옆 공정거래위원회 신고 조회 링크
-- 홈페이지 및 MINE LOGIC 개인정보처리방침과 이전 홈페이지 방침 보관본 5개
+- 홈페이지 및 MINE LOGIC 개인정보처리방침과 이전 홈페이지 방침 보관본 6개
 - 1200×630 소셜 미리보기 이미지
 
 종료된 프로젝트, 개인 금융 자료, 영수증, 자동화 스크립트, 비밀키, 개인 Discord, 미확정 상용 아트는 포함하지 않았습니다. 사업자등록증과 통신판매업 신고증 원본, 대표자 생년월일, 집 주소, 정부24 문서확인번호도 사이트에 포함하지 않습니다. 사용자가 공개를 승인한 사업자 연락처 `010-2416-6267`만 홈페이지 하단에 표시합니다.
@@ -59,7 +59,15 @@ npm run build:cloudflare
 
 정적 문서 사이의 이동은 일반 `<a>` 링크를 사용합니다. MINE LOGIC의 기존 `next/link`가 불필요한 RSC 사전 로딩 오류를 일으켜 제거했고, 재발을 막기 위해 정적 HTML에서 해당 청크가 로드되지 않는지 검사합니다.
 
-최신 세계관과 9월 5일 개인정보 보관본을 포함한 정식 문서 17개를 `index, follow`로 제공하고 사이트맵에 넣습니다. 과거 방침 5개도 포함하되 보관본 표시와 당시 본문은 보존합니다. `/virtual`은 0기 첫 소속 크리에이터 1명의 모집 공고와 이메일 지원 경로를 안내하며, 2026년 9월 20일 변경일을 사이트맵에 표시합니다. 시크릿은 검색을 허용하지만 일반 메뉴나 세계관 본문에 노출하지 않습니다. 벨시엔 기업 페이지 3개는 일반 메뉴 대신 세계관의 기업 소개에서 연결하며, 각 기업의 맞춤 푸터에서 세계관으로 돌아올 수 있습니다. 기업 페이지의 독립된 화면·문구·맞춤 푸터를 보존합니다. `/games`와 slash·`.html`·index 별칭은 정식 주소로 301 이동하며 별도 검색 문서로 만들지 않습니다.
+2026년 9월 22일 소스는 최신 세계관과 9월 19일 개인정보 보관본을 포함한 정식 문서 17개를 `index, follow`로 제공하고 사이트맵에 넣습니다. 과거 방침 6개도 포함하되 보관본 표시와 당시 본문은 보존합니다. `/virtual`은 CHZZK에서 활동할 0기 첫 소속 3D 버츄얼 크리에이터 1명의 모집 개요와 Google Forms 지원 경로를 안내합니다. 구체적인 활동·계약 조건은 지원서에서 안내하고 계약 전에 확인합니다. 사이트맵의 변경일은 실제 수정한 페이지에만 갱신합니다. 시크릿은 검색을 허용하지만 일반 메뉴나 세계관 본문에 노출하지 않습니다. 벨시엔 기업 페이지 3개는 일반 메뉴 대신 세계관의 기업 소개에서 연결하며, 각 기업의 맞춤 푸터에서 세계관으로 돌아올 수 있습니다. 기업 페이지의 독립된 화면·문구·맞춤 푸터를 보존합니다. `/games`와 slash·`.html`·index 별칭은 정식 주소로 301 이동하며 별도 검색 문서로 만들지 않습니다.
+
+모집 본문은 `VirtualRecruitment.tsx`에 두고 기존 `app/home.css`의 클래스와 레이아웃을 사용합니다. `VirtualRecruitment.module.css`는 모집 본문 내부에만 적용하며 모바일 본문 크기, 중간 화면 폭의 정보 행 배치, 음성 과제 간격과 키보드 포커스를 다듬습니다. 공통 헤더·사업부 이동·회사 정보·푸터와 게임부 화면은 유지하며 버츄얼 본문 문구와 Google Forms 지원 경로를 교정합니다. 지원 주소는 `app/_components/virtual-recruitment-config.ts`에서 관리하며 파일 첨부에 Google 로그인이 필요함을 안내합니다. 20개 모집 페이지 비교와 공개 문구 결정 근거는 [모집 페이지 비교 보고서](docs/virtual-recruitment-research-2026-09-22.md)에 있습니다. 지원서 헤더의 PNG·편집용 SVG는 `public/images/virtual/ersiyan-gen0-form-header.*`이며 `python scripts/render-virtual-form-banner.py`로 다시 생성합니다. 이 스크립트에는 Pillow와 Windows Arial·맑은 고딕 글꼴이 필요합니다.
+
+지원 URL 설정은 게시된 응답자용 Google Forms 주소를 사용합니다. 지원서 문항 구성은 기본 필수 7개, 필수가 아닌 방송 채널 1개, 동의 2개를 기준으로 하며 방송 채널 제목에는 “선택”을 붙이지 않습니다. 헤더는 공식 별 마크·ERSIYAN 로고와 “에르시안 버츄얼 / 0기 크리에이터 모집” 문구로 교체했습니다. 2026년 9월 23일 새 PNG의 업로드·저장 후 게시된 응답자 화면 1904·390px에서 실제 표시를 확인했습니다. 폼 테마색은 `#c64035`, 배경은 `#f9eceb`이며 문항과 폼 설정은 유지했습니다.
+
+2026년 9월 23일 최종 모집 본문과 새 배너 소스는 타입 검사·lint·17개 라우트 빌드·계약 테스트 38개를 통과했습니다. 로컬 Chrome 1440px 첫 화면·지원 버튼, 768px 정보 행과 지원 대상, 390px 첫 화면·지원 안내·하단을 확인했고 가로 넘침 없이 모바일 본문 16px과 높이 49px 지원 버튼을 확인했습니다. 공통 데스크톱 내비게이션은 유지했습니다. 최종 Cloudflare 배포 `a3a6d985-8094-4957-904e-238e084791a0`의 운영 verifier는 exit 0으로 정식 URL 17개·사이트맵·모든 라우트와 자산·별칭 리다이렉트·404·`llms.txt` 검사를 통과했습니다. 실제 운영 화면도 360px·동작 줄이기 설정에서 가로 넘침 0, Forms 링크 3개, 기존 공통 틀 유지를 확인했습니다. `--skip-idle` 검증이므로 장시간 유휴 성능 결과는 아닙니다. 최신 결과와 이전 배포 기록은 `graph-rag/manifest.json`의 `currentValidation`에서 구분합니다.
+
+앞선 모집 내용 배포 후 Google Search Console에서 신규 개인정보 보관본을 포함한 정식 URL 17개가 개별 검사상 색인됨을 확인하고 변경 URL 6개의 색인 갱신을 요청했습니다. 사이트맵은 재제출에 성공했지만 발견 수 집계는 아직 16개였습니다. 네이버는 기존 16개가 색인되어 있고 변경 URL 6개의 재수집을 접수했으며 `/virtual`의 최신 메타데이터 수집·색인을 확인했습니다. 신규 9월 19일 개인정보 보관본은 수집 성공·미색인 상태입니다. 마지막 스타일·반복 라벨 정리에는 검색 요청을 중복 제출하지 않았습니다. 요청 접수와 최신 콘텐츠 반영, 실제 검색 노출·순위는 구분합니다.
 
 ## GitHub에서 이어서 수정하기
 
@@ -98,7 +106,7 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 
 운영 배포는 새 `ersiyan-com-static` Worker에 `ersiyan.com`만 연결합니다. 기존 `applepie-im-static` Worker와 Google 사이트 인증 TXT는 롤백을 위해 보존합니다. 새 주소를 검증한 뒤 `www.ersiyan.com`, `applepie.im`, `www.applepie.im`은 Cloudflare 프록시 DNS와 Single Redirect를 사용해 경로와 쿼리를 보존한 단일 301로 새 HTTPS 주소에 연결합니다.
 
-개인정보처리방침은 2026년 9월 19일 버츄얼 크리에이터 모집 이메일 지원 자료의 수집 항목·심사 목적·보유 기간·지원 철회 방법을 추가했습니다. 불합격 지원자의 자료는 최종 선정 후 30일 이내 삭제합니다. 선정 없이 모집을 종료하면 종료 후 30일 이내 삭제합니다. 9월 5일 Cloudflare Web Analytics 방문·성능 통계 안내 정정본과 8월 22일·23일·28일·31일 본문은 별도 보관본으로 열람할 수 있습니다. 분석 설정 변경 없이 작동 중인 기능에 대한 설명을 바로잡았으며, 현재 법정 운영 사업자 상호는 `에르시안`입니다.
+개인정보처리방침은 2026년 9월 22일 Google Forms 지원서와 음성 파일 첨부에 맞춰 수집 항목·외부 서비스 처리·보유 기간·지원 철회 방법을 안내합니다. 9월 19일 이메일 모집 안내를 담은 기존 방침은 `/privacy/archive/2026-09-19`에 보존합니다. 불합격 지원자의 자료는 최종 선정 후 30일 이내 삭제하고, 선정 없이 모집을 종료하면 종료 후 30일 이내 삭제합니다. 9월 5일 Cloudflare Web Analytics 방문·성능 통계 안내 정정본과 8월 22일·23일·28일·31일 본문도 별도 보관본으로 열람할 수 있습니다. 현재 법정 운영 사업자 상호는 `에르시안`입니다.
 
 문제가 발생하면 기존 도메인의 이전용 Redirect Rule을 비활성화해 보존된 `applepie-im-static` Worker로 즉시 되돌립니다. 필요하면 OpenAI Sites 버전도 별도 롤백 대상으로 사용할 수 있으며, 어떤 경우에도 Google 사이트 인증 TXT는 유지합니다.
 
@@ -112,6 +120,11 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 
 - 홈페이지 `app/page.tsx`
 - 버츄얼부 `app/virtual/page.tsx`
+- 버츄얼 모집 본문 `app/_components/VirtualRecruitment.tsx`, 기존 스타일 `app/home.css`
+- 버츄얼 본문 내부 보정 `app/_components/VirtualRecruitment.module.css`
+- 버츄얼 지원 주소 `app/_components/virtual-recruitment-config.ts`
+- 모집 페이지 비교 보고서 `docs/virtual-recruitment-research-2026-09-22.md`
+- 지원서 헤더 `public/images/virtual/ersiyan-gen0-form-header.png`, `.svg`, `scripts/render-virtual-form-banner.py`
 - 사업부 공통 콘텐츠와 회사 정보 `app/_components/HomeContent.tsx`
 - MINE LOGIC 상세 페이지 `app/mine-logic/page.tsx`
 - 벨시엔 서밋·개발 기록 `app/velsien-summit/page.tsx`
@@ -119,6 +132,7 @@ npm run verify:cloudflare -- --target https://ersiyan.com --target-only --redire
 - 벨시엔 8월 기록 보관본 `app/velsien-summit/late-update/page.tsx`
 - 공통 스타일 `app/globals.css`, 홈 전용 스타일 `app/home.css`
 - 개인정보처리방침 `app/privacy/page.tsx`
+- 이메일 모집 방침 보관본 `app/privacy/archive/2026-09-19/page.tsx`
 - 공개 이미지 `public/images`
 - 원본 브랜드 로고 `public/images/brand/ersiyan-logo.png`
 - 첫 화면 최적화 로고 `public/images/brand/ersiyan-logo-hero.webp`

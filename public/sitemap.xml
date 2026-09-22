@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ersiyan.com/</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/virtual</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/mine-logic</loc>
@@ -26,11 +26,11 @@
   </url>
   <url>
     <loc>https://ersiyan.com/privacy</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/privacy/mine-logic</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-22</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/privacy/archive/2026-08-22</loc>
@@ -50,9 +50,10 @@
   </url>
   <url>
     <loc>https://ersiyan.com/privacy/archive/2026-09-05</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-22</lastmod>
   </url>
   <url><loc>https://ersiyan.com/velsien-summit/corporate/orysen</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://ersiyan.com/privacy/archive/2026-09-19</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://ersiyan.com/velsien-summit/corporate/virenta</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://ersiyan.com/velsien-summit/corporate/neryx</loc><lastmod>2026-09-20</lastmod></url>
 </urlset>

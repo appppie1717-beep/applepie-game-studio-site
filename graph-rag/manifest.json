@@ -4,7 +4,9 @@
   "root": "C:\\Users\\USER\\Desktop\\잡다한거\\applepie-game-studio-site",
   "canonicalOrigin": "https://ersiyan.com",
   "observedAt": "2026-09-13",
-  "routeMapUpdatedAt": "2026-09-20",
+  "routeMapUpdatedAt": "2026-09-22",
+  "validationObservedAt": "2026-09-13",
+  "currentSourceValidation": "pass:final source,38 contracts,local and live browser checks,revised published form banner,and production deployment a3a6d985 verified;new Naver archive indexing remains external pending",
   "entrypoint": "PROJECT_GRAPH_RAG_INDEX.md",
   "artifacts": {
     "nodes": "graph-rag/nodes.jsonl",
@@ -14,7 +16,7 @@
   },
   "scope": {
     "indexedKinds": ["repo", "directory", "file", "route", "component", "asset", "asset-variant", "seo-metadata", "seo-artifact", "script", "test", "deployment", "policy", "evidence", "external-service"],
-    "canonicalRoutes": 16,
+    "canonicalRoutes": 17,
     "wholeTreeFileCountObserved": 22565,
     "wholeTreeBytesObserved": 838574599,
     "contentExcluded": [".git/**", "node_modules/**", ".next/**", ".vinext/**", ".wrangler/**", "dist/**", "local-private/**", ".seo-audit-fresh/**", ".seo-cache/**", "outputs/**/chrome-profile/**", "**/Cookies", "**/Login Data", "**/History", "**/Sessions/**"]
@@ -39,11 +41,78 @@
     "liveChromeReview": "reject:public site is previous build; repeat after deployment",
     "liveLocalDrift": "live ersiyan.com remains on previous public build until external deployment"
   },
+  "currentValidation": {
+    "observedAt": "2026-09-23",
+    "scope": "Final virtual-only recruitment refinement, published Google Forms, and revised official-brand banner",
+    "sourceLayout": "Original shared HomeExperience and game-area layout preserved; VirtualRecruitment reuses home.css with a body-scoped CSS module",
+    "typescript": "pass",
+    "lint": "pass",
+    "build": "pass:17 prerendered routes",
+    "tests": {
+      "renderedHtml": "21/21",
+      "cloudflareStatic": "6/6",
+      "legacyDivisionRoute": "3/3",
+      "naverIndexNowContract": "8/8",
+      "total": "38/38"
+    },
+    "chromeReview": "pass:local actual Chrome 1440px hero and application CTA;768px grid and eligibility DOM;390px hero/application/footer without overflow,16px body text,49px CTA;desktop navigation unchanged",
+    "liveChromeReview": "pass:360px mobile with reduced motion;zero horizontal overflow,all3Forms links correct,original shared layout preserved",
+    "liveConsole": "0 errors;0 warnings",
+    "independentFinalReview": "no material issues found",
+    "graphRag": "pass:127 nodes,170 edges,26 chunks;17 canonical URLs match sitemap;no duplicate IDs,missing references,or missing current-source paths",
+    "deployment": {
+      "worker": "ersiyan-com-static",
+      "version": "a3a6d985-8094-4957-904e-238e084791a0",
+      "status": "verified",
+      "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+      "verificationResult": "exit 0;17 canonical sitemap URLs,all routes,referenced assets,aliases,404,and llms.txt passed",
+      "idlePerformance": "not measured in this verification;--skip-idle"
+    },
+    "previousVerifiedDeployment": {
+      "version": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
+      "scope": "Before final virtual-only style refinement and revised banner",
+      "tests": "38/38",
+      "chromeReview": "pass:1440px,390px,360px",
+      "productionVerification": "exit 0;17 canonical routes,redirects,404,and assets;skip-idle"
+    },
+    "search": {
+      "checkedAfterDeployment": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
+      "finalRefinementSubmission": "not repeated:style changes and duplicate-label removal introduced no new SEO content",
+      "google": {
+        "individualCanonicalUrlsChecked": 17,
+        "individualIndexedUrls": 17,
+        "refreshRequestsAccepted": 6,
+        "sitemapResubmission": "success:2026-09-23",
+        "sitemapDiscoveredCount": 16,
+        "sitemapAggregateStatus": "lagging:17 live canonical URLs and individual indexing confirmed separately",
+        "evidence": "outputs/virtual-redesign-2026-09-22/google-index-status.md"
+      },
+      "naver": {
+        "existingIndexedUrls": 16,
+        "recrawlRequestsAccepted": 6,
+        "virtual": "latest metadata crawled and indexed",
+        "newPrivacyArchive": "collected;not yet indexed",
+        "evidence": "outputs/virtual-redesign-2026-09-22/naver-index-status.md"
+      },
+      "limitation": "Indexing, latest-content recrawl, ranking, and search exposure remain separate states"
+    },
+    "gitPublication": "Git SHA and remote equality are recorded separately from deployment verification",
+    "formBanner": {
+      "observedAt": "2026-09-23",
+      "status": "verified:revised banner uploaded,saved,and displayed in the published respondent form",
+      "revisedDesign": "official logo with ERSIYAN VIRTUAL and Generation 0 recruitment text;no slogan or oversized zero",
+      "pngBytes": 42521,
+      "themeColor": "#c64035",
+      "backgroundColor": "#f9eceb",
+      "respondentView": "verified:actual desktop1904px and390px screenshots",
+      "formFieldsAndSettings": "preserved"
+    }
+  },
   "integrity": {
     "sensitiveContentIndexed": false,
     "corporatePagesModifiedBySeoPass": false,
     "corporateRuntimePrefetchFix": "corporate UI, copy, and custom footers unchanged; next/link replaced with plain anchors to restore static click navigation",
     "representative": "탁진",
-    "deploymentClaim": "not_verified"
+    "deploymentClaim": "verified:a3a6d985-8094-4957-904e-238e084791a0;production verifier exit0 and live mobile review passed"
   }
 }

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="400" viewBox="0 0 1600 400" role="img" aria-labelledby="title description">
+  <title id="title">에르시안 버츄얼 0기 크리에이터 모집</title>
+  <desc id="description">공식 홈페이지의 남색 바탕과 ERSIYAN 로고를 사용한 지원서 헤더.</desc>
+  <rect width="1600" height="400" fill="#07101e"/>
+  <path d="M136 64H164Q180 64 180 80V108Q180 124 164 124H125Q120 124 120 119V80Q120 64 136 64Z" fill="none" stroke="#657798" stroke-width="2"/>
+  <text x="133" y="108" font-family="Segoe UI Symbol, sans-serif" font-size="35" font-weight="400" letter-spacing="0" fill="#a9c1fa">✦</text>
+  <text x="203" y="109" font-family="Arial, sans-serif" font-size="36" font-weight="700" letter-spacing="5" fill="#ffffff">ERSIYAN</text>
+  <text x="117" y="232" font-family="Malgun Gothic, sans-serif" font-size="78" font-weight="700" letter-spacing="0" fill="#ffffff">에르시안 버츄얼</text>
+  <text x="120" y="311" font-family="Malgun Gothic, sans-serif" font-size="52" font-weight="400" letter-spacing="0" fill="#a9c1fa">0기 크리에이터 모집</text>
+</svg>

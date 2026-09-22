@@ -115,6 +115,7 @@ const footerRoutes = [
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
   "/privacy/archive/2026-09-05",
+  "/privacy/archive/2026-09-19",
   "/velsien-summit",
   "/velsien-summit/world",
   "/velsien-summit/secret",
@@ -138,6 +139,11 @@ function assertCommonFooter(html, pathname) {
       `${pathname} footer keeps ${href}`);
   }
   assert.match(footer, /href="mailto:help@ersiyan\.com"/i);
+  if (pathname === "/virtual") {
+    assert.match(footer, /aria-label="Google Forms 지원서 \(새 창\)"/);
+    assert.match(footer, /href="https:\/\/(?:docs\.google\.com\/forms\/d\/e\/[^/"]+\/viewform(?:\?[^"]*)?|forms\.gle\/[^"]+)"/);
+    assert.doesNotMatch(footer, /biz@ersiyan\.com에서 접수/);
+  }
   assert.match(footer, /href="tel:\+821024166267"/i);
   assert.match(
     footer,
@@ -191,6 +197,7 @@ test("stages every public page for asset-first delivery", async () => {
     archivedPrivacyPolicy20260828,
     archivedPrivacyPolicy20260831,
     archivedPrivacyPolicy20260905,
+    archivedPrivacyPolicy20260919,
     staticHomepage,
     staticVirtual,
     staticMineLogic,
@@ -204,6 +211,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy20260828,
     staticArchivedPrivacyPolicy20260831,
     staticArchivedPrivacyPolicy20260905,
+    staticArchivedPrivacyPolicy20260919,
     staticNotFound,
   ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
@@ -221,6 +229,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-09-05.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-09-19.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
@@ -234,6 +243,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/client/privacy/archive/2026-08-28.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/privacy/archive/2026-09-05.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/privacy/archive/2026-09-19.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/404.html", import.meta.url), "utf8"),
   ]);
 
@@ -260,6 +270,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-28"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-31"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-09-05"), "rendered");
+  assert.equal(renderedRoutes.get("/privacy/archive/2026-09-19"), "rendered");
   assert.deepEqual(
     [...paths.paths].sort(),
     [
@@ -272,6 +283,7 @@ test("stages every public page for asset-first delivery", async () => {
       "/privacy/archive/2026-08-28",
       "/privacy/archive/2026-08-31",
       "/privacy/archive/2026-09-05",
+      "/privacy/archive/2026-09-19",
       "/privacy/mine-logic",
       "/velsien-summit",
       "/velsien-summit/corporate/neryx",
@@ -326,6 +338,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(staticArchivedPrivacyPolicy20260828, archivedPrivacyPolicy20260828);
   assert.equal(staticArchivedPrivacyPolicy20260831, archivedPrivacyPolicy20260831);
   assert.equal(staticArchivedPrivacyPolicy20260905, archivedPrivacyPolicy20260905);
+  assert.equal(staticArchivedPrivacyPolicy20260919, archivedPrivacyPolicy20260919);
   assert.match(staticNotFound, /<title>에르시안<\/title>/i);
   for (const publicHtml of [
     staticHomepage,
@@ -341,6 +354,7 @@ test("stages every public page for asset-first delivery", async () => {
     staticArchivedPrivacyPolicy20260828,
     staticArchivedPrivacyPolicy20260831,
     staticArchivedPrivacyPolicy20260905,
+    staticArchivedPrivacyPolicy20260919,
     staticNotFound,
   ]) {
     for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
@@ -469,28 +483,37 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   // Scope these checks to the Virtual section; the shared navigation, history, and footer may link to Games.
   const virtualSection = html.slice(virtualStart, companyStart);
   const virtualText = visibleText(virtualSection);
-  assert.match(virtualText, /에르시안 버츄얼은 첫 소속 크리에이터 한 분을 모집합니다/);
-  assert.match(virtualText, /0기 크리에이터 지원 접수 중/);
-  assert.match(virtualText, /모집 중/);
+  assert.match(virtualText, /에르시안 버츄얼\s*0기/);
+  assert.match(virtualText, /지원 접수 중/);
   assert.match(virtualText, /모집 인원\s*1명/);
-  assert.match(virtualText, /첫 소속 크리에이터\s*한 분을 모집합니다/);
-  assert.match(virtualText, /지원 후 곧바로 방송을 시작하는 모집이 아닙니다/);
-  assert.match(virtualText, /구체적인 시작일은 함께 준비한 뒤 정합니다/);
-  assert.match(virtualText, /지원이 곧 활동 시작은 아닙니다/);
-  assert.match(virtualText, /구체적인 조건은 최종 결정 전에 문서로 안내하고 검토할 시간을 드립니다/);
+  assert.match(virtualText, /만 19세 이상/);
+  assert.match(virtualText, /CHZZK/);
+  assert.match(virtualText, /3D 버츄얼/);
+  assert.doesNotMatch(virtualText, /70\s*[/:]\s*30|70\s*크리에이터|수익 배분의 기본 비율/,
+    "Detailed commercial terms belong in the application, not the recruitment landing page");
+  assert.doesNotMatch(virtualSection, /id="virtual-terms"/);
   assert.doesNotMatch(virtualText, /에르시안을 처음 만났다면|RELEASED GAME|IN DEVELOPMENT|MINE LOGIC|VELSIEN SUMMIT/);
   assert.doesNotMatch(virtualSection, /href="\/(?:mine-logic|velsien-summit)"/i);
-  assert.doesNotMatch(virtualText, /70\s*\/\s*30|50\s*\/\s*50|월 12회 이상|첫 계약은 1년|대여 장비는 계약 종료/);
+  assert.doesNotMatch(virtualText, /모든 장비를 지급합니다|고정급을 지급합니다|월급을 보장|AI(?:로|를 사용하여|를 활용해)\s*(?:3D|캐릭터)/i);
   assert.match(virtualSection, /href="#virtual-apply"/);
-  assert.match(virtualSection, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
-  assert.match(virtualSection, /subject=ERSIYAN%20VIRTUAL%200%EA%B8%B0%20%ED%81%AC%EB%A6%AC%EC%97%90%EC%9D%B4%ED%84%B0%20%EC%A7%80%EC%9B%90/);
+  assert.match(virtualText, /모집 문의\s*·\s*biz@ersiyan\.com/);
   const applySection = html.match(/<section\b[^>]*id="virtual-apply"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
   assert.ok(applySection, "Application details are visible in the public route");
-  for (const term of ["만 19세 이상", "3~5분 자유 음성 파일", "30일 이내 삭제"]) {
+  for (const term of ["닉네임", "생년월일", "성별", "이메일", "3~5분", "처음 방송을 켜고 시청자 다섯 명과 이야기한다면", "음성 파일", "Google 로그인"]) {
     assert.ok(visibleText(applySection).includes(term), `Recruitment explains ${term}`);
   }
   assert.match(applySection, /href="\/privacy"/);
-  assert.match(applySection, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
+  const formLinks = [...applySection.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter(({ href }) => /^https:\/\/(?:docs\.google\.com\/forms\/|forms\.gle\/)/.test(href ?? ""));
+  assert.equal(formLinks.length, 1, "The application has one external Google Forms response action");
+  const formUrl = new URL(formLinks[0].href);
+  assert.ok(formUrl.hostname === "forms.gle" || /^\/forms\/d\/e\/[^/]+\/viewform$/.test(formUrl.pathname),
+    "The application opens a responder URL, never the private editor");
+  assert.equal(formLinks[0].target, "_blank");
+  assert.match(formLinks[0].rel, /noopener/);
+  assert.match(applySection, /새 창/);
+  assert.match(applySection, /biz@ersiyan\.com/);
+  assert.doesNotMatch(applySection, /href="mailto:[^"]*subject=/);
   assert.doesNotMatch(html, /<section\b[^>]*id="ersiyan-games-view"/i);
   assert.doesNotMatch(html, /id="(?:games|studio|game-tab-mine-logic|game-tab-velsien)"/i);
   assert.doesNotMatch(html, /<img\b[^>]*src="\/images\/(?:mine-logic|velsien-summit)\//i);
@@ -997,23 +1020,30 @@ test("server-renders the privacy policy", async () => {
   assertPageMetadata(html, "/privacy");
   assert.match(html, /<title>개인정보처리방침 \| 에르시안<\/title>/i);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy"/i);
-  assert.match(html, /회원가입과 문의 양식을 제공하지 않으며/);
+  assert.match(html, /홈페이지 자체에는 회원가입 기능이나 지원자 데이터베이스가 없습니다/);
   assert.match(html, /help@ersiyan\.com/);
   assert.match(html, /게임 앱 정책/);
   assert.match(html, /Workers Static Assets/);
-  assert.match(html, /최근 변경일 및 시행일 2026년 9월 19일/);
+  assert.match(html, /최근 변경일 및 시행일 2026년 9월 22일/);
+  assert.match(html, /href="\/privacy\/archive\/2026-09-19"/);
   assert.match(html, /href="\/privacy\/archive\/2026-09-05"/);
   const recruitmentNotice = visibleText(policySection(html, "recruitment-notice"));
   assert.match(recruitmentNotice, /에르시안 버츄얼 크리에이터 모집 지원 정보/);
   assert.match(recruitmentNotice, /일반 문의와 홈페이지 방문 정보에 관한 기존 안내는 유지합니다/);
   const collection = visibleText(policySection(html, "collection"));
-  for (const term of ["biz@ersiyan.com", "만 19세 이상", "3~5분 음성 파일", "실제 얼굴 사진이나 신분증 사본"]) {
+  for (const term of ["Google 설문지", "닉네임", "생년월일", "성별", "만 19세 이상", "이메일 주소", "방송 가능 시간대", "소속사", "3~5분 음성 파일 1개"]) {
     assert.match(collection, new RegExp(term));
+  }
+  const applicationService = visibleText(policySection(html, "application-service"));
+  for (const term of ["Google LLC", "Google Drive", "로그인이 필요", "담당자만 접근", "회신", "직접 적은 이메일", "전 세계 서버"]) {
+    assert.ok(applicationService.includes(term), `Application privacy explains ${term}`);
   }
   const purpose = visibleText(policySection(html, "purpose"));
   for (const term of ["선발 심사에만 사용", "AI 학습이나 홍보 콘텐츠", "최종 선정일로부터", "선정 없이 모집을 취소하거나 종료하면", "지원을 철회", "계약과 정산 절차"]) {
     assert.match(purpose, new RegExp(term));
   }
+  assert.match(purpose, /Drive의 원본 파일/);
+  assert.match(purpose, /휴지통/);
   assert.match(html, /href="mailto:biz@ersiyan\.com"/);
   assert.match(html, /사업자명 변경/);
   assert.match(html, /상호가 애플파이에서[\s\S]*에르시안으로 변경/);
@@ -1167,6 +1197,24 @@ test("preserves the September 5 privacy policy before virtual recruitment", asyn
   assert.match(visibleText(policySection(html, "change-notice")), /방문·성능 통계 안내 정정/);
   assert.match(visibleText(policySection(html, "hosting")), /Cloudflare Web Analytics를 사용합니다/);
   assert.doesNotMatch(html, /id="recruitment-notice"|최종 선정 후 30일 이내/);
+});
+
+test("preserves the September 19 email recruitment privacy policy", async () => {
+  const response = await render("/privacy/archive/2026-09-19?utm_source=history");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-09-19");
+  assert.equal(metaContent(html, "robots"), "index, follow");
+  assert.match(html, /개인정보처리방침 2026년 9월 19일 보관본/);
+  assert.match(html, /href="\/privacy"/);
+  assert.match(html, /적용 기간 2026년 9월 19일/);
+  const collection = visibleText(policySection(html, "collection"));
+  assert.match(collection, /biz@ersiyan\.com에 이메일로 지원하는 경우/);
+  assert.match(collection, /선택적으로 제공한 Discord 계정/);
+  assert.match(collection, /3~5분 음성 파일/);
+  assert.doesNotMatch(collection, /Google 설문지|생년월일/);
+  assert.match(visibleText(policySection(html, "purpose")), /최종 선정일로부터 30일 이내에 삭제합니다/);
+  assert.doesNotMatch(html, /id="forms-notice"|id="application-service"/);
 });
 
 test("required public images are present", async () => {

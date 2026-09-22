@@ -3,10 +3,10 @@ import { BrandLockup } from "../../../_components/BrandLockup";
 import { ErFooter } from "../../../_components/ErFooter";
 
 export const metadata: Metadata = {
-  title: { absolute: "개인정보처리방침 2026년 9월 5일 보관본 | 에르시안" },
-  description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 5일 보관본입니다.",
+  title: { absolute: "개인정보처리방침 2026년 9월 19일 보관본 | 에르시안" },
+  description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 19일 보관본입니다.",
   alternates: {
-    canonical: "/privacy/archive/2026-09-05",
+    canonical: "/privacy/archive/2026-09-19",
   },
   robots: {
     index: true,
@@ -16,9 +16,9 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ko_KR",
     siteName: "ERSIYAN",
-    url: "/privacy/archive/2026-09-05",
-    title: "개인정보처리방침 2026년 9월 5일 보관본 | 에르시안",
-    description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 5일 보관본입니다.",
+    url: "/privacy/archive/2026-09-19",
+    title: "개인정보처리방침 2026년 9월 19일 보관본 | 에르시안",
+    description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 19일 보관본입니다.",
     images: [
       {
         url: "/ersiyan-social-card.jpg",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "개인정보처리방침 2026년 9월 5일 보관본 | 에르시안",
-    description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 5일 보관본입니다.",
+    title: "개인정보처리방침 2026년 9월 19일 보관본 | 에르시안",
+    description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 19일 보관본입니다.",
     images: [
       {
         url: "/ersiyan-social-card.jpg",
@@ -44,18 +44,19 @@ export const metadata: Metadata = {
 const privacyPolicyStructuredData = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "@id": "https://ersiyan.com/privacy/archive/2026-09-05#webpage",
-  url: "https://ersiyan.com/privacy/archive/2026-09-05",
-  name: "개인정보처리방침 2026년 9월 5일 보관본 | 에르시안",
-  description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 5일 보관본입니다.",
+  "@id": "https://ersiyan.com/privacy/archive/2026-09-19#webpage",
+  url: "https://ersiyan.com/privacy/archive/2026-09-19",
+  name: "개인정보처리방침 2026년 9월 19일 보관본 | 에르시안",
+  description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 9월 19일 보관본입니다.",
   inLanguage: "ko-KR",
   datePublished: "2026-08-22",
-  dateModified: "2026-09-05",
+  dateModified: "2026-09-19",
   isPartOf: { "@id": "https://ersiyan.com/#website" },
   publisher: { "@id": "https://ersiyan.com/#organization" },
 };
 
 const policySections = [
+  ["recruitment-notice", "2026년 9월 19일 모집 지원 안내"],
   ["change-notice", "2026년 9월 5일 안내 정정"],
   ["business-name-notice", "2026년 8월 31일 사업자명 변경"],
   ["overview", "방침 개요"],
@@ -68,7 +69,7 @@ const policySections = [
   ["changes", "방침 변경"],
 ];
 
-export default function ArchivedPrivacyPolicy20260905() {
+export default function ArchivedPrivacyPolicy20260919() {
   return (
     <div id="top" className="privacy-page">
       <script
@@ -95,14 +96,14 @@ export default function ArchivedPrivacyPolicy20260905() {
           <p className="eyebrow">PRIVACY POLICY ARCHIVE</p>
           <h1 id="policy-title">
             개인정보처리방침{" "}
-            <span className="privacy-edition">2026년 9월 5일 보관본</span>
+            <span className="privacy-edition">2026년 9월 19일 보관본</span>
           </h1>
           <p>
-            2026년 9월 5일부터 2026년 9월 19일 변경본 적용 직전까지 공개된
+            2026년 9월 19일부터 2026년 9월 22일 변경본 적용 직전까지 공개된
             에르시안 공식 홈페이지의 개인정보처리방침입니다.
           </p>
           <span className="draft-note">
-            최초 시행일 2026년 8월 22일 · 적용 기간 2026년 9월 5일 ~ 2026년 9월 19일 변경본 적용 직전
+            최초 시행일 2026년 8월 22일 · 적용 기간 2026년 9월 19일 ~ 2026년 9월 22일 변경본 적용 직전
           </span>
         </section>
 
@@ -116,6 +117,24 @@ export default function ArchivedPrivacyPolicy20260905() {
           </ol>
 
           <div className="policy-sections">
+            <section id="recruitment-notice" className="policy-change-notice" aria-labelledby="recruitment-notice-title">
+              <p className="policy-change-kicker">2026년 9월 19일 변경 안내</p>
+              <h2 id="recruitment-notice-title">에르시안 버츄얼 크리에이터 모집 지원 정보</h2>
+              <p>
+                첫 소속 버츄얼 크리에이터 모집을 위해 지원자가 이메일로 제출한
+                지원서와 음성 파일, 이후 선발 과정의 기록을 처리하는 목적과 기간을
+                아래에 추가했습니다. 일반 문의와 홈페이지 방문 정보에 관한 기존
+                안내는 유지합니다.
+              </p>
+              <p>
+                변경 전 방침은{" "}
+                <a href="/privacy/archive/2026-09-05">
+                  2026년 9월 5일 개인정보처리방침 보관본
+                </a>
+                에서 열람할 수 있습니다.
+              </p>
+            </section>
+
             <section id="change-notice" className="policy-change-notice" aria-labelledby="change-notice-title">
               <p className="policy-change-kicker">2026년 9월 5일 안내 정정</p>
               <h2 id="change-notice-title">방문·성능 통계 안내 정정</h2>
@@ -158,7 +177,8 @@ export default function ArchivedPrivacyPolicy20260905() {
             <section id="overview" aria-labelledby="overview-title">
               <h2 id="overview-title">1. 방침 개요</h2>
               <p>
-                이 방침은 에르시안 공식 홈페이지에 적용됩니다.
+                이 방침은 에르시안 공식 홈페이지와 에르시안 버츄얼 크리에이터
+                모집 이메일 접수에 적용됩니다.
                 홈페이지와 각 게임 앱은 처리하는 정보와 기능이 다르므로 게임별
                 개인정보처리방침은 별도로 제공합니다.
               </p>
@@ -179,6 +199,18 @@ export default function ArchivedPrivacyPolicy20260905() {
                 문의 내용, 첨부파일을 확인할 수 있습니다. 홈페이지 제공 과정에서는
                 Cloudflare가 IP 주소, 트래픽 라우팅 정보, 시스템 구성 정보와 접속 요청
                 정보를 처리할 수 있습니다.
+              </p>
+              <p>
+                버츄얼 크리에이터 모집 주소 biz@ersiyan.com에 이메일로 지원하는 경우
+                발신 이메일 주소,
+                활동명 또는 닉네임, 만 19세 이상 여부, 선택적으로 제공한 Discord 계정,
+                직업·학업 여부, 월 활동 가능 횟수와 방송 가능 요일·시간대,
+                방송·버츄얼 경험, PC·마이크 등 장비 정보, 콘텐츠 아이디어,
+                본인이 적은 장점과 장기간 활동할 수 있다고 생각하는 이유, 타 소속 및
+                계약 여부, 제출한 3~5분 음성 파일을 확인할 수 있습니다. 온라인
+                인터뷰와 비공개 방송 테스트에 참여하면 진행과 평가에 필요한 기록도
+                처리할 수 있습니다. 실제 얼굴 사진이나 신분증 사본은 지원 접수에
+                요구하지 않습니다.
               </p>
             </section>
 
@@ -242,11 +274,33 @@ export default function ArchivedPrivacyPolicy20260905() {
 
             <section id="purpose" aria-labelledby="purpose-title">
               <h2 id="purpose-title">4. 개인정보의 처리 목적과 보유 기간</h2>
-              <p>이메일로 제공된 정보는 문의 확인·답변과 필요한 후속 조치에 사용합니다.</p>
+              <p>일반 문의 이메일로 제공된 정보는 문의 확인·답변과 필요한 후속 조치에 사용합니다.</p>
               <p>
                 문의 정보는 답변과 관련 대응이 끝난 뒤 불필요해지면 삭제합니다. 다만
                 관계 법령에 따른 보관 의무가 있거나 분쟁 대응이 필요한 경우에는 해당
                 기간 동안 보관할 수 있습니다.
+              </p>
+              <p>
+                모집 지원 자료는 지원 자격 확인, 지원자 연락, 서류·음성 심사,
+                인터뷰·비공개 방송 테스트, 최종 선정과 조건 안내에 사용합니다.
+                음성 파일은 선발 심사에만 사용하며 AI 학습이나 홍보 콘텐츠에
+                재사용하지 않습니다. 별도로 동의받지 않은 다른 용도로 사용하지
+                않습니다.
+              </p>
+              <p>
+                불합격 지원자의 지원서, 음성 파일과 선발 기록은 최종 선정일로부터
+                30일 이내에 삭제합니다. 선정 없이 모집을 취소하거나 종료하면
+                전체 지원자의 자료를 그 취소·종료일로부터 30일 이내에 삭제합니다.
+                지원자가 선발 도중 지원을 철회하면
+                처리 완료 후 지체 없이 삭제합니다. 최종 합격자의 자료는 계약과
+                정산 절차에 필요한 항목 및 보유 기간을 계약 전에 별도로 안내합니다.
+                법령상 보관 의무나 분쟁 대응이 필요한 경우에는 해당 범위와 기간에
+                한하여 보관할 수 있습니다.
+              </p>
+              <p>
+                모집 지원은 선택 사항이며, 선발에 필요한 정보를 제공하지 않으면
+                심사를 진행할 수 없습니다. 지원과 무관한 민감한 개인정보는
+                이메일에 포함하지 마세요.
               </p>
             </section>
 
@@ -284,6 +338,12 @@ export default function ArchivedPrivacyPolicy20260905() {
                 개인정보 문의 이메일{" "}
                 <a href="mailto:help@ersiyan.com">help@ersiyan.com</a>
               </p>
+              <p>
+                버츄얼 크리에이터 지원 철회와 지원 자료 열람·정정·삭제 요청은
+                지원을 보낸 이메일 주소에서{" "}
+                <a href="mailto:biz@ersiyan.com">biz@ersiyan.com</a>으로
+                보내주세요.
+              </p>
             </section>
 
             <section id="apps" aria-labelledby="apps-title">
@@ -305,6 +365,15 @@ export default function ArchivedPrivacyPolicy20260905() {
                 안내합니다. 이 방침의 최초 시행일은 2026년 8월 22일입니다.
               </p>
               <ul>
+                <li>
+                  2026년 9월 19일 변경본부터 버츄얼 크리에이터 모집 지원 정보의
+                  수집 항목, 처리 목적, 보유 기간과 지원 철회 방법을 명시합니다.
+                </li>
+                <li>
+                  <a href="/privacy/archive/2026-09-05">
+                    2026년 9월 5일 방문·성능 통계 정정 방침
+                  </a>
+                </li>
                 <li>
                   2026년 9월 5일 정정본부터 이미 작동 중인 Cloudflare Web Analytics의
                   방문·성능 측정 항목과 쿠키·브라우저 저장소 사용 여부를 명시합니다.

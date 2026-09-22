@@ -329,6 +329,10 @@ const localPages = new Map(
         "/privacy/archive/2026-09-05",
         new URL("../dist/client/privacy/archive/2026-09-05.html", import.meta.url),
       ],
+      [
+        "/privacy/archive/2026-09-19",
+        new URL("../dist/client/privacy/archive/2026-09-19.html", import.meta.url),
+      ],
     ].map(async ([pathname, file]) => [pathname, await readFile(file, "utf8")]),
   ),
 );
@@ -339,6 +343,7 @@ const targetOnlyPaths = new Set([
   "/privacy/archive/2026-08-28",
   "/privacy/archive/2026-08-31",
   "/privacy/archive/2026-09-05",
+  "/privacy/archive/2026-09-19",
   "/velsien-summit",
   "/velsien-summit/world",
   "/velsien-summit/secret",
@@ -355,9 +360,33 @@ for (const [pathname, localHtml] of localPages) {
   const targetResult = await request(new URL(pathname, target), 200, "manual");
   const targetHtml = targetResult.body.toString("utf8");
   if (pathname === "/virtual") {
-    assert.match(targetHtml, /0기 크리에이터 지원 접수 중/);
-    assert.match(targetHtml, /href="mailto:biz@ersiyan\.com\?subject=[^"]+"/);
-    assert.match(targetHtml, /<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?href="\/privacy"[\s\S]*?<\/section>/i);
+    const applicationSection = targetHtml.match(/<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?<\/section>/i)?.[0];
+    assert.ok(applicationSection, "Virtual recruitment must expose its application section");
+    const applicationLinks = extractAttributes(applicationSection, "a", "href").map(decodeEntities);
+    const formLinks = applicationLinks.filter((href) => {
+      const url = new URL(href, target);
+      return url.protocol === "https:" && url.hostname === "docs.google.com" &&
+        /^\/forms\/d\/e\/[^/]+\/viewform\/?$/.test(url.pathname);
+    });
+    assert.ok(formLinks.length > 0, "Virtual applications must link directly to the published Google Forms viewform URL");
+    assert.ok(applicationLinks.includes("/privacy"), "Virtual applications must link to the privacy notice");
+    assert.doesNotMatch(targetHtml, /href=["']mailto:biz@ersiyan\.com\?subject=/i, "Virtual applications must not use the former email application CTA");
+    const applicationText = semanticSnapshot(applicationSection).visibleText;
+    const recruitmentText = semanticSnapshot(targetHtml).visibleText;
+    assert.match(applicationText, /biz@ersiyan\.com/, "Virtual applications must retain the inquiry email");
+    assert.match(applicationText, /Google\s*로그인/, "Virtual applications must disclose the file-upload sign-in requirement");
+    assert.match(applicationText, /3\s*[~～–-]\s*5분/, "Virtual applications must explain the 3-5 minute voice task");
+    assert.match(applicationText, /시청자\s*다섯\s*명/, "Virtual applications must retain the five-viewer voice prompt");
+    assert.match(applicationText, /음성\s*파일\s*1개/, "Virtual applications must request one voice file");
+    assert.match(recruitmentText, /모집 인원\s*1명/, "Virtual recruitment must disclose the one-person opening");
+    assert.match(recruitmentText, /만\s*19세\s*이상/, "Virtual recruitment must disclose the minimum age");
+    assert.match(recruitmentText, /CHZZK/, "Virtual recruitment must identify the supported platform");
+    assert.match(recruitmentText, /0기/, "Virtual recruitment must identify the current cohort");
+    assert.doesNotMatch(recruitmentText, /70\s*(?::|\/|대)\s*30|(?:70|30)\s*%|70\s*크리에이터|30\s*에르시안/, "Virtual recruitment must not publish the private revenue split");
+  }
+  if (pathname === "/privacy") {
+    assert.match(semanticSnapshot(targetHtml).visibleText, /최근 변경일 및 시행일\s+2026년 9월 22일/, "The current privacy notice must expose its effective date");
+    assert.ok(extractAttributes(targetHtml, "a", "href").includes("/privacy/archive/2026-09-19"), "The current privacy notice must retain access to the previous version");
   }
   const corporateExpectation = corporateRouteExpectations.get(pathname);
   if (corporateExpectation) {
@@ -486,6 +515,7 @@ const redirectChecks = [
   { path: "/privacy/archive/2026-08-28?check=3", status: 200 },
   { path: "/privacy/archive/2026-08-31?check=4", status: 200 },
   { path: "/privacy/archive/2026-09-05?check=5", status: 200 },
+  { path: "/privacy/archive/2026-09-19?check=6", status: 200 },
   { path: "/__redirect-probe-not-found-20260828?source=migration", status: 404 },
 ];
 

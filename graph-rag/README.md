@@ -35,4 +35,4 @@ VIRTUAL 본문은 `VirtualRecruitment.tsx`와 지원 주소 설정으로 분리�
 - 미사용 컴포넌트와 임시 자료는 활성 경로에서 제거하고 복구 사본은 색인 제외 영역에 보존합니다.
 - 실제 동적 참조가 있는 teaser 160/320 파생본·7개 법적 보관본·독립 기업 UI·최종 배포/검색 기록은 보존합니다.
 - MINE LOGIC 방침 본문은 서버 렌더링, MineLogicPrivacyLanguage는 작은 클라이언트 언어전환이며 문구는 동일합니다.
-- 최신 검증과 승인 상태는 `manifest.json`과 `SOURCE_RECONCILIATION_2026-10-07.md`에서 확인합니다. push/운영배포는 이번 작업에서 사용자 최종 승인 전 미실행입니다.
+- 최신 검증과 승인 상태는 `manifest.json`과 `SOURCE_RECONCILIATION_2026-10-07.md`에서 확인합니다. 2026-10-08 사용자 승인 후f973b37을 push하고95abc6ee 운영 배포를 검증했습니다. 운영28HTML해시·본문/metadata/JSONLD와실제모바일28경로·319자산검사·150별칭·105도메인리디렉션을 통과했습니다.

@@ -6,7 +6,7 @@
 - 저장소: `C:\Users\USER\Desktop\잡다한거\applepie-game-studio-site`
 - 목적: ERSIYAN GAMES, ERSIYAN VIRTUAL, MINE LOGIC, VELSIEN SUMMIT와 관련 공지·개인정보·기업 페이지의 라우트, 소스, 자산, SEO, 검증, 정적 Cloudflare 배포 관계를 한눈에 찾는 것
 - GraphRAG 최초 검증 근거 기준일:2026-09-13. 2026-09-30 현행 구조는 정식URL28개이며 오류를 포함한 라우트노드는29개입니다. 공식 루트 `/`에서 회사 정보와 사업부 선택을 먼저 보여주고 게임부 `/games`·버츄얼부 `/virtual`을 각각 정식 경로로 둡니다. `/company`는 회사 홈으로301 이동하고 사이트맵에서 제외합니다. 공지 목록은 `/notices`에서8개를 동등한 행으로 표시합니다. 9월 30일 당시 최종 운영 배포 `63c30c0f-93f9-4ca1-92ae-a25b2d17052f`가 검증됐습니다. 10월 7일 실제 운영에서 이후 10월 3일 버전 `6becd6c4-da2a-4d2c-806c-0d3f2da8edd7`의 최신 문구·FAQ·검색정보·소셜 자산을 확인하여 소스로 복원했습니다. `575b599b-0e7f-4b6d-b4bf-0b4edfe2711e`는 최종 공지 상세 CSS 보정 전, `da372027-f474-4085-a045-d4090a630a17`은 이전 `/company` 정식 경로 시점의 중간 배포입니다. 검색 제출과 실제 색인은 별도 근거로 확인합니다.
-- 2026-10-07 로컬·GitHub 소스 전수 대조·정리·최적화: [SOURCE_RECONCILIATION_2026-10-07.md](SOURCE_RECONCILIATION_2026-10-07.md). GitHub push·운영 배포는 최종 사용자 승인 대기이며 최신 검증 상태는 manifest의 currentTask를 확인합니다.
+- 2026-10-07 로컬·GitHub 소스 전수 대조·정리·최적화: [SOURCE_RECONCILIATION_2026-10-07.md](SOURCE_RECONCILIATION_2026-10-07.md). 사용자 승인 후 GitHub main과 로컬 소스를 맞추고95abc6ee(태그f973b37) 운영 배포·검수를 완료했습니다. 운영28HTML은 최종 빌드 해시와 일치하며 최신 검증 상태는 manifest의 currentTask를 확인합니다.
 - 2026-09-19 로컬·GitHub·운영 사이트 재대조 결과: [SOURCE_RECONCILIATION_2026-09-19.md](SOURCE_RECONCILIATION_2026-09-19.md). 이후 변경은 새로 검증해야 합니다.
 - 상세 그래프: `graph-rag/manifest.json`, `graph-rag/nodes.jsonl`, `graph-rag/edges.jsonl`, `graph-rag/chunks.jsonl`
 

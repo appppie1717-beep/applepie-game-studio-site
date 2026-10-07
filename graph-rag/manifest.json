@@ -6,7 +6,7 @@
   "observedAt": "2026-09-13",
   "routeMapUpdatedAt": "2026-09-30",
   "validationObservedAt": "2026-09-13",
-  "currentSourceValidation": "pass:final fresh build45contracts,type/lint,28route semantic/runtime parity and Chrome review;GitHub push and deployment pending explicit approval",
+  "currentSourceValidation": "pass: fresh29HTMLbuild45contracts,type/lint,28route production HTML SHA256 equality,fullverifier and actualChrome;GitHub/local synchronized;production verified",
   "entrypoint": "PROJECT_GRAPH_RAG_INDEX.md",
   "artifacts": {
     "nodes": "graph-rag/nodes.jsonl",
@@ -85,28 +85,40 @@
   "currentValidation": {
     "observedAt": "2026-10-08",
     "scope": "GitHub/local/published source reconciliation, recoverable cleanup and optimization",
-    "status": "locally-verified;github-push-and-production-deployment-await-user-approval",
+    "status": "production-verified;github-local-source-synchronized",
     "sourceLayout": "28routes;GitHub common files and approved local architecture;Oct3 live copy/meta/FAQ/social restored",
     "build": "pass: npm run build:cloudflare exit0;29staged HTML including404;static7/7",
     "tests": "45/45;rendered26/static7/legacy4/IndexNow8;TypeScript and lint exit0",
-    "semanticParity": "28/28 body text/meta/JSONLD/links/meaningful scripts match observed live;27/28 normalized body markup;Secret responsive image optimization only",
     "localRuntime": "pass:28routes,all referenced assets,150query-preservingaliases,sitemap,404,llms",
     "browser": "actual Chrome;28routes at375x812 without overflow;desktop key pages and3corporate sites;no warn/error in recorded logs;privacy language/noJS,game tabs/history/status notice reviewed;viewport reset",
     "deployment": {
-      "status": "not-performed;approval-required",
-      "observedProductionVersion": "6becd6c4-da2a-4d2c-806c-0d3f2da8edd7"
+      "status": "verified",
+      "worker": "ersiyan-com-static",
+      "version": "95abc6ee-a368-475d-9cbb-d1901f1196bf",
+      "sourceCommit": "f973b37d9b20e0b3eaa31c286b65f9326bc3bea7",
+      "versionTag": "f973b37",
+      "activePercentage": 100,
+      "deployedAt": "2026-10-07T15:31:04.412Z",
+      "wranglerResult": "exit0;fresh29HTML/static7;40newassetsuploaded119alreadyuploaded",
+      "verificationResult": "pass:28canonicalroutes,319assetreferences covering91uniqueassets,150query-preservingaliases,105old/http/wwwdomainredirectprobes,sitemap,404,llms",
+      "evidence": "outputs/reconciliation-2026-10-07/production-deploy.txt;production-verification.txt;production-parity.json;production-browser.json",
+      "previousVersion": "6becd6c4-da2a-4d2c-806c-0d3f2da8edd7"
     },
-    "gitPush": "not-performed;approval-required",
+    "gitPush": "performed;remote/local application release commit f973b37 identical;final documentation-only closeout does not modify deployed runtime",
     "searchSubmission": "not-performed",
     "performance": "idle/field CWV not measured;source/chunk/image size changes recorded separately",
-    "evidence": "outputs/reconciliation-2026-10-07"
+    "evidence": "outputs/reconciliation-2026-10-07",
+    "productionRuntime": "pass:28canonicalroutes,319assetreferences covering91uniqueassets,150query-preservingaliases,105old/http/wwwdomainredirectprobes,sitemap,404,llms",
+    "productionParity": "28/28 live HTML raw SHA256 equal final dist;all semantic categories exact;robots/social raw exact;llms/sitemap line-ending-only difference",
+    "productionBrowser": "pass:actual Chrome normal1920x901 and375x812;mobile28routes nooverflow;warn/error0;history/game-tab/privacy-Korean/status-notice interactions pass;viewport reset",
+    "baselineSemanticParity": "28/28 body text/meta/JSONLD/links/meaningful scripts match observed live;27/28 normalized body markup;Secret responsive image optimization only"
   },
   "integrity": {
     "sensitiveContentIndexed": false,
     "corporatePagesModifiedBySeoPass": false,
     "corporateRuntimePrefetchFix": "corporate UI, copy, and custom footers unchanged; next/link replaced with plain anchors to restore static click navigation",
     "representative": "탁진",
-    "deploymentClaim": "Oct3 live version6becd6c4 observed read-only and latest public source restored locally;this task has not deployed. Previous63c30c0f final Sep30 company-first release is historical.",
+    "deploymentClaim": "95abc6ee active100% tagf973b37 deployed from approved source;28live HTML SHA256 exact finaldist. Final docs-only closeout records actual results;no runtime change.",
     "noticeMigrationPreservation": "Historical privacy archives retained;current clauses1-9,legacy IDs,Sep22 effective date,prior-email handling,corporate policies,and Secret policy preserved"
   },
   "historicalValidationSnapshots": {
@@ -453,9 +465,9 @@
   "currentTask": {
     "observedAt": "2026-10-07",
     "name": "Reconcile GitHub local and newer published source, cleanup and optimize before approved release",
-    "status": "local-integration-verified;github-push-and-production-deployment-await-user-approval",
+    "status": "completed:GitHub-local-source-synchronized;production-deployed-and-verified",
     "scope": "GitHub e36ffae common source + approved local architecture/legal records + newer Oct3 published copy FAQ SEO and social image. Preserve independent corporate UI and historical privacy policies.",
-    "authorization": "User requested complete local/GitHub source reconciliation, unused-file cleanup and code optimization; explicit approval required before production deployment",
+    "authorization": "User explicitly approved the reviewed GitHub push and production deployment in conversation;executed approved release and verification",
     "canonicalRoutes": 28,
     "productionBaseline": {
       "version": "6becd6c4-da2a-4d2c-806c-0d3f2da8edd7",
@@ -469,12 +481,15 @@
     "observedAt": "2026-10-07",
     "remote": "appppie1717-beep/applepie-game-studio-site",
     "branch": "main",
-    "remoteHead": "e36ffae16152171cfd0c3fd3e058eeb91e47c711",
     "comparedRemoteFiles": 205,
     "identicalInitialFiles": 174,
     "modifiedInitialFiles": 31,
     "missingRemoteFiles": 0,
-    "status": "integrated-local-source;push-awaits-final-action-approval",
-    "excluded": "credentials,local-private,dependencies,generated builds/caches,reports and browser profiles remain outside Git source parity"
+    "status": "github-local-source-synchronized;approved additions/modifications/deletions published",
+    "excluded": "credentials,local-private,dependencies,generated builds/caches,reports and browser profiles remain outside Git source parity",
+    "initialRemoteHead": "e36ffae16152171cfd0c3fd3e058eeb91e47c711",
+    "applicationCommit": "f973b37d9b20e0b3eaa31c286b65f9326bc3bea7",
+    "verifiedFiles": 222,
+    "finalCommitEvidence": "outputs/reconciliation-2026-10-07/release-final.json"
   }
 }

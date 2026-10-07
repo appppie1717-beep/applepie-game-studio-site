@@ -2,7 +2,7 @@
 
 ## 결과와 승인 경계
 
-로컬 통합·정리·최적화와 최종 검수를 완료했습니다. GitHub push, 운영 배포, 검색 제출은 아직 실행하지 않았습니다. 사용자 지시에 따라 검수본을 제시한 뒤 GitHub main 반영과 ersiyan.com 배포 승인을 받습니다.
+로컬 통합·정리·최적화와 최종 검수 후 사용자 승인을 받아 GitHub main 반영과 ersiyan.com 배포·운영 검증을 완료했습니다. 실행 소스 커밋은f973b37d9b20e0b3eaa31c286b65f9326bc3bea7이며 활성 배포는95abc6ee-a368-475d-9cbb-d1901f1196bf(태그f973b37)입니다. 검색 제출은 수행하지 않았습니다.
 
 같게 유지하는 대상은 추적 소스·공개 자산·문서·설정·테스트의 경로와 내용입니다. 비밀 환경파일, Git 내부 자료, node_modules, dist, 생성 캐시, outputs와 local-private는 GitHub 동기화 대상에서 제외합니다. README에 이 경계와 승인 후 배포·검증 절차를 정리했습니다.
 
@@ -14,7 +14,7 @@
 | 로컬 | 승인된 회사 우선 루트, 독립 /games, 공지8개와 법적 보관본7개 등 후속 변경 | 미커밋 작업을 보존하고 유지관리 가능한 소스로 통합 |
 | 실제 운영 | 10월3일 버전6becd6c4-da2a-4d2c-806c-0d3f2da8edd7; 공개28개 HTML·소셜 이미지·검색파일 | 로컬에 없던 홈/게임부/버츄얼 문구, FAQ4개, 검색정보와 브랜드 소셜 JPG를 복원 |
 
-파일 수정 시각만으로 선택하거나 어느 한쪽 폴더 전체를 덮어쓰지 않았습니다. 현재 운영본이 과거9월30일 기록보다 새롭다는 것을 실제 배포 목록과 공개 HTML로 확인했습니다. 개인정보 본문·원래 공지 게시일·활성 Forms 링크·대표자 탁진은 유지합니다.
+파일 수정 시각만으로 선택하거나 어느 한쪽 폴더 전체를 덮어쓰지 않았습니다. 대조 시작 당시 운영본이 과거9월30일 기록보다 새롭다는 것을 실제 배포 목록과 공개 HTML로 확인했습니다. 개인정보 본문·원래 공지 게시일·활성 Forms 링크·대표자 탁진은 유지합니다.
 
 최종 빌드와 운영 스냅샷은 28개 경로의 본문 텍스트·metadata·JSON-LD·링크·의미 있는 기존 스크립트가 모두 같습니다. 정규화한 본문 마크업은27개 경로 동일하며, Secret만 picture/source에서 반응형 img로 바뀌었습니다. 사이트맵과 브랜드 JPG는 바이트 해시까지 동일하고 robots/llms의 차이는 줄바꿈입니다. 브랜드 JPG는1200×630·79,410bytes이며 SHA256은 cf5f6b4b7af8786a5e90be3b41a003e4094611150675a1dc2b94df5bb6ba92e2입니다.
 
@@ -64,12 +64,18 @@
 | 실제 Chrome |375×812의28개 경로 가로넘침 없음;1280×960 주요 화면과 기업3곳 확인;기록된 콘솔오류·경고0 |
 | 상호작용 |회사 연혁·게임 선택·개발 화면 선택·모집 중단 공지 이동·방침 언어전환/JavaScript 없는 표시 확인;viewport복원 |
 
-자동 검증과 실제 화면 검수를 별도로 기록했습니다. 로컬 미리보기는 종료했고 최종 빌드를 다시 성공시켰습니다. 로컬 검증을 새 운영 배포 완료로 해석하지 않습니다.
+자동 검증과 실제 화면 검수를 별도로 기록했습니다. 로컬 미리보기는 종료했고 최종 빌드를 다시 성공시켰습니다. 로컬 검증 후 별도로 실제 운영 배포와 검증을 수행했습니다.
 
 ## 근거와 복구 위치
 
 - outputs/reconciliation-2026-10-07: final-live-parity.json/.md, final-file-inventory.json/.md, cleanup-executed.json, optimization-metrics.json/.md, validation-summary.json, build.txt, contracts.txt, local-verifier.txt, browser-final.json와 화면 JPG.
 - local-private/reconciliation-2026-10-07: source-before, dist-before, GitHub zip, 원래 미커밋 patch와 removed 복구 사본.
-- 현재 승인 상태: graph-rag/manifest.json의 currentTask/currentValidation/sourceSync.
+- 완료 상태: graph-rag/manifest.json의 currentTask/currentValidation/sourceSync.
 
-승인 후에는 검수한 소스를 GitHub main에 반영하고 원격/로컬 커밋과 파일 일치를 확인한 뒤 ersiyan-com-static에 배포합니다. 배포 후 운영28개 경로·자산·별칭·404·검색파일과 실제 화면을 다시 검증합니다.
+## 승인 후 배포 결과
+
+사용자 승인 후f973b37을 GitHub main에 반영했고 원격/로컬 커밋·소스 트리 일치를 확인했습니다. 같은 소스를 새로 빌드하여 ersiyan-com-static에 배포했습니다. Wrangler exit0;29HTML/static7;40자산업로드·119기존자산;활성95abc6ee 버전100%와f973b37태그를 읽기 전용으로 확인했습니다.
+
+운영28HTML은 최종dist와 원본SHA256까지 동일하고 본문·metadata·JSONLD·링크·이미지·스크립트도28/28동일합니다. robots/JPG는바이트동일하며llms/sitemap은CRLF→LF줄바꿈만다릅니다. 운영verifier는319자산참조(91고유자산),150쿼리보존별칭,105HTTP/www/이전도메인리디렉션,sitemap/404/llms를통과했습니다. 실제Chrome의모바일28경로는넘침0·콘솔오류경고0이며연혁·게임탭·개인정보언어전환·모집공지이동도작동합니다.뷰포트를복원했습니다.
+
+근거는production-deploy.txt,production-deployments-after.txt,production-verification.txt,production-parity.json/.md,production-browser.json과production-home-desktop/mobile.jpg입니다. 이 완료 기록을 담는 마지막 커밋은 문서만 바꾸며 배포된 실행 코드는 그대로입니다. 최종 원격/로컬 동일 커밋은 outputs/reconciliation-2026-10-07/release-final.json에 기록합니다.

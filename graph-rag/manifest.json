@@ -88,6 +88,26 @@
     "secret": "searchable-but-unlisted",
     "privateOriginals": "local-private/velsien-summit retained as asset-generation input;contents not indexed"
   },
+  "localWorkspaceProfile": {
+    "kind": "source-and-assets-only",
+    "status": "source-and-assets-only; generated folders intentionally absent",
+    "retained": "tracked application source,public assets,configuration,lockfile,tests,current guidance,Git metadata,hosting metadata and required private image originals",
+    "regenerableFolders": [
+      "node_modules",
+      "dist",
+      ".next",
+      ".vinext",
+      ".wrangler"
+    ],
+    "restoreBeforeDevelopmentOrValidation": [
+      "npm ci",
+      "npx.cmd vinext typegen"
+    ],
+    "generatedTypeContract": "Keep next-env.d.ts;Vinext typegen regenerates .next/types/routes.d.ts before type checking",
+    "buildContract": "Generate a fresh successful dist/client build before deployment or build-output verification",
+    "productionBoundary": "Removing local generated folders does not change the deployed website",
+    "recordsNote": "DevLogs/Ersiyan_Source_Only_Local_Profile_2026_10_08.md"
+  },
   "cleanup": {
     "executed": true,
     "status": "approved cleanup complete; current required source and assets preserved",

@@ -15,7 +15,9 @@
 
 삭제 전에 import/export, 정적HTML/CSS/JS참조, 동적srcSet과URL생성, 스크립트 입력, 공개라우트·metadata·법적·기업 보존 관계를 함께 확인합니다. 파일 수정시각이 오래됐다는 이유만으로 삭제하지 않습니다. 실제 경로가 저장소 안인지와 링크 여부도 확인합니다.
 
-`node_modules`, `dist`, `.next`, `.vinext`, `.wrangler`는 설치·빌드·개발 생성물로 GitHub소스 동등성에서 제외합니다. 활성 프로세스와 필요한 참조를 확인하고 다룹니다. `next-env.d.ts`는 `.next/types`를 참조하며 성공한 최신 `dist/client`는 배포 검증에 사용합니다.
+`node_modules`, `dist`, `.next`, `.vinext`, `.wrangler`는 설치·빌드·개발 생성물로 GitHub소스 동등성에서 제외합니다. 사용자가 선택한 소스·자산 보관 방식에서는 활성 프로세스와 복원 절차를 확인한 뒤 제거할 수 있습니다. 필수 소스·설정·잠금 파일·`next-env.d.ts`는 유지합니다.
+
+개발·타입 검사·빌드를 재개할 때는 `npm ci` 다음 `npx.cmd vinext typegen`을 실행하여 `.next/types/routes.d.ts`를 다시 만듭니다. `.next`는 항상 보관해야 하는 원본이 아닙니다. `dist`도 새 빌드로 생성하며 배포·배포 검증에는 성공한 빌드의 `dist/client`를 사용합니다. 로컬 생성물 제거는 현재 운영 홈페이지에 영향을 주지 않습니다.
 
 ## 작업 기록의 위치
 

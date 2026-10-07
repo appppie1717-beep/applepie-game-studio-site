@@ -29,6 +29,12 @@ Git내부, 의존성, 생성 빌드·캐시, 비공개 원본, 비밀환경파�
 
 작업 기록은 Obsidian만 사용합니다. 기록 위치는 `manifest.json`의 `workRecords` 메타데이터에서 찾습니다. 저장소에는 과거 실행 결과의 본문이나 작업별 연대기를 다시 추가하지 않습니다.
 
+## 로컬 소스 보관 방식
+
+로컬 작업 폴더는 소스·공개 자산·설정·테스트·현재 안내와 필요한 비공개 이미지 원본을 보관합니다. `.git`과 `.openai/hosting.json`도 유지합니다. `node_modules`, `dist`, `.next`, `.vinext`, `.wrangler`는 다시 생성할 수 있으므로 이 보관 방식에서는 없어도 됩니다. 폴더의 유무는 운영 홈페이지의 배포 상태와 별개입니다.
+
+개발·타입 검사·빌드를 다시 시작하기 전에 `npm ci`로 잠금 파일 기준의 의존성을 설치하고 `npx.cmd vinext typegen`으로 `.next/types/routes.d.ts`를 생성합니다. `next-env.d.ts`의 생성 타입 참조는 유지합니다. 타입·lint·빌드와 배포 계약은 루트 README를 따르며, 배포에는 성공한 새 빌드의 `dist/client`를 사용합니다. 현재 로컬 보관 방식과 기록 위치는 manifest의 `localWorkspaceProfile`에서 확인합니다.
+
 ## 검증
 
 `node graph-rag/validate.mjs`는 중복 노드·관계·청크, 참조 무결성, 실제 경로·저장소 경계·종류, 정식URL과사이트맵집합을 검사합니다. GraphRAG를 줄이거나 기록을 옮길 때도 검증을 약하게 만들지 않습니다.

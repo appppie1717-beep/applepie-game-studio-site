@@ -43,10 +43,11 @@
 
 ## 실행과 검증
 
-Node.js 22.13 이상이 필요합니다. 잠금 파일에 맞춰 설치합니다.
+Node.js 22.13 이상이 필요합니다. 로컬은 소스와 자산만 보관하는 형태이며 설치 라이브러리와 빌드·개발 캐시는 제거할 수 있습니다. 다음 개발 전에 잠금 파일에 맞춰 설치하고 라우트 타입을 다시 생성합니다.
 
 ~~~powershell
 npm ci
+npx.cmd vinext typegen
 npm run dev
 ~~~
 
@@ -64,7 +65,7 @@ node graph-rag/validate.mjs
 git diff --check
 ~~~
 
-npm test는 새 빌드와 네 계약을 실행합니다. 빌드가 실패했다면 남은 dist를 최신 결과로 취급하지 않습니다. .next/types/routes.d.ts는 현재 next-env.d.ts가 참조하므로 확인 없이 삭제하지 않습니다.
+npm test는 새 빌드와 네 계약을 실행합니다. 빌드가 실패했다면 남은 dist를 최신 결과로 취급하지 않습니다. node_modules, dist, .next, .vinext, .wrangler는 재생성할 수 있습니다. next-env.d.ts의 생성 타입 import는 유지하며 .next/types/routes.d.ts는 vinext typegen 또는 개발·빌드로 다시 생성합니다. 빌드 결과가 없는 상태에서는 HTML·배포 검증 전에 npm run build:cloudflare를 실행합니다.
 
 npm run dev:cloudflare로 정적 프리뷰를 열고 Wrangler가 출력한 실제 로컬 주소로 검사합니다. 다음 포트는 예시입니다.
 

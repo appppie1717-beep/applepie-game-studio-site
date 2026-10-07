@@ -3,5 +3,5 @@ export const siteBrand = {
   nameKo: "에르시안",
   origin: "https://ersiyan.com",
   logoPath: "/images/brand/ersiyan-logo.png",
-  socialCardPath: "/ersiyan-social-card.jpg",
+  socialCardPath: "/ersiyan-brand-social.jpg",
 } as const;

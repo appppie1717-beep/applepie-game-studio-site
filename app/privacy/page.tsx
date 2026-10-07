@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         width: 1200,
         height: 630,
         alt: "에르시안(ERSIYAN) 로고",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         alt: "에르시안(ERSIYAN) 로고",
       },
     ],
@@ -51,16 +51,12 @@ const privacyPolicyStructuredData = {
   description: "에르시안 공식 홈페이지의 개인정보처리방침입니다.",
   inLanguage: "ko-KR",
   datePublished: "2026-08-22",
-  dateModified: "2026-09-22",
+  dateModified: "2026-09-28",
   isPartOf: { "@id": "https://ersiyan.com/#website" },
   publisher: { "@id": "https://ersiyan.com/#organization" },
 };
 
 const policySections = [
-  ["forms-notice", "2026년 9월 22일 지원서 변경"],
-  ["recruitment-notice", "2026년 9월 19일 모집 지원 안내"],
-  ["change-notice", "2026년 9월 5일 안내 정정"],
-  ["business-name-notice", "2026년 8월 31일 사업자명 변경"],
   ["overview", "방침 개요"],
   ["collection", "처리하는 정보"],
   ["hosting", "호스팅과 국외 처리"],
@@ -88,9 +84,12 @@ export default function PrivacyPolicy() {
       <header className="privacy-header">
         <div className="header-inner">
           <BrandLockup />
-          <a className="back-link" href="/">
-            ← 홈페이지로 돌아가기
-          </a>
+          <nav className="policy-header-links" aria-label="페이지 이동">
+            <a className="back-link" href="/notices">공지사항</a>
+            <a className="back-link" href="/">
+              ← 홈페이지로 돌아가기
+            </a>
+          </nav>
         </div>
       </header>
 
@@ -117,82 +116,6 @@ export default function PrivacyPolicy() {
           </ol>
 
           <div className="policy-sections">
-            <section id="forms-notice" className="policy-change-notice" aria-labelledby="forms-notice-title">
-              <p className="policy-change-kicker">2026년 9월 22일 변경 안내</p>
-              <h2 id="forms-notice-title">간단한 지원서와 음성 파일로 접수합니다</h2>
-              <p>
-                버츄얼 크리에이터 모집을 Google 설문지로 접수합니다. 지원 항목을
-                닉네임, 생년월일, 성별, 회신 이메일, 방송 가능 시간대,
-                현재 소속사 여부와 음성 파일로 간소화하고,
-                Google 설문지·Drive에서의 자료 처리를 아래에 안내합니다.
-                이전에 이메일로 접수한 지원 자료에도 기존의 심사 목적과 삭제 기준을 유지합니다.
-              </p>
-              <p>
-                변경 전 방침은{" "}
-                <a href="/privacy/archive/2026-09-19">
-                  2026년 9월 19일 개인정보처리방침 보관본
-                </a>
-                에서 열람할 수 있습니다.
-              </p>
-            </section>
-
-            <section id="recruitment-notice" className="policy-change-notice" aria-labelledby="recruitment-notice-title">
-              <p className="policy-change-kicker">2026년 9월 19일 변경 안내</p>
-              <h2 id="recruitment-notice-title">에르시안 버츄얼 크리에이터 모집 지원 정보</h2>
-              <p>
-                첫 소속 버츄얼 크리에이터 모집을 위해 지원자가 이메일로 제출한
-                지원서와 음성 파일, 이후 선발 과정의 기록을 처리하는 목적과 기간을
-                아래에 추가했습니다. 일반 문의와 홈페이지 방문 정보에 관한 기존
-                안내는 유지합니다.
-              </p>
-              <p>
-                변경 전 방침은{" "}
-                <a href="/privacy/archive/2026-09-05">
-                  2026년 9월 5일 개인정보처리방침 보관본
-                </a>
-                에서 열람할 수 있습니다.
-              </p>
-            </section>
-
-            <section id="change-notice" className="policy-change-notice" aria-labelledby="change-notice-title">
-              <p className="policy-change-kicker">2026년 9월 5일 안내 정정</p>
-              <h2 id="change-notice-title">방문·성능 통계 안내 정정</h2>
-              <p>
-                홈페이지에서 이미 작동 중인 Cloudflare Web Analytics의 방문·성능
-                측정에 대한 설명을 바로잡았습니다. 이번 정정으로 새로운 방문자 분석
-                도구를 추가한 것은 아닙니다.
-              </p>
-              <p>
-                측정 항목과 쿠키·브라우저 저장소 사용 여부를 아래에 명시했습니다.
-                개인정보 처리 주체와 문의 창구는 그대로이며, 이전 방침은 계속 열람할
-                수 있습니다.
-              </p>
-              <p>
-                <a href="/privacy/archive/2026-08-31">
-                  2026년 8월 31일 개인정보처리방침 보기
-                </a>
-              </p>
-            </section>
-
-            <section id="business-name-notice" className="policy-change-notice" aria-labelledby="business-name-notice-title">
-              <p className="policy-change-kicker">2026년 8월 31일 변경 안내</p>
-              <h2 id="business-name-notice-title">사업자명 변경</h2>
-              <p>
-                개인정보 처리 주체인 개인사업자의 상호가 애플파이에서
-                에르시안으로 변경되었습니다. 대표자와 사업자등록번호는 동일합니다.
-              </p>
-              <p>
-                이번 변경은 사업자명 변경을 반영한 것으로, 개인정보 처리 목적과 범위,
-                문의 창구, 호스팅 제공자는 변경되지 않았습니다. 2026년 8월 28일
-                변경본과 이전 방침은 계속 열람할 수 있습니다.
-              </p>
-              <p>
-                <a href="/privacy/archive/2026-08-28">
-                  2026년 8월 28일 개인정보처리방침 보기
-                </a>
-              </p>
-            </section>
-
             <section id="overview" aria-labelledby="overview-title">
               <h2 id="overview-title">1. 방침 개요</h2>
               <p>
@@ -374,6 +297,7 @@ export default function PrivacyPolicy() {
                 재사용하지 않습니다. 별도로 동의받지 않은 다른 용도로 사용하지
                 않습니다.
               </p>
+              <p>이전에 이메일로 접수한 지원 자료에도 기존의 심사 목적과 삭제 기준을 유지합니다.</p>
               <p>
                 불합격 지원자의 지원서, 음성 파일과 선발 기록은 최종 선정일로부터
                 30일 이내에 삭제합니다. 선정 없이 모집을 취소하거나 종료하면
@@ -458,53 +382,19 @@ export default function PrivacyPolicy() {
                 이 방침이 변경되면 시행 전에 홈페이지에서 변경 내용과 시행일을
                 안내합니다. 이 방침의 최초 시행일은 2026년 8월 22일입니다.
               </p>
+              <p>
+                변경 안내는 <a href="/notices">공지사항</a>에서 확인할 수 있습니다.
+                2026년 9월 28일에는 공지와 방침의 구성을 정리했으며,
+                개인정보 처리 기준과 시행일은 유지합니다.
+              </p>
               <ul>
-                <li>
-                  2026년 9월 22일 변경본부터 Google 설문지 접수, 간소화한 지원서
-                  항목, Google 설문지·Drive의 처리와 지원 자료 삭제 방법을 안내합니다.
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-09-19">
-                    2026년 9월 19일 모집 지원 정보 추가 방침
-                  </a>
-                </li>
-                <li>
-                  2026년 9월 19일 변경본부터 버츄얼 크리에이터 모집 지원 정보의
-                  수집 항목, 처리 목적, 보유 기간과 지원 철회 방법을 명시합니다.
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-09-05">
-                    2026년 9월 5일 방문·성능 통계 정정 방침
-                  </a>
-                </li>
-                <li>
-                  2026년 9월 5일 정정본부터 이미 작동 중인 Cloudflare Web Analytics의
-                  방문·성능 측정 항목과 쿠키·브라우저 저장소 사용 여부를 명시합니다.
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-08-31">
-                    2026년 8월 31일 사업자명 변경 방침
-                  </a>
-                </li>
-                <li>
-                  2026년 8월 31일 변경본부터 개인정보 처리 주체의 상호를 에르시안으로
-                  표시합니다.
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-08-28">
-                    2026년 8월 28일 브랜드·도메인 변경 방침
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-08-23">
-                    2026년 8월 23일 변경 방침
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy/archive/2026-08-22">
-                    2026년 8월 22일 최초 방침
-                  </a>
-                </li>
+                <li id="forms-notice"><a href="/privacy/archive/2026-09-22">2026년 9월 22일 방침 보관본</a> {" · "}<a href="/notices/application-form-2026-09-22">변경 공지</a></li>
+                <li id="recruitment-notice"><a href="/privacy/archive/2026-09-19">2026년 9월 19일 방침 보관본</a> {" · "}<a href="/notices/recruitment-privacy-2026-09-19">변경 공지</a></li>
+                <li id="change-notice"><a href="/privacy/archive/2026-09-05">2026년 9월 5일 방침 보관본</a> {" · "}<a href="/notices/analytics-correction-2026-09-05">변경 공지</a></li>
+                <li id="business-name-notice"><a href="/privacy/archive/2026-08-31">2026년 8월 31일 방침 보관본</a> {" · "}<a href="/notices/business-name-2026-08-31">변경 공지</a></li>
+                <li><a href="/privacy/archive/2026-08-28">2026년 8월 28일 방침 보관본</a></li>
+                <li><a href="/privacy/archive/2026-08-23">2026년 8월 23일 방침 보관본</a></li>
+                <li><a href="/privacy/archive/2026-08-22">2026년 8월 22일 방침 보관본</a></li>
               </ul>
             </section>
           </div>

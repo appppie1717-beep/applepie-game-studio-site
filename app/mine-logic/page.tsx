@@ -121,7 +121,7 @@ const mineLogicPageStructuredData = {
   name: title,
   description,
   inLanguage: "ko-KR",
-  dateModified: "2026-09-05",
+  dateModified: "2026-09-28",
   mainEntity: { "@id": "https://ersiyan.com/mine-logic#app" },
   isPartOf: { "@id": "https://ersiyan.com/#website" },
   publisher: { "@id": "https://ersiyan.com/#organization" },
@@ -223,7 +223,7 @@ export default function MineLogicPage() {
           <div className={styles.heroInner}>
             <div className={styles.heroCopy}>
               <p className={styles.eyebrow}>
-                <a href="/#games">ERSIYAN GAMES</a> / MINE LOGIC · ANDROID
+                <a href="/games#games">ERSIYAN GAMES</a> / MINE LOGIC · ANDROID
               </p>
               <h1 id="mine-logic-title">
                 지뢰찾기, 막히면
@@ -433,8 +433,7 @@ export default function MineLogicPage() {
                   <strong>v{currentVersion} 업데이트</strong>
                   <br />
                   스토어 업데이트 날짜는 <time dateTime="2026-08-28">2026년 8월 28일</time>입니다.
-                  ERSIYAN 로고와 제작자 표기를 반영하고 개인정보처리방침 링크를
-                  변경했으며, 다크 모드의 일부 글자를 더 잘 읽을 수 있게 조정했습니다.
+                  {" "}<a href="/notices/mine-logic-update-2026-08-28">업데이트 내용 보기 →</a>
                 </p>
                 <p>
                   <strong>12개 언어 지원</strong>

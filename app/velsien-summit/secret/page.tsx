@@ -152,22 +152,18 @@ export default function VelsienSecretArchivePage() {
           <div className={styles.characterGrid}>
             {characters.map((character, index) => (
               <figure className={styles.characterCard} key={character.name}>
-                <picture style={{ display: "contents" }}>
-                  <source
-                    media="(max-width: 680px)"
-                    srcSet={responsiveSrcSet(character.src, [400, 720], character.width)}
-                    sizes="(max-width: 400px) calc(100vw - 42px), calc(90vw - 2px)"
-                  />
-                  <img
-                    src={character.src}
-                    alt={`${character.name} 전신 캐릭터 설정화`}
-                    width={character.width}
-                    height={character.height}
-                    loading={index === 0 ? "eager" : "lazy"}
-                    fetchPriority={index === 0 ? "high" : undefined}
-                    decoding="async"
-                  />
-                </picture>
+                {/* eslint-disable-next-line @next/next/no-img-element -- prebuilt responsive WebP assets served directly by Cloudflare */}
+                <img
+                  src={character.src}
+                  srcSet={responsiveSrcSet(character.src, [400, 720], character.width)}
+                  sizes="(max-width: 400px) calc(100vw - 42px), (max-width: 680px) calc(90vw - 2px), (max-width: 1080px) calc(29vw - 2px), calc((min(100vw, 1480px) - clamp(40px, 10vw, 152px) - clamp(10px, 1.5vw, 20px) * 4) / 5 - 2px)"
+                  alt={`${character.name} 전신 캐릭터 설정화`}
+                  width={character.width}
+                  height={character.height}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  fetchPriority={index === 0 ? "high" : undefined}
+                  decoding="async"
+                />
                 <figcaption>
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   <div>

@@ -12,8 +12,8 @@ const forbiddenErsiyanGameStudioPatterns = [
   new RegExp(String.raw`에르시안${htmlFormattingGap}게임${htmlFormattingGap}스튜디오`, "i"),
   new RegExp(String.raw`\bERSIYAN${htmlFormattingGap}GAME${htmlFormattingGap}STUDIO\b`, "i"),
 ];
-const homepageHeroPattern =
-  /<h1\b[^>]*class="home-page-title"[^>]*>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/h1>/i;
+const gamesHeroPattern =
+  /<h1\b[^>]*class="home-page-title"[^>]*>에르시안 게임부 · 게임 개발과 운영<\/h1>/i;
 
 function decodeHtml(value) {
   return value.replace(/&(?:amp|quot|apos|lt|gt|#\d+|#x[\da-f]+);/gi, (entity) => {
@@ -63,6 +63,59 @@ const august31PolicySectionHashes = {
   changes: "86b8a3a9192d410110605e6fa1cce9a898d9607562f324308cbdfe17d22fb95e",
 };
 
+// Visible text captured from the September 22 policy before notices were moved.
+// The new archive retains every section; the current policy retains clauses 1–8.
+const september22PolicySectionHashes = {
+  "forms-notice": "e3bb115d33943bc3d06e570ed43109de8791726e6253ffbface20967642c2873",
+  "recruitment-notice": "e0c848d29dfa219ed7af6a964422afd91cf045a6f9800b16ee986fdfed9770e3",
+  "change-notice": "f49e43e84abbcfa2a13d3d03f3e5fa79e5670787e921eaf1c5b8af6ec33cde81",
+  "business-name-notice": "a8ae70cf00e0efa69c6ffc499b77c3ff42e0af3c88486073c4818db25e9871ae",
+  overview: "c28efa1d1ef058bc32d80a8f77b8b1845f40711bfc96cb55286dc9abd37629ad",
+  collection: "60afaf5932b287f4c6b705ec9c32369e1bd9610121620370017e085fde5ecefb",
+  hosting: "561c815ff97dab128b5ccc607508d9117d18c36b686005fdc0b7918b98de34ab",
+  "application-service": "4f075d3923804c7022b9ec5baa9d41f52e1701ecef8b3c58a2e5fa227c2424bd",
+  purpose: "fdb9f67f1fbdfe6aaebf81ff93fb68bed41dec977a217b3a5f5093067dc3b1ea",
+  cookies: "a47fcfba285d8d51ca860c940893ffe49626cec0cf7522bd4f9898df062583de",
+  rights: "40b46ab44c18efb6e3cdea0405d46aa7d1fa7d282a273417ffb7de19eef6252b",
+  apps: "7c9de0a9a8282148c94aff3f21e68a63ba14dbddac498b1ecc379cad88531ed1",
+  changes: "a585832a6867604bf065bb7e0795511620e38cae5c1d91c020c1967be3d9501b",
+};
+
+// MINE LOGIC processing terms before its business-name history was condensed.
+// Contact hashes cover the heading and first two paragraphs, excluding history.
+const mineLogicPolicySectionHashes = {
+  "scope-ko": "e08a7398a28cddb3f7089a3c89aaf239c0b8c18a2af7df38cb2b90f141543fee",
+  "local-data-ko": "1c2e71a98796272c685e297441ccb4f78ce22c96ec6a7192e26b24e87e2a574d",
+  "result-card-ko": "1772ad5b496063f3195c074efbfa6f75b3623feaa08f8f6242588833bde37608",
+  "network-ko": "7b710930b99936fc7c709f15ada67b0242d54116b0539637a3a89b5e912e4618",
+  "permissions-ko": "63a8d56813015286b0dd8f8775f95ee88cf2140854692d2b8812843d0eb7321d",
+  "deletion-ko": "1d008217078036c96507b0b51bc80d11a6cf2d2b1c1e4b15d44492412f5a2614",
+  "children-ko": "1625b528c0318023ae0eebf5cda1f0e4483fb94fcc6a6343675960507558ca11",
+  "website-ko": "a463980d66eeeebf01bd1bf8b3c45a25cbd70ff63139cb14ac1a9a4d0a0ec56d",
+  "contact-ko": "07af3c84c939e673a08f9442356234439b096136c8ab4ead5f837e3c4269e467",
+  "scope-en": "d9a3d73b9217b7ceda06918c68577bb104281ab31f52b8f5a36eec66ccc2b384",
+  "local-data-en": "58f7a8d60acd054a64ca8154cbf65e74452bbf37a6435d7cb545dee44422c7b7",
+  "result-card-en": "71eaf4612e8b1cdb831ffbec144da117bb2ddd6c9f3f1dcbd570bfb71d1edf1d",
+  "network-en": "601a604a17f270e1776f3bf57c4de32625180c8b6cda47aeb984fad8866f4042",
+  "permissions-en": "cd957ce08bb84d309a408c0c2ef0696bb7a8717d28332a18306eb7951ecf445f",
+  "deletion-en": "34161bcc2a4ae2965cfae6c8cb7b89ce83a6144f15318f5e120e7b79f02784f5",
+  "children-en": "84d730723fd6cc9758fb3bd0c381ff46916ee6769983041149551314eb26b2d7",
+  "website-en": "e9dbcde65aa2638f13eb788f9ef2a1ca585026812d0edc523728cedf4e915730",
+  "contact-en": "b549dd63f0a0e7647cc7a01f25d4183af8193b0286cfdffa0569a3c6ecf36f86",
+};
+
+const noticePages = [
+  { slug: "virtual-recruitment-pause-2026-09-28", datePublished: "2026-09-28", title: "버츄얼 모집 일시 중단" },
+  { slug: "application-form-2026-09-22", datePublished: "2026-09-22", title: "지원서를 좀 더 간단하게 바꿨어요" },
+  { slug: "recruitment-privacy-2026-09-19", datePublished: "2026-09-19", title: "지원할때 자료?" },
+  { slug: "analytics-correction-2026-09-05", datePublished: "2026-09-05", title: "방문 통계 설명을 바로잡았어요" },
+  { slug: "business-name-2026-08-31", datePublished: "2026-08-31", title: "사업자명. 에르시안" },
+  { slug: "brand-domain-2026-08-28", datePublished: "2026-08-28", title: "에르시안 출범!" },
+  { slug: "mine-logic-update-2026-08-28", datePublished: "2026-08-28", title: "MINE LOGIC 1.3.3, 이렇게 바뀌었어요" },
+  { slug: "hosting-change-2026-08-23", datePublished: "2026-08-23", title: "홈페이지 이전" },
+];
+const noticeRoutes = ["/notices", ...noticePages.map(({ slug }) => `/notices/${slug}`)];
+
 function structuredNodes(html) {
   return [...html.matchAll(/<script\b[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/gi)]
     .flatMap(([, source]) => {
@@ -82,10 +135,10 @@ function assertPageMetadata(html, pathname, { socialTitle } = {}) {
   assert.ok(description.length > 0);
   assert.equal(metaContent(html, "og:description"), description);
   assert.equal(metaContent(html, "twitter:description"), description);
-  assert.equal(metaContent(html, "og:url"), url);
+  assert.equal(new URL(metaContent(html, "og:url")).href, url);
   const canonicals = [...html.matchAll(/<link\b[^>]*>/gi)].map(([tag]) => attributes(tag))
     .filter(({ rel }) => rel === "canonical");
-  assert.deepEqual(canonicals.map(({ href }) => href), [url]);
+  assert.deepEqual(canonicals.map(({ href }) => new URL(href).href), [url]);
   assert.equal(metaContent(html, "og:image"), metaContent(html, "twitter:image"));
   assert.ok(metaContent(html, "og:image:alt"));
   assert.ok(metaContent(html, "twitter:image:alt"));
@@ -93,7 +146,7 @@ function assertPageMetadata(html, pathname, { socialTitle } = {}) {
 }
 
 function assertDivisionLinks(html, current) {
-  for (const [division, href] of [["games", "/"], ["virtual", "/virtual"]]) {
+  for (const [division, href] of [["games", "/games"], ["virtual", "/virtual"]]) {
     const links = [...html.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
       .filter(({ id }) => id === `ersiyan-${division}-tab`);
     assert.equal(links.length, 1);
@@ -102,11 +155,18 @@ function assertDivisionLinks(html, current) {
     assert.equal(links[0].role, undefined, "Business divisions navigate between documents");
   }
   assert.doesNotMatch(html, /<button\b[^>]*id="ersiyan-(?:games|virtual)-tab"/i);
+  const header = html.match(/<header\b[^>]*>[\s\S]*?<\/header>/i)?.[0];
+  assert.ok(header, "The division page has a shared header");
+  assert.match(header, /<a\b[^>]*href="\/"[^>]*>회사 정보<\/a>/i,
+    "The parent-company homepage remains discoverable from both departments");
+  assert.match(header, /<a\b[^>]*href="\/notices"[^>]*>공지사항<\/a>/i,
+    "Notices remain discoverable beside the shared company navigation");
 }
 
 const footerRoutes = [
   "/",
   "/virtual",
+  "/games",
   "/mine-logic",
   "/privacy",
   "/privacy/mine-logic",
@@ -116,9 +176,11 @@ const footerRoutes = [
   "/privacy/archive/2026-08-31",
   "/privacy/archive/2026-09-05",
   "/privacy/archive/2026-09-19",
+  "/privacy/archive/2026-09-22",
   "/velsien-summit",
   "/velsien-summit/world",
   "/velsien-summit/secret",
+  ...noticeRoutes,
 ];
 
 function assertCommonFooter(html, pathname) {
@@ -134,7 +196,7 @@ function assertCommonFooter(html, pathname) {
   assert.match(footer, /<a\b[^>]*href="#top"[^>]*data-er-back-top(?:="true")?[^>]*>/i);
   assert.match(footer, /<details\b[^>]*\bdata-er-details(?:="true")?[^>]*>/i);
   assert.match(footer, /<summary\b[^>]*>[\s\S]*?사업자 상세 정보[\s\S]*?<\/summary>/i);
-  for (const href of ["/privacy", "/privacy/mine-logic", "#top"]) {
+  for (const href of ["/", "/notices", "/privacy", "/privacy/mine-logic", "#top"]) {
     assert.match(footer, new RegExp(`href="${href.replace("#", "\\#")}"`, "i"),
       `${pathname} footer keeps ${href}`);
   }
@@ -184,7 +246,7 @@ test("stages every public page for asset-first delivery", async () => {
   const [
     manifestSource,
     pathsSource,
-    homepage,
+    games,
     virtual,
     mineLogic,
     velsienSummit,
@@ -198,7 +260,7 @@ test("stages every public page for asset-first delivery", async () => {
     archivedPrivacyPolicy20260831,
     archivedPrivacyPolicy20260905,
     archivedPrivacyPolicy20260919,
-    staticHomepage,
+    staticGames,
     staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
@@ -216,7 +278,7 @@ test("stages every public page for asset-first delivery", async () => {
   ] = await Promise.all([
     readFile(new URL("../dist/server/vinext-prerender.json", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/vinext-prerender-paths.json", import.meta.url), "utf8"),
-    readFile(new URL("../dist/server/prerendered-routes/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/server/prerendered-routes/games.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/velsien-summit.html", import.meta.url), "utf8"),
@@ -230,7 +292,7 @@ test("stages every public page for asset-first delivery", async () => {
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-08-31.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-09-05.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/server/prerendered-routes/privacy/archive/2026-09-19.html", import.meta.url), "utf8"),
-    readFile(new URL("../dist/client/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../dist/client/games.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/virtual.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/mine-logic.html", import.meta.url), "utf8"),
     readFile(new URL("../dist/client/velsien-summit.html", import.meta.url), "utf8"),
@@ -255,6 +317,8 @@ test("stages every public page for asset-first delivery", async () => {
 
   assert.equal(renderedRoutes.get("/"), "rendered");
   assert.equal(renderedRoutes.get("/virtual"), "rendered");
+  assert.equal(renderedRoutes.get("/games"), "rendered");
+  assert.equal(renderedRoutes.has("/company"), false, "Company information lives at the root canonical URL");
   assert.equal(renderedRoutes.get("/mine-logic"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit"), "rendered");
   assert.equal(renderedRoutes.get("/velsien-summit/world"), "rendered");
@@ -271,11 +335,29 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(renderedRoutes.get("/privacy/archive/2026-08-31"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-09-05"), "rendered");
   assert.equal(renderedRoutes.get("/privacy/archive/2026-09-19"), "rendered");
+  for (const pathname of [...noticeRoutes, "/privacy/archive/2026-09-22", "/"]) {
+    assert.equal(renderedRoutes.get(pathname), "rendered", `${pathname} is prerendered`);
+    const [prerendered, staged] = await Promise.all([
+      readFile(new URL(`../dist/server/prerendered-routes${pathname === "/" ? "/index" : pathname}.html`, import.meta.url), "utf8"),
+      readFile(new URL(`../dist/client${pathname === "/" ? "/index" : pathname}.html`, import.meta.url), "utf8"),
+    ]);
+    assert.equal(staged, prerendered, `${pathname} stages the complete prerendered document`);
+    assertPageMetadata(staged, pathname);
+    assertCommonFooter(staged, pathname);
+    assert.equal(metaContent(staged, "robots"), "index, follow");
+    assert.equal(staged.match(/<h1\b/gi)?.length, 1);
+    for (const forbiddenPattern of forbiddenErsiyanGameStudioPatterns) {
+      assert.doesNotMatch(staged, forbiddenPattern);
+    }
+  }
+  assert.equal([...renderedRoutes.values()].filter((status) => status === "rendered").length, 29,
+    "All 28 canonical pages and the 404 page are prerendered");
   assert.deepEqual(
     [...paths.paths].sort(),
     [
       "/",
       "/virtual",
+      "/games",
       "/mine-logic",
       "/privacy",
       "/privacy/archive/2026-08-22",
@@ -284,6 +366,7 @@ test("stages every public page for asset-first delivery", async () => {
       "/privacy/archive/2026-08-31",
       "/privacy/archive/2026-09-05",
       "/privacy/archive/2026-09-19",
+      "/privacy/archive/2026-09-22",
       "/privacy/mine-logic",
       "/velsien-summit",
       "/velsien-summit/corporate/neryx",
@@ -291,19 +374,20 @@ test("stages every public page for asset-first delivery", async () => {
       "/velsien-summit/corporate/virenta",
       "/velsien-summit/secret",
       "/velsien-summit/world",
+      ...noticeRoutes,
     ].sort(),
   );
   assert.match(
-    homepage,
-    /<title>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/title>/i,
+    games,
+    /<title>에르시안 게임부 · 게임 개발과 운영 \| ERSIYAN GAMES<\/title>/i,
   );
   assert.match(
-    homepage,
-    /<meta property="og:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
+    games,
+    /<meta property="og:title" content="에르시안 게임부 · 게임 개발과 운영 \| ERSIYAN GAMES"\/>/i,
   );
   assert.match(
-    homepage,
-    /<meta name="twitter:title" content="에르시안\(ERSIYAN\) · 게임 개발과 운영"\/>/i,
+    games,
+    /<meta name="twitter:title" content="에르시안 게임부 · 게임 개발과 운영 \| ERSIYAN GAMES"\/>/i,
   );
   assert.match(
     mineLogic,
@@ -324,7 +408,8 @@ test("stages every public page for asset-first delivery", async () => {
   assert.match(archivedPrivacyPolicy20260823, /<title>개인정보처리방침 2026년 8월 23일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260828, /<title>개인정보처리방침 2026년 8월 28일 보관본 \| 에르시안<\/title>/i);
   assert.match(archivedPrivacyPolicy20260831, /<title>개인정보처리방침 2026년 8월 31일 보관본 \| 에르시안<\/title>/i);
-  assert.equal(staticHomepage, homepage);
+  assert.equal(staticGames, games);
+  assertPageMetadata(staticGames, "/games");
   assert.equal(staticVirtual, virtual);
   assertPageMetadata(staticVirtual, "/virtual");
   assert.equal(staticMineLogic, mineLogic);
@@ -341,7 +426,7 @@ test("stages every public page for asset-first delivery", async () => {
   assert.equal(staticArchivedPrivacyPolicy20260919, archivedPrivacyPolicy20260919);
   assert.match(staticNotFound, /<title>에르시안<\/title>/i);
   for (const publicHtml of [
-    staticHomepage,
+    staticGames,
     staticVirtual,
     staticMineLogic,
     staticVelsienSummit,
@@ -361,13 +446,13 @@ test("stages every public page for asset-first delivery", async () => {
       assert.doesNotMatch(publicHtml, forbiddenPattern);
     }
   }
-  assert.match(staticHomepage, homepageHeroPattern);
-  assert.match(staticHomepage, /게임제작업자 등록번호/);
-  assert.match(staticHomepage, /제2026-000002호/);
-  assert.doesNotMatch(staticHomepage, /\/_next\/image\?/);
+  assert.match(staticGames, gamesHeroPattern);
+  assert.match(staticGames, /게임제작업자 등록번호/);
+  assert.match(staticGames, /제2026-000002호/);
+  assert.doesNotMatch(staticGames, /\/_next\/image\?/);
   assert.doesNotMatch(staticMineLogic, /\/_next\/image\?/);
   assert.match(
-    staticHomepage,
+    staticGames,
     /<link\b(?=[^>]*rel="preload")(?=[^>]*devlog-20260905-city-960\.webp)[^>]*>/i,
   );
   assert.doesNotMatch(staticVelsienSummit, /\/_next\/image\?/);
@@ -469,7 +554,10 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assertPageMetadata(html, "/virtual");
   const description = metaContent(html, "description");
   assert.ok(description.length >= 120 && description.length <= 160, "Virtual search description stays concise and specific");
-  assert.match(description, /0기 소속 크리에이터 1명을 모집합니다/);
+  assert.match(description, /0기 버추얼 크리에이터 모집·활동 안내/);
+  assert.match(description, /내부 준비.*신규 모집.*일시 중단/);
+  assert.match(description, /모집 재개.*공지/);
+  assert.match(description, /치지직.*3D 버튜버/);
   assert.equal(metaContent(html, "og:image"), "https://ersiyan.com/ersiyan-virtual-gen0-social-card.png");
   assert.equal(metaContent(html, "og:image:alt"), "에르시안 버츄얼 0기 크리에이터 모집 안내");
   assertDivisionLinks(html, "virtual");
@@ -478,13 +566,18 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assert.doesNotMatch(html, /<h1\b[^>]*class="home-page-title"/i);
   assert.match(html, /<section\b(?=[^>]*id="ersiyan-virtual-view")(?![^>]*\bhidden)[^>]*>/i);
   const virtualStart = html.indexOf('id="ersiyan-virtual-view"');
-  const companyStart = html.indexOf('id="ersiyan-company-view"', virtualStart);
-  assert.ok(virtualStart >= 0 && companyStart > virtualStart, "Virtual and shared company sections are separate");
-  // Scope these checks to the Virtual section; the shared navigation, history, and footer may link to Games.
-  const virtualSection = html.slice(virtualStart, companyStart);
+  const mainEnd = html.indexOf("</main>", virtualStart);
+  assert.ok(virtualStart >= 0 && mainEnd > virtualStart, "Virtual has its own division content");
+  // Scope these checks to Virtual; the navigation and legal footer remain shared.
+  const virtualSection = html.slice(virtualStart, mainEnd);
   const virtualText = visibleText(virtualSection);
   assert.match(virtualText, /에르시안 버츄얼\s*0기/);
-  assert.match(virtualText, /지원 접수 중/);
+  assert.match(virtualText, /지원 접수 일시 중단/);
+  assert.doesNotMatch(virtualSection, /id="virtual-pause-notice-title"/,
+    "The user removed the duplicated recruitment pause box from the hero");
+  assert.doesNotMatch(virtualText, /공지사항에서 보기/);
+  assert.equal((virtualText.match(/\(모집 일시중단\)/g) ?? []).length, 2,
+    "Both visible application buttons show the requested pause note");
   assert.match(virtualText, /모집 인원\s*1명/);
   assert.match(virtualText, /만 19세 이상/);
   assert.match(virtualText, /CHZZK/);
@@ -511,6 +604,14 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
     "The application opens a responder URL, never the private editor");
   assert.equal(formLinks[0].target, "_blank");
   assert.match(formLinks[0].rel, /noopener/);
+  const allFormLinks = [...html.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter(({ href }) => /^https:\/\/(?:docs\.google\.com\/forms\/|forms\.gle\/)/.test(href ?? ""));
+  assert.equal(allFormLinks.length, 3, "Hero, application and footer preserve the live Forms actions");
+  for (const link of allFormLinks) {
+    assert.equal(link.href, formLinks[0].href);
+    assert.equal(link["aria-disabled"], undefined, "The displayed pause does not disable the application link");
+    assert.notEqual(link.tabindex, "-1", "Application links remain reachable by keyboard");
+  }
   assert.match(applySection, /새 창/);
   assert.match(applySection, /biz@ersiyan\.com/);
   assert.doesNotMatch(applySection, /href="mailto:[^"]*subject=/);
@@ -518,15 +619,14 @@ test("Virtual has a complete server-rendered route without the Games panel", asy
   assert.doesNotMatch(html, /id="(?:games|studio|game-tab-mine-logic|game-tab-velsien)"/i);
   assert.doesNotMatch(html, /<img\b[^>]*src="\/images\/(?:mine-logic|velsien-summit)\//i);
   assert.doesNotMatch(html, /<link\b(?=[^>]*rel="preload")(?=[^>]*\/(?:mine-logic|velsien-summit)\/)[^>]*>/i);
-  assert.match(html, /id="ersiyan-company-view"/);
-  assert.match(html, /id="company-history"/);
+  assert.doesNotMatch(html, /id="(?:ersiyan-company-view|company-history|site-notices)"/);
   assert.match(html, /id="business-info"/);
   assert.match(html, /에르시안 사업자 정보/);
   assert.doesNotMatch(html, /href="\/velsien-summit\/secret"/i);
 });
 
 test("both division documents identify the same parent and equal departments", async () => {
-  for (const pathname of ["/", "/virtual"]) {
+  for (const pathname of ["/games", "/virtual"]) {
     const html = await (await render(pathname)).text();
     const nodes = structuredNodes(html);
     const company = nodes.find((node) => node["@id"] === "https://ersiyan.com/#organization");
@@ -537,7 +637,7 @@ test("both division documents identify the same parent and equal departments", a
     assert.equal(company.legalName, "에르시안");
     assert.equal(company.email, "help@ersiyan.com");
     assert.deepEqual(departments.map(({ name }) => name), ["ERSIYAN GAMES", "ERSIYAN VIRTUAL"]);
-    assert.deepEqual(departments.map(({ url }) => url), ["https://ersiyan.com/", "https://ersiyan.com/virtual"]);
+    assert.deepEqual(departments.map(({ url }) => url), ["https://ersiyan.com/games", "https://ersiyan.com/virtual"]);
     assert.equal(departments[1].email, "biz@ersiyan.com");
     assert.deepEqual(departments[1].contactPoint, {
       "@type": "ContactPoint",
@@ -552,12 +652,12 @@ test("both division documents identify the same parent and equal departments", a
     }
     assert.equal(page.url, `https://ersiyan.com${pathname}`);
     assert.equal(page.description, metaContent(html, "description"));
-    assert.equal(page.about["@id"], pathname === "/" ? company["@id"] : departments[1]["@id"]);
+    assert.equal(page.about["@id"], departments[pathname === "/games" ? 0 : 1]["@id"]);
   }
 });
 
 test("server-renders the searchable but unlisted VELSIEN secret archive", async () => {
-  const [response, homepageResponse, velsienResponse] =
+  const [response, gamesResponse, velsienResponse] =
     await Promise.all([
       render("/velsien-summit/secret"),
       render("/"),
@@ -565,9 +665,9 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
     ]);
   assert.equal(response.status, 200);
 
-  const [html, homepage, velsien] = await Promise.all([
+  const [html, games, velsien] = await Promise.all([
     response.text(),
-    homepageResponse.text(),
+    gamesResponse.text(),
     velsienResponse.text(),
   ]);
 
@@ -606,7 +706,7 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
     assert.match(html, new RegExp(name));
   }
 
-  for (const publicPage of [homepage, velsien]) {
+  for (const publicPage of [games, velsien]) {
     assert.doesNotMatch(
       publicPage,
       /href="\/velsien-summit\/secret"/i,
@@ -614,8 +714,8 @@ test("server-renders the searchable but unlisted VELSIEN secret archive", async 
   }
 });
 
-test("server-renders Games with equal division links and parent company information", async () => {
-  const response = await render();
+test("server-renders Games with equal division links and legal footer", async () => {
+  const response = await render("/games");
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
@@ -623,50 +723,30 @@ test("server-renders Games with equal division links and parent company informat
   assert.match(html, /<html[^>]*lang="ko"/i);
   assert.match(
     html,
-    /<title>에르시안\(ERSIYAN\) · 게임 개발과 운영<\/title>/i,
+    /<title>에르시안 게임부 · 게임 개발과 운영 \| ERSIYAN GAMES<\/title>/i,
   );
-  assert.match(html, homepageHeroPattern);
+  assert.match(html, gamesHeroPattern);
   assertDivisionLinks(html, "games");
-  assert.match(
-    html,
-    /<a\b(?=[^>]*class="company-view-button")(?=[^>]*href="#ersiyan-company-view")[^>]*>회사 정보<\/a>/i,
-  );
+  assert.doesNotMatch(html, /href="#ersiyan-company-view"/i);
   assert.doesNotMatch(html, /<section\b[^>]*id="ersiyan-virtual-view"/i);
   const gamesStart = html.search(/<section\b[^>]*id="ersiyan-games-view"/i);
-  const companyStart = html.search(/<section\b[^>]*id="ersiyan-company-view"/i);
-  assert.ok(gamesStart >= 0 && companyStart > gamesStart);
-  // Shared company history may describe Virtual; its project belongs outside the Games division.
-  assert.doesNotMatch(html.slice(gamesStart, companyStart), /PROJECT 001/);
-  assert.match(
-    html,
-    /<section\b(?=[^>]*id="ersiyan-company-view")[^>]*>[\s\S]*?에르시안 회사 정보/i,
-  );
+  const mainEnd = html.indexOf("</main>", gamesStart);
+  assert.ok(gamesStart >= 0 && mainEnd > gamesStart);
+  assert.doesNotMatch(html.slice(gamesStart, mainEnd), /PROJECT 001/);
+  assert.doesNotMatch(html, /id="(?:ersiyan-company-view|company-history|site-notices)"/);
   assert.equal(html.match(/<h1\b/g)?.length, 1);
-  assert.match(html, /두 사업 영역으로[\s\S]*?둔 회사이자 브랜드입니다/);
   assert.doesNotMatch(html, /company-overview|brand-intro|brand-hierarchy|하나의 에르시안/);
   assert.doesNotMatch(html, /role="tablist" aria-label="사업부 선택"/i);
   assert.doesNotMatch(html, /<section\b(?=[^>]*id="ersiyan-(?:games|company)-view")(?=[^>]*\bhidden)[^>]*>/i);
   assert.match(html, /<h2 id="games-intro-title">직접 만든 게임을<br\s*\/?><span>출시하고 운영합니다\.<\/span><\/h2>/i);
-  assert.match(html, /<details\b(?=[^>]*id="company-history")[^>]*>/i);
-  assert.match(html, /Company History/);
-  assert.match(html, /에르시안 연혁/);
-  assert.equal(html.match(/data-history-milestone="[^"]+"/g)?.length ?? 0, 8);
-  for (const milestone of [
-    "MINE LOGIC 첫 출시",
-    "개인사업자 개업",
-    "공식 홈페이지 공개",
-    "통신판매업 신고",
-    "게임제작업자 등록",
-    "ERSIYAN 브랜드 전환",
-    "법정 상호 에르시안 변경",
-  ]) {
-    assert.match(html, new RegExp(milestone));
-  }
-  assert.match(
-    html,
-    /에르시안의 게임 개발·운영 부문입니다\.[\s\S]*MINE LOGIC을 출시했고[\s\S]*VELSIEN SUMMIT을 개발하고 있습니다/,
+  assert.doesNotMatch(html, /Company History|에르시안 연혁|data-history-milestone=/);
+  const gamesIntroduction = html.match(/<p\b[^>]*class="hero-description"[^>]*>([\s\S]*?)<\/p>/i)?.[1];
+  assert.ok(gamesIntroduction, "Games keeps its visible development and operations introduction");
+  assert.equal(
+    visibleText(gamesIntroduction),
+    "에르시안의 1인 인디 게임 개발·운영 부문입니다. 안드로이드 지뢰찾기 게임 MINE LOGIC(마인로직)을 출시했고, 새 프로젝트 VELSIEN SUMMIT을 개발하고 있습니다.",
   );
-  assert.match(html, /작품 둘러보기/);
+  assert.match(html, /게임 살펴보기/);
   assert.match(html, /게임을 선택해 화면과 소개를 둘러보세요/);
   assert.match(html, /OUR GAMES · 01/);
   assert.match(html, /게임을 만들 때[\s\S]*신경 쓰는 것/);
@@ -749,7 +829,8 @@ test("server-renders Games with equal division links and parent company informat
   assert.match(html, /공정위 신고 조회/);
   assert.doesNotMatch(html, /사업자정보확인|<dt>업태<\/dt>|<dt>종목<\/dt>/);
   assert.match(html, /이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다/);
-  assert.match(html, /ersiyan-social-card\.jpg/);
+  assert.equal(metaContent(html, "og:image"), "https://ersiyan.com/ersiyan-brand-social.jpg");
+  assert.equal(metaContent(html, "twitter:image"), "https://ersiyan.com/ersiyan-brand-social.jpg");
   assert.match(html, /type="application\/ld\+json"/);
   assert.match(html, /"@type":"WebSite"/);
   assert.match(html, /"@type":"Organization"/);
@@ -759,15 +840,15 @@ test("server-renders Games with equal division links and parent company informat
   assert.match(html, /"foundingDate":"2026-08-19"/);
   assert.match(
     html,
-    /"contentUrl":"https:\/\/ersiyan\.com\/images\/brand\/ersiyan-logo-hero\.webp"/,
+    /"contentUrl":"https:\/\/ersiyan\.com\/images\/brand\/ersiyan-logo\.png"/,
   );
   assert.match(
     html,
     /name="twitter:image:alt" content="에르시안\(ERSIYAN\) 로고"/i,
   );
-  assert.match(html, /ersiyan-logo-hero\.webp/);
-  assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/?"/i);
-  assert.match(html, /property="og:url" content="https:\/\/ersiyan\.com\/?"/i);
+  assert.match(html, /ersiyan-logo\.png/);
+  assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/games"/i);
+  assert.match(html, /property="og:url" content="https:\/\/ersiyan\.com\/games"/i);
   assert.match(html, /property="og:site_name" content="ERSIYAN"/i);
   assert.match(html, /href="\/privacy\/mine-logic"[^>]*>MINE LOGIC 개인정보처리방침<\/a>/);
   assert.doesNotMatch(
@@ -791,6 +872,7 @@ test("server-renders the MINE LOGIC product page", async () => {
   assert.equal(page.url, metadata.url);
   assert.equal(page.name, metadata.title);
   assert.equal(page.description, metadata.description);
+  assert.equal(page.dateModified, "2026-09-28");
   assert.equal(page.mainEntity["@id"], app["@id"]);
   assert.equal(page.breadcrumb["@type"], "BreadcrumbList");
   assert.equal(page.breadcrumb.itemListElement.at(-1).item, metadata.url);
@@ -809,6 +891,8 @@ test("server-renders the MINE LOGIC product page", async () => {
   for (const code of app.inLanguage) assert.ok(text.includes(languages.get(code)), `Visible language ${code}`);
   assert.match(html, /<time\b[^>]*datetime="2026-09-05"[^>]*>2026년 9월 5일<\/time>/i);
   assert.match(html, /<time\b[^>]*datetime="2026-08-28"[^>]*>2026년 8월 28일<\/time>/i);
+  assert.match(html, /href="\/notices\/mine-logic-update-2026-08-28"/,
+    "The condensed product update links to its complete notice");
   assert.match(
     html,
     /<title>MINE LOGIC\(마인로직\) \| Android 오프라인 지뢰찾기 · 단계별 힌트 · 20단계 훈련<\/title>/i,
@@ -1027,9 +1111,39 @@ test("server-renders the privacy policy", async () => {
   assert.match(html, /최근 변경일 및 시행일 2026년 9월 22일/);
   assert.match(html, /href="\/privacy\/archive\/2026-09-19"/);
   assert.match(html, /href="\/privacy\/archive\/2026-09-05"/);
-  const recruitmentNotice = visibleText(policySection(html, "recruitment-notice"));
-  assert.match(recruitmentNotice, /에르시안 버츄얼 크리에이터 모집 지원 정보/);
-  assert.match(recruitmentNotice, /일반 문의와 홈페이지 방문 정보에 관한 기존 안내는 유지합니다/);
+  assert.match(html, /href="\/privacy\/archive\/2026-09-22"/);
+  const page = structuredNodes(html).find((node) => node["@type"] === "WebPage");
+  assert.equal(page.datePublished, "2026-08-22");
+  assert.equal(page.dateModified, "2026-09-28", "The reorganization records its real edit date");
+  for (const id of ["overview", "collection", "hosting", "application-service", "purpose", "cookies", "rights", "apps"]) {
+    let section = policySection(html, id);
+    if (id === "purpose") {
+      const assuranceText = "이전에 이메일로 접수한 지원 자료에도 기존의 심사 목적과 삭제 기준을 유지합니다.";
+      const assuranceParagraphs = [...section.matchAll(/<p\b[^>]*>[\s\S]*?<\/p>/gi)]
+        .map(([paragraph]) => paragraph).filter((paragraph) => visibleText(paragraph) === assuranceText);
+      assert.equal(assuranceParagraphs.length, 1, "The unchanged email assurance moved from the notice into the policy");
+      section = section.replace(assuranceParagraphs[0], "");
+    }
+    const text = visibleText(section);
+    assert.equal(createHash("sha256").update(text).digest("hex"), september22PolicySectionHashes[id],
+      `Current policy retains the September 22 ${id} processing terms`);
+  }
+  const changes = policySection(html, "changes");
+  assert.match(visibleText(changes), /이 방침이 변경되면 시행 전에 홈페이지에서 변경 내용과 시행일을 안내합니다\. 이 방침의 최초 시행일은 2026년 8월 22일입니다\./);
+  for (const [id, slug] of [
+    ["forms-notice", "application-form-2026-09-22"],
+    ["recruitment-notice", "recruitment-privacy-2026-09-19"],
+    ["change-notice", "analytics-correction-2026-09-05"],
+    ["business-name-notice", "business-name-2026-08-31"],
+  ]) {
+    const legacyLink = changes.match(new RegExp(`<li\\b(?=[^>]*id="${id}")[^>]*>([\\s\\S]*?)<\\/li>`, "i"))?.[1];
+    assert.ok(legacyLink, `Historical #${id} links still reach a compact notice entry`);
+    assert.ok(legacyLink.includes(`href="/notices/${slug}"`));
+    assert.ok(visibleText(legacyLink).length < 120, "The policy keeps compact history links");
+    assert.doesNotMatch(html, new RegExp(`<section\\b[^>]*id="${id}"`, "i"),
+      "Announcement bodies belong on their separate notice routes");
+  }
+  assert.match(visibleText(policySection(html, "purpose")), /이전에 이메일로 접수한 지원 자료에도 기존의 심사 목적과 삭제 기준을 유지합니다/);
   const collection = visibleText(policySection(html, "collection"));
   for (const term of ["Google 설문지", "닉네임", "생년월일", "성별", "만 19세 이상", "이메일 주소", "방송 가능 시간대", "소속사", "3~5분 음성 파일 1개"]) {
     assert.match(collection, new RegExp(term));
@@ -1045,17 +1159,9 @@ test("server-renders the privacy policy", async () => {
   assert.match(purpose, /Drive의 원본 파일/);
   assert.match(purpose, /휴지통/);
   assert.match(html, /href="mailto:biz@ersiyan\.com"/);
-  assert.match(html, /사업자명 변경/);
-  assert.match(html, /상호가 애플파이에서[\s\S]*에르시안으로 변경/);
   assert.match(html, /개인사업자 에르시안\(대표자 탁진,[\s\S]*206-43-62580\)/);
   assert.match(html, /\/privacy\/archive\/2026-08-28/);
   assert.match(html, /href="\/privacy\/archive\/2026-08-31"/);
-  const correction = visibleText(policySection(html, "change-notice"));
-  assert.match(correction, /방문·성능 통계 안내 정정/);
-  assert.match(correction, /이미 작동 중인 Cloudflare Web Analytics/);
-  assert.match(correction, /새로운 방문자 분석 도구를 추가한 것은 아닙니다/);
-  const oldNotice = visibleText(policySection(html, "business-name-notice"));
-  assert.equal(createHash("sha256").update(oldNotice).digest("hex"), august31PolicySectionHashes["change-notice"]);
   const hosting = policySection(html, "hosting");
   assert.match(visibleText(hosting), /Cloudflare Web Analytics를 사용합니다/);
   for (const measurement of ["페이지 경로", "유입 경로", "국가", "브라우저·기기 종류", "성능 지표"]) {
@@ -1078,6 +1184,7 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
 
   const html = await response.text();
   assertPageMetadata(html, "/privacy/mine-logic");
+  assert.equal(structuredNodes(html).find((node) => node["@type"] === "WebPage").dateModified, "2026-09-28");
   assert.match(html, /<title>MINE LOGIC Privacy Policy \| 에르시안<\/title>/i);
   assert.match(html, /rel="canonical" href="https:\/\/ersiyan\.com\/privacy\/mine-logic"/i);
   assert.match(html, /최초 시행일 2026년 7월 29일/);
@@ -1088,8 +1195,20 @@ test("server-renders the MINE LOGIC privacy policy", async () => {
   assert.match(html, /Cloudflare가 IP 주소와 접속 요청 정보를 처리할 수 있습니다/);
   assert.match(html, /MINE LOGIC Privacy Policy/);
   assert.match(html, /Last updated and effective August 31, 2026/);
-  assert.match(html, /상호가 애플파이에서[\s\S]*에르시안으로 변경/);
-  assert.match(html, /registered business name change[\s\S]*ApplePie[\s\S]*ERSIYAN/);
+  const businessNoticeLinks = [...html.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter(({ href }) => href === "/notices/business-name-2026-08-31");
+  assert.equal(businessNoticeLinks.length, 2, "Both language policies link to the business-name history");
+  assert.match(visibleText(policySection(html, "contact-ko")), /개인정보 처리 주체/);
+  assert.match(visibleText(policySection(html, "contact-en")), /The data controller is the sole proprietor 에르시안 \(ERSIYAN\)/);
+  for (const [id, expectedHash] of Object.entries(mineLogicPolicySectionHashes)) {
+    let section = policySection(html, id);
+    if (id.startsWith("contact-")) {
+      section = section.match(/<h2\b[\s\S]*?<\/h2>/i)?.[0]
+        + [...section.matchAll(/<p\b[^>]*>[\s\S]*?<\/p>/gi)].slice(0, 2).map(([paragraph]) => paragraph).join("");
+    }
+    assert.equal(createHash("sha256").update(visibleText(section)).digest("hex"), expectedHash,
+      `The MINE LOGIC ${id} processing terms remain unchanged`);
+  }
   assert.match(html, /정책은 ersiyan\.com에서 제공합니다/);
   assert.match(html, /This policy is provided at ersiyan\.com/);
   assert.match(html, /cache\/shared_cards/);
@@ -1217,8 +1336,239 @@ test("preserves the September 19 email recruitment privacy policy", async () => 
   assert.doesNotMatch(html, /id="forms-notice"|id="application-service"/);
 });
 
+test("preserves the complete September 22 policy before notices were reorganized", async () => {
+  const response = await render("/privacy/archive/2026-09-22?utm_source=history");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/privacy/archive/2026-09-22");
+  assert.equal(metaContent(html, "robots"), "index, follow");
+  assert.match(html, /개인정보처리방침 2026년 9월 22일 보관본/);
+  assert.match(html, /최근 변경일 및 시행일 2026년 9월 22일/);
+  const page = structuredNodes(html).find((node) => node["@type"] === "WebPage");
+  assert.equal(page.datePublished, "2026-08-22");
+  assert.equal(page.dateModified, "2026-09-22", "The archive retains its historical modification date");
+  for (const [id, expectedHash] of Object.entries(september22PolicySectionHashes)) {
+    assert.equal(createHash("sha256").update(visibleText(policySection(html, id))).digest("hex"), expectedHash,
+      `The original September 22 ${id} section is preserved`);
+  }
+  for (const id of ["forms-notice", "recruitment-notice", "change-notice", "business-name-notice"]) {
+    assert.ok(html.includes(`href="#${id}"`), `The archive preserves its original #${id} index link`);
+  }
+  assert.match(visibleText(policySection(html, "forms-notice")), /이전에 이메일로 접수한 지원 자료에도 기존의 심사 목적과 삭제 기준을 유지합니다/);
+  assert.match(visibleText(policySection(html, "application-service")), /Google LLC.*Google Drive/);
+});
+
+test("server-renders the notices index with dated links to every public notice", async () => {
+  const response = await render("/notices?utm_source=games");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  const metadata = assertPageMetadata(html, "/notices");
+  assert.equal(metadata.title, "공지사항 | 에르시안");
+  assert.equal(metaContent(html, "robots"), "index, follow");
+  assert.equal(metaContent(html, "og:type"), "website");
+  assert.equal(html.match(/<h1\b/gi)?.length, 1);
+  assert.match(html, /<a\b(?=[^>]*href="#notice-content")[^>]*>본문으로 바로가기<\/a>/i);
+  assert.match(html, /<main\b[^>]*id="notice-content"[^>]*>/i);
+  assert.match(html, /<a\b(?=[^>]*href="\/notices")(?=[^>]*aria-current="page")[^>]*>공지사항<\/a>/i);
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert.ok(main);
+  assert.doesNotMatch(visibleText(main), /쉬어|함께\s*살펴/);
+  const visibleLinks = [...main.matchAll(/<a\b[^>]*href="(\/notices\/[^"#?]+)"[^>]*>([\s\S]*?)<\/a>/gi)];
+  assert.deepEqual(visibleLinks.map(([, href]) => href).sort(), noticeRoutes.slice(1).sort());
+  assert.equal(visibleLinks.length, 8, "All eight notices use the same list instead of a separate hero card");
+  const rowClasses = visibleLinks.map(([anchor]) => attributes(anchor.match(/<a\b[^>]*>/i)?.[0] ?? "").class);
+  assert.equal(new Set(rowClasses).size, 1, "The most recent notice has the same visual row class as every other notice");
+  for (const notice of noticePages) {
+    const [, , link] = visibleLinks.find(([, href]) => href === `/notices/${notice.slug}`);
+    assert.ok(visibleText(link).includes(notice.title), `The index labels ${notice.slug}`);
+    const time = attributes(link.match(/<time\b[^>]*>/i)?.[0] ?? "");
+    assert.equal(time.datetime, notice.datePublished, `The index dates ${notice.slug}`);
+  }
+  const dates = visibleLinks.map(([, , link]) => attributes(link.match(/<time\b[^>]*>/i)?.[0] ?? "").datetime);
+  assert.deepEqual(dates, [...dates].sort().reverse(), "Notices are in date order");
+  const nodes = structuredNodes(html);
+  const collection = nodes.find((node) => node["@type"] === "CollectionPage");
+  assert.ok(collection, "The notice index exposes a searchable collection");
+  assert.equal(collection.url, metadata.url);
+  assert.equal(collection.name, metadata.title);
+  assert.equal(collection.description, metadata.description);
+  assert.equal(collection.datePublished, "2026-09-28");
+  assert.equal(collection.dateModified, "2026-10-02");
+  assert.equal(collection.publisher["@id"], "https://ersiyan.com/#organization");
+  assert.equal(collection.publisher["@type"], "Organization");
+  assert.equal(collection.publisher.name, "에르시안");
+  assert.equal(collection.publisher.url, "https://ersiyan.com/");
+  assert.equal(collection.mainEntity["@type"], "ItemList");
+  assert.deepEqual(collection.mainEntity.itemListElement.map(({ url }) => new URL(url).pathname).sort(),
+    noticeRoutes.slice(1).sort());
+  assert.deepEqual(collection.mainEntity.itemListElement.map(({ position }) => position), [1, 2, 3, 4, 5, 6, 7, 8]);
+  for (const item of collection.mainEntity.itemListElement) {
+    const notice = noticePages.find(({ slug }) => `/notices/${slug}` === new URL(item.url).pathname);
+    assert.equal(item.name, notice.title);
+  }
+  const breadcrumb = collection.breadcrumb ?? nodes.find((node) => node["@type"] === "BreadcrumbList");
+  assert.ok(breadcrumb, "The collection has a breadcrumb");
+  assert.deepEqual(breadcrumb.itemListElement.map(({ item }) => item), ["https://ersiyan.com/", metadata.url]);
+});
+
+test("server-renders every notice with original publication dates and substantive history", async () => {
+  const noticeContent = {
+    "virtual-recruitment-pause-2026-09-28": {
+      terms: [/내부 준비.*크리에이터 모집.*일시 중단/, /모집(?: 재개|을 다시 시작).*공지/],
+      links: [],
+    },
+    "application-form-2026-09-22": {
+      terms: [/Google 설문지/, /닉네임/, /생년월일/, /성별/, /회신 이메일/, /방송 가능 시간대/, /현재 소속사 여부/, /음성 파일/, /Google 설문지와 Drive/, /이메일.*지원 자료.*심사 목적/, /삭제 기준.*(?:유지|그대로)/],
+      links: ["/privacy/archive/2026-09-22", "/privacy/archive/2026-09-19", "/privacy", "/notices/virtual-recruitment-pause-2026-09-28"],
+    },
+    "recruitment-privacy-2026-09-19": {
+      terms: [/이메일.*지원서.*음성 파일/, /선발 기록.*사용 목적.*보관 기간/, /지원 철회 방법/, /일반 문의.*홈페이지 방문 정보.*(?:유지|그대로)/, /2026년 9월 22일.*Google 설문지/],
+      links: ["/privacy/archive/2026-09-19", "/privacy/archive/2026-09-05", "/privacy", "/notices/application-form-2026-09-22", "/notices/virtual-recruitment-pause-2026-09-28"],
+    },
+    "analytics-correction-2026-09-05": {
+      terms: [/이미.*Cloudflare Web Analytics.*방문·성능 통계.*(?:정정|바로잡)/, /새로운 분석 도구.*추가.*아니/, /쿠키.*브라우저 저장소.*사용 여부/, /개인정보 처리 사업자.*문의처.*(?:동일|유지|그대로)/],
+      links: ["/privacy/archive/2026-09-05", "/privacy/archive/2026-08-31", "/privacy"],
+    },
+    "business-name-2026-08-31": {
+      terms: [/개인사업자명.*애플파이에서 에르시안.*(?:바꿨|변경)/, /대표자.*사업자등록번호.*(?:동일|유지|그대로)/, /개인정보 처리 목적·범위.*문의처.*호스팅 제공자.*(?:동일|유지|그대로)/],
+      links: ["/privacy/archive/2026-08-31", "/privacy/archive/2026-08-28", "/privacy"],
+    },
+    "brand-domain-2026-08-28": {
+      terms: [/브랜드명.*에르시안\(ERSIYAN\).*(?:바꿨|변경)/, /applepie\.im에서 ersiyan\.com.*(?:옮겼|이전)/, /당시 사업자명.*애플파이/, /사업자명 변경.*2026년 8월 31일/, /개인정보 처리 사업자.*처리 목적·범위.*문의처.*호스팅 제공자.*(?:동일|유지|그대로)/],
+      links: ["/privacy/archive/2026-08-28", "/privacy/archive/2026-08-23", "/privacy", "/notices/business-name-2026-08-31"],
+    },
+    "mine-logic-update-2026-08-28": {
+      terms: [/2026년 8월 28일.*MINE LOGIC v1\.3\.3.*Google Play 스토어.*업데이트/, /ERSIYAN\).*로고.*제작자명.*반영/, /개인정보처리방침 링크.*(?:바꿨|변경)/, /다크 모드.*글자.*(?:가독성.*개선|잘 보이)/],
+      links: ["/mine-logic", "https://play.google.com/store/apps/details?id=com.applepie.minelogic"],
+    },
+    "hosting-change-2026-08-23": {
+      terms: [/2026년 8월 23일/, /OpenAI Sites에서 Cloudflare Workers Static Assets/, /공식 도메인.*Cloudflare.*연결.*시점부터 적용/, /화면·기능.*직접 수집.*정보의 범위.*(?:유지|그대로)/, /이메일 문의 자료.*사용 목적.*보관 기간.*(?:동일|유지|그대로)/],
+      links: ["/privacy/archive/2026-08-23", "/privacy/archive/2026-08-22", "/privacy"],
+    },
+  };
+  for (const notice of noticePages) {
+    const pathname = `/notices/${notice.slug}`;
+    const response = await render(`${pathname}?utm_source=history`);
+    assert.equal(response.status, 200, `${pathname} responds successfully`);
+    const html = await response.text();
+    const metadata = assertPageMetadata(html, pathname);
+    assert.equal(metadata.title, `${notice.title} | 공지사항 | 에르시안`);
+    assert.equal(metaContent(html, "robots"), "index, follow");
+    assert.equal(metaContent(html, "og:type"), "article");
+    assert.equal(metaContent(html, "article:published_time"), notice.datePublished);
+    assert.equal(metaContent(html, "article:modified_time"), "2026-09-29");
+    assert.equal(html.match(/<h1\b/gi)?.length, 1);
+    const articleHtml = html.match(/<article\b[^>]*>([\s\S]*?)<\/article>/i)?.[1];
+    assert.ok(articleHtml, `${pathname} renders an article`);
+    const text = visibleText(articleHtml);
+    const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+    assert.ok(main, `${pathname} has visible main content`);
+    assert.doesNotMatch(visibleText(main), /쉬어|함께\s*살펴/);
+    const bodyHtml = articleHtml.match(/<div\b[^>]*class="[^"]*articleBody[^"]*"[^>]*>([\s\S]*?)<\/div>/i)?.[1];
+    assert.ok(bodyHtml, `${pathname} has visible article paragraphs`);
+    const bodyText = visibleText(bodyHtml);
+    assert.ok(text.includes(notice.title));
+    assert.equal(attributes(articleHtml.match(/<time\b[^>]*>/i)?.[0] ?? "").datetime, notice.datePublished);
+    assert.match(articleHtml, /href="\/notices"/);
+    for (const term of noticeContent[notice.slug].terms) {
+      assert.match(bodyText, term, `${pathname} preserves ${term}`);
+    }
+    const links = [...articleHtml.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag));
+    for (const href of noticeContent[notice.slug].links) {
+      assert.ok(links.some((link) => link.href === href), `${pathname} relates to ${href}`);
+    }
+    assert.doesNotMatch(articleHtml, /aria-label="지난 안내"/,
+      `${pathname} omits the historical guidance box`);
+    assert.doesNotMatch(text, /게시 당시 기준|게시일 기준의 안내예요|현재 내용은 관련 링크의 최신 공지와 페이지에서 확인할 수 있어요/,
+      `${pathname} omits the removed historical guidance text`);
+    if (notice.datePublished !== "2026-09-28") {
+      const related = articleHtml.match(/<section\b[^>]*aria-labelledby="notice-related-title"[^>]*>([\s\S]*?)<\/section>/i)?.[1];
+      assert.ok(related, `${pathname} has related pages`);
+      assert.equal(visibleText(related.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i)?.[1] ?? ""), "관련 링크");
+      assert.ok(related.match(/<a\b[^>]*href="[^"]+"/i), `${pathname} has no empty related section`);
+    } else {
+      assert.equal(bodyHtml.match(/<p\b/gi)?.length, 2, "The pause announcement has two brief paragraphs");
+      const articleHeader = articleHtml.match(/<header\b[^>]*>([\s\S]*?)<\/header>/i)?.[1];
+      assert.ok(articleHeader);
+      assert.doesNotMatch(articleHeader, /<p\b/i, "The title does not repeat the recruitment status");
+      assert.doesNotMatch(articleHtml, /<a\b[^>]*href="\/virtual"/i,
+        "The pause article omits the recruitment related link");
+      assert.doesNotMatch(articleHtml, /id="notice-related-title"|aria-labelledby="notice-related-title"/,
+        "The pause article omits an empty related section");
+    }
+    const nodes = structuredNodes(html);
+    const article = nodes.find((node) => node["@type"] === "Article" && node.url === metadata.url);
+    assert.ok(article, `${pathname} exposes its article metadata`);
+    assert.equal(article.headline, notice.title);
+    assert.equal(article.description, metadata.description);
+    assert.equal(article.datePublished, notice.datePublished, "Migration does not replace the original publication date");
+    assert.equal(article.dateModified, "2026-09-29");
+    assert.equal(article.mainEntityOfPage, metadata.url);
+    assert.equal(article.isPartOf["@id"], "https://ersiyan.com/notices#webpage");
+    for (const role of ["author", "publisher"]) {
+      assert.equal(article[role]["@id"], "https://ersiyan.com/#organization");
+      assert.equal(article[role]["@type"], "Organization");
+      assert.equal(article[role].name, "에르시안");
+      assert.equal(article[role].url, "https://ersiyan.com/");
+    }
+    const page = nodes.find((node) => node["@type"] === "WebPage" && node.url === metadata.url);
+    const breadcrumb = page?.breadcrumb ?? nodes.find((node) => node["@type"] === "BreadcrumbList");
+    assert.ok(breadcrumb, `${pathname} has a breadcrumb`);
+    assert.deepEqual(breadcrumb.itemListElement.map(({ item }) => item),
+      ["https://ersiyan.com/", "https://ersiyan.com/notices", metadata.url]);
+    assert.doesNotMatch(text, /행정문서|사업자등록증\.pdf|추후 작성|Coming soon|TODO/i);
+  }
+});
+
+test("division pages keep notices separate and preserve navigation and legal information", async () => {
+  for (const pathname of ["/games", "/virtual"]) {
+    const html = await (await render(pathname)).text();
+    assert.doesNotMatch(html, /id="(?:site-notices|ersiyan-company-view|company-history)"/);
+    assert.doesNotMatch(html, /href="#ersiyan-company-view"/);
+    assert.match(html, /href="\/notices"/);
+    assert.match(html, /href="\/"/);
+    assert.match(html, /id="business-info"/);
+    assert.match(html, /href="\/privacy"/);
+    const page = structuredNodes(html).find((node) => node["@type"] === "WebPage");
+    assert.equal(page.dateModified, "2026-09-30");
+  }
+});
+
+test("the first visit opens company information with equal choices for both departments", async () => {
+  const response = await render("/");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+  assertPageMetadata(html, "/");
+  assert.match(html, /에르시안/);
+  assert.match(html, /회사 정보/);
+  assert.match(html, /회사 연혁|회사 이야기|연혁/);
+  assert.match(html, /id="business-info"/);
+  assert.match(html, /<dt>대표자<\/dt>[\s\S]*?<dd>탁진<\/dd>/);
+  assert.match(html, /href="\/notices"/);
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert.ok(main, "Company information is the main content on first arrival");
+  assert.match(main, /id="company-title"/);
+  assert.match(main, /id="company-history"/);
+  assert.equal(main.match(/<h1\b/gi)?.length, 1);
+  assert.doesNotMatch(main, /id="(?:ersiyan-games-view|ersiyan-virtual-view|game-tab-mine-logic|virtual-apply)"/);
+  const entryLinks = [...main.matchAll(/<a\b[^>]*>/gi)].map(([tag]) => attributes(tag))
+    .filter(({ href }) => href === "/games" || href === "/virtual");
+  assert.equal(entryLinks.length, 2, "Both department entrances are available in the main content");
+  assert.deepEqual(entryLinks.map(({ href }) => href).sort(), ["/games", "/virtual"]);
+  assert.ok(entryLinks[0].class, "Department entrances have a shared presentation");
+  assert.equal(entryLinks[0].class, entryLinks[1].class, "Neither department is presented as a subordinate choice");
+  const nodes = structuredNodes(html);
+  const page = nodes.find((node) => node["@type"] === "AboutPage");
+  const organization = nodes.find((node) => node["@id"] === "https://ersiyan.com/#organization");
+  assert.equal(page?.url, "https://ersiyan.com/");
+  assert.equal(page?.dateModified, "2026-09-30");
+  assert.equal(organization?.legalName, "에르시안");
+  assert.equal(page?.about?.["@id"], organization?.["@id"]);
+});
+
 test("required public images are present", async () => {
   const assets = [
+    "../public/ersiyan-brand-social.jpg",
     "../public/ersiyan-social-card.jpg",
     "../public/ersiyan-virtual-gen0-social-card.png",
     "../public/ersiyan-mark.svg",
@@ -1274,6 +1624,7 @@ test("source contains no starter preview dependency or private certificate data"
     privacy,
     mineLogicPrivacy,
     mineLogicPrivacyContent,
+    mineLogicPrivacyLanguage,
     archivedPrivacy,
     gameShowcase,
     companyHistory,
@@ -1298,6 +1649,10 @@ test("source contains no starter preview dependency or private certificate data"
     readFile(new URL("../app/privacy/mine-logic/page.tsx", import.meta.url), "utf8"),
     readFile(
       new URL("../app/privacy/mine-logic/MineLogicPrivacyContent.tsx", import.meta.url),
+      "utf8",
+    ),
+    readFile(
+      new URL("../app/privacy/mine-logic/MineLogicPrivacyLanguage.tsx", import.meta.url),
       "utf8",
     ),
     readFile(
@@ -1341,14 +1696,16 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(privacy, /canonical:\s*"\/privacy"/);
   assert.match(mineLogicPrivacy, /canonical:\s*"\/privacy\/mine-logic"/);
   assert.match(mineLogicPrivacy, /businessProfile\.email/);
-  assert.match(mineLogicPrivacyContent, /useState<PolicyLanguage>\("en"\)/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = policyLocale\[language\]/);
-  assert.match(mineLogicPrivacyContent, /document\.documentElement\.lang = "ko-KR"/);
-  assert.doesNotMatch(mineLogicPrivacyContent, /document\.documentElement\.lang="en-US"/);
-  assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "ko"\}/);
-  assert.match(mineLogicPrivacyContent, /aria-pressed=\{language === "en"\}/);
-  assert.match(mineLogicPrivacyContent, /lang="ko-KR" hidden=\{language !== "ko"\}/);
-  assert.match(mineLogicPrivacyContent, /lang="en-US" hidden=\{language !== "en"\}/);
+  assert.doesNotMatch(mineLogicPrivacyContent, /"use client"/);
+  assert.match(mineLogicPrivacyLanguage, /"use client"/);
+  assert.match(mineLogicPrivacyLanguage, /useState<PolicyLanguage>\("en"\)/);
+  assert.match(mineLogicPrivacyLanguage, /document\.documentElement\.lang = policyLocale\[language\]/);
+  assert.match(mineLogicPrivacyLanguage, /document\.documentElement\.lang = "ko-KR"/);
+  assert.doesNotMatch(mineLogicPrivacyLanguage, /document\.documentElement\.lang="en-US"/);
+  assert.match(mineLogicPrivacyLanguage, /aria-pressed=\{language === "ko"\}/);
+  assert.match(mineLogicPrivacyLanguage, /aria-pressed=\{language === "en"\}/);
+  assert.match(mineLogicPrivacyLanguage, /lang="ko-KR" hidden=\{language !== "ko"\}/);
+  assert.match(mineLogicPrivacyLanguage, /lang="en-US" hidden=\{language !== "en"\}/);
   assert.match(mineLogicPrivacyContent, /cache\/shared_cards/);
   assert.match(mineLogicPrivacyContent, /강화훈련에서 이미 제공한 문제의/);
   assert.match(mineLogicPrivacyContent, /when selected, a[\s\S]*?completion date\./);
@@ -1390,7 +1747,8 @@ test("source contains no starter preview dependency or private certificate data"
   assert.match(globalStyles, /@keyframes history-dialog-out/);
   assert.match(globalStyles, /history-dialog-backdrop-out/);
   assert.match(companyHistory, /href: "\/privacy\/archive\/2026-08-22"/);
-  assert.match(companyHistory, /href: "\/privacy\/archive\/2026-08-28"/);
+  assert.match(companyHistory, /href: "\/notices\/brand-domain-2026-08-28"/);
+  assert.match(companyHistory, /href: "\/notices\/business-name-2026-08-31"/);
   assert.doesNotMatch(
     companyHistory,
     /행정문서|사업자등록증\.pdf|통신판매업 변경 신고증\.pdf|게임제작업자 등록증\.jpg/,

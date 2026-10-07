@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DivisionHomePage, virtualDescription } from "../_components/HomeContent";
 
-const virtualTitle = "에르시안 버츄얼 0기 버튜버 모집 | ERSIYAN VIRTUAL";
+const virtualTitle = "에르시안 버츄얼 | 버튜버 활동 안내 · 모집 일시 중단";
 
 export const metadata: Metadata = {
   title: { absolute: virtualTitle },

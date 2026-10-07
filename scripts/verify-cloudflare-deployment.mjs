@@ -17,6 +17,7 @@ function parseArguments(argv) {
     www: "",
     redirectFrom: [],
     dnsServer: "",
+    requestTimeoutMs: 15000,
   };
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -43,6 +44,7 @@ function parseArguments(argv) {
     else if (key === "idle-seconds") options.idleSeconds = Number(value);
     else if (key === "idle-runs") options.idleRuns = Number(value);
     else if (key === "limit-ms") options.limitMs = Number(value);
+    else if (key === "request-timeout-ms") options.requestTimeoutMs = Number(value);
     else throw new Error(`Unknown option: --${key}`);
   }
 
@@ -56,6 +58,9 @@ function parseArguments(argv) {
     if (!Number.isFinite(options[key]) || options[key] < 0) {
       throw new Error(`--${key} must be a non-negative number`);
     }
+  }
+  if (!Number.isInteger(options.requestTimeoutMs) || options.requestTimeoutMs < 1 || options.requestTimeoutMs > 2147483647) {
+    throw new Error("--request-timeout-ms must be a positive integer no greater than 2147483647");
   }
   return options;
 }
@@ -71,14 +76,22 @@ function baseUrl(value) {
 const resolver = new Resolver();
 const dnsCache = new Map();
 
-async function resolveAddress(hostname) {
+async function resolveAddress(hostname, signal) {
   if (!options.dnsServer) return null;
   if (dnsCache.has(hostname)) return dnsCache.get(hostname);
   resolver.setServers([options.dnsServer]);
-  const [address] = await resolver.resolve4(hostname);
-  assert.ok(address, `No IPv4 address returned for ${hostname}`);
-  dnsCache.set(hostname, address);
-  return address;
+  signal.throwIfAborted();
+  const cancel = () => resolver.cancel();
+  signal.addEventListener("abort", cancel, { once: true });
+  try {
+    const [address] = await resolver.resolve4(hostname);
+    signal.throwIfAborted();
+    assert.ok(address, `No IPv4 address returned for ${hostname}`);
+    dnsCache.set(hostname, address);
+    return address;
+  } finally {
+    signal.removeEventListener("abort", cancel);
+  }
 }
 
 function headerValue(headers, name) {
@@ -88,41 +101,55 @@ function headerValue(headers, name) {
 
 async function requestOnce(url) {
   assert.match(url.protocol, /^https?:$/, `Unsupported protocol for ${url}`);
-  const address = await resolveAddress(url.hostname);
-  return new Promise((resolve, reject) => {
-    const requestOptions = {
-      headers: {
-        accept: "text/html,application/xhtml+xml,*/*;q=0.8",
-        "user-agent": "ERSIYAN-Cloudflare-Migration-Verifier/1.0",
-      },
-    };
-    if (address) {
-      requestOptions.lookup = (_hostname, lookupOptions, callback) => {
-        if (typeof lookupOptions === "object" && lookupOptions.all) {
-          callback(null, [{ address, family: 4 }]);
-        } else {
-          callback(null, address, 4);
-        }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => {
+    controller.abort(new Error(`Request timed out after ${options.requestTimeoutMs}ms: ${url}`));
+  }, options.requestTimeoutMs);
+  try {
+    const address = await resolveAddress(url.hostname, controller.signal);
+    return await new Promise((resolve, reject) => {
+      const requestOptions = {
+        signal: controller.signal,
+        headers: {
+          accept: "text/html,application/xhtml+xml,*/*;q=0.8",
+          "user-agent": "ERSIYAN-Cloudflare-Migration-Verifier/1.0",
+        },
       };
-    }
+      if (address) {
+        requestOptions.lookup = (_hostname, lookupOptions, callback) => {
+          if (typeof lookupOptions === "object" && lookupOptions.all) {
+            callback(null, [{ address, family: 4 }]);
+          } else {
+            callback(null, address, 4);
+          }
+        };
+      }
 
-    const client = url.protocol === "http:" ? http : https;
-    const request = client.request(url, requestOptions, (response) => {
-      const remoteAddress = response.socket?.remoteAddress ?? "n/a";
-      const chunks = [];
-      response.on("data", (chunk) => chunks.push(chunk));
-      response.on("end", () => {
-        resolve({
-          address: address ?? remoteAddress,
-          body: Buffer.concat(chunks),
-          headers: response.headers,
-          status: response.statusCode,
+      const client = url.protocol === "http:" ? http : https;
+      const request = client.request(url, requestOptions, (response) => {
+        const remoteAddress = response.socket?.remoteAddress ?? "n/a";
+        const chunks = [];
+        response.once("error", reject);
+        response.once("aborted", () => reject(new Error(`Response aborted: ${url}`)));
+        response.on("data", (chunk) => chunks.push(chunk));
+        response.on("end", () => {
+          resolve({
+            address: address ?? remoteAddress,
+            body: Buffer.concat(chunks),
+            headers: response.headers,
+            status: response.statusCode,
+          });
         });
       });
+      request.once("error", reject);
+      request.end();
     });
-    request.once("error", reject);
-    request.end();
-  });
+  } catch (error) {
+    if (controller.signal.aborted) throw controller.signal.reason;
+    throw new Error(`Request failed for ${url}: ${error.message}`, { cause: error });
+  } finally {
+    clearTimeout(timeout);
+  }
 }
 
 async function request(url, expectedStatus, redirect = "follow") {
@@ -268,14 +295,58 @@ function sameOriginAssetUrls(html, origin) {
   return [...urls];
 }
 
+// Cache only asset metadata. Canonical pages, the reference site, redirects,
+// and idle latency measurements must each make their own network request.
+const assetResponses = new Map();
+
+function requestAsset(assetUrl) {
+  if (!assetResponses.has(assetUrl)) {
+    assetResponses.set(assetUrl, request(assetUrl, 200).then(({ status, headers, durationMs }) => ({
+      status,
+      headers,
+      durationMs,
+    })));
+  }
+  return assetResponses.get(assetUrl);
+}
+
+function verifyAssetResponse(assetUrl, result, pathname) {
+  assert.equal(result.status, 200, `${pathname} references an unavailable asset: ${assetUrl}`);
+  const extension = new URL(assetUrl).pathname.match(/\.([^./]+)$/)?.[1]?.toLowerCase();
+  const contentType = headerValue(result.headers, "content-type") ?? "";
+  if (extension === "css") {
+    assert.match(contentType, /^text\/css(?:\s*;|$)/i, `${pathname} references a non-CSS response: ${assetUrl}`);
+  } else if (extension === "js" || extension === "mjs") {
+    assert.match(contentType, /^(?:text|application)\/(?:x-)?(?:javascript|ecmascript)(?:\s*;|$)/i,
+      `${pathname} references a non-JavaScript response: ${assetUrl}`);
+  } else if (["png", "jpg", "jpeg", "gif", "webp", "avif", "svg", "ico"].includes(extension)) {
+    assert.match(contentType, /^image\//i, `${pathname} references a non-image response: ${assetUrl}`);
+  }
+}
+
 const options = parseArguments(process.argv.slice(2));
 const target = baseUrl(options.target);
 const reference = options.reference ? baseUrl(options.reference) : null;
+const addedCanonicalPaths = [
+  "/games",
+  "/notices",
+  "/notices/virtual-recruitment-pause-2026-09-28",
+  "/notices/application-form-2026-09-22",
+  "/notices/recruitment-privacy-2026-09-19",
+  "/notices/analytics-correction-2026-09-05",
+  "/notices/business-name-2026-08-31",
+  "/notices/brand-domain-2026-08-28",
+  "/notices/hosting-change-2026-08-23",
+  "/notices/mine-logic-update-2026-08-28",
+  "/privacy/archive/2026-09-22",
+];
 const localPages = new Map(
   await Promise.all(
     [
       ["/", new URL("../dist/client/index.html", import.meta.url)],
       ["/virtual", new URL("../dist/client/virtual.html", import.meta.url)],
+      ...addedCanonicalPaths.map((pathname) => [pathname,
+        new URL(`../dist/client${pathname}.html`, import.meta.url)]),
       [
         "/mine-logic",
         new URL("../dist/client/mine-logic.html", import.meta.url),
@@ -337,6 +408,8 @@ const localPages = new Map(
   ),
 );
 const targetOnlyPaths = new Set([
+  "/",
+  ...addedCanonicalPaths,
   "/virtual",
   "/mine-logic",
   "/privacy/mine-logic",
@@ -355,10 +428,27 @@ const targetOnlyPaths = new Set([
 console.log(`Target: ${target.origin}`);
 console.log(`Reference: ${reference?.origin ?? "target-only"}`);
 
+let assetChecks = 0;
+
 for (const [pathname, localHtml] of localPages) {
   const expected = semanticSnapshot(localHtml);
   const targetResult = await request(new URL(pathname, target), 200, "manual");
   const targetHtml = targetResult.body.toString("utf8");
+  if (pathname === "/") {
+    const main = targetHtml.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
+    assert.ok(main, "The first page must expose company information");
+    const links = extractAttributes(main, "a", "href").map(decodeEntities);
+    assert.ok(links.includes("/games") && links.includes("/virtual"), "Company homepage must offer both departments");
+    assert.match(main, /id="company-title"/);
+    assert.match(main, /id="company-history"/);
+    assert.doesNotMatch(main, /id="(?:ersiyan-games-view|ersiyan-virtual-view|virtual-apply)"/);
+  }
+  if (pathname === "/games" || pathname === "/virtual") {
+    assert.doesNotMatch(targetHtml, /id="(?:site-notices|ersiyan-company-view|company-history)"/,
+      "Department bodies must not embed parent-company information or notices");
+    const links = extractAttributes(targetHtml, "a", "href").map(decodeEntities);
+    assert.ok(links.includes("/") && links.includes("/notices"), "Company information and notices remain reachable");
+  }
   if (pathname === "/virtual") {
     const applicationSection = targetHtml.match(/<section\b[^>]*id="virtual-apply"[^>]*>[\s\S]*?<\/section>/i)?.[0];
     assert.ok(applicationSection, "Virtual recruitment must expose its application section");
@@ -387,6 +477,27 @@ for (const [pathname, localHtml] of localPages) {
   if (pathname === "/privacy") {
     assert.match(semanticSnapshot(targetHtml).visibleText, /최근 변경일 및 시행일\s+2026년 9월 22일/, "The current privacy notice must expose its effective date");
     assert.ok(extractAttributes(targetHtml, "a", "href").includes("/privacy/archive/2026-09-19"), "The current privacy notice must retain access to the previous version");
+    assert.ok(extractAttributes(targetHtml, "a", "href").includes("/privacy/archive/2026-09-22"), "The reorganized privacy notice must retain its complete September 22 snapshot");
+  }
+  if (pathname === "/notices") {
+    const main = targetHtml.match(/<main\b[^>]*>[\s\S]*?<\/main>/i)?.[0];
+    assert.ok(main, "The notice index must expose its list");
+    const rows = [...main.matchAll(/<a\b[^>]*href="\/notices\/[^"?#]+"[^>]*>/gi)].map(([tag]) => tag);
+    assert.equal(rows.length, 8, "All eight notices remain discoverable");
+    const rowClasses = rows.map((tag) => tag.match(/\bclass="([^"]+)"/)?.[1]);
+    assert.ok(rowClasses.every(Boolean), "Every notice uses a list row");
+    assert.equal(new Set(rowClasses).size, 1, "Every notice has equal list presentation");
+    const links = new Set(extractAttributes(targetHtml, "a", "href").map(decodeEntities));
+    for (const articlePath of addedCanonicalPaths.filter((path) => path.startsWith("/notices/"))) {
+      assert.ok(links.has(articlePath), `The notice index must link to ${articlePath}`);
+    }
+  }
+  if (pathname.startsWith("/notices/")) {
+    assert.ok(extractAttributes(targetHtml, "a", "href").includes("/notices"), "Each notice article must link back to the notice index");
+    const localModified = localHtml.match(/"dateModified":"(\d{4}-\d{2}-\d{2}(?:T[^"\s]*)?)"/)?.[1];
+    const targetModified = targetHtml.match(/"dateModified":"(\d{4}-\d{2}-\d{2}(?:T[^"\s]*)?)"/)?.[1];
+    assert.ok(localModified, "The validated notice build must expose its actual modification date");
+    assert.equal(targetModified, localModified, "Notice modification date must match the validated static build");
   }
   const corporateExpectation = corporateRouteExpectations.get(pathname);
   if (corporateExpectation) {
@@ -447,10 +558,14 @@ for (const [pathname, localHtml] of localPages) {
   );
 
   for (const assetUrl of sameOriginAssetUrls(targetHtml, target)) {
-    const assetResult = await request(assetUrl, 200);
-    console.log(`PASS asset ${new URL(assetUrl).pathname} ${assetResult.durationMs.toFixed(1)}ms`);
+    const reused = assetResponses.has(assetUrl);
+    const assetResult = await requestAsset(assetUrl);
+    verifyAssetResponse(assetUrl, assetResult, pathname);
+    assetChecks += 1;
+    console.log(`PASS asset ${new URL(assetUrl).pathname} ${assetResult.durationMs.toFixed(1)}ms${reused ? " (cached response)" : ""}`);
   }
 }
+console.log(`PASS assets ${assetChecks} page references checked; ${assetResponses.size} unique URLs fetched`);
 
 const sitemapResult = await request(new URL("/sitemap.xml", target), 200, "manual");
 const sitemapXml = sitemapResult.body.toString("utf8");

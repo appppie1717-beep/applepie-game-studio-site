@@ -14,7 +14,7 @@ const gamesAuthor = {
   "@type": "Organization",
   "@id": "https://ersiyan.com/#games-organization",
   name: "ERSIYAN GAMES",
-  url: "https://ersiyan.com/#games",
+  url: "https://ersiyan.com/games",
   parentOrganization: { "@type": "Organization", "@id": "https://ersiyan.com/#organization" },
 };
 
@@ -168,7 +168,7 @@ const pageStructuredData = {
       "@id": `${pageUrl}#breadcrumb`,
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "ERSIYAN", item: "https://ersiyan.com/" },
-        { "@type": "ListItem", position: 2, name: "ERSIYAN GAMES", item: "https://ersiyan.com/#games" },
+        { "@type": "ListItem", position: 2, name: "ERSIYAN GAMES", item: "https://ersiyan.com/games" },
         { "@type": "ListItem", position: 3, name: "VELSIEN SUMMIT", item: pageUrl },
       ],
     },
@@ -307,8 +307,7 @@ export default function VelsienSummitPage() {
           <ol>
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
             <li><a href="/">ERSIYAN</a></li>
-            {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <li><a href="/#games">ERSIYAN GAMES</a></li>
+            <li><a href="/games">ERSIYAN GAMES</a></li>
             <li aria-current="page">VELSIEN SUMMIT</li>
           </ol>
         </nav>
@@ -456,8 +455,7 @@ export default function VelsienSummitPage() {
               <h3>벨시엔 서밋의 5대5 전투 두 순간</h3>
             </div>
             <p className={styles.recordMeta}>
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <span>작성 <a href="/#games">ERSIYAN GAMES</a></span>
+              <span>작성 <a href="/games">ERSIYAN GAMES</a></span>
               <span>게시 <time dateTime="2026-09-05">2026.09.05</time></span>
             </p>
             <div className={styles.journalCopy}>
@@ -511,8 +509,7 @@ export default function VelsienSummitPage() {
               <h3>벨시엔 서밋, 도시와 동행자의 모습을 다듬으며</h3>
             </div>
             <p className={styles.recordMeta}>
-              {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-              <span>작성 <a href="/#games">ERSIYAN GAMES</a></span>
+              <span>작성 <a href="/games">ERSIYAN GAMES</a></span>
               <span>게시 <time dateTime="2026-09-05">2026.09.05</time></span>
             </p>
             <div className={styles.journalCopy}>

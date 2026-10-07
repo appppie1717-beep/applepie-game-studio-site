@@ -23,6 +23,26 @@
   letter-spacing: 0;
 }
 
+.statusLink {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.faq a {
+  color: var(--navy-800);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.faq a:hover {
+  color: var(--red-dark);
+}
+
+.faq h3 {
+  word-break: keep-all;
+}
+
 .root :global(.virtual-intro h1) {
   text-wrap: balance;
 }
@@ -34,6 +54,33 @@
 
 .root :global(.virtual-actions .button) {
   min-height: 48px;
+  white-space: nowrap;
+}
+
+.applicationAction {
+  position: relative;
+}
+
+.root .applicationButton {
+  border-color: #737373;
+  background: #737373;
+}
+
+.root .applicationButton:hover {
+  border-color: #666666;
+  background: #666666;
+}
+
+.applicationNote {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  margin: 0;
+  color: #737373;
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
   white-space: nowrap;
 }
 
@@ -116,13 +163,37 @@
   text-underline-offset: 4px;
 }
 
-.root :global(.virtual-apply-cta > a) {
-  background: var(--paper);
-  font-size: 15px;
+.lowerApplicationAction {
+  display: grid;
+  flex-shrink: 0;
+  gap: 8px;
 }
 
-.root :global(.virtual-apply-cta > a:hover) {
-  background: var(--white);
+.root :global(.virtual-apply-cta) .lowerApplicationButton {
+  display: inline-flex;
+  min-height: 52px;
+  padding: 12px 18px;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border-radius: 6px;
+  background: #737373;
+  color: var(--white);
+  font-size: 15px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+
+.root :global(.virtual-apply-cta) .lowerApplicationButton:hover {
+  background: #666666;
+}
+
+.root :global(.virtual-apply-cta) .applicationNote {
+  position: static;
+  margin: 0;
+  color: #c9c9c9;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .root :global(.virtual-apply-cta) a:focus-visible {
@@ -173,6 +244,16 @@
     gap: 4px;
   }
 
+  .applicationAction {
+    display: grid;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .applicationNote {
+    position: static;
+  }
+
   .guideLink {
     margin-inline: auto;
   }
@@ -189,5 +270,12 @@
 
   .root :global(.virtual-apply-panel) .voiceLead {
     font-size: 18px;
+  }
+
+  .root :global(.virtual-apply-cta) .lowerApplicationButton {
+    width: 100%;
+    padding-inline: 10px;
+    gap: 6px;
+    font-size: 13px;
   }
 }

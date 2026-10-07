@@ -27,14 +27,20 @@ function navigate(path) {
   return events;
 }
 
-test("legacy division links preserve campaign parameters and replace history before showing the wrong division", () => {
+test("legacy division links preserve campaign parameters and replace history before showing the wrong section", () => {
   const cases = [
     ["/#ersiyan-virtual-view", "/virtual"],
     ["/?utm_source=virtual&utm_content=%ED%95%9C%EA%B8%80#ersiyan-virtual-view", "/virtual?utm_source=virtual&utm_content=%ED%95%9C%EA%B8%80"],
-    ["/virtual#ersiyan-games-view", "/"],
-    ["/virtual?utm_source=games&tag=one&tag=two#ersiyan-games-view", "/?utm_source=games&tag=one&tag=two"],
-    ["/virtual?utm_source=link#games", "/?utm_source=link#games"],
-    ["/virtual?utm_source=link#studio", "/?utm_source=link#studio"],
+    ["/#ersiyan-games-view", "/games"],
+    ["/?utm_source=link#games", "/games?utm_source=link#games"],
+    ["/?utm_source=link#studio", "/games?utm_source=link#studio"],
+    ["/virtual#ersiyan-games-view", "/games"],
+    ["/virtual?utm_source=games&tag=one&tag=two#ersiyan-games-view", "/games?utm_source=games&tag=one&tag=two"],
+    ["/virtual?utm_source=link#games", "/games?utm_source=link#games"],
+    ["/virtual?utm_source=link#studio", "/games?utm_source=link#studio"],
+    ["/games#ersiyan-virtual-view", "/virtual"],
+    ["/games?utm_source=company#ersiyan-company-view", "/?utm_source=company#ersiyan-company-view"],
+    ["/virtual#ersiyan-company-view", "/#ersiyan-company-view"],
   ];
   for (const [from, to] of cases) {
     assert.deepEqual(navigate(from), [
@@ -46,15 +52,32 @@ test("legacy division links preserve campaign parameters and replace history bef
   }
 });
 
+test("explicit department selections preserve unrelated raw query parameters and do not loop", () => {
+  const cases = [
+    ["/?division=games", "/games"],
+    ["/?tag=one&division=virtual&tag=two&label=%ED%95%9C%EA%B8%80", "/virtual?tag=one&tag=two&label=%ED%95%9C%EA%B8%80"],
+    ["/games?division=company#ersiyan-company-view", "/#ersiyan-company-view"],
+    ["/virtual?division=games#ersiyan-virtual-view", "/games"],
+    ["/?division=virtual#studio", "/virtual"],
+    ["/games?division=games#studio", "/games#studio"],
+    ["/?division=company#unrelated", "/#unrelated"],
+    ["/?division=games&next=https%3A%2F%2Fexample.com#unrelated", "/games?next=https%3A%2F%2Fexample.com#unrelated"],
+  ];
+  for (const [from, to] of cases) {
+    assert.deepEqual(navigate(from), [["attribute", "data-division-redirect", ""], ["replace", to]], from);
+    assert.deepEqual(navigate(to), [], "The selected destination does not redirect again");
+  }
+});
+
 test("ordinary company, game, archive, and unknown fragment links remain visible and unchanged", () => {
   for (const path of [
-    "/", "/?utm_source=games", "/#games", "/#studio", "/#ersiyan-games-view",
-    "/#ersiyan-company-view", "/#business-info", "/#unrelated", "/#ERSIYAN-VIRTUAL-VIEW",
-    "/virtual", "/virtual?utm_source=virtual", "/virtual#ersiyan-virtual-view",
-    "/virtual#ersiyan-company-view", "/virtual#business-info",
+    "/", "/?utm_source=games", "/#ersiyan-company-view", "/#business-info", "/#unrelated", "/#ERSIYAN-VIRTUAL-VIEW",
+    "/games", "/games#games", "/games#studio", "/games#ersiyan-games-view", "/games#business-info",
+    "/virtual", "/virtual?utm_source=virtual", "/virtual#ersiyan-virtual-view", "/virtual#business-info",
     "/mine-logic#games", "/velsien-summit#studio", "/velsien-summit#devlog-2026-08-late",
     "/velsien-summit/secret#ersiyan-virtual-view", "/privacy#ersiyan-virtual-view",
-    "/?next=https%3A%2F%2Fexample.com#unrelated",
+    "/?next=https%3A%2F%2Fexample.com#unrelated", "/?division=unknown", "/?division=GAMES",
+    "/privacy?division=games", "/company?division=virtual",
   ]) assert.deepEqual(navigate(path), [], path);
 });
 

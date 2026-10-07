@@ -55,7 +55,7 @@ const mineLogicPrivacyPolicyStructuredData = {
     "Privacy policy for the MINE LOGIC Android app, available in English and Korean.",
   inLanguage: ["en-US", "ko-KR"],
   datePublished: "2026-07-29",
-  dateModified: "2026-08-31",
+  dateModified: "2026-09-28",
   mainEntity: { "@id": "https://ersiyan.com/mine-logic#app" },
   isPartOf: { "@id": "https://ersiyan.com/#website" },
   publisher: { "@id": "https://ersiyan.com/#organization" },

@@ -44,3 +44,6 @@ yarn-error.log*
 
 # TypeScript incremental cache
 *.tsbuildinfo
+
+# Local browser inspection snapshots
+/.playwright-cli/

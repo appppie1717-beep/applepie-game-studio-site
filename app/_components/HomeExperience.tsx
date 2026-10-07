@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Static deployment uses full document navigation. */
 import "../home.css";
 import type { ReactNode } from "react";
 import { BrandLockup } from "./BrandLockup";
@@ -5,21 +6,19 @@ import { BrandLockup } from "./BrandLockup";
 export type HomeDivision = "games" | "virtual";
 
 const divisions = [
-  { id: "games", href: "/", label: "게임부", name: "ERSIYAN GAMES" },
+  { id: "games", href: "/games", label: "게임부", name: "ERSIYAN GAMES" },
   { id: "virtual", href: "/virtual", label: "버츄얼부", name: "ERSIYAN VIRTUAL" },
 ] as const;
 
 type HomeExperienceProps = {
   division: HomeDivision;
   children: ReactNode;
-  company: ReactNode;
   footer: ReactNode;
 };
 
 export function HomeExperience({
   division,
   children,
-  company,
   footer,
 }: HomeExperienceProps) {
   return (
@@ -43,13 +42,16 @@ export function HomeExperience({
                 </a>
               ))}
             </div>
-            <a className="company-view-button" href="#ersiyan-company-view">회사 정보</a>
+            <div className="home-utility-links">
+              <a className="company-view-button" href="/">회사 정보</a>
+              <a className="company-view-button" href="/notices">공지사항</a>
+            </div>
           </nav>
         </div>
       </header>
       <main id="main-content" tabIndex={-1}>
         {division === "games" && (
-          <h1 className="home-page-title">에르시안(ERSIYAN) · 게임 개발과 운영</h1>
+          <h1 className="home-page-title">에르시안 게임부 · 게임 개발과 운영</h1>
         )}
         <section
           id={`ersiyan-${division}-view`}
@@ -59,13 +61,6 @@ export function HomeExperience({
           aria-labelledby={`ersiyan-${division}-tab`}
         >
           {children}
-        </section>
-        <section
-          id="ersiyan-company-view"
-          className="company-info-view section-pad"
-          aria-labelledby="company-title"
-        >
-          {company}
         </section>
       </main>
       {footer}

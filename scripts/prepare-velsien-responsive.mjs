@@ -54,6 +54,9 @@ const sources = [
 ];
 
 const variants = [
+  // VelsienSignalDeck uses these smaller candidates for its scene-tab previews.
+  { width: 160, quality: 74 },
+  { width: 320, quality: 74 },
   { width: 640, quality: 74 },
   { width: 960, quality: 76 },
 ];

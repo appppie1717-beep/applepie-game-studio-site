@@ -2,15 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://ersiyan.com/</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-30</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/virtual</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://ersiyan.com/games</loc>
+    <lastmod>2026-09-30</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/mine-logic</loc>
-    <lastmod>2026-09-20</lastmod>
+    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/velsien-summit</loc>
@@ -26,11 +30,11 @@
   </url>
   <url>
     <loc>https://ersiyan.com/privacy</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/privacy/mine-logic</loc>
-    <lastmod>2026-09-22</lastmod>
+    <lastmod>2026-09-28</lastmod>
   </url>
   <url>
     <loc>https://ersiyan.com/privacy/archive/2026-08-22</loc>
@@ -56,4 +60,14 @@
   <url><loc>https://ersiyan.com/privacy/archive/2026-09-19</loc><lastmod>2026-09-22</lastmod></url>
   <url><loc>https://ersiyan.com/velsien-summit/corporate/virenta</loc><lastmod>2026-09-20</lastmod></url>
   <url><loc>https://ersiyan.com/velsien-summit/corporate/neryx</loc><lastmod>2026-09-20</lastmod></url>
+  <url><loc>https://ersiyan.com/notices</loc><lastmod>2026-10-02</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/virtual-recruitment-pause-2026-09-28</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/application-form-2026-09-22</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/recruitment-privacy-2026-09-19</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/analytics-correction-2026-09-05</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/business-name-2026-08-31</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/brand-domain-2026-08-28</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/hosting-change-2026-08-23</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/notices/mine-logic-update-2026-08-28</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://ersiyan.com/privacy/archive/2026-09-22</loc><lastmod>2026-09-28</lastmod></url>
 </urlset>

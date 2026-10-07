@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 8월 31일 보관본입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         width: 1200,
         height: 630,
         alt: "에르시안(ERSIYAN) 로고",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "에르시안 공식 홈페이지 개인정보처리방침의 2026년 8월 31일 보관본입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         alt: "에르시안(ERSIYAN) 로고",
       },
     ],

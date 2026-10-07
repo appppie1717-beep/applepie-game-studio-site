@@ -5,7 +5,7 @@ import { legacyDivisionRouteScript } from "./_components/legacy-division-route";
 
 const homeSocialTitle = "에르시안 | ERSIYAN";
 const homeDescription =
-  "에르시안(ERSIYAN)은 ERSIYAN GAMES에서 게임을 개발·운영하고, ERSIYAN VIRTUAL에서 첫 소속 버츄얼 크리에이터 한 분을 모집합니다.";
+  "에르시안(ERSIYAN)은 ERSIYAN GAMES에서 게임을 개발·운영하고, ERSIYAN VIRTUAL에서 버츄얼 크리에이터 활동을 준비합니다. 현재 신규 모집은 일시 중단 중입니다.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteBrand.origin),

@@ -141,8 +141,8 @@ const historyEvents: readonly HistoryEvent[] = [
     imageHeight: 432,
     links: [
       {
-        label: "브랜드·도메인 변경 기록",
-        href: "/privacy/archive/2026-08-28",
+        label: "브랜드·도메인 변경 공지",
+        href: "/notices/brand-domain-2026-08-28",
       },
       { label: "VELSIEN SUMMIT 보기", href: "/velsien-summit" },
     ],
@@ -162,7 +162,7 @@ const historyEvents: readonly HistoryEvent[] = [
     imageHeight: 246,
     imageFit: "contain",
     links: [
-      { label: "현재 개인정보처리방침", href: "/privacy" },
+      { label: "사업자명 변경 공지", href: "/notices/business-name-2026-08-31" },
       { label: "현재 사업자 정보", href: "#business-info" },
     ],
   },
@@ -252,12 +252,12 @@ export function CompanyHistory() {
     <details id="company-history" className="company-history">
       <summary>
         <span className="company-history-summary-copy">
-          <small>VERIFIED RECORD</small>
-          <strong>Company History</strong>
+          <small>에르시안</small>
+          <strong>회사 연혁</strong>
         </span>
         <span className="company-history-summary-action" aria-hidden="true">
-          <span className="company-history-summary-open">OPEN</span>
-          <span className="company-history-summary-close">CLOSE</span>
+          <span className="company-history-summary-open">보기</span>
+          <span className="company-history-summary-close">닫기</span>
           <i />
         </span>
       </summary>
@@ -265,18 +265,18 @@ export function CompanyHistory() {
       <section className="company-history-panel" aria-labelledby="company-history-title">
         <div className="company-history-heading">
           <div>
-            <p>COMPANY HISTORY</p>
+            <p>회사 기록</p>
             <h2 id="company-history-title">에르시안 연혁</h2>
           </div>
           <p id="company-history-description">
             사업자 등록 문서와 사이트의 공개 정책·보관 기록을 기준으로 정리했습니다.
-            원형 노드를 선택하면 자세한 내용을 볼 수 있습니다.
+            날짜 아래 버튼을 누르면 자세한 내용을 볼 수 있습니다.
           </p>
         </div>
 
         <div className="history-year-group" aria-describedby="company-history-description">
           <div className="history-year" aria-label="2026년">
-            <span>YEAR</span>
+            <span>연도</span>
             <strong>2026</strong>
           </div>
 

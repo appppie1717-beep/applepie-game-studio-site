@@ -1,11 +1,21 @@
 # ERSIYAN
 
-> ERSIYAN is a Korean company and brand with two business areas: ERSIYAN GAMES for game development and operation, and ERSIYAN VIRTUAL, which is recruiting its first virtual creator for a CHZZK-focused 3D broadcast project.
+> ERSIYAN is a Korean company and brand with two business areas: ERSIYAN GAMES for game development and operation, and ERSIYAN VIRTUAL for a CHZZK-focused 3D broadcast project. Official dated announcements are collected on the notices page.
+
+## 한국어 안내
+
+- [에르시안 회사 정보](https://ersiyan.com/): 게임 개발·운영과 버츄얼 크리에이터 활동을 준비하는 에르시안의 사업자 정보와 연혁.
+- [게임부](https://ersiyan.com/games): 출시한 MINE LOGIC과 개발 중인 VELSIEN SUMMIT의 소개.
+- [버츄얼부](https://ersiyan.com/virtual): 치지직 중심 3D 버츄얼 크리에이터 활동과 0기 모집 안내. 현재 모집 상태와 자주 묻는 질문은 이 페이지에서 확인할 수 있습니다.
+- [공지사항](https://ersiyan.com/notices): 모집, 개인정보처리방침, 게임 업데이트, 홈페이지 운영에 관한 날짜별 공식 공지.
 
 ## Official pages
 
-- [ERSIYAN home and GAMES](https://ersiyan.com/): The game development area, the parent company's verified 2026 history and legal information, and official game links.
-- [ERSIYAN VIRTUAL recruitment](https://ersiyan.com/virtual): Recruiting one inaugural Generation 0 virtual creator for CHZZK. Read the application requirements, preparation and support scope, and selection process, then apply through the application form linked on the recruitment page. Recruitment inquiries: biz@ersiyan.com.
+- [ERSIYAN company home](https://ersiyan.com/): The parent-company homepage with company information, current business details, history, and equal entry points to GAMES and VIRTUAL.
+- [ERSIYAN GAMES](https://ersiyan.com/games): The game development and operation area with official game links. Dated announcements are on the separate notices page; legal business information remains in the footer.
+- [ERSIYAN VIRTUAL recruitment](https://ersiyan.com/virtual): The Generation 0 recruitment page displays a temporary pause status beside its available application form links. Read the requirements, preparation and support scope, and selection process on the page. Dated announcements are on the separate notices page. Recruitment inquiries: biz@ersiyan.com.
+- [Official notices](https://ersiyan.com/notices): Dated announcements about ERSIYAN, its website, privacy notices, virtual recruitment, and MINE LOGIC. Historical notices retain their original announcement dates; migration to this archive does not make them new events.
+- [Virtual recruitment pause notice](https://ersiyan.com/notices/virtual-recruitment-pause-2026-09-28): The September 28, 2026 announcement about a temporary pause in the displayed recruitment status.
 - [MINE LOGIC](https://ersiyan.com/mine-logic): Android Minesweeper logic puzzle with staged hints, 20 training levels, and offline play.
 - [VELSIEN SUMMIT](https://ersiyan.com/velsien-summit): In-development mobile character-collecting strategy RPG, with world concepts, artwork, and dated development notes.
 - [VELSIEN SUMMIT world](https://ersiyan.com/velsien-summit/world): The current publicly released world overview, updated September 20, 2026. All three corporations operate the same industries with near-equal infrastructure and military power but different priorities. Pure humans are 0.9% of the human population; all other humans have a lifetime contract with one corporation and cannot transfer while it exists. The government remains for administrative work despite lacking power to resist any one corporation. Read this page for the latest setting; older development records are archives.
@@ -16,13 +26,14 @@
 - [VELSIEN SUMMIT August development record](https://ersiyan.com/velsien-summit#devlog-2026-08-late): Archived August 2026 screenshots within the dated development journal; these may differ from the current development direction.
 - [Privacy policy](https://ersiyan.com/privacy): Website privacy information.
 - [September 19 privacy archive](https://ersiyan.com/privacy/archive/2026-09-19): Historical email recruitment policy, retained separately from the current Google Forms application policy.
+- [September 22 privacy archive](https://ersiyan.com/privacy/archive/2026-09-22): The complete policy before its dated announcement sections were moved to separate notice articles. Its original processing terms and announcement text are preserved.
 - [MINE LOGIC privacy policy](https://ersiyan.com/privacy/mine-logic): App-specific privacy information.
 
 ## Key facts
 
 - ERSIYAN (에르시안) is the parent company and brand, founded in 2026. Company history and legal business information belong to ERSIYAN.
 - ERSIYAN GAMES is its game development and operation area, run as a Korean solo indie game studio.
-- ERSIYAN VIRTUAL is recruiting one inaugural Generation 0 creator for a CHZZK-focused 3D broadcast project. Character and broadcast preparation are planned with the selected creator. Support scope, cost treatment, revenue settlement, and rights are provided in writing for review before a contract is signed. No creator or debut date has been announced.
+- ERSIYAN VIRTUAL's Generation 0 project is for one CHZZK-focused 3D creator. The recruitment page displays a paused intake status while retaining its application form links. The dated announcement is on the separate notices page. Character and broadcast preparation are planned with the selected creator. Support scope, cost treatment, revenue settlement, and rights are provided in writing for review before a contract is signed. No creator or debut date has been announced.
 - MINE LOGIC is a released Android game. Its package ID is `com.applepie.minelogic`.
 - [MINE LOGIC on Google Play](https://play.google.com/store/apps/details?id=com.applepie.minelogic) is the official installation page.
 - VELSIEN SUMMIT is being developed as a mobile character-collecting strategy RPG with no announced release date. The website shares selected work in progress, not a final feature specification.

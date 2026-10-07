@@ -4,9 +4,9 @@
   "root": "C:\\Users\\USER\\Desktop\\잡다한거\\applepie-game-studio-site",
   "canonicalOrigin": "https://ersiyan.com",
   "observedAt": "2026-09-13",
-  "routeMapUpdatedAt": "2026-09-22",
+  "routeMapUpdatedAt": "2026-09-30",
   "validationObservedAt": "2026-09-13",
-  "currentSourceValidation": "pass:final source,38 contracts,local and live browser checks,revised published form banner,and production deployment a3a6d985 verified;new Naver archive indexing remains external pending",
+  "currentSourceValidation": "pass:final fresh build45contracts,type/lint,28route semantic/runtime parity and Chrome review;GitHub push and deployment pending explicit approval",
   "entrypoint": "PROJECT_GRAPH_RAG_INDEX.md",
   "artifacts": {
     "nodes": "graph-rag/nodes.jsonl",
@@ -15,18 +15,59 @@
     "cleanup": "graph-rag/cleanup-candidates.md"
   },
   "scope": {
-    "indexedKinds": ["repo", "directory", "file", "route", "component", "asset", "asset-variant", "seo-metadata", "seo-artifact", "script", "test", "deployment", "policy", "evidence", "external-service"],
-    "canonicalRoutes": 17,
+    "indexedKinds": [
+      "repo",
+      "directory",
+      "file",
+      "route",
+      "component",
+      "asset",
+      "asset-variant",
+      "seo-metadata",
+      "seo-artifact",
+      "script",
+      "test",
+      "deployment",
+      "redirect",
+      "policy",
+      "evidence",
+      "external-service"
+    ],
+    "canonicalRoutes": 28,
     "wholeTreeFileCountObserved": 22565,
     "wholeTreeBytesObserved": 838574599,
-    "contentExcluded": [".git/**", "node_modules/**", ".next/**", ".vinext/**", ".wrangler/**", "dist/**", "local-private/**", ".seo-audit-fresh/**", ".seo-cache/**", "outputs/**/chrome-profile/**", "**/Cookies", "**/Login Data", "**/History", "**/Sessions/**"]
+    "contentExcluded": [
+      ".git/**",
+      "node_modules/**",
+      ".next/**",
+      ".vinext/**",
+      ".wrangler/**",
+      "dist/**",
+      "local-private/**",
+      ".seo-audit-fresh/**",
+      ".seo-cache/**",
+      "outputs/**/chrome-profile/**",
+      "**/Cookies",
+      "**/Login Data",
+      "**/History",
+      "**/Sessions/**"
+    ],
+    "routeNodesIncluding404": 29,
+    "noticeRoutes": 9,
+    "privacyArchiveRoutes": 7
   },
   "cleanup": {
-    "status": "pending_auto_review_limit",
+    "status": "executed-with-recovery-checkpoint",
     "userAuthorized": true,
-    "executed": false,
-    "reason": "파일 삭제 명령이 자동 승인 검토 사용량 제한으로 거부됨",
-    "details": "graph-rag/cleanup-candidates.md"
+    "executed": true,
+    "observedAt": "2026-10-07",
+    "details": "graph-rag/cleanup-candidates.md",
+    "evidence": "outputs/reconciliation-2026-10-07/cleanup-executed.json",
+    "method": "verified active-path removal;ignored recovery copy retained",
+    "removedPaths": 86,
+    "removedFiles": 2270,
+    "removedBytes": 296683766,
+    "completedAt": "2026-10-08"
   },
   "validation": {
     "graphRag": "pass",
@@ -42,77 +83,398 @@
     "liveLocalDrift": "live ersiyan.com remains on previous public build until external deployment"
   },
   "currentValidation": {
-    "observedAt": "2026-09-23",
-    "scope": "Final virtual-only recruitment refinement, published Google Forms, and revised official-brand banner",
-    "sourceLayout": "Original shared HomeExperience and game-area layout preserved; VirtualRecruitment reuses home.css with a body-scoped CSS module",
-    "typescript": "pass",
-    "lint": "pass",
-    "build": "pass:17 prerendered routes",
-    "tests": {
-      "renderedHtml": "21/21",
-      "cloudflareStatic": "6/6",
-      "legacyDivisionRoute": "3/3",
-      "naverIndexNowContract": "8/8",
-      "total": "38/38"
-    },
-    "chromeReview": "pass:local actual Chrome 1440px hero and application CTA;768px grid and eligibility DOM;390px hero/application/footer without overflow,16px body text,49px CTA;desktop navigation unchanged",
-    "liveChromeReview": "pass:360px mobile with reduced motion;zero horizontal overflow,all3Forms links correct,original shared layout preserved",
-    "liveConsole": "0 errors;0 warnings",
-    "independentFinalReview": "no material issues found",
-    "graphRag": "pass:127 nodes,170 edges,26 chunks;17 canonical URLs match sitemap;no duplicate IDs,missing references,or missing current-source paths",
+    "observedAt": "2026-10-08",
+    "scope": "GitHub/local/published source reconciliation, recoverable cleanup and optimization",
+    "status": "locally-verified;github-push-and-production-deployment-await-user-approval",
+    "sourceLayout": "28routes;GitHub common files and approved local architecture;Oct3 live copy/meta/FAQ/social restored",
+    "build": "pass: npm run build:cloudflare exit0;29staged HTML including404;static7/7",
+    "tests": "45/45;rendered26/static7/legacy4/IndexNow8;TypeScript and lint exit0",
+    "semanticParity": "28/28 body text/meta/JSONLD/links/meaningful scripts match observed live;27/28 normalized body markup;Secret responsive image optimization only",
+    "localRuntime": "pass:28routes,all referenced assets,150query-preservingaliases,sitemap,404,llms",
+    "browser": "actual Chrome;28routes at375x812 without overflow;desktop key pages and3corporate sites;no warn/error in recorded logs;privacy language/noJS,game tabs/history/status notice reviewed;viewport reset",
     "deployment": {
-      "worker": "ersiyan-com-static",
-      "version": "a3a6d985-8094-4957-904e-238e084791a0",
-      "status": "verified",
-      "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
-      "verificationResult": "exit 0;17 canonical sitemap URLs,all routes,referenced assets,aliases,404,and llms.txt passed",
-      "idlePerformance": "not measured in this verification;--skip-idle"
+      "status": "not-performed;approval-required",
+      "observedProductionVersion": "6becd6c4-da2a-4d2c-806c-0d3f2da8edd7"
     },
-    "previousVerifiedDeployment": {
-      "version": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
-      "scope": "Before final virtual-only style refinement and revised banner",
-      "tests": "38/38",
-      "chromeReview": "pass:1440px,390px,360px",
-      "productionVerification": "exit 0;17 canonical routes,redirects,404,and assets;skip-idle"
-    },
-    "search": {
-      "checkedAfterDeployment": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
-      "finalRefinementSubmission": "not repeated:style changes and duplicate-label removal introduced no new SEO content",
-      "google": {
-        "individualCanonicalUrlsChecked": 17,
-        "individualIndexedUrls": 17,
-        "refreshRequestsAccepted": 6,
-        "sitemapResubmission": "success:2026-09-23",
-        "sitemapDiscoveredCount": 16,
-        "sitemapAggregateStatus": "lagging:17 live canonical URLs and individual indexing confirmed separately",
-        "evidence": "outputs/virtual-redesign-2026-09-22/google-index-status.md"
-      },
-      "naver": {
-        "existingIndexedUrls": 16,
-        "recrawlRequestsAccepted": 6,
-        "virtual": "latest metadata crawled and indexed",
-        "newPrivacyArchive": "collected;not yet indexed",
-        "evidence": "outputs/virtual-redesign-2026-09-22/naver-index-status.md"
-      },
-      "limitation": "Indexing, latest-content recrawl, ranking, and search exposure remain separate states"
-    },
-    "gitPublication": "Git SHA and remote equality are recorded separately from deployment verification",
-    "formBanner": {
-      "observedAt": "2026-09-23",
-      "status": "verified:revised banner uploaded,saved,and displayed in the published respondent form",
-      "revisedDesign": "official logo with ERSIYAN VIRTUAL and Generation 0 recruitment text;no slogan or oversized zero",
-      "pngBytes": 42521,
-      "themeColor": "#c64035",
-      "backgroundColor": "#f9eceb",
-      "respondentView": "verified:actual desktop1904px and390px screenshots",
-      "formFieldsAndSettings": "preserved"
-    }
+    "gitPush": "not-performed;approval-required",
+    "searchSubmission": "not-performed",
+    "performance": "idle/field CWV not measured;source/chunk/image size changes recorded separately",
+    "evidence": "outputs/reconciliation-2026-10-07"
   },
   "integrity": {
     "sensitiveContentIndexed": false,
     "corporatePagesModifiedBySeoPass": false,
     "corporateRuntimePrefetchFix": "corporate UI, copy, and custom footers unchanged; next/link replaced with plain anchors to restore static click navigation",
     "representative": "탁진",
-    "deploymentClaim": "verified:a3a6d985-8094-4957-904e-238e084791a0;production verifier exit0 and live mobile review passed"
+    "deploymentClaim": "Oct3 live version6becd6c4 observed read-only and latest public source restored locally;this task has not deployed. Previous63c30c0f final Sep30 company-first release is historical.",
+    "noticeMigrationPreservation": "Historical privacy archives retained;current clauses1-9,legacy IDs,Sep22 effective date,prior-email handling,corporate policies,and Secret policy preserved"
+  },
+  "historicalValidationSnapshots": {
+    "2026-09-30-company-first-before-css-575b599b": {
+      "observedAt": "2026-09-30",
+      "scope": "Company-first root and canonical /games release before independent UI review found and repaired notice category/date spacing",
+      "status": "production-verified-intermediate",
+      "tests": "45/45;TypeScript/lint passed;29prerendered routes including404",
+      "deployment": {
+        "version": "575b599b-0e7f-4b6d-b4bf-0b4edfe2711e",
+        "verificationResult": "exit0;28canonicalroutes,319assetchecks covering91uniqueassets,150aliases,sitemap,404,andllms.txt passed",
+        "evidence": "outputs/company-first-home-2026-09-30/production-verification.txt"
+      },
+      "search": "Google sitemap and Naver four-URL IndexNow receipts were collected with these URLs and unchanged body/metadata. CSS-only 63c correction did not require duplicate submissions.",
+      "limitation": "Notice detail category/date metadata spacing was corrected and independently rechecked in final 63c release."
+    },
+    "2026-09-30-company-route-da372027": {
+      "observedAt": "2026-09-30",
+      "scope": "Intermediate release with games at root and company information at canonical /company, before the user requested a company-first root",
+      "status": "production-verified-intermediate",
+      "tests": "44/44;TypeScript/lint passed;29prerendered routes including404",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "da372027-f474-4085-a045-d4090a630a17",
+        "verificationResult": "exit0;28canonicalroutes,319assetchecks covering91uniqueassets,150query-preservingaliases,sitemap,404,andllms.txt passed",
+        "evidence": "outputs/virtual-pause-cleanup-2026-09-30/production-verification-company-alias-final.txt"
+      },
+      "search": "Google sitemap accepted and 15 individual URL requests accepted; /company individual request was quota-limited;Naver earlier15 and final3 IndexNow accepted. Receipts reflect this intermediate routing, not the later company-first root.",
+      "searchEvidence": "outputs/search-refresh-2026-09-30/search-console-receipts.json",
+      "limitation": "Superseded by later source route change;cannot verify or index the final company-first /games site"
+    },
+    "2026-09-29-notice-banner-removal-c1f5041a": {
+      "observedAt": "2026-09-29",
+      "verifiedAt": "2026-09-28 15:41:15 UTC",
+      "scope": "Remove the requested historical guidance box from every notice article and its unused CSS",
+      "status": "production-verified",
+      "sourceLayout": "Historical guidance box deleted;notice titles,dates,bodies,relatedlinks,metadata,legalarchives,Forms and corporateUI preserved",
+      "typescript": "pass",
+      "lint": "pass:no warnings;verifier scoped lint also pass",
+      "tests": {
+        "renderedHtml": "25/25",
+        "cloudflareStatic": "7/7",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "43/43"
+      },
+      "build": "pass:fresh28prerendered routes including404",
+      "chromeReview": "pass:actual production IABChromium1280x960 and375x812 historical article;requested box absent;no horizontal overflow;error/warning logs empty;viewport reset",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "c1f5041a-0af2-4fe1-8cb4-e5f367228cc9",
+        "status": "verified",
+        "wranglerResult": "exit0;fresh28routebuildincluding404;static7/7",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;27canonicalroutes,307assetchecks covering88uniqueassets,145query-preservingaliases,sitemap,404,andllms.txt passed",
+        "evidence": "outputs/notices-history-banner-removal-2026-09-29/production-verification.txt",
+        "deploymentLog": "outputs/notices-history-banner-removal-2026-09-29/cloudflare-deploy.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "previousVerifiedDeployment": "cd97c571-5c7a-419e-8927-df08309109b9",
+      "seo": "existing notice metadata/canonical/publication dates preserved and rendered/static/live contracts passed",
+      "gitPush": "not performed",
+      "searchSubmission": "not performed",
+      "searchIndexing": "not checked",
+      "limitation": "Does not verify later Sep30 content or search refresh",
+      "graphRag": "pass:170nodes,454edges,40chunks;uniqueIDs/edges,references/sourcepaths,27sitemaproutesverified"
+    },
+    "2026-09-23-final-virtual-refinement": {
+      "observedAt": "2026-09-23",
+      "scope": "Final virtual-only recruitment refinement, published Google Forms, and revised official-brand banner",
+      "sourceLayout": "Original shared HomeExperience and game-area layout preserved; VirtualRecruitment reuses home.css with a body-scoped CSS module",
+      "typescript": "pass",
+      "lint": "pass",
+      "build": "pass:17 prerendered routes",
+      "tests": {
+        "renderedHtml": "21/21",
+        "cloudflareStatic": "6/6",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "38/38"
+      },
+      "chromeReview": "pass:local actual Chrome 1440px hero and application CTA;768px grid and eligibility DOM;390px hero/application/footer without overflow,16px body text,49px CTA;desktop navigation unchanged",
+      "liveChromeReview": "pass:360px mobile with reduced motion;zero horizontal overflow,all3Forms links correct,original shared layout preserved",
+      "liveConsole": "0 errors;0 warnings",
+      "independentFinalReview": "no material issues found",
+      "graphRag": "pass:127 nodes,170 edges,26 chunks;17 canonical URLs match sitemap;no duplicate IDs,missing references,or missing current-source paths",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "a3a6d985-8094-4957-904e-238e084791a0",
+        "status": "verified",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit 0;17 canonical sitemap URLs,all routes,referenced assets,aliases,404,and llms.txt passed",
+        "idlePerformance": "not measured in this verification;--skip-idle"
+      },
+      "previousVerifiedDeployment": {
+        "version": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
+        "scope": "Before final virtual-only style refinement and revised banner",
+        "tests": "38/38",
+        "chromeReview": "pass:1440px,390px,360px",
+        "productionVerification": "exit 0;17 canonical routes,redirects,404,and assets;skip-idle"
+      },
+      "search": {
+        "checkedAfterDeployment": "8a88bb35-7dfb-40e3-8105-92072d4e0fc6",
+        "finalRefinementSubmission": "not repeated:style changes and duplicate-label removal introduced no new SEO content",
+        "google": {
+          "individualCanonicalUrlsChecked": 17,
+          "individualIndexedUrls": 17,
+          "refreshRequestsAccepted": 6,
+          "sitemapResubmission": "success:2026-09-23",
+          "sitemapDiscoveredCount": 16,
+          "sitemapAggregateStatus": "lagging:17 live canonical URLs and individual indexing confirmed separately",
+          "evidence": "outputs/virtual-redesign-2026-09-22/google-index-status.md"
+        },
+        "naver": {
+          "existingIndexedUrls": 16,
+          "recrawlRequestsAccepted": 6,
+          "virtual": "latest metadata crawled and indexed",
+          "newPrivacyArchive": "collected;not yet indexed",
+          "evidence": "outputs/virtual-redesign-2026-09-22/naver-index-status.md"
+        },
+        "limitation": "Indexing, latest-content recrawl, ranking, and search exposure remain separate states"
+      },
+      "gitPublication": "Git SHA and remote equality are recorded separately from deployment verification",
+      "formBanner": {
+        "observedAt": "2026-09-23",
+        "status": "verified:revised banner uploaded,saved,and displayed in the published respondent form",
+        "revisedDesign": "official logo with ERSIYAN VIRTUAL and Generation 0 recruitment text;no slogan or oversized zero",
+        "pngBytes": 42521,
+        "themeColor": "#c64035",
+        "backgroundColor": "#f9eceb",
+        "respondentView": "verified:actual desktop1904px and390px screenshots",
+        "formFieldsAndSettings": "preserved"
+      }
+    },
+    "2026-09-28-pre-notices-c4a6a381": {
+      "observedAt": "2026-09-28",
+      "scope": "Prior recruitment pause notice release before notices migration;17 canonical routes",
+      "status": "verified-snapshot",
+      "sourceLayout": "User-authorized pause status,internal preparation,and resume notice;hero gray display and small caption preserved;actual Google Forms link and settings remain active",
+      "tests": {
+        "renderedHtml": "21/21",
+        "cloudflareStatic": "6/6",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "38/38"
+      },
+      "chromeReview": "pass:actual Chrome desktop and390px;active Forms link verified",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "c4a6a381-442f-46c9-b9e7-b599298ef7ce",
+        "status": "verified",
+        "wranglerResult": "exit 0",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit 0;17 canonical routes,208 referenced assets,95 aliases,sitemap,404,and llms.txt passed",
+        "evidence": "outputs/virtual-pause-notice-2026-09-28/production-verification.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "precedingSameDayDeployment": "66bf43ba-2d41-40d6-b902-5e65c2149ba8;superseded by c4a6a381",
+      "historicalValidationReference": "historicalValidationSnapshots.2026-09-23-final-virtual-refinement preserves a3a6d985,8a88bb35,form banner,and historical search snapshot",
+      "limitation": "Does not validate or deploy the subsequent notices migration with27canonical routes"
+    },
+    "2026-09-28-notices-migration-0200af75": {
+      "observedAt": "2026-09-28",
+      "verifiedAt": "2026-09-28 13:14:26 UTC",
+      "scope": "User-approved notices migration and privacy content separation;27canonical routes",
+      "status": "production-verified",
+      "sourceLayout": "Dedicated notices index and8articles;current privacy clauses/effective dates and7archives preserved;home/shared-footer discovery;activeForms/corporateUI preserved",
+      "typescript": "pass:reviewed source unchanged apart from documentation",
+      "lint": "pass:no warnings",
+      "tests": {
+        "renderedHtml": "25/25",
+        "cloudflareStatic": "7/7",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "43/43"
+      },
+      "build": "pass:fresh28prerendered routes including404",
+      "chromeReview": "pass:actual production IABChromium1280x960 and375x812;index/details/virtual/currentprivacy/archive navigation/homepreview;inspected pages no horizontal overflow;error/warning logs empty;3original Forms anchors active",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "0200af75-27b9-47c3-97fb-56266cb3664f",
+        "status": "verified",
+        "wranglerResult": "exit0;fresh28route build including404;static7/7",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;27canonical routes,307asset checks covering88unique assets,145aliases,sitemap,404,and llms.txt passed",
+        "evidence": "outputs/notices-deployment-2026-09-28/production-verification.txt",
+        "deploymentLog": "outputs/notices-deployment-2026-09-28/cloudflare-deploy.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "previousVerifiedDeployment": "c4a6a381-442f-46c9-b9e7-b599298ef7ce",
+      "historicalValidationReference": "historicalValidationSnapshots.2026-09-28-pre-notices-c4a6a381 preserves prior17route release;Sep13/Sep23 history remains intact",
+      "gitPush": "not performed",
+      "searchSubmission": "not performed",
+      "searchIndexing": "not checked for new notice URLs",
+      "limitation": "No new indexing or idle-performance claim"
+    },
+    "2026-09-28-natural-copy-3c6bae6b": {
+      "observedAt": "2026-09-28",
+      "verifiedAt": "2026-09-28 13:36:55 UTC",
+      "scope": "Natural Korean titles, summaries, and bodies for all 8 notices; user-authorized immediate deployment",
+      "status": "production-verified",
+      "sourceLayout": "8 warm 해요체 titles/summaries/bodies; index helper text and historical asides; shared recruitment notice copy; original dates/facts/archives/Forms/layout preserved",
+      "typescript": "pass",
+      "lint": "pass:no warnings",
+      "tests": {
+        "renderedHtml": "25/25",
+        "cloudflareStatic": "7/7",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "43/43"
+      },
+      "build": "pass:fresh28prerendered routes including404",
+      "chromeReview": "pass:actual production IABChromium1280x960 index and historical article;375x812 index/pause/virtual; no horizontal overflow on inspected pages;error/warning logs empty;3original Forms anchors active;viewport reset",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "3c6bae6b-3952-4055-882d-82e930f89f1a",
+        "status": "verified",
+        "wranglerResult": "exit0;fresh28route build including404;static7/7",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;27canonical routes,307asset checks covering88unique assets,145aliases,sitemap,404,and llms.txt passed",
+        "evidence": "outputs/notices-tone-2026-09-28/production-verification.txt",
+        "deploymentLog": "outputs/notices-tone-2026-09-28/cloudflare-deploy.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "previousVerifiedDeployment": "0200af75-27b9-47c3-97fb-56266cb3664f",
+      "historicalValidationReference": "historicalValidationSnapshots.2026-09-28-notices-migration-0200af75 preserves notices migration;priorc4/Sep23/Sep13 history retained",
+      "gitPush": "not performed",
+      "searchSubmission": "not performed",
+      "searchIndexing": "not checked",
+      "limitation": "No new indexing or idle-performance claim",
+      "graphRag": "pass:169nodes,451edges,39chunks;unique IDs/edges,all references/source paths,and27sitemap routes verified"
+    },
+    "2026-09-28-exact-titles-35207362": {
+      "observedAt": "2026-09-28",
+      "verifiedAt": "2026-09-28 14:45:40 UTC",
+      "scope": "Exact user-specified4notice titles,list heading change,and helper sentence removal",
+      "status": "production-verified",
+      "sourceLayout": "4exact user-specified titles,공지사항 list H2,and removed helper;othernotice body/dates/routes/links/privacy/Form/UI preserved",
+      "typescript": "pass",
+      "lint": "pass:no warnings",
+      "tests": {
+        "renderedHtml": "25/25",
+        "cloudflareStatic": "7/7",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "43/43"
+      },
+      "build": "pass:fresh28prerendered routes including404",
+      "chromeReview": "pass:actual IAB1280x960 production list;375x812 list/detail;no overflow;error/warning logs empty;viewport reset",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "35207362-5771-4de4-a444-d720454b145d",
+        "status": "verified",
+        "wranglerResult": "exit0;fresh28route build including404;static7/7",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;27canonical routes,307asset checks covering88unique assets,145aliases,sitemap,404,and llms.txt passed",
+        "evidence": "outputs/notices-title-edits-2026-09-28/production-verification.txt",
+        "deploymentLog": "outputs/notices-title-edits-2026-09-28/cloudflare-deploy.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "previousVerifiedDeployment": "3c6bae6b-3952-4055-882d-82e930f89f1a",
+      "historicalValidationReference": "historicalValidationSnapshots.2026-09-28-natural-copy-3c6bae6b preserves prior full-copy release;older0200/c4/Sep23/Sep13 retained",
+      "gitPush": "not performed",
+      "searchSubmission": "not performed",
+      "searchIndexing": "not checked",
+      "limitation": "No new indexing or idle-performance claim",
+      "graphRag": "pass:169nodes,451edges,39chunks;unique IDs/edges,all references/source paths,and27sitemap routes verified"
+    },
+    "2026-09-29-direct-copy-cd97c571": {
+      "observedAt": "2026-09-29",
+      "verifiedAt": "2026-09-28 15:09:35 UTC",
+      "scope": "Direct Korean copy for all8notices and shared preview/virtual metadata;sentimental language and pause body link removed",
+      "status": "production-verified",
+      "sourceLayout": "Short direct 해요체;4userexacttitles/originalpublicationdates/facts/legalarchives/activeForms/corporateUI preserved;dateModified29separatefromdatePublished",
+      "typescript": "pass",
+      "lint": "pass:no warnings;verifier scoped lint also pass",
+      "tests": {
+        "renderedHtml": "25/25",
+        "cloudflareStatic": "7/7",
+        "legacyDivisionRoute": "3/3",
+        "naverIndexNowContract": "8/8",
+        "total": "43/43"
+      },
+      "build": "pass:fresh28prerendered routes including404",
+      "chromeReview": "pass:actual production IABChromium1280x960list/pause;375x812pause/virtual/list/historicalarticle;no horizontal overflow on inspected pages;error/warning logs empty;3original Forms anchors active;viewport reset",
+      "deployment": {
+        "worker": "ersiyan-com-static",
+        "version": "cd97c571-5c7a-419e-8927-df08309109b9",
+        "status": "verified",
+        "wranglerResult": "exit0;fresh28routebuildincluding404;static7/7",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;27canonicalroutes,307assetchecks covering88uniqueassets,145query-preservingaliases,sitemap,404,andllms.txt passed",
+        "evidence": "outputs/notices-direct-copy-2026-09-28/production-verification.txt",
+        "deploymentLog": "outputs/notices-direct-copy-2026-09-28/cloudflare-deploy.txt",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "previousVerifiedDeployment": "35207362-5771-4de4-a444-d720454b145d",
+      "seo": "targeted current-source content/metadata consistency pass;2026-09-05cache used only for context;no ranking/indexing/AIcitation measurements",
+      "verifierRepair": "Fixed obsolete hardcoded9/28notice modification date by comparing target to validated static build;syntax/scopedlint/livefullverifierpass",
+      "gitPush": "not performed",
+      "searchSubmission": "not performed",
+      "searchIndexing": "not checked",
+      "limitation": "No new indexing or idle-performance claim",
+      "graphRag": "pass:170nodes,454edges,40chunks;uniqueIDs/edges,references/sourcepaths,27sitemaproutesverified"
+    },
+    "2026-09-30-company-first-final-63c30c0f": {
+      "observedAt": "2026-09-30",
+      "scope": "Make the root company-first, move games to canonical /games, retain virtual at /virtual, redirect legacy /company to root, and show all eight notices as equal rows",
+      "status": "production-verified;search-status-audited;three-independent-reviews-passed;external-indexing-incomplete",
+      "sourceLayout": "Root is the company overview with two division links, business identity, and history. /games owns the games body, /virtual owns recruitment, and /notices owns eight equal rows. Legacy /company redirects to root; legal footer and active Forms links remain.",
+      "build": "pass:29 staged prerendered HTML routes including 404",
+      "tests": "45/45;TypeScript and lint pass",
+      "deployment": {
+        "status": "verified",
+        "worker": "ersiyan-com-static",
+        "version": "63c30c0f-93f9-4ca1-92ae-a25b2d17052f",
+        "wranglerResult": "exit0;34 assets uploaded,124 already uploaded",
+        "verificationCommand": "node scripts/verify-cloudflare-deployment.mjs --target https://ersiyan.com --target-only --skip-idle",
+        "verificationResult": "exit0;28canonical routes,319asset checks covering91unique assets,150query-preserving 301 aliases including6 company aliases,sitemap,404,andllms.txt passed",
+        "evidence": "outputs/company-first-home-2026-09-30/production-verification-final-reviewed.txt",
+        "deploymentLog": "outputs/company-first-home-2026-09-30/deploy-final-reviewed.txt",
+        "previousVerifiedVersion": "575b599b-0e7f-4b6d-b4bf-0b4edfe2711e",
+        "idlePerformance": "not measured;--skip-idle"
+      },
+      "searchSubmission": {
+        "google": "Current sitemap resubmitted through Search Console UI on the previous575b release;success and28discovered. Previously accepted15 individual requests remain prior receipts;daily quota was reached on then-canonical /company. /games has no successful individual request and is included in sitemap. Final63c CSS-only patch did not change URLs,body,metadata,dates,or sitemap;no duplicate submission made.",
+        "naver": "Final IndexNow batch for /,/games,/virtual,/notices returned HTTP200 accepted;indexed field null. Existing sitemap registration retained. Receipt was collected on previous575b release;final63c CSS-only patch did not change submitted URLs or content."
+      },
+      "searchIndexing": {
+        "google": "28canonical URLs checked in URL Inspection UI;27 currently indexed, new /games not indexed (unknown URL). This does not confirm latest body/snippet recrawl.",
+        "naver": "28canonical URLs checked in SearchAdvisor UI;16 indexed,1 /privacy/mine-logic collected-not-indexed,11 no-data including /games,/notices,8 articles,and /privacy/archive/2026-09-22. Indexed root still shows stale game-focused title rather than the new company home;latest content is not fully refreshed.",
+        "boundary": "Sitemap success and IndexNow accepted are submissions, not all-URL indexing completion.",
+        "evidence": "outputs/company-first-home-2026-09-30/google-all-urls-index-audit.json;outputs/company-first-home-2026-09-30/naver-index-audit.json"
+      },
+      "independentReviews": {
+        "ui": "pass:after correcting notice category/date spacing,production desktop1920x901 and mobile375x820 visibly show14px gap;no horizontal overflow or browser error/warning in reviewed flows;Forms3 anchors active",
+        "seo": "pass:28 live canonical pages HTTP200,self-canonical,index-follow,source/live sitemap and llms match;final CSS-only release 28 HTML SHA256 match dist;/company 301;search freshness gaps reported separately",
+        "content": "pass:8 notice articles retain titles,paragraphs,publication dates;company/division/legal/privacy/corporate preservation checks passed on final CSS release",
+        "evidence": "outputs/company-first-home-2026-09-30/fresh-ui-review.md;outputs/company-first-home-2026-09-30/fresh-seo-review.md;outputs/company-first-home-2026-09-30/fresh-content-review.md"
+      },
+      "graphRag": "pass:181nodes,498edges,47chunks;unique IDs/edges,all references/current source paths,and28 sitemap URLs match29 route nodes including404"
+    }
+  },
+  "currentTask": {
+    "observedAt": "2026-10-07",
+    "name": "Reconcile GitHub local and newer published source, cleanup and optimize before approved release",
+    "status": "local-integration-verified;github-push-and-production-deployment-await-user-approval",
+    "scope": "GitHub e36ffae common source + approved local architecture/legal records + newer Oct3 published copy FAQ SEO and social image. Preserve independent corporate UI and historical privacy policies.",
+    "authorization": "User requested complete local/GitHub source reconciliation, unused-file cleanup and code optimization; explicit approval required before production deployment",
+    "canonicalRoutes": 28,
+    "productionBaseline": {
+      "version": "6becd6c4-da2a-4d2c-806c-0d3f2da8edd7",
+      "createdAt": "2026-10-03T13:24:11.342Z",
+      "observation": "read-only deployments list and28public HTML snapshots;not a deployment performed by this task"
+    },
+    "evidence": "outputs/reconciliation-2026-10-07",
+    "completedAt": "2026-10-08"
+  },
+  "sourceSync": {
+    "observedAt": "2026-10-07",
+    "remote": "appppie1717-beep/applepie-game-studio-site",
+    "branch": "main",
+    "remoteHead": "e36ffae16152171cfd0c3fd3e058eeb91e47c711",
+    "comparedRemoteFiles": 205,
+    "identicalInitialFiles": 174,
+    "modifiedInitialFiles": 31,
+    "missingRemoteFiles": 0,
+    "status": "integrated-local-source;push-awaits-final-action-approval",
+    "excluded": "credentials,local-private,dependencies,generated builds/caches,reports and browser profiles remain outside Git source parity"
   }
 }

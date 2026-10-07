@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     description: "애플파이 게임 스튜디오 개인정보처리방침의 최초 공개 버전입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         width: 1200,
         height: 630,
         alt: "에르시안(ERSIYAN) 로고",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     description: "애플파이 게임 스튜디오 개인정보처리방침의 최초 공개 버전입니다.",
     images: [
       {
-        url: "/ersiyan-social-card.jpg",
+        url: "/ersiyan-brand-social.jpg",
         alt: "에르시안(ERSIYAN) 로고",
       },
     ],

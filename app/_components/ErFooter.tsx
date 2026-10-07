@@ -1,9 +1,10 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- Static deployment uses full document navigation. */
 import { businessProfile } from "./business-profile";
 import { VIRTUAL_APPLICATION_URL } from "./virtual-recruitment-config";
 
 type ErFooterProps = {
   id?: string;
-  context?: "games" | "virtual";
+  context?: "company" | "games" | "virtual";
 };
 
 export function ErFooter({ id = "business-info", context = "games" }: ErFooterProps) {
@@ -70,7 +71,9 @@ export function ErFooter({ id = "business-info", context = "games" }: ErFooterPr
               </a>
               에서 접수하며, 이 홈페이지에서는 주문이나 결제를 받지 않습니다.
             </>
-          ) : "개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다."}
+          ) : context === "company"
+            ? "개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 이 홈페이지에서는 주문이나 결제를 받지 않습니다."
+            : "개인사업자 에르시안이 운영하는 공식 홈페이지입니다. 이 홈페이지에서는 주문이나 결제를 받지 않으며, 앱 설치와 거래는 Google Play에서 진행됩니다."}
         </p>
 
         <div className="er-footer__info">
@@ -207,7 +210,9 @@ export function ErFooter({ id = "business-info", context = "games" }: ErFooterPr
 
         <div className="er-footer__bottom">
           <p className="er-footer__copyright">© 2026 ERSIYAN</p>
-          <nav className="er-footer__nav" aria-label="개인정보 및 페이지 이동">
+          <nav className="er-footer__nav" aria-label="회사 정보, 공지사항, 개인정보 및 페이지 이동">
+            <a className="er-footer__nav-link" href="/">회사 정보</a>
+            <a className="er-footer__nav-link" href="/notices">공지사항</a>
             <a
               className="er-footer__nav-link er-footer__nav-link--primary"
               href="/privacy"

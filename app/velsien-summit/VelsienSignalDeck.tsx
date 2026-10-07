@@ -293,8 +293,7 @@ export function VelsienSignalDeck({
           </span>
         </div>
         <p className={classes.recordMeta}>
-          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-          <span>작성 <a href="/#games">ERSIYAN GAMES</a></span>
+          <span>작성 <a href="/games">ERSIYAN GAMES</a></span>
           <span>기록 기준 <time dateTime="2026-08">2026.08</time></span>
         </p>
 

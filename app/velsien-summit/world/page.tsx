@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     images: [socialImage],
     publishedTime: published,
     modifiedTime: modified,
-    authors: ["https://ersiyan.com/#games"],
+    authors: ["https://ersiyan.com/games"],
   },
   twitter: {
     card: "summary_large_image",
@@ -72,7 +72,7 @@ const structuredData = {
         "@type": "Organization",
         "@id": "https://ersiyan.com/#games-organization",
         name: "ERSIYAN GAMES",
-        url: "https://ersiyan.com/#games",
+        url: "https://ersiyan.com/games",
       },
       publisher: { "@id": "https://ersiyan.com/#organization" },
       image: "https://ersiyan.com/images/velsien-summit/velsien-summit-social.jpg",

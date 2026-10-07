@@ -1,26 +1,24 @@
-# 정리 결과와 보존 경계
+# 현재 정리 판단과 보존 경계
 
-## 현재 상태
+이 파일은 현재 소스와 자산의 정리 규칙입니다. 삭제 실행 목록·검수 보고서·복구 사본·작업 연대기는 Obsidian에서 관리합니다. 현재 확정된 미사용 소스 삭제 후보는 없습니다.
 
-- 2026-10-07 사용자 요청 범위에서 실행했습니다.
-- 활성 경로 제거 후 실제 파일 부재를 확인했습니다.
-- 복구 사본: `local-private/reconciliation-2026-10-07/removed` (Git 제외·GraphRAG 내용 색인 제외).
-- 세부 실행 목록과 크기: `outputs/reconciliation-2026-10-07/cleanup-executed.json`.
-- 기존 `pending_auto_review_limit`은 9월 작업 당시 기록이며 현재 정리 상태를 뜻하지 않습니다.
+## 반드시 보존
 
-## 제거한 항목
+- `app`, `public`, `scripts`, `tests`, `worker`의 사용 중인 소스와 필수 package·TypeScript·Vite·Wrangler설정.
+- `.git`, `.openai/hosting.json`, Google소유권 확인 파일과 브랜드·지원서 편집 원본.
+- 독립 기업3개의 UI·콘텐츠·맞춤푸터, 개인정보 법적 보관본7개와 공개 공지8개.
+- 현재법적대표자·조항·시행일·기존 지원자료 처리기준, Secret의검색허용정책.
+- `local-private/velsien-summit`의 이미지 생성 입력 원본. 내용은 읽거나 색인하지 않습니다.
+- 동적으로 사용하는 teaser160/320/640/960와 Secret400/720이미지. 문자열 검색만으로 미참조 판단하지 않습니다.
 
-- 사용하지 않는 GameProducerRegistration.tsx, NoticePreview.tsx와 해당 CSS. 실제 등록 정보와 공지8개는 유지합니다.
-- 오래된 SEO 캐시, 임시 브라우저 스냅샷, TypeScript 증분 캐시, 빈 db/drizzle/examples/work/코드 폴더와 명령 잔여물.
-- outputs 안의 임시 Chrome profile 10개와 raw *-trace.json 61개. 프로필 내용·쿠키·로그인·History·Sessions는 검사하거나 색인하지 않았습니다. 최종 보고서·스크린샷·법적/검색 제출/배포 근거는 보존합니다.
-- 사용되지 않는 PostCSS 설정과 Tailwind 의존성. 다른 패키지 버전은 유지하고 이미지 생성에 이미 사용하던 sharp를 직접 고정했습니다.
+## 판단 방법
 
-## 보존 항목
+삭제 전에 import/export, 정적HTML/CSS/JS참조, 동적srcSet과URL생성, 스크립트 입력, 공개라우트·metadata·법적·기업 보존 관계를 함께 확인합니다. 파일 수정시각이 오래됐다는 이유만으로 삭제하지 않습니다. 실제 경로가 저장소 안인지와 링크 여부도 확인합니다.
 
-- app/public/scripts/tests/worker의 사용 중인 소스와 필수 설정, `.git`, `.openai/hosting.json`, 소유권 확인 파일.
-- 각 독립 기업 UI·맞춤푸터와 법적7보관본.
-- 동적 srcSet에 실제 사용되는 teaser160/320·640/960 및 Secret400/720 이미지.
-- 비공개 teaser 원본, 복구 사본, 최종 감사/배포/검색 제출 자료.
-- node_modules와 검증한 dist는 설치·빌드 생성물이며 GitHub 업로드 대상이 아닙니다. `.next/types/routes.d.ts`는 next-env.d.ts에서 참조합니다.
+`node_modules`, `dist`, `.next`, `.vinext`, `.wrangler`는 설치·빌드·개발 생성물로 GitHub소스 동등성에서 제외합니다. 활성 프로세스와 필요한 참조를 확인하고 다룹니다. `next-env.d.ts`는 `.next/types`를 참조하며 성공한 최신 `dist/client`는 배포 검증에 사용합니다.
 
-모든 경로를 저장소 안의 절대경로로 확인하고 링크를 거부한 뒤 정리했습니다. 원본을 영구 파기하지 않고 복구 가능 사본을 보존합니다.
+## 작업 기록의 위치
+
+작업 보고서·실행 로그·배포/검색 근거·화면 캡처·복구 기록은 Obsidian만 사용합니다. 프로젝트 안에 작업별 보고서나 복구 폴더를 새로 만들지 않습니다. 외부 기록 위치와 보관 상태는 `manifest.json`의 `workRecords` 메타데이터를 확인합니다.
+
+현재 구조 GraphRAG·README·AGENTS와 실제 서비스하는 공지·법적 보관본은 유지관리 또는 제품 문서이며 제거 대상인 내부 작업 기록과 구분합니다.
